@@ -1,0 +1,28 @@
+{
+  "functions": {
+    "api/ai.js": {
+      "maxDuration": 60
+    },
+    "api/download.js": {
+      "includeFiles": "api/_books/**"
+    },
+    "api/checkout.js": {
+      "includeFiles": "api/_books/**"
+    }
+  },
+  "headers": [
+    {
+      "source": "/StudyFlow.apk",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/vnd.android.package-archive"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "attachment; filename=\"StudyFlow.apk\""
+        }
+      ]
+    }
+  ]
+}

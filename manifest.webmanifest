@@ -1,0 +1,74 @@
+{
+  "name": "StudyFlow AI — Study Coach",
+  "short_name": "StudyFlow",
+  "description": "Your personal study coach: mistake-to-mastery practice, exam marking, smart plans and exam readiness.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f5f9",
+  "theme_color": "#0b1220",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start a focus session",
+      "short_name": "Focus",
+      "url": "/?go=focus&start=1",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Today's plan",
+      "short_name": "Today",
+      "url": "/?go=director",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Quick quiz",
+      "short_name": "Quiz",
+      "url": "/?go=quiz",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Join a focus room",
+      "short_name": "Room",
+      "url": "/?go=focus",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
