@@ -6759,152 +6759,6 @@ document.addEventListener('visibilitychange',function(){if(document.visibilitySt
 window.StudyFlowReminders={tick:tick,fire:fire,sync:sync,card:card};
 })();
 
-</script><style id="sf-ob-css">
-.ob2{position:fixed;inset:0;z-index:450;display:grid;place-items:center;padding:16px;background:#0b1020;font-family:inherit;animation:ob2in .45s ease}
-.ob2.out{animation:ob2in .35s reverse forwards}
-@keyframes ob2in{from{opacity:0}}
-.ob2-bg{position:absolute;inset:0;overflow:hidden}.ob2-bg i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.35;animation:ob2a 18s ease-in-out infinite alternate}
-.ob2-bg i:nth-child(1){background:#7c5cff;left:-20vmax;top:-25vmax}.ob2-bg i:nth-child(2){background:#22d3ee;right:-25vmax;bottom:-30vmax;animation-delay:-6s;opacity:.25}.ob2-bg i:nth-child(3){background:#f472b6;left:30vmax;top:40vmax;animation-delay:-12s;opacity:.18}
-@keyframes ob2a{to{transform:translate(6vmax,5vmax) scale(1.1)}}
-.ob2-card{position:relative;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;background:rgba(255,255,255,.97);color:#0f172a;border-radius:28px;padding:22px 26px 24px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);animation:ob2pop .6s cubic-bezier(.2,.9,.3,1.15)}
-html[data-dark] .ob2-card{background:#111827;color:#f1f5f9}
-@keyframes ob2pop{from{transform:translateY(30px) scale(.96);opacity:0}}
-.ob2-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
-.ob2-prog{flex:1;height:8px;border-radius:99px;background:rgba(124,92,255,.15);overflow:hidden}.ob2-prog span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#7c5cff,#22d3ee);transition:width .6s cubic-bezier(.2,.8,.2,1)}
-.ob2-skip{border:0;background:none;color:#64748b;font:inherit;font-weight:600;cursor:pointer;padding:6px}
-.ob2-view{position:relative;overflow:hidden}
-.ob2-pane{display:grid;gap:12px;animation:ob2r .45s cubic-bezier(.2,.8,.2,1)}
-.ob2-pane.from-l{animation-name:ob2l}
-@keyframes ob2r{from{transform:translateX(40px);opacity:0}}@keyframes ob2l{from{transform:translateX(-40px);opacity:0}}
-.ob2-hero{font-size:46px;line-height:1;animation:ob2bob 3s ease-in-out infinite}
-@keyframes ob2bob{50%{transform:translateY(-5px) rotate(-4deg)}}
-.ob2-k{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#7c5cff}
-.ob2 h2{margin:0;font-size:clamp(22px,4vw,28px);line-height:1.2;letter-spacing:-.02em}
-.ob2 p{margin:0;color:#64748b;line-height:1.5}
-html[data-dark] .ob2 p{color:#94a3b8}
-.ob2-f{display:grid;gap:6px}.ob2-f span,.ob2-lab{font-size:13.5px;font-weight:700;margin-top:4px}.ob2-f em,.ob2-lab em{font-weight:500;color:#94a3b8;font-style:normal}
-.ob2 input{width:100%;box-sizing:border-box;border:2px solid #e2e8f0;border-radius:14px;padding:13px 15px;font:inherit;font-size:16px;background:#fff;color:inherit;transition:border-color .2s,box-shadow .2s}
-html[data-dark] .ob2 input{background:#0b1222;border-color:#334155}
-.ob2 input:focus{outline:0;border-color:#7c5cff;box-shadow:0 0 0 4px rgba(124,92,255,.18)}
-.ob2-roles{display:flex;gap:8px;flex-wrap:wrap}
-.ob2-chip{border:2px solid #e2e8f0;background:#fff;color:inherit;border-radius:14px;padding:10px 14px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:transform .2s cubic-bezier(.3,1.6,.5,1),border-color .2s,background .2s}
-html[data-dark] .ob2-chip{background:#0b1222;border-color:#334155}
-.ob2-chip:hover{transform:translateY(-2px)}.ob2-chip.on{border-color:#7c5cff;background:rgba(124,92,255,.1);color:#5b3fe0}
-html[data-dark] .ob2-chip.on{color:#c4b5fd}
-.ob2-subin{display:flex;gap:8px}.ob2-subin button{border:0;border-radius:14px;padding:0 18px;background:#0f172a;color:#fff;font:inherit;font-weight:700;cursor:pointer}
-html[data-dark] .ob2-subin button{background:#7c5cff}
-.ob2-subs{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;border-radius:16px;background:rgba(124,92,255,.06);border:2px dashed rgba(124,92,255,.25)}
-.ob2-sub{display:inline-flex;align-items:center;gap:6px;padding:7px 8px 7px 12px;border-radius:12px;background:linear-gradient(135deg,#7c5cff,#5b8cff);color:#fff;font-weight:700;font-size:14px;animation:ob2chip .35s cubic-bezier(.3,1.6,.5,1) both}
-@keyframes ob2chip{from{transform:scale(.5);opacity:0}}
-.ob2-sub button{border:0;background:rgba(255,255,255,.25);color:#fff;width:22px;height:22px;border-radius:7px;cursor:pointer;font-size:15px;line-height:1}
-.ob2-ph{color:#94a3b8;font-size:14px;align-self:center}
-.ob2-exams{display:grid;gap:8px}.ob2-exams label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:600;font-size:14px}.ob2-exams input{width:auto;padding:9px 11px;font-size:14px}
-.ob2-err{color:#e11d48;font-size:13.5px;font-weight:600;min-height:1em}.ob2-err.shake{animation:ob2sh .4s}
-@keyframes ob2sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.ob2-nav{display:flex;justify-content:space-between;gap:10px;margin-top:6px}
-.ob2-next{border:0;border-radius:16px;padding:14px 22px;font:inherit;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#7c5cff,#5b8cff);box-shadow:0 12px 26px -12px rgba(124,92,255,.9);cursor:pointer;transition:transform .2s,filter .2s}
-.ob2-next:hover{transform:translateY(-2px);filter:brightness(1.06)}
-.ob2-back{border:2px solid #e2e8f0;border-radius:16px;padding:12px 18px;font:inherit;font-weight:700;background:transparent;color:inherit;cursor:pointer}
-html[data-dark] .ob2-back{border-color:#334155}
-.ob2-build{display:grid;justify-items:center;gap:12px;text-align:center;padding:8px 0}
-.ob2-orb{position:relative;width:96px;height:96px;display:grid;place-items:center;font-size:36px}
-.ob2-orb i{position:absolute;inset:0;border-radius:50%;border:4px solid transparent;border-top-color:#7c5cff;border-right-color:#22d3ee;animation:ob2spin 1.1s linear infinite}.ob2-orb i:nth-child(2){inset:12px;animation-duration:1.7s;animation-direction:reverse;border-top-color:#f472b6}
-@keyframes ob2spin{to{transform:rotate(360deg)}}
-.ob2-tasks{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:8px;width:100%;text-align:left}
-.ob2-tasks li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(124,92,255,.06);font-size:14px;animation:ob2r .4s both}
-.ob2-tasks .s{width:20px;height:20px;flex:0 0 20px;border-radius:50%;border:3px solid #c4b5fd;border-top-color:#7c5cff;animation:ob2spin .8s linear infinite}
-.ob2-tasks li.ok .s{animation:none;border:0;background:#10b981;position:relative}.ob2-tasks li.ok .s::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}
-.ob2-tasks li.no .s{animation:none;border:0;background:#f59e0b;position:relative}.ob2-tasks li.no .s::after{content:"!";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}
-.ob2-done{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;animation:ob2pop .5s both}.ob2-done[hidden]{display:none}
-@media (max-width:520px){.ob2-card{padding:18px 18px 20px;border-radius:24px}.ob2-nav{position:sticky;bottom:-20px;background:inherit;padding-top:8px}}
-
-</style><script id="sf-ob-js">
-/* ===== StudyFlow setup v2: typed survey + personalised starter content ===== */
-(function(){
-var $=function(s,r){return(r||document).querySelector(s)};
-var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
-function D(){try{return data}catch(e){return null}}
-function save(){try{persist()}catch(e){}}
-function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
-var EMO={math:'📐',phys:'⚛️',chem:'🧪',bio:'🧬',hist:'🏛️',geo:'🌍',eng:'📖',lit:'📖',econ:'📈',bus:'💼',acc:'🧾',comp:'💻',psych:'🧠',art:'🎨',music:'🎵',fren:'🇫🇷',span:'🇪🇸',hind:'🇮🇳',ger:'🇩🇪',sci:'🔬',pol:'🗳️',env:'🌱'};
-function emo(s){s=String(s).toLowerCase();var k=Object.keys(EMO).find(function(k){return s.indexOf(k)>=0});return k?EMO[k]:'📚'}
-var ST={step:0,p:{},subs:[],exams:{},mins:45,aim:'grades'};
-var STEPS=5;
-function open(){if($('#sfOb2'))return;var d=D()||{};var p=d.profile||{};
- ST={step:0,p:{name:p.name||'',role:p.role||'student',grade:p.grade||'',syll:p.syllabus||p.board||(p.curriculum&&p.curriculum!=='CBSE'?p.curriculum:'')||'',school:p.school||''},subs:(p.subjects||[]).slice(),exams:{},mins:p.goal||45,aim:p.aim||'grades',hard:p.hardest||''};
- (d.exams||[]).forEach(function(e){if(e.date>=today())ST.exams[e.subject]=e.date});
- var ov=document.createElement('div');ov.id='sfOb2';ov.className='ob2';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
- ov.innerHTML='<div class="ob2-bg"><i></i><i></i><i></i></div><div class="ob2-card"><div class="ob2-top"><div class="ob2-prog"><span id="ob2Bar"></span></div><button type="button" class="ob2-skip" id="sfOnbSkip">Skip</button></div><div class="ob2-view" id="ob2View"></div><div class="ob2-nav" id="ob2Nav"><button type="button" class="ob2-back" id="ob2Back">Back</button><button type="button" class="ob2-next" id="ob2Next">Continue</button></div></div>';
- document.body.appendChild(ov);document.body.classList.add('sf-noscroll');
- $('#sfOnbSkip').onclick=function(){var d=D();if(d){d.profile=Object.assign({},d.profile,{onboarded:true});save()}close()};
- $('#ob2Back').onclick=function(){if(ST.step>0)go_(ST.step-1,-1)};
- $('#ob2Next').onclick=next;
- ov.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id!=='ob2Sub'&&e.target.tagName!=='TEXTAREA'){e.preventDefault();next()}});
- paint(1)}
-function close(){var o=$('#sfOb2');if(o){o.classList.add('out');setTimeout(function(){o.remove()},350)}document.body.classList.remove('sf-noscroll')}
-function go_(n,dir){collect();ST.step=n;paint(dir)}
-function collect(){var g=function(id){var e=$('#'+id);return e?e.value.trim():null};var v;
- if((v=g('ob2Name'))!=null)ST.p.name=v;if((v=g('ob2Grade'))!=null)ST.p.grade=v;if((v=g('ob2Syll'))!=null)ST.p.syll=v;if((v=g('ob2School'))!=null)ST.p.school=v;
- document.querySelectorAll('#ob2View [data-ex]').forEach(function(i){ST.exams[i.dataset.ex]=i.value})}
-function err(t){var e=$('#ob2Err');if(e){e.textContent=t;e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')}}
-function next(){collect();var s=ST.step;
- if(s===0&&!ST.p.name){err('Tell us your first name');return}
- if(s===1&&(!ST.p.grade||!ST.p.syll)){err(!ST.p.grade?'Type your grade or class':'Type your syllabus or exam board');return}
- if(s===2){var i=$('#ob2Sub');if(i&&i.value.trim())addSub(i.value);if(!ST.subs.length){err('Type at least one subject and press Enter');return}}
- if(s===3){finish();return}
- go_(s+1,1)}
-function chip(list,key){return list.map(function(x){return'<button type="button" class="ob2-chip'+(ST[key]===x[0]?' on':'')+'" data-'+key+'="'+x[0]+'">'+x[1]+'</button>'}).join('')}
-function paint(dir){var v=$('#ob2View'),s=ST.step,H='';$('#ob2Bar').style.width=((s+1)/STEPS*100)+'%';$('#ob2Back').style.visibility=s>0&&s<4?'visible':'hidden';$('#ob2Nav').style.display=s===4?'none':'';$('#ob2Next').textContent=s===3?'Build my study space ✨':'Continue';
- if(s===0)H='<div class="ob2-hero">👋</div><span class="ob2-k">Welcome to StudyFlow</span><h2>Let\'s make StudyFlow yours</h2><p>Answer a few quick questions. Your flashcards, quizzes, study plan and AI tutor will all be built around your answers.</p><label class="ob2-f"><span>What\'s your first name?</span><input id="ob2Name" maxlength="40" autocomplete="given-name" placeholder="Type your name" value="'+esc(ST.p.name)+'"></label><div class="ob2-roles">'+chip([['student','🎒 I\'m a student'],['teacher','🧑‍🏫 I\'m a teacher'],['parent','👪 I\'m a parent']],'role')+'</div>';
- else if(s===1)H='<div class="ob2-hero">🏫</div><span class="ob2-k">Step 2 of 4 · Your school</span><h2>Where are you studying, '+esc(ST.p.name.split(' ')[0]||'friend')+'?</h2><p>Type it exactly how your school says it — there\'s no wrong answer.</p><label class="ob2-f"><span>Which grade or class are you in?</span><input id="ob2Grade" maxlength="40" placeholder="e.g. Class 10, Grade 11, Year 12, DP1" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus or exam board do you follow?</span><input id="ob2Syll" maxlength="60" placeholder="e.g. CBSE, ICSE, IB Diploma, Cambridge IGCSE, AP, State board" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>';
- else if(s===2)H='<div class="ob2-hero">📚</div><span class="ob2-k">Step 3 of 4 · Your subjects</span><h2>Which subjects do you study?</h2><p>Type each subject and press <b>Enter</b>. Add as many as you like.</p><div class="ob2-subin"><input id="ob2Sub" maxlength="50" placeholder="Type a subject, e.g. Physics" autocomplete="off"><button type="button" id="ob2SubAdd">Add</button></div><div class="ob2-subs" id="ob2Subs"></div><div id="ob2Hard"></div>';
- else if(s===3)H='<div class="ob2-hero">🎯</div><span class="ob2-k">Step 4 of 4 · Your goals</span><h2>What are you aiming for?</h2><div class="ob2-roles">'+chip([['grades','🏆 Top exam grades'],['understand','💡 Really understand topics'],['homework','📝 Finish homework faster'],['catchup','🚀 Catch up quickly']],'aim')+'</div><span class="ob2-lab">How long can you study on a normal day?</span><div class="ob2-roles">'+[15,30,45,60,90,120].map(function(m){return'<button type="button" class="ob2-chip'+(ST.mins===m?' on':'')+'" data-mins="'+m+'">'+(m<60?m+' min':m===60?'1 hour':m/60+' hours')+'</button>'}).join('')+'</div><span class="ob2-lab">Next exam dates <em>(optional)</em></span><div class="ob2-exams">'+ST.subs.map(function(x){return'<label><span>'+emo(x)+' '+esc(x)+'</span><input type="date" data-ex="'+esc(x)+'" min="'+today()+'" value="'+esc(ST.exams[x]||'')+'"></label>'}).join('')+'</div>';
- else if(s===4)H='<div class="ob2-build"><div class="ob2-orb"><i></i><i></i><span>✨</span></div><h2 id="ob2BT">Building your study space…</h2><p id="ob2BS">Personalising everything for '+esc(ST.p.grade)+' · '+esc(ST.p.syll)+'</p><ul class="ob2-tasks" id="ob2Tasks"></ul><div class="ob2-done" id="ob2Done" hidden></div></div>';
- v.innerHTML='<div class="ob2-pane '+(dir<0?'from-l':'from-r')+'">'+H+'<p class="ob2-err" id="ob2Err" role="alert"></p></div>';
- v.querySelectorAll('[data-role],[data-aim],[data-mins]').forEach(function(b){b.onclick=function(){if(b.dataset.role)ST.role=ST.p.role=b.dataset.role;if(b.dataset.aim)ST.aim=b.dataset.aim;if(b.dataset.mins)ST.mins=+b.dataset.mins;b.parentNode.querySelectorAll('.ob2-chip').forEach(function(x){x.classList.toggle('on',x===b)})}});
- if(s===0){ST.role=ST.p.role;var rb=v.querySelector('[data-role="'+ST.p.role+'"]');if(rb)rb.classList.add('on')}
- if(s===2){paintSubs();var i=$('#ob2Sub');i.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===','){e.preventDefault();addSub(i.value);i.value=''}else if(e.key==='Backspace'&&!i.value&&ST.subs.length){ST.subs.pop();paintSubs()}});$('#ob2SubAdd').onclick=function(){addSub(i.value);i.value='';i.focus()}}
- var f=v.querySelector('input');if(f&&s<4)setTimeout(function(){try{f.focus({preventScroll:true})}catch(e){}},260)}
-function addSub(t){String(t||'').split(',').map(function(x){return x.trim().replace(/\s+/g,' ')}).filter(Boolean).forEach(function(x){x=x.charAt(0).toUpperCase()+x.slice(1);if(!ST.subs.some(function(y){return y.toLowerCase()===x.toLowerCase()}))ST.subs.push(x.slice(0,50))});paintSubs()}
-function paintSubs(){var b=$('#ob2Subs');if(!b)return;b.innerHTML=ST.subs.length?ST.subs.map(function(x,i){return'<span class="ob2-sub" style="animation-delay:'+(i*.03)+'s">'+emo(x)+' '+esc(x)+'<button type="button" data-rm="'+i+'" aria-label="Remove '+esc(x)+'">×</button></span>'}).join(''):'<span class="ob2-ph">Your subjects will appear here</span>';b.querySelectorAll('[data-rm]').forEach(function(x){x.onclick=function(){ST.subs.splice(+x.dataset.rm,1);paintSubs()}});
- var h=$('#ob2Hard');if(h)h.innerHTML=ST.subs.length>1?'<span class="ob2-lab">Which one feels hardest right now?</span><div class="ob2-roles">'+ST.subs.map(function(x){return'<button type="button" class="ob2-chip'+(ST.hard===x?' on':'')+'" data-hard="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>':'';
- if(h)h.querySelectorAll('[data-hard]').forEach(function(x){x.onclick=function(){ST.hard=x.dataset.hard;h.querySelectorAll('.ob2-chip').forEach(function(y){y.classList.toggle('on',y===x)})}})}
-
-/* ---------- save + build personalised content ---------- */
-function level(){return(ST.p.grade+' · '+ST.p.syll).trim()}
-function finish(){var d=D();if(!d){close();return}
- d.profile=Object.assign({},d.profile,{name:ST.p.name,role:ST.p.role||'student',grade:ST.p.grade,syllabus:ST.p.syll,board:ST.p.syll,curriculum:ST.p.syll,school:ST.p.school,subjects:ST.subs.slice(),hardest:ST.hard||'',aim:ST.aim,goal:ST.mins,level:level(),onboarded:true});
- if(!Array.isArray(d.exams))d.exams=[];Object.keys(ST.exams).forEach(function(s){var dt=ST.exams[s];if(!dt)return;var ex=d.exams.find(function(x){return x.subject===s&&x.date>=today()});if(ex)ex.date=dt;else d.exams.push({id:uid(),subject:s,date:dt,name:s+' exam',weak:s===ST.hard?5:3})});
- try{var mx=window.StudyFlowMastery;if(mx&&mx.M){var M=mx.M();if(M.prefs)M.prefs.minutes=[15,30,45,60,90,120].indexOf(ST.mins)>=0?ST.mins:45}}catch(e){}
- try{var sel=document.getElementById('profileLevel');if(sel&&![].some.call(sel.options,function(o){return o.value===d.profile.level})){var o=document.createElement('option');o.textContent=d.profile.level;sel.appendChild(o)}sel&&(sel.value=d.profile.level)}catch(e){}
- try{document.querySelectorAll('.mx-subject-select').forEach(function(s){s.innerHTML=''});document.querySelectorAll('.mx-level-select').forEach(function(s){delete s.dataset.init})}catch(e){}
- save();ST.step=4;paint(1);build()}
-function aiOn(){return typeof requestStudyAI==='function'&&(typeof aiAvailable!=='function'||aiAvailable())}
-function task(t){var ul=$('#ob2Tasks');var li=document.createElement('li');li.innerHTML='<span class="s"></span><b>'+esc(t)+'</b>';ul.appendChild(li);return{ok:function(x){li.classList.add('ok');if(x)li.querySelector('b').textContent=x},no:function(x){li.classList.add('no');if(x)li.querySelector('b').textContent=x}}}
-function parse(t){t=String(t||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'');var a=t.indexOf('{'),b=t.lastIndexOf('}');return JSON.parse(a>=0?t.slice(a,b+1):t)}
-function libFor(sub){try{var L=window.StudyFlowQuiz?StudyFlowQuiz.lib():[];var s=sub.toLowerCase();return L.filter(function(q){var x=(q.subject+' '+q.title+' '+(q.topic||'')).toLowerCase();return x.indexOf(s)>=0||s.indexOf(String(q.subject).toLowerCase())>=0})}catch(e){return[]}}
-function addCards(set,list,e){var d=D();if(!Array.isArray(d.flashcards))d.flashcards=[];list.forEach(function(x){d.flashcards.push({id:uid(),front:x.f,back:x.b,learned:false,lv:0,set:set})});if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};var m=d.fcmeta[set]||(d.fcmeta[set]={color:['#7c3aed','#0d9488','#e8475f','#d97706','#2563eb'][Object.keys(d.fcmeta).length%5],created:Date.now()});m.emoji=e;m.last=Date.now();m.keep=true;m.starter=true}
-function addQuiz(q){try{if(typeof customQuizzes==='undefined')return false;customQuizzes.unshift(q);saveCustomQuizzes();return true}catch(e){return false}}
-function oneSubject(sub){var t=task('Making '+sub+' flashcards & a quiz for '+ST.p.grade);
- if(!aiOn()){var L=libFor(sub);if(L.length){t.ok(sub+': matched '+L.length+' ready-made quiz'+(L.length>1?'zes':'')+' from the library')}else t.no(sub+': AI starter sets are made on your website (open it online)');return Promise.resolve(L.length?1:0)}
- return requestStudyAI({system:'You write accurate, syllabus-aligned study material. Return ONLY JSON: {"cards":[{"front":"term or question","back":"short answer"}],"quiz":{"title":"...","questions":[{"question":"...","options":["A","B","C","D"],"correctIndex":0,"explanation":"one sentence"}]}}. 12 flashcards (front ≤ 80 chars, back ≤ 160 chars) on the most important first-term topics; 8 quiz questions with exactly 4 options. Match the student\'s grade and syllabus exactly; use its terminology.',user:'Subject: '+sub+'\nGrade/class: '+ST.p.grade+'\nSyllabus/board: '+ST.p.syll+(ST.hard===sub?'\nThe student finds this subject hardest — start from the basics.':'')+'\nGoal: '+ST.aim,temperature:.3,allowSearchFallback:false}).then(function(txt){var j=parse(txt);
-  var cards=(j.cards||[]).map(function(c){return{f:String(c.front||'').slice(0,200),b:String(c.back||'').slice(0,400)}}).filter(function(c){return c.f&&c.b}).slice(0,15);
-  var qs=((j.quiz||{}).questions||[]).map(function(q){var o=(q.options||[]).map(String).slice(0,4);return{text:String(q.question||''),options:o,correct:Number(q.correctIndex),explain:String(q.explanation||''),time:20}}).filter(function(q){return q.text&&q.options.length===4&&q.correct>=0&&q.correct<4});
-  if(cards.length)addCards(sub+' · Starter',cards,emo(sub));
-  if(qs.length)addQuiz({id:Date.now()+Math.floor(Math.random()*1000),title:(j.quiz&&j.quiz.title)||sub+' starter quiz',subject:sub,topic:'Starter',emoji:emo(sub),theme:'sunrise',questions:qs,created:Date.now(),starter:true});
-  t.ok(sub+': '+cards.length+' flashcards + '+qs.length+'-question quiz ✓');return 1}).catch(function(){var L=libFor(sub);t.no(sub+': '+(L.length?'using '+L.length+' library quiz'+(L.length>1?'zes':''):'could not reach the AI — try again later from Flashcards'));return 0})}
-function build(){var subs=ST.subs.slice(0,8),i=0,made=0;var tp=task('Saving your profile: '+level());setTimeout(function(){tp.ok()},400);
- var t2=task('Planning '+ST.mins+' minutes a day around your exams');setTimeout(function(){t2.ok()},800);
- (function nextS(){if(i>=subs.length){done(made);return}var s=subs[i++];oneSubject(s).then(function(r){made+=r||0;nextS()})})()}
-function done(made){$('#ob2BT').textContent='Your study space is ready, '+(ST.p.name.split(' ')[0]||'')+'!';$('#ob2BS').textContent=made?'Everything below was made for '+level()+'.':'Your profile is saved — the AI tutor, quizzes and plan now use it.';var b=$('#ob2Done');b.hidden=false;b.innerHTML='<button type="button" class="ob2-next" data-go="director">See today\'s plan</button><button type="button" class="ob2-back" data-go="flashcards">Open my flashcards</button><button type="button" class="ob2-back" data-go="quiz">Play a quiz</button>';b.querySelectorAll('[data-go]').forEach(function(x){x.onclick=function(){close();try{go(x.dataset.go)}catch(e){}try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}}});try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}try{renderAll()}catch(e){}}
-
-/* replace the old setup window whenever it opens */
-function swap(){var o=document.getElementById('sfOnb');if(o&&!o.dataset.ob2){o.dataset.ob2=1;o.style.display='none';o.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id')});if(!document.getElementById('sfOb2'))open();setTimeout(function(){o.remove()},400)}}
-new MutationObserver(swap).observe(document.body,{childList:true});swap();
-window.sfOpenOnboarding=open;window.StudyFlowSetup={open:open};
-})();
-
 </script><style id="sf-plus2-css">
 /* Plus v2 */
 .pp-grid.pp-live{position:relative;isolation:isolate}
@@ -8000,6 +7854,152 @@ function frame(dt){if(!R.w)resize();if(!WG)return;var t=G.t;if(t-lastSync>.4){la
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,200)});else setTimeout(boot,200);
 window.StudyFlowIsland3D=R;
+})();
+
+</script><style id="sf-ob-css">
+.ob2{position:fixed;inset:0;z-index:450;display:grid;place-items:center;padding:16px;background:#0b1020;font-family:inherit;animation:ob2in .45s ease}
+.ob2.out{animation:ob2in .35s reverse forwards}
+@keyframes ob2in{from{opacity:0}}
+.ob2-bg{position:absolute;inset:0;overflow:hidden}.ob2-bg i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.35;animation:ob2a 18s ease-in-out infinite alternate}
+.ob2-bg i:nth-child(1){background:#7c5cff;left:-20vmax;top:-25vmax}.ob2-bg i:nth-child(2){background:#22d3ee;right:-25vmax;bottom:-30vmax;animation-delay:-6s;opacity:.25}.ob2-bg i:nth-child(3){background:#f472b6;left:30vmax;top:40vmax;animation-delay:-12s;opacity:.18}
+@keyframes ob2a{to{transform:translate(6vmax,5vmax) scale(1.1)}}
+.ob2-card{position:relative;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;background:rgba(255,255,255,.97);color:#0f172a;border-radius:28px;padding:22px 26px 24px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);animation:ob2pop .6s cubic-bezier(.2,.9,.3,1.15)}
+html[data-dark] .ob2-card{background:#111827;color:#f1f5f9}
+@keyframes ob2pop{from{transform:translateY(30px) scale(.96);opacity:0}}
+.ob2-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.ob2-prog{flex:1;height:8px;border-radius:99px;background:rgba(124,92,255,.15);overflow:hidden}.ob2-prog span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#7c5cff,#22d3ee);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.ob2-skip{border:0;background:none;color:#64748b;font:inherit;font-weight:600;cursor:pointer;padding:6px}
+.ob2-view{position:relative;overflow:hidden}
+.ob2-pane{display:grid;gap:12px;animation:ob2r .45s cubic-bezier(.2,.8,.2,1)}
+.ob2-pane.from-l{animation-name:ob2l}
+@keyframes ob2r{from{transform:translateX(40px);opacity:0}}@keyframes ob2l{from{transform:translateX(-40px);opacity:0}}
+.ob2-hero{font-size:46px;line-height:1;animation:ob2bob 3s ease-in-out infinite}
+@keyframes ob2bob{50%{transform:translateY(-5px) rotate(-4deg)}}
+.ob2-k{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#7c5cff}
+.ob2 h2{margin:0;font-size:clamp(22px,4vw,28px);line-height:1.2;letter-spacing:-.02em}
+.ob2 p{margin:0;color:#64748b;line-height:1.5}
+html[data-dark] .ob2 p{color:#94a3b8}
+.ob2-f{display:grid;gap:6px}.ob2-f span,.ob2-lab{font-size:13.5px;font-weight:700;margin-top:4px}.ob2-f em,.ob2-lab em{font-weight:500;color:#94a3b8;font-style:normal}
+.ob2 input{width:100%;box-sizing:border-box;border:2px solid #e2e8f0;border-radius:14px;padding:13px 15px;font:inherit;font-size:16px;background:#fff;color:inherit;transition:border-color .2s,box-shadow .2s}
+html[data-dark] .ob2 input{background:#0b1222;border-color:#334155}
+.ob2 input:focus{outline:0;border-color:#7c5cff;box-shadow:0 0 0 4px rgba(124,92,255,.18)}
+.ob2-roles{display:flex;gap:8px;flex-wrap:wrap}
+.ob2-chip{border:2px solid #e2e8f0;background:#fff;color:inherit;border-radius:14px;padding:10px 14px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:transform .2s cubic-bezier(.3,1.6,.5,1),border-color .2s,background .2s}
+html[data-dark] .ob2-chip{background:#0b1222;border-color:#334155}
+.ob2-chip:hover{transform:translateY(-2px)}.ob2-chip.on{border-color:#7c5cff;background:rgba(124,92,255,.1);color:#5b3fe0}
+html[data-dark] .ob2-chip.on{color:#c4b5fd}
+.ob2-subin{display:flex;gap:8px}.ob2-subin button{border:0;border-radius:14px;padding:0 18px;background:#0f172a;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+html[data-dark] .ob2-subin button{background:#7c5cff}
+.ob2-subs{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;border-radius:16px;background:rgba(124,92,255,.06);border:2px dashed rgba(124,92,255,.25)}
+.ob2-sub{display:inline-flex;align-items:center;gap:6px;padding:7px 8px 7px 12px;border-radius:12px;background:linear-gradient(135deg,#7c5cff,#5b8cff);color:#fff;font-weight:700;font-size:14px;animation:ob2chip .35s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes ob2chip{from{transform:scale(.5);opacity:0}}
+.ob2-sub button{border:0;background:rgba(255,255,255,.25);color:#fff;width:22px;height:22px;border-radius:7px;cursor:pointer;font-size:15px;line-height:1}
+.ob2-ph{color:#94a3b8;font-size:14px;align-self:center}
+.ob2-exams{display:grid;gap:8px}.ob2-exams label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:600;font-size:14px}.ob2-exams input{width:auto;padding:9px 11px;font-size:14px}
+.ob2-err{color:#e11d48;font-size:13.5px;font-weight:600;min-height:1em}.ob2-err.shake{animation:ob2sh .4s}
+@keyframes ob2sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.ob2-nav{display:flex;justify-content:space-between;gap:10px;margin-top:6px}
+.ob2-next{border:0;border-radius:16px;padding:14px 22px;font:inherit;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#7c5cff,#5b8cff);box-shadow:0 12px 26px -12px rgba(124,92,255,.9);cursor:pointer;transition:transform .2s,filter .2s}
+.ob2-next:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.ob2-back{border:2px solid #e2e8f0;border-radius:16px;padding:12px 18px;font:inherit;font-weight:700;background:transparent;color:inherit;cursor:pointer}
+html[data-dark] .ob2-back{border-color:#334155}
+.ob2-build{display:grid;justify-items:center;gap:12px;text-align:center;padding:8px 0}
+.ob2-orb{position:relative;width:96px;height:96px;display:grid;place-items:center;font-size:36px}
+.ob2-orb i{position:absolute;inset:0;border-radius:50%;border:4px solid transparent;border-top-color:#7c5cff;border-right-color:#22d3ee;animation:ob2spin 1.1s linear infinite}.ob2-orb i:nth-child(2){inset:12px;animation-duration:1.7s;animation-direction:reverse;border-top-color:#f472b6}
+@keyframes ob2spin{to{transform:rotate(360deg)}}
+.ob2-tasks{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:8px;width:100%;text-align:left}
+.ob2-tasks li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(124,92,255,.06);font-size:14px;animation:ob2r .4s both}
+.ob2-tasks .s{width:20px;height:20px;flex:0 0 20px;border-radius:50%;border:3px solid #c4b5fd;border-top-color:#7c5cff;animation:ob2spin .8s linear infinite}
+.ob2-tasks li.ok .s{animation:none;border:0;background:#10b981;position:relative}.ob2-tasks li.ok .s::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}
+.ob2-tasks li.no .s{animation:none;border:0;background:#f59e0b;position:relative}.ob2-tasks li.no .s::after{content:"!";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}
+.ob2-done{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;animation:ob2pop .5s both}.ob2-done[hidden]{display:none}
+@media (max-width:520px){.ob2-card{padding:18px 18px 20px;border-radius:24px}.ob2-nav{position:sticky;bottom:-20px;background:inherit;padding-top:8px}}
+
+</style><script id="sf-ob-js">
+/* ===== StudyFlow setup v2: typed survey + personalised starter content ===== */
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+function D(){try{return data}catch(e){return null}}
+function save(){try{persist()}catch(e){}}
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+var EMO={math:'📐',phys:'⚛️',chem:'🧪',bio:'🧬',hist:'🏛️',geo:'🌍',eng:'📖',lit:'📖',econ:'📈',bus:'💼',acc:'🧾',comp:'💻',psych:'🧠',art:'🎨',music:'🎵',fren:'🇫🇷',span:'🇪🇸',hind:'🇮🇳',ger:'🇩🇪',sci:'🔬',pol:'🗳️',env:'🌱'};
+function emo(s){s=String(s).toLowerCase();var k=Object.keys(EMO).find(function(k){return s.indexOf(k)>=0});return k?EMO[k]:'📚'}
+var ST={step:0,p:{},subs:[],exams:{},mins:45,aim:'grades'};
+var STEPS=5;
+function open(){if($('#sfOb2'))return;var d=D()||{};var p=d.profile||{};
+ ST={step:0,p:{name:p.name||'',role:p.role||'student',grade:p.grade||'',syll:p.syllabus||p.board||(p.curriculum&&p.curriculum!=='CBSE'?p.curriculum:'')||'',school:p.school||''},subs:(p.subjects||[]).slice(),exams:{},mins:p.goal||45,aim:p.aim||'grades',hard:p.hardest||''};
+ (d.exams||[]).forEach(function(e){if(e.date>=today())ST.exams[e.subject]=e.date});
+ var ov=document.createElement('div');ov.id='sfOb2';ov.className='ob2';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
+ ov.innerHTML='<div class="ob2-bg"><i></i><i></i><i></i></div><div class="ob2-card"><div class="ob2-top"><div class="ob2-prog"><span id="ob2Bar"></span></div><button type="button" class="ob2-skip" id="sfOnbSkip">Skip</button></div><div class="ob2-view" id="ob2View"></div><div class="ob2-nav" id="ob2Nav"><button type="button" class="ob2-back" id="ob2Back">Back</button><button type="button" class="ob2-next" id="ob2Next">Continue</button></div></div>';
+ document.body.appendChild(ov);document.body.classList.add('sf-noscroll');
+ $('#sfOnbSkip').onclick=function(){var d=D();if(d){d.profile=Object.assign({},d.profile,{onboarded:true});save()}close()};
+ $('#ob2Back').onclick=function(){if(ST.step>0)go_(ST.step-1,-1)};
+ $('#ob2Next').onclick=next;
+ ov.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id!=='ob2Sub'&&e.target.tagName!=='TEXTAREA'){e.preventDefault();next()}});
+ paint(1)}
+function close(){var o=$('#sfOb2');if(o){o.classList.add('out');setTimeout(function(){o.remove()},350)}document.body.classList.remove('sf-noscroll')}
+function go_(n,dir){collect();ST.step=n;paint(dir)}
+function collect(){var g=function(id){var e=$('#'+id);return e?e.value.trim():null};var v;
+ if((v=g('ob2Name'))!=null)ST.p.name=v;if((v=g('ob2Grade'))!=null)ST.p.grade=v;if((v=g('ob2Syll'))!=null)ST.p.syll=v;if((v=g('ob2School'))!=null)ST.p.school=v;
+ document.querySelectorAll('#ob2View [data-ex]').forEach(function(i){ST.exams[i.dataset.ex]=i.value})}
+function err(t){var e=$('#ob2Err');if(e){e.textContent=t;e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')}}
+function next(){collect();var s=ST.step;
+ if(s===0&&!ST.p.name){err('Tell us your first name');return}
+ if(s===1&&(!ST.p.grade||!ST.p.syll)){err(!ST.p.grade?'Type your grade or class':'Type your syllabus or exam board');return}
+ if(s===2){var i=$('#ob2Sub');if(i&&i.value.trim())addSub(i.value);if(!ST.subs.length){err('Type at least one subject and press Enter');return}}
+ if(s===3){finish();return}
+ go_(s+1,1)}
+function chip(list,key){return list.map(function(x){return'<button type="button" class="ob2-chip'+(ST[key]===x[0]?' on':'')+'" data-'+key+'="'+x[0]+'">'+x[1]+'</button>'}).join('')}
+function paint(dir){var v=$('#ob2View'),s=ST.step,H='';$('#ob2Bar').style.width=((s+1)/STEPS*100)+'%';$('#ob2Back').style.visibility=s>0&&s<4?'visible':'hidden';$('#ob2Nav').style.display=s===4?'none':'';$('#ob2Next').textContent=s===3?'Build my study space ✨':'Continue';
+ if(s===0)H='<div class="ob2-hero">👋</div><span class="ob2-k">Welcome to StudyFlow</span><h2>Let\'s make StudyFlow yours</h2><p>Answer a few quick questions. Your flashcards, quizzes, study plan and AI tutor will all be built around your answers.</p><label class="ob2-f"><span>What\'s your first name?</span><input id="ob2Name" maxlength="40" autocomplete="given-name" placeholder="Type your name" value="'+esc(ST.p.name)+'"></label><div class="ob2-roles">'+chip([['student','🎒 I\'m a student'],['teacher','🧑‍🏫 I\'m a teacher'],['parent','👪 I\'m a parent']],'role')+'</div>';
+ else if(s===1)H='<div class="ob2-hero">🏫</div><span class="ob2-k">Step 2 of 4 · Your school</span><h2>Where are you studying, '+esc(ST.p.name.split(' ')[0]||'friend')+'?</h2><p>Type it exactly how your school says it — there\'s no wrong answer.</p><label class="ob2-f"><span>Which grade or class are you in?</span><input id="ob2Grade" maxlength="40" placeholder="e.g. Class 10, Grade 11, Year 12, DP1" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus or exam board do you follow?</span><input id="ob2Syll" maxlength="60" placeholder="e.g. CBSE, ICSE, IB Diploma, Cambridge IGCSE, AP, State board" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>';
+ else if(s===2)H='<div class="ob2-hero">📚</div><span class="ob2-k">Step 3 of 4 · Your subjects</span><h2>Which subjects do you study?</h2><p>Type each subject and press <b>Enter</b>. Add as many as you like.</p><div class="ob2-subin"><input id="ob2Sub" maxlength="50" placeholder="Type a subject, e.g. Physics" autocomplete="off"><button type="button" id="ob2SubAdd">Add</button></div><div class="ob2-subs" id="ob2Subs"></div><div id="ob2Hard"></div>';
+ else if(s===3)H='<div class="ob2-hero">🎯</div><span class="ob2-k">Step 4 of 4 · Your goals</span><h2>What are you aiming for?</h2><div class="ob2-roles">'+chip([['grades','🏆 Top exam grades'],['understand','💡 Really understand topics'],['homework','📝 Finish homework faster'],['catchup','🚀 Catch up quickly']],'aim')+'</div><span class="ob2-lab">How long can you study on a normal day?</span><div class="ob2-roles">'+[15,30,45,60,90,120].map(function(m){return'<button type="button" class="ob2-chip'+(ST.mins===m?' on':'')+'" data-mins="'+m+'">'+(m<60?m+' min':m===60?'1 hour':m/60+' hours')+'</button>'}).join('')+'</div><span class="ob2-lab">Next exam dates <em>(optional)</em></span><div class="ob2-exams">'+ST.subs.map(function(x){return'<label><span>'+emo(x)+' '+esc(x)+'</span><input type="date" data-ex="'+esc(x)+'" min="'+today()+'" value="'+esc(ST.exams[x]||'')+'"></label>'}).join('')+'</div>';
+ else if(s===4)H='<div class="ob2-build"><div class="ob2-orb"><i></i><i></i><span>✨</span></div><h2 id="ob2BT">Building your study space…</h2><p id="ob2BS">Personalising everything for '+esc(ST.p.grade)+' · '+esc(ST.p.syll)+'</p><ul class="ob2-tasks" id="ob2Tasks"></ul><div class="ob2-done" id="ob2Done" hidden></div></div>';
+ v.innerHTML='<div class="ob2-pane '+(dir<0?'from-l':'from-r')+'">'+H+'<p class="ob2-err" id="ob2Err" role="alert"></p></div>';
+ v.querySelectorAll('[data-role],[data-aim],[data-mins]').forEach(function(b){b.onclick=function(){if(b.dataset.role)ST.role=ST.p.role=b.dataset.role;if(b.dataset.aim)ST.aim=b.dataset.aim;if(b.dataset.mins)ST.mins=+b.dataset.mins;b.parentNode.querySelectorAll('.ob2-chip').forEach(function(x){x.classList.toggle('on',x===b)})}});
+ if(s===0){ST.role=ST.p.role;var rb=v.querySelector('[data-role="'+ST.p.role+'"]');if(rb)rb.classList.add('on')}
+ if(s===2){paintSubs();var i=$('#ob2Sub');i.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===','){e.preventDefault();addSub(i.value);i.value=''}else if(e.key==='Backspace'&&!i.value&&ST.subs.length){ST.subs.pop();paintSubs()}});$('#ob2SubAdd').onclick=function(){addSub(i.value);i.value='';i.focus()}}
+ var f=v.querySelector('input');if(f&&s<4)setTimeout(function(){try{f.focus({preventScroll:true})}catch(e){}},260)}
+function addSub(t){String(t||'').split(',').map(function(x){return x.trim().replace(/\s+/g,' ')}).filter(Boolean).forEach(function(x){x=x.charAt(0).toUpperCase()+x.slice(1);if(!ST.subs.some(function(y){return y.toLowerCase()===x.toLowerCase()}))ST.subs.push(x.slice(0,50))});paintSubs()}
+function paintSubs(){var b=$('#ob2Subs');if(!b)return;b.innerHTML=ST.subs.length?ST.subs.map(function(x,i){return'<span class="ob2-sub" style="animation-delay:'+(i*.03)+'s">'+emo(x)+' '+esc(x)+'<button type="button" data-rm="'+i+'" aria-label="Remove '+esc(x)+'">×</button></span>'}).join(''):'<span class="ob2-ph">Your subjects will appear here</span>';b.querySelectorAll('[data-rm]').forEach(function(x){x.onclick=function(){ST.subs.splice(+x.dataset.rm,1);paintSubs()}});
+ var h=$('#ob2Hard');if(h)h.innerHTML=ST.subs.length>1?'<span class="ob2-lab">Which one feels hardest right now?</span><div class="ob2-roles">'+ST.subs.map(function(x){return'<button type="button" class="ob2-chip'+(ST.hard===x?' on':'')+'" data-hard="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>':'';
+ if(h)h.querySelectorAll('[data-hard]').forEach(function(x){x.onclick=function(){ST.hard=x.dataset.hard;h.querySelectorAll('.ob2-chip').forEach(function(y){y.classList.toggle('on',y===x)})}})}
+
+/* ---------- save + build personalised content ---------- */
+function level(){return(ST.p.grade+' · '+ST.p.syll).trim()}
+function finish(){var d=D();if(!d){close();return}
+ d.profile=Object.assign({},d.profile,{name:ST.p.name,role:ST.p.role||'student',grade:ST.p.grade,syllabus:ST.p.syll,board:ST.p.syll,curriculum:ST.p.syll,school:ST.p.school,subjects:ST.subs.slice(),hardest:ST.hard||'',aim:ST.aim,goal:ST.mins,level:level(),onboarded:true});
+ if(!Array.isArray(d.exams))d.exams=[];Object.keys(ST.exams).forEach(function(s){var dt=ST.exams[s];if(!dt)return;var ex=d.exams.find(function(x){return x.subject===s&&x.date>=today()});if(ex)ex.date=dt;else d.exams.push({id:uid(),subject:s,date:dt,name:s+' exam',weak:s===ST.hard?5:3})});
+ try{var mx=window.StudyFlowMastery;if(mx&&mx.M){var M=mx.M();if(M.prefs)M.prefs.minutes=[15,30,45,60,90,120].indexOf(ST.mins)>=0?ST.mins:45}}catch(e){}
+ try{var sel=document.getElementById('profileLevel');if(sel&&![].some.call(sel.options,function(o){return o.value===d.profile.level})){var o=document.createElement('option');o.textContent=d.profile.level;sel.appendChild(o)}sel&&(sel.value=d.profile.level)}catch(e){}
+ try{document.querySelectorAll('.mx-subject-select').forEach(function(s){s.innerHTML=''});document.querySelectorAll('.mx-level-select').forEach(function(s){delete s.dataset.init})}catch(e){}
+ save();ST.step=4;paint(1);build()}
+function aiOn(){return typeof requestStudyAI==='function'&&(typeof aiAvailable!=='function'||aiAvailable())}
+function task(t){var ul=$('#ob2Tasks');var li=document.createElement('li');li.innerHTML='<span class="s"></span><b>'+esc(t)+'</b>';ul.appendChild(li);return{ok:function(x){li.classList.add('ok');if(x)li.querySelector('b').textContent=x},no:function(x){li.classList.add('no');if(x)li.querySelector('b').textContent=x}}}
+function parse(t){t=String(t||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'');var a=t.indexOf('{'),b=t.lastIndexOf('}');return JSON.parse(a>=0?t.slice(a,b+1):t)}
+function libFor(sub){try{var L=window.StudyFlowQuiz?StudyFlowQuiz.lib():[];var s=sub.toLowerCase();return L.filter(function(q){var x=(q.subject+' '+q.title+' '+(q.topic||'')).toLowerCase();return x.indexOf(s)>=0||s.indexOf(String(q.subject).toLowerCase())>=0})}catch(e){return[]}}
+function addCards(set,list,e){var d=D();if(!Array.isArray(d.flashcards))d.flashcards=[];list.forEach(function(x){d.flashcards.push({id:uid(),front:x.f,back:x.b,learned:false,lv:0,set:set})});if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};var m=d.fcmeta[set]||(d.fcmeta[set]={color:['#7c3aed','#0d9488','#e8475f','#d97706','#2563eb'][Object.keys(d.fcmeta).length%5],created:Date.now()});m.emoji=e;m.last=Date.now();m.keep=true;m.starter=true}
+function addQuiz(q){try{if(typeof customQuizzes==='undefined')return false;customQuizzes.unshift(q);saveCustomQuizzes();return true}catch(e){return false}}
+function oneSubject(sub){var t=task('Making '+sub+' flashcards & a quiz for '+ST.p.grade);
+ if(!aiOn()){var L=libFor(sub);if(L.length){t.ok(sub+': matched '+L.length+' ready-made quiz'+(L.length>1?'zes':'')+' from the library')}else t.no(sub+': AI starter sets are made on your website (open it online)');return Promise.resolve(L.length?1:0)}
+ return requestStudyAI({system:'You write accurate, syllabus-aligned study material. Return ONLY JSON: {"cards":[{"front":"term or question","back":"short answer"}],"quiz":{"title":"...","questions":[{"question":"...","options":["A","B","C","D"],"correctIndex":0,"explanation":"one sentence"}]}}. 12 flashcards (front ≤ 80 chars, back ≤ 160 chars) on the most important first-term topics; 8 quiz questions with exactly 4 options. Match the student\'s grade and syllabus exactly; use its terminology.',user:'Subject: '+sub+'\nGrade/class: '+ST.p.grade+'\nSyllabus/board: '+ST.p.syll+(ST.hard===sub?'\nThe student finds this subject hardest — start from the basics.':'')+'\nGoal: '+ST.aim,temperature:.3,allowSearchFallback:false}).then(function(txt){var j=parse(txt);
+  var cards=(j.cards||[]).map(function(c){return{f:String(c.front||'').slice(0,200),b:String(c.back||'').slice(0,400)}}).filter(function(c){return c.f&&c.b}).slice(0,15);
+  var qs=((j.quiz||{}).questions||[]).map(function(q){var o=(q.options||[]).map(String).slice(0,4);return{text:String(q.question||''),options:o,correct:Number(q.correctIndex),explain:String(q.explanation||''),time:20}}).filter(function(q){return q.text&&q.options.length===4&&q.correct>=0&&q.correct<4});
+  if(cards.length)addCards(sub+' · Starter',cards,emo(sub));
+  if(qs.length)addQuiz({id:Date.now()+Math.floor(Math.random()*1000),title:(j.quiz&&j.quiz.title)||sub+' starter quiz',subject:sub,topic:'Starter',emoji:emo(sub),theme:'sunrise',questions:qs,created:Date.now(),starter:true});
+  t.ok(sub+': '+cards.length+' flashcards + '+qs.length+'-question quiz ✓');return 1}).catch(function(e){var why=String(e&&e.message||e||'').slice(0,140);try{console.warn('StudyFlow setup AI error for '+sub+':',e)}catch(_){}var L=libFor(sub);t.no(sub+': '+(L.length?'using '+L.length+' library quiz'+(L.length>1?'zes':''):'could not reach the AI')+(why?' — '+why:''));return 0})}
+function build(){var subs=ST.subs.slice(0,8),i=0,made=0;var tp=task('Saving your profile: '+level());setTimeout(function(){tp.ok()},400);
+ var t2=task('Planning '+ST.mins+' minutes a day around your exams');setTimeout(function(){t2.ok()},800);
+ (function nextS(){if(i>=subs.length){done(made);return}var s=subs[i++];oneSubject(s).then(function(r){made+=r||0;nextS()})})()}
+function done(made){$('#ob2BT').textContent='Your study space is ready, '+(ST.p.name.split(' ')[0]||'')+'!';$('#ob2BS').textContent=made?'Everything below was made for '+level()+'.':'Your profile is saved — the AI tutor, quizzes and plan now use it.';var b=$('#ob2Done');b.hidden=false;b.innerHTML='<button type="button" class="ob2-next" data-go="director">See today\'s plan</button><button type="button" class="ob2-back" data-go="flashcards">Open my flashcards</button><button type="button" class="ob2-back" data-go="quiz">Play a quiz</button>';b.querySelectorAll('[data-go]').forEach(function(x){x.onclick=function(){close();try{go(x.dataset.go)}catch(e){}try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}}});try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}try{renderAll()}catch(e){}}
+
+/* replace the old setup window whenever it opens */
+function swap(){var o=document.getElementById('sfOnb');if(o&&!o.dataset.ob2){o.dataset.ob2=1;o.style.display='none';o.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id')});if(!document.getElementById('sfOb2'))open();setTimeout(function(){o.remove()},400)}}
+new MutationObserver(swap).observe(document.body,{childList:true});swap();
+window.sfOpenOnboarding=open;window.StudyFlowSetup={open:open};
 })();
 
 </script></body></html>
