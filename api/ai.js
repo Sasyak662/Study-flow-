@@ -1,16 +1,20 @@
 // StudyFlow AI — secure Gemini proxy (Vercel Serverless Function, Node 18+)
 // The API key lives ONLY in the GEMINI_API_KEY environment variable and is never sent to the browser.
 //
-// Request  (POST /api/ai, JSON): { system, messages:[{role,content}], user, temperature, search, codeExecution }
+// Request  (POST /api/ai, JSON): { system, messages:[{role,content}], user, temperature, search, codeExecution,
+//                                  json (ask for a JSON reply), maxTokens, files:[{mimeType,data(base64)}] }
 // Response (200, JSON):          { text, sources:[{title,uri}], usedSearch }
 // Error    (4xx/5xx, JSON):      { error }
 
+const S = require('./_store.js');
 const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 
 const MAX_TOTAL_CHARS = 60000;   // total characters accepted per request
 const MAX_MESSAGES = 20;         // history turns kept
 const TIMEOUT_MS = 55000;
+const MAX_FILE_BYTES = 3200000;  // total base64 characters of attached files (Vercel caps a request at about 4.5 MB)
+const FILE_TYPES = /^(application\/pdf|image\/(png|jpe?g|webp|heic|heif)|text\/plain)$/;
 
 // Best-effort per-IP rate limit (resets on cold start; use Upstash/Redis for a hard limit).
 const RATE_WINDOW_MS = 60 * 1000;
@@ -40,7 +44,7 @@ async function readBody(req) {
   let size = 0;
   for await (const c of req) {
     size += c.length;
-    if (size > 400000) throw new Error('Request too large.');
+    if (size > 4400000) throw new Error('Request too large.');
     chunks.push(c);
   }
   return JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');
@@ -74,10 +78,29 @@ module.exports = async function handler(req, res) {
   if (req.method === 'GET') return send(res, 200, { ok: true, configured: Boolean(key), model: MODEL });
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return send(res, 405, { error: 'Method not allowed.' }); }
 
-  if (!key) return send(res, 500, { error: 'Server is missing GEMINI_API_KEY. Add it in your hosting environment variables and redeploy.' });
+  if (!key) return send(res, 500, { error: 'The AI service is not set up on the server yet.' });
 
   const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
   if (rateLimited(ip)) return send(res, 429, { error: 'Too many requests — please wait a minute and try again.' });
+
+  // Daily AI limits by plan (only when the Redis/KV store is configured; otherwise just the per-minute limit applies).
+  let usageKey = null, limit = null;
+  if (S.configured()) {
+    try {
+      const email = S.readSession(req);
+      const u = email ? await S.getJSON(S.userKey(email)) : null;
+      const plan = S.isPlus(u) ? 'plus' : 'free';
+      limit = S.LIMITS[plan];
+      usageKey = 'sf:usage:' + (u ? email : 'ip:' + ip) + ':' + S.today();
+      const used = Number(await S.cmd('INCR', usageKey)) || 0;
+      if (used === 1) await S.cmd('EXPIRE', usageKey, 172800);
+      if (used > limit) {
+        return send(res, 429, { limit: true, plan, error: plan === 'plus'
+          ? `You have used today's ${limit} AI requests. The limit resets at midnight (UTC).`
+          : `You have used today's ${limit} free AI requests. The limit resets at midnight (UTC). StudyFlow Plus raises it to ${S.LIMITS.plus} a day.` });
+      }
+    } catch (e) { console.error('usage check failed (allowing request)', e.message); }
+  }
 
   let body;
   try { body = await readBody(req); } catch (e) { return send(res, 400, { error: 'Invalid JSON request.' }); }
@@ -89,8 +112,23 @@ module.exports = async function handler(req, res) {
   const total = system.length + contents.reduce((n, c) => n + c.parts[0].text.length, 0);
   if (total > MAX_TOTAL_CHARS) return send(res, 413, { error: 'That request is too long. Try a shorter question or fewer pasted notes.' });
 
+  // Optional attachments (photos of answers, PDF pages) go into the last user turn.
+  const files = Array.isArray(body.files) ? body.files.slice(0, 4) : [];
+  let fileChars = 0;
+  if (files.length && contents[contents.length - 1].role !== 'user') contents.push({ role: 'user', parts: [{ text: 'Use the attached file.' }] });
+  for (const f of files) {
+    const mimeType = String(f && f.mimeType || '');
+    const data = String(f && f.data || '');
+    if (!FILE_TYPES.test(mimeType) || !/^[A-Za-z0-9+/=]+$/.test(data)) return send(res, 400, { error: 'Unsupported file. Use a PDF, PNG, JPG or WEBP image.' });
+    fileChars += data.length;
+    if (fileChars > MAX_FILE_BYTES) return send(res, 413, { error: 'That file is too large. Use a file under about 2 MB, or paste the text instead.' });
+    contents[contents.length - 1].parts.push({ inline_data: { mime_type: mimeType, data } });
+  }
+
   const temperature = Math.max(0, Math.min(1, Number(body.temperature) || 0.3));
-  const payload = { contents, generationConfig: { temperature, maxOutputTokens: 8192 } };
+  const maxOutputTokens = Math.max(1024, Math.min(32768, Number(body.maxTokens) || 8192));
+  const payload = { contents, generationConfig: { temperature, maxOutputTokens } };
+  if (body.json && !body.search && !body.codeExecution) payload.generationConfig.responseMimeType = 'application/json';
   if (system.trim()) payload.systemInstruction = { parts: [{ text: system }] };
 
   // Search wins if both are requested (the two tools are not reliably combinable on one call).
@@ -109,11 +147,11 @@ module.exports = async function handler(req, res) {
     const json = await r.json().catch(() => ({}));
 
     if (!r.ok) {
-      const msg = json?.error?.message || `Gemini returned HTTP ${r.status}`;
+      const msg = json?.error?.message || `AI service returned HTTP ${r.status}`;
       console.error('Gemini error', r.status, msg);
       if (r.status === 429) return send(res, 429, { error: 'The AI is busy right now (quota reached). Please try again shortly.' });
-      if (r.status === 400 && /API key/i.test(msg)) return send(res, 502, { error: 'The server\'s Gemini API key was rejected. Check GEMINI_API_KEY.' });
-      if (r.status === 401 || r.status === 403) return send(res, 502, { error: 'The server\'s Gemini API key is invalid or not allowed. Check GEMINI_API_KEY.' });
+      if (r.status === 400 && /API key/i.test(msg)) return send(res, 502, { error: 'The AI service is not set up correctly on the server yet.' });
+      if (r.status === 401 || r.status === 403) return send(res, 502, { error: 'The AI service is not set up correctly on the server yet.' });
       return send(res, 502, { error: 'AI service error: ' + msg.slice(0, 200) });
     }
 
@@ -122,8 +160,10 @@ module.exports = async function handler(req, res) {
     }
 
     const cand = json?.candidates?.[0];
-    const text = (cand?.content?.parts || []).map(p => (typeof p.text === 'string' ? p.text : '')).join('').trim();
-    if (!text) return send(res, 502, { error: 'Gemini returned an empty answer' + (cand?.finishReason ? ` (${cand.finishReason})` : '') + '.' });
+    const parts = cand?.content?.parts || [];
+    const text = parts.map(p => (typeof p.text === 'string' ? p.text : '')).join('').trim();
+    const codeRan = parts.some(p => p.codeExecutionResult && /OK/i.test(String(p.codeExecutionResult.outcome || '')));
+    if (!text) return send(res, 502, { error: 'The AI returned an empty answer' + (cand?.finishReason ? ` (${cand.finishReason})` : '') + '.' });
 
     const gm = cand?.groundingMetadata || {};
     const seen = new Set();
@@ -134,7 +174,7 @@ module.exports = async function handler(req, res) {
     }
     const usedSearch = Boolean(body.search) && ((gm.webSearchQueries || []).length > 0 || sources.length > 0);
 
-    return send(res, 200, { text, sources: sources.slice(0, 6), usedSearch });
+    return send(res, 200, { text, sources: sources.slice(0, 6), usedSearch, codeRan });
   } catch (e) {
     if (e.name === 'AbortError') return send(res, 504, { error: 'The AI took too long to answer. Please try again.' });
     console.error('AI proxy failure', e);
