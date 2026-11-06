@@ -135,16 +135,33 @@ module.exports = async function handler(req, res) {
   if (body.search) payload.tools = [{ google_search: {} }];
   else if (body.codeExecution) payload.tools = [{ code_execution: {} }];
 
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  // Try the main model with light "thinking" (fast), then a fast fallback model if it is slow, busy or unavailable.
+  const thinkFor = m => /gemini-(3|4)/.test(m) ? { thinkingLevel: 'low' } : /2\.5/.test(m) ? { thinkingBudget: /pro/.test(m) ? 512 : 0 } : null;
+  async function callModel(model, ms, useThinking) {
+    const p = JSON.parse(JSON.stringify(payload));
+    const tc = useThinking ? thinkFor(model) : null;
+    if (tc) p.generationConfig.thinkingConfig = tc;
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), ms);
+    try {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key }, body: JSON.stringify(p), signal: ctrl.signal
+      });
+      const json = await r.json().catch(() => ({}));
+      if (!r.ok && r.status === 400 && tc && /think/i.test(json?.error?.message || '')) return callModel(model, ms, false);
+      return { r, json };
+    } finally { clearTimeout(timer); }
+  }
+  const FALLBACK = process.env.GEMINI_FALLBACK_MODEL || 'gemini-3.5-flash-lite';
   try {
-    const r = await fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-      body: JSON.stringify(payload),
-      signal: ctrl.signal
-    });
-    const json = await r.json().catch(() => ({}));
+    let out = null, firstErr = null;
+    try { out = await callModel(MODEL, 26000, true); } catch (e) { firstErr = e; }
+    const retry = !out || out.r.status === 429 || out.r.status === 404 || out.r.status >= 500;
+    if (retry && FALLBACK && FALLBACK !== MODEL) {
+      console.error('Primary model failed', MODEL, firstErr ? firstErr.name : out.r.status, '- trying', FALLBACK);
+      try { out = await callModel(FALLBACK, 28000, true); } catch (e) { if (!out) throw e; }
+    } else if (!out) throw firstErr;
+    const r = out.r, json = out.json;
 
     if (!r.ok) {
       const msg = json?.error?.message || `AI service returned HTTP ${r.status}`;
@@ -179,7 +196,5 @@ module.exports = async function handler(req, res) {
     if (e.name === 'AbortError') return send(res, 504, { error: 'The AI took too long to answer. Please try again.' });
     console.error('AI proxy failure', e);
     return send(res, 502, { error: 'Could not reach the AI service. Please try again.' });
-  } finally {
-    clearTimeout(timer);
   }
 };
