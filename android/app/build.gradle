@@ -1,0 +1,26 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'app.studyflow.android'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'app.studyflow.android'
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName '1.0'
+    }
+    signingConfigs {
+        release {
+            storeFile file('studyflow.keystore')
+            storePassword 'studyflow99'
+            keyAlias 'studyflow'
+            keyPassword 'studyflow99'
+        }
+    }
+    buildTypes {
+        release { minifyEnabled false; signingConfig signingConfigs.release }
+        debug { signingConfig signingConfigs.release }
+    }
+    lint { checkReleaseBuilds false; abortOnError false }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
