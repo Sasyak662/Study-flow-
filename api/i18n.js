@@ -19,7 +19,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return S.send(res, 405, { error: 'Method not allowed.' }); }
   const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
   const now = Date.now(), arr = (hits.get(ip) || []).filter(t => now - t < 60000); arr.push(now); hits.set(ip, arr);
-  if (arr.length > 40) return S.send(res, 429, { error: 'Too many requests.' });
+  if (arr.length > 150) return S.send(res, 429, { error: 'Too many requests.' });
   let body;
   try { body = await S.readBody(req, 60000); } catch (e) { return S.send(res, 400, { error: 'Invalid request.' }); }
   const lang = normLang(body.lang);

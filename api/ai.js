@@ -176,11 +176,14 @@ module.exports = async function handler(req, res) {
       return { r, json };
     } finally { clearTimeout(timer); }
   }
-  const FALLBACK = process.env.GEMINI_FALLBACK_MODEL || 'gemini-3.5-flash-lite';
+  const FALLBACK = process.env.GEMINI_FALLBACK_MODEL || 'gemini-2.5-flash';
   try {
     let out = null, firstErr = null;
     try { out = await callModel(MODEL, 26000, true); } catch (e) { firstErr = e; }
-    const retry = !out || out.r.status === 429 || out.r.status === 404 || out.r.status >= 500;
+    const emptyOk = o => o && o.r.ok && !((o.json?.candidates?.[0]?.content?.parts || []).some(p => typeof p.text === 'string' && p.text.trim()));
+    // A busy or briefly failing model is tried once more before switching to the backup model, so students rarely see an error.
+    if (out && (out.r.status >= 500 || emptyOk(out))) { try { const again = await callModel(MODEL, 20000, true); if (again.r.ok && !emptyOk(again)) out = again; } catch (e) {} }
+    const retry = !out || emptyOk(out) || out.r.status === 429 || out.r.status === 404 || out.r.status >= 500 || (out.r.status === 400 && !/API key/i.test(out.json?.error?.message || ''));
     if (retry && FALLBACK && FALLBACK !== MODEL) {
       console.error('Primary model failed', MODEL, firstErr ? firstErr.name : out.r.status, '- trying', FALLBACK);
       try { out = await callModel(FALLBACK, 28000, true); } catch (e) { if (!out) throw e; }
