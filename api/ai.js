@@ -1,4 +1,4 @@
-// StudyFlow AI — secure Gemini proxy (Vercel Serverless Function, Node 18+)
+// StudyFlow — secure Gemini proxy (Vercel Serverless Function, Node 18+)
 // The API key lives ONLY in the GEMINI_API_KEY environment variable and is never sent to the browser.
 //
 // Request  (POST /api/ai, JSON): { system, messages:[{role,content}], user, temperature, search, codeExecution,
