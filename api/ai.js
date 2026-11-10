@@ -89,6 +89,13 @@ module.exports = async function handler(req, res) {
   const quest = body && body.purpose === 'quest';
   // The starter pack made right after the survey (10 quizzes + flashcards) also has its own allowance.
   const setup = body && body.purpose === 'setup';
+  // These two allowances are only for StudyFlow's own quiz builders: no web search, files or code, a fixed kind of system prompt, and a smaller answer size.
+  if (quest || setup) {
+    const want = quest ? 'You write accurate multiple-choice quiz questions' : 'You write accurate, syllabus-aligned study material';
+    if (!String(body.system || '').startsWith(want) || (Array.isArray(body.files) && body.files.length) || (Array.isArray(body.messages) && body.messages.length)) return send(res, 400, { error: 'Invalid request.' });
+    body.search = false; body.codeExecution = false; body.maxTokens = Math.min(Number(body.maxTokens) || 8192, quest ? 8192 : 12000);
+    if (String(body.user || '').length > 4000) return send(res, 400, { error: 'Invalid request.' });
+  }
 
   // Daily AI limits by plan (only when the Redis/KV store is configured; otherwise just the per-minute limit applies).
   let usageKey = null, limit = null, planNow = 'free', who = 'ip:' + ip;
@@ -97,13 +104,14 @@ module.exports = async function handler(req, res) {
       const email = S.readSession(req);
       const u = email ? await S.getJSON(S.userKey(email)) : null;
       const plan = S.isPlus(u) ? 'plus' : 'free';planNow = plan;if (u) who = email;
-      limit = quest ? (plan === 'plus' ? Number(process.env.AI_PLUS_QUEST || 30) : Number(process.env.AI_FREE_QUEST || 6)) : setup ? Number(process.env.AI_SETUP_DAILY || 12) : S.LIMITS[plan];
-      usageKey = (quest ? 'sf:qusage:' : setup ? 'sf:susage:' : 'sf:usage:') + (u ? email : 'ip:' + ip) + ':' + S.today();
+      // StudyQuest and starter-pack quizzes count towards the same daily AI allowance as everything else.
+      limit = S.LIMITS[plan];
+      usageKey = 'sf:usage:' + (u ? email : 'ip:' + ip) + ':' + S.today();
       const used = Number(await S.cmd('INCR', usageKey)) || 0;
       if (used === 1) await S.cmd('EXPIRE', usageKey, 172800);
       if (used > limit) {
-        if (setup) return send(res, 429, { limit: true, setup: true, plan, error: 'Your starter quizzes are being made — try again tomorrow.' });
-        if (quest) return send(res, 429, { limit: true, quest: true, plan, error: 'StudyQuest has made enough new questions for today. More tomorrow!' });
+        if (setup || quest) return send(res, 429, { limit: true, quest: true, plan, error: 'You have used today\'s AI allowance, so no new quiz questions can be made until tomorrow.' });
+        if (false) return send(res, 429, { limit: true, quest: true, plan, error: 'StudyQuest has made enough new questions for today. More tomorrow!' });
         return send(res, 429, { limit: true, plan, error: plan === 'plus'
           ? `You have used all ${limit} of today's AI questions. Your limit resets tomorrow.`
           : `Your free AI limit for today is over (${limit} questions). Get StudyFlow Plus for ${S.LIMITS.plus} questions a day, or come back tomorrow.`, freeLimit: S.LIMITS.free, plusLimit: S.LIMITS.plus });
@@ -185,7 +193,7 @@ module.exports = async function handler(req, res) {
       if (r.status === 429) return send(res, 429, { error: 'The AI is busy right now (quota reached). Please try again shortly.' });
       if (r.status === 400 && /API key/i.test(msg)) return send(res, 502, { error: 'The AI service is not set up correctly on the server yet.' });
       if (r.status === 401 || r.status === 403) return send(res, 502, { error: 'The AI service is not set up correctly on the server yet.' });
-      return send(res, 502, { error: 'AI service error: ' + msg.slice(0, 200) });
+      return send(res, 502, { error: 'The AI service had a problem. Please try again.' });
     }
 
     if (json?.promptFeedback?.blockReason) {

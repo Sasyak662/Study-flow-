@@ -29,7 +29,10 @@ module.exports = async function handler(req, res) {
     if (body.action === 'start') {
       const plan = PLANS[body.plan];
       if (!plan) return S.send(res, 400, { error: 'Choose monthly, 3 months or yearly.' });
-      const host = String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim();
+      const SITE = String(process.env.SITE_HOST || 'study-flow-app-ecru.vercel.app');
+  const rawHost = String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim().toLowerCase();
+  // Only send buyers back to our own site (a faked Host header cannot redirect them elsewhere).
+  const host = (rawHost === SITE || /^study-flow-[a-z0-9-]+\.vercel\.app$/.test(rawHost)) ? rawHost : SITE;
       const r = await fetch('https://api.razorpay.com/v1/payment_links', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: auth },

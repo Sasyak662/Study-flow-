@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const PRICES = require('./_catalog.js');
+const S = require('./_store.js');
 // Books are PDFs in api/_books/<book id>.pdf (bundled with this function by vercel.json).
 const bookPath = id => path.join(__dirname, '_books', id + '.pdf');
 
@@ -35,6 +36,14 @@ module.exports = async function handler(req, res) {
     const paid = Number(j.amount_paid || 0);
     if (j.status !== 'paid' || paid < expected || paid <= 0) return send(res, 403, { error: 'Payment not completed for this book.' });
 
+    // A paid link can download each of its books a limited number of times, so it can't be shared publicly.
+    if (S.configured()) {
+      try {
+        const dk = 'sf:dl:' + plink + ':' + pack;
+        const n = Number(await S.cmd('INCR', dk)) || 0;
+        if (n > Number(process.env.BOOK_DOWNLOADS_PER_PURCHASE || 15)) return send(res, 429, { error: 'This book has been downloaded the maximum number of times for this purchase. Contact us if you need help.' });
+      } catch (e) {}
+    }
     const pdf = fs.readFileSync(bookPath(pack));
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/pdf');

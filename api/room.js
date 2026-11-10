@@ -78,7 +78,11 @@ module.exports = async (req, res) => {
     } else if (action !== 'state') {
       return send(res, 400, { error: 'Unknown action' });
     }
-    return send(res, 200, { ok: true, room: await roomState(code) });
+    // Hide everyone's secret member id (and the host's), so nobody can pretend to be someone else in the room.
+    const st = await roomState(code);
+    st.members = st.members.map(m => ({ ...m, id: m.id === id ? id : undefined }));
+    st.host = st.host === id ? id : undefined;
+    return send(res, 200, { ok: true, room: st });
   } catch (e) {
     return send(res, 500, { error: 'Room server error' });
   }

@@ -37,7 +37,8 @@ function view(g, me, ps, isHost) {
   if (g.phase === 'q') out.answered = ps.filter(p => p.last && p.last.qi === g.qi).length;
   out.players = ps.length;
   if (g.phase === 'lobby' || isHost) out.names = ps.map(p => p.name).slice(0, MAX_PLAYERS);
-  if (g.phase === 'reveal' || g.phase === 'end' || isHost) out.board = board(ps).slice(0, g.phase === 'end' ? 10 : 5);
+  // Other players' secret ids are never sent out, so nobody can answer on someone else's behalf.
+  if (g.phase === 'reveal' || g.phase === 'end' || isHost) out.board = board(ps).slice(0, g.phase === 'end' ? 10 : 5).map(x => ({ rank: x.rank, name: x.name, score: x.score, streak: x.streak, id: me && x.id === me.id ? x.id : undefined }));
   if (me) {
     const b = board(ps), mine = b.find(x => x.id === me.id);
     out.me = { name: me.name, score: me.score, streak: me.streak, rank: mine ? mine.rank : null, last: me.last && me.last.qi === g.qi ? me.last : null };

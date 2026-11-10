@@ -38,7 +38,10 @@ module.exports = async function handler(req, res) {
   const total = items.reduce((n, p) => n + PRICES[p], 0);
   const notes = {};
   items.forEach((p, i) => { notes['p' + (i + 1)] = p; });
-  const host = String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim();
+  const SITE = String(process.env.SITE_HOST || 'study-flow-app-ecru.vercel.app');
+  const rawHost = String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim().toLowerCase();
+  // Only send buyers back to our own site (a faked Host header cannot redirect them elsewhere).
+  const host = (rawHost === SITE || /^study-flow-[a-z0-9-]+\.vercel\.app$/.test(rawHost)) ? rawHost : SITE;
   const callback = 'https://' + host + '/?paid=cart';
 
   try {
