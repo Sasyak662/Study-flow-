@@ -5,16 +5,18 @@ android {
     defaultConfig {
         applicationId 'app.studyflow.android'
         minSdk 24
-        targetSdk 34
-        versionCode 1
-        versionName '1.0'
+        targetSdk 35
+        // Every GitHub build gets a higher number, so phones can install updates over the old app.
+        versionCode((System.getenv('BUILD_NUMBER') ?: '1').toInteger())
+        versionName '1.' + (System.getenv('BUILD_NUMBER') ?: '0')
     }
     signingConfigs {
         release {
-            storeFile file('studyflow.keystore')
-            storePassword 'studyflow99'
-            keyAlias 'studyflow'
-            keyPassword 'studyflow99'
+            // The signing key is never stored in the public repository. GitHub puts it here from a secret during the build.
+            storeFile file(System.getenv('KS_FILE') ?: 'studyflow.keystore')
+            storePassword System.getenv('KS_PASS') ?: ''
+            keyAlias System.getenv('KS_ALIAS') ?: 'studyflow'
+            keyPassword System.getenv('KS_PASS') ?: ''
         }
     }
     buildTypes {
