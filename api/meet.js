@@ -9,22 +9,64 @@
 //   sf:meet:<code>:q:<id>   LIST signalling inbox for one member (offer/answer/ice)
 //   sf:meet:<code>:ev       LIST of class events;  :seq event counter
 //   sf:meet:<code>:att      HASH attendance id -> {name, first, last, mins}
-const { configured, cmd, getJSON, send, readBody } = require('./_store');
+const S_ = require('./_store');
+const { configured, cmd, getJSON, send, readBody } = S_;
 
-const TTL = 8 * 3600, MEMBER_TTL = 25, MAX = 30, EV_KEEP = 500;
+const TTL = 11 * 3600, MEMBER_TTL = 25, EV_KEEP = 500;
+// Free: 30 people for 5 hours. StudyFlow Plus host: 200 people for 10 hours.
+const LIM = { free: { max: 30, hours: 5 }, plus: { max: 200, hours: 10 } };
+const MAX = LIM.free.max;
+const limOf = m => (m && m.plus ? LIM.plus : LIM.free);
 const clean = (s, n) => String(s == null ? '' : s).replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, n);
 const okId = id => /^[a-z0-9]{8,32}$/i.test(String(id || ''));
 const normCode = c => String(c || '').toLowerCase().replace(/^.*[?&]meet=/, '').replace(/[^a-z]/g, '').slice(0, 10);
 const okCode = c => /^[a-z]{10}$/.test(c);
 const mk = c => 'sf:meet:' + c;
-const EVENTS = ['chat', 'react', 'poll', 'vote', 'pollend', 'wb', 'wbclear', 'wbundo', 'wbopen', 'wbclose', 'cap', 'timer', 'mute', 'muteall', 'lowerhands', 'note',
+const EVENTS = ['chat', 'react', 'poll', 'vote', 'pollend', 'wb', 'wbclear', 'wbundo', 'wbopen', 'wbclose', 'wbbg', 'bgfx', 'cap', 'timer', 'mute', 'muteall', 'lowerhands', 'note',
   'qa', 'qaup', 'qadone', 'pulse', 'pulsereset', 'lq', 'lqa', 'lqr', 'lqend', 'ccall', 'sprint', 'bcast', 'notes'];
 const HOST_ONLY = ['poll', 'pollend', 'wbclear', 'wbopen', 'wbclose', 'timer', 'mute', 'muteall', 'lowerhands', 'qadone', 'pulsereset', 'lq', 'lqr', 'lqend', 'ccall', 'sprint', 'bcast', 'notes'];
 const HISTORY = ['chat', 'poll', 'vote', 'pollend', 'wb', 'wbclear', 'wbundo', 'wbopen', 'wbclose', 'timer', 'qa', 'qaup', 'qadone', 'pulse', 'pulsereset', 'sprint', 'ccall', 'lq', 'lqr', 'lqend', 'notes'];
 
-function ice() {
-  const s = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }];
+// ---- chat safety: mask common rude words; non-hosts cannot post links (stops scam/phishing links)
+const BAD = /\b(f+u+c+k+\w*|sh[i1]t+\w*|b[i1]tch\w*|bastard\w*|a+s+s+h+o+l+e+\w*|d[i1]ck\w*|c+u+n+t+\w*|wh[o0]re\w*|slut\w*|retard\w*|n[i1]gg\w*|fag+\w*|madarchod\w*|bhenchod\w*|behenchod\w*|chutiya\w*|bhosd\w*|gaand\w*|randi\w*|mc|bc)\b/gi;
+function maskText(x, isHost) {
+  let t = String(x == null ? '' : x).slice(0, 2000).replace(BAD, w => w[0] + '*'.repeat(Math.max(2, w.length - 1)));
+  if (!isHost) t = t.replace(/\b((https?:\/\/|www\.)\S+|\S+\.(com|net|org|xyz|ru|top|io|in|ly|gg|me)(\/\S*)?)\b/gi, '[link removed]');
+  return t;
+}
+function safeText(d, isHost) {
+  const o = Array.isArray(d) ? d.slice() : Object.assign({}, d);
+  for (const k of ['text', 'msg', 'm', 'q', 's', 'body']) if (typeof o[k] === 'string') o[k] = maskText(o[k], isHost);
+  return o;
+}
+// TURN relay: lets video work on school/office WiFi that blocks direct connections.
+// Free option: Cloudflare Realtime TURN -> set CF_TURN_KEY_ID and CF_TURN_TOKEN in Vercel.
+let turnCache = null;
+async function cfTurn() {
+  const id = process.env.CF_TURN_KEY_ID, tok = process.env.CF_TURN_TOKEN;
+  if (!id || !tok) return null;
+  if (turnCache && turnCache.until > Date.now()) return turnCache.v;
+  try {
+    const r = await fetch(`https://rtc.live.cloudflare.com/v1/turn/keys/${id}/credentials/generate-ice-servers`, {
+      method: 'POST', headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: JSON.stringify({ ttl: 86400 })
+    });
+    const j = await r.json().catch(() => ({}));
+    let v = j.iceServers ? (Array.isArray(j.iceServers) ? j.iceServers : [j.iceServers]) : null;
+    if (!v) {
+      const r2 = await fetch(`https://rtc.live.cloudflare.com/v1/turn/keys/${id}/credentials/generate`, {
+        method: 'POST', headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: JSON.stringify({ ttl: 86400 })
+      });
+      const j2 = await r2.json().catch(() => ({}));
+      if (j2.iceServers) v = Array.isArray(j2.iceServers) ? j2.iceServers : [j2.iceServers];
+    }
+    if (v) turnCache = { v, until: Date.now() + 6 * 3600 * 1000 };
+    return v;
+  } catch (e) { return null; }
+}
+async function ice() {
+  const s = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun.cloudflare.com:3478'] }];
   if (process.env.MEET_TURN_URL) s.push({ urls: process.env.MEET_TURN_URL.split(',').map(x => x.trim()), username: process.env.MEET_TURN_USER || '', credential: process.env.MEET_TURN_PASS || '' });
+  const cf = await cfTurn(); if (cf) s.push(...cf);
   return s;
 }
 async function pushEvent(code, ev) {
@@ -55,10 +97,10 @@ async function waiting(code) {
   if (gone.length) await cmd('SREM', mk(code) + ':wait', ...gone);
   return out;
 }
-const pubMeet = m => ({ code: m.code, title: m.title, host: m.host, hostName: m.hostName, created: m.created, locked: !!m.locked, chat: m.chat !== false, share: m.share !== false, ended: !!m.ended, classCode: m.classCode || '', spot: m.spot || '', rooms: m.rooms || null, max: MAX });
+const pubMeet = m => ({ code: m.code, title: m.title, host: m.host, hostName: m.hostName, created: m.created, locked: !!m.locked, chat: m.chat !== false, share: m.share !== false, ended: !!m.ended, classCode: m.classCode || '', spot: m.spot || '', rooms: m.rooms || null, max: limOf(m).max, plus: !!(m && m.plus), endsAt: (m && m.created ? m.created + limOf(m).hours * 3600000 : 0) });
 
 module.exports = async (req, res) => {
-  if (req.method === 'GET') return send(res, 200, { configured: configured(), iceServers: ice(), max: MAX });
+  if (req.method === 'GET') return send(res, 200, { configured: configured(), iceServers: await ice(), relay: !!(process.env.CF_TURN_KEY_ID || process.env.MEET_TURN_URL), max: MAX, limits: LIM });
   if (req.method !== 'POST') return send(res, 405, { error: 'Use POST' });
   if (!configured()) return send(res, 503, { error: 'Live classes need the StudyFlow server store. Ask the site owner to switch it on.' });
   let b;
@@ -66,12 +108,24 @@ module.exports = async (req, res) => {
   const action = String(b.action || ''), id = String(b.id || '');
   if (!okId(id)) return send(res, 400, { error: 'Missing member id' });
   const name = clean(b.name, 32) || 'Guest';
+  // Security: the member id is public (others need it to connect video), so every request must also
+  // carry a secret key. The first request claims the id; afterwards only the same key can act as it.
+  const key = String(b.key || '');
+  if (!/^[a-z0-9]{32,64}$/.test(key)) return send(res, 400, { error: 'Please refresh the page and try again.' });
+  const keyHash = require('crypto').createHash('sha256').update(key).digest('hex');
+  try {
+    const kk = 'sf:meetkey:' + id;
+    const claimed = await cmd('SET', kk, keyHash, 'NX', 'EX', String(TTL * 3));
+    if (!claimed) { const have = await cmd('GET', kk); if (have && have !== keyHash) return send(res, 403, { error: 'This device ID belongs to someone else. Refresh the page.' }); }
+  } catch (e) { return send(res, 503, { error: 'Live classes are busy, try again.' }); }
   try {
     if (action === 'create') {
+      let plus = false;
+      try { const em = S_.readSession(req); if (em) plus = S_.isPlus(await getJSON(S_.userKey(em))); } catch (e) {}
       let code = '';
       for (let i = 0; i < 8 && !code; i++) {
         const c = Array.from({ length: 10 }, () => 'abcdefghijkmnopqrstuvwxyz'[Math.floor(Math.random() * 25)]).join('');
-        const ok = await cmd('SET', mk(c), JSON.stringify({ code: c, title: clean(b.title, 60) || name + "'s class", host: id, hostName: name, created: Date.now(), locked: !!b.locked, chat: true, share: true, ended: false, classCode: clean(b.classCode, 8), spot: '', rooms: null }), 'NX', 'EX', String(TTL));
+        const ok = await cmd('SET', mk(c), JSON.stringify({ code: c, title: clean(b.title, 60) || name + "'s class", host: id, hostName: name, created: Date.now(), locked: !!b.locked, chat: true, share: true, ended: false, classCode: clean(b.classCode, 8), spot: '', rooms: null, plus }), 'NX', 'EX', String(TTL));
         if (ok) code = c;
       }
       if (!code) return send(res, 500, { error: 'Could not create a meeting, try again' });
@@ -83,6 +137,7 @@ module.exports = async (req, res) => {
     const m = await getJSON(mk(code));
     if (!m) return send(res, 404, { error: 'That meeting does not exist or has expired' });
     if (m.ended && action !== 'peek') return send(res, 410, { ended: true, error: 'This meeting has ended' });
+    if (action !== 'peek' && m.created && Date.now() - m.created > limOf(m).hours * 3600000) return send(res, 410, { ended: true, error: 'This class reached its ' + limOf(m).hours + '-hour limit' + (m.plus ? '.' : '. StudyFlow Plus classes can run for ' + LIM.plus.hours + ' hours.') });
     const isHost = m.host === id;
     if (!isHost && await cmd('SISMEMBER', mk(code) + ':ban', id)) return send(res, 403, { kicked: true, error: 'You were removed from this meeting' });
 
@@ -101,7 +156,8 @@ module.exports = async (req, res) => {
       }
       if (!inCall) {
         const n = await cmd('SCARD', mk(code) + ':ms');
-        if (n >= MAX) return send(res, 403, { error: 'This live class is full (' + MAX + ' people)' });
+        const L = limOf(m);
+        if (n >= L.max) return send(res, 403, { error: 'This live class is full (' + L.max + ' people)' + (m.plus ? '' : '. A StudyFlow Plus host can have up to ' + LIM.plus.max + '.') });
       }
       const me = b.me || {};
       const st = { id, name, cam: !!me.cam, mic: !!me.mic, hand: Math.max(0, Number(me.hand) || 0), share: !!me.share, joined: Number(me.joined) || Date.now(), net: Math.max(0, Math.min(3, Number(me.net) || 0)), at: Date.now() };
@@ -155,8 +211,14 @@ module.exports = async (req, res) => {
       if (!EVENTS.includes(t)) return send(res, 400, { error: 'Unknown event' });
       if (HOST_ONLY.includes(t) && !isHost) return send(res, 403, { error: 'Only the host can do that' });
       if (t === 'chat' && m.chat === false && !isHost) return send(res, 403, { error: 'The host turned off chat' });
-      const d = b.d == null ? null : b.d;
+      let d = b.d == null ? null : b.d;
       if (JSON.stringify(d).length > 16000) return send(res, 400, { error: 'Too big' });
+      // Anti-spam: at most 40 events per 10 seconds per person (whiteboard drawing included).
+      const rk = 'sf:meetrate:' + code + ':' + id + ':' + Math.floor(Date.now() / 10000);
+      const rn = Number(await cmd('INCR', rk)) || 0; if (rn === 1) await cmd('EXPIRE', rk, 20);
+      if (rn > (t === 'wb' ? 120 : 40)) return send(res, 429, { error: 'Slow down a little.' });
+      // Safer chat for students: hide rude words and links from non-hosts.
+      if (['chat', 'qa', 'cap', 'note'].includes(t) && d && typeof d === 'object') d = safeText(d, isHost);
       const seq = await pushEvent(code, { t, from: id, name, d });
       return send(res, 200, { ok: true, seq });
     }

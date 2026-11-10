@@ -32,6 +32,7 @@ async function tooManyFails(email, ip) {
 async function noteFail(email, ip) {
   const k = 'sf:fail:' + email + ':' + ip;
   await S.cmd('INCR', k); await S.cmd('EXPIRE', k, 900);
+  await S.cmd('INCR', 'sf:ipfail:' + ip); await S.cmd('EXPIRE', 'sf:ipfail:' + ip, 900);
 }
 
 module.exports = async function handler(req, res) {
@@ -49,6 +50,9 @@ module.exports = async function handler(req, res) {
       if (!validEmail(email)) return S.send(res, 400, { error: 'Enter a valid email address.' });
       if (pw.length < 8 || pw.length > 200) return S.send(res, 400, { error: 'Use a password of at least 8 characters.' });
       if (await tooManyFails(email, ip)) return S.send(res, 429, { error: 'Too many attempts. Wait 15 minutes and try again.' });
+      // Extra protection: limit failed logins from one internet address across all emails, and limit sign-ups.
+      if (Number(await S.cmd('GET', 'sf:ipfail:' + ip)) >= 40) return S.send(res, 429, { error: 'Too many attempts from this network. Wait 15 minutes and try again.' });
+      if (action === 'signup') { const sk = 'sf:signup:' + ip; const sn = Number(await S.cmd('INCR', sk)) || 0; if (sn === 1) await S.cmd('EXPIRE', sk, 3600); if (sn > 10) return S.send(res, 429, { error: 'Too many new accounts from this network. Try again in an hour.' }); }
       const key = S.userKey(email);
       if (action === 'signup') {
         const salt = crypto.randomBytes(16).toString('hex'), code = newCode(), cs = crypto.randomBytes(16).toString('hex');

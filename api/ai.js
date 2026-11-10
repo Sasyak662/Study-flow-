@@ -7,7 +7,7 @@
 // Error    (4xx/5xx, JSON):      { error }
 
 const S = require('./_store.js');
-const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+const MODEL = (process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite').trim();
 const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 
 const MAX_TOTAL_CHARS = 60000;   // total characters accepted per request
@@ -81,23 +81,23 @@ module.exports = async function handler(req, res) {
   if (!key) return send(res, 500, { error: 'The AI service is not set up on the server yet.' });
 
   const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
-  if (rateLimited(ip)) return send(res, 429, { error: 'Too many requests — please wait a minute and try again.' });
+  if (rateLimited(ip)) return send(res, 429, { error: 'You are asking questions very fast. Please wait a minute and try again.' });
 
   // Daily AI limits by plan (only when the Redis/KV store is configured; otherwise just the per-minute limit applies).
-  let usageKey = null, limit = null;
+  let usageKey = null, limit = null, planNow = 'free', who = 'ip:' + ip;
   if (S.configured()) {
     try {
       const email = S.readSession(req);
       const u = email ? await S.getJSON(S.userKey(email)) : null;
-      const plan = S.isPlus(u) ? 'plus' : 'free';
+      const plan = S.isPlus(u) ? 'plus' : 'free';planNow = plan;if (u) who = email;
       limit = S.LIMITS[plan];
       usageKey = 'sf:usage:' + (u ? email : 'ip:' + ip) + ':' + S.today();
       const used = Number(await S.cmd('INCR', usageKey)) || 0;
       if (used === 1) await S.cmd('EXPIRE', usageKey, 172800);
       if (used > limit) {
         return send(res, 429, { limit: true, plan, error: plan === 'plus'
-          ? `You have used today's ${limit} AI requests. The limit resets at midnight (UTC).`
-          : `You have used today's ${limit} free AI requests. The limit resets at midnight (UTC). StudyFlow Plus raises it to ${S.LIMITS.plus} a day.` });
+          ? `You have used all ${limit} of today's AI questions. Your limit resets tomorrow.`
+          : `Your free AI limit for today is over (${limit} questions). Get StudyFlow Plus for ${S.LIMITS.plus} questions a day, or come back tomorrow.`, freeLimit: S.LIMITS.free, plusLimit: S.LIMITS.plus });
       }
     } catch (e) { console.error('usage check failed (allowing request)', e.message); }
   }
@@ -114,6 +114,16 @@ module.exports = async function handler(req, res) {
 
   // Optional attachments (photos of answers, PDF pages) go into the last user turn.
   const files = Array.isArray(body.files) ? body.files.slice(0, 4) : [];
+  // Daily attachment allowance is checked on the server too (free 3/day, Plus 40/day), so it cannot be bypassed in the browser.
+  if (files.length && S.configured()) {
+    try {
+      const ak = 'sf:att:' + who + ':' + S.today();
+      const n = Number(await S.cmd('INCRBY', ak, files.length)) || 0;
+      if (n === files.length) await S.cmd('EXPIRE', ak, 172800);
+      const cap = planNow === 'plus' ? Number(process.env.AI_PLUS_FILES || 40) : Number(process.env.AI_FREE_FILES || 3);
+      if (n > cap) return send(res, 429, { limit: true, plan: planNow, error: planNow === 'plus' ? 'You have attached the most files allowed today. Try again tomorrow.' : 'Free accounts can attach ' + cap + ' files a day. Get StudyFlow Plus to attach up to 40 files a day.' });
+    } catch (e) { console.error('attachment check failed', e.message); }
+  }
   let fileChars = 0;
   if (files.length && contents[contents.length - 1].role !== 'user') contents.push({ role: 'user', parts: [{ text: 'Use the attached file.' }] });
   for (const f of files) {

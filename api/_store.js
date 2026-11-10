@@ -122,7 +122,7 @@ function readSession(req) {
 
 const userKey = email => 'sf:user:' + email;
 const isPlus = u => Boolean(u && u.plusUntil && u.plusUntil > Date.now());
-const LIMITS = { free: Number(process.env.AI_FREE_DAILY || 60), plus: Number(process.env.AI_PLUS_DAILY || 400) };
+const LIMITS = { free: Number(process.env.AI_FREE_DAILY || 25), plus: Number(process.env.AI_PLUS_DAILY || 400) };
 const today = () => new Date().toISOString().slice(0, 10);
 
 function send(res, status, body) {
