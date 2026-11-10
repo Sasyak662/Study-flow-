@@ -83,6 +83,13 @@ module.exports = async function handler(req, res) {
   const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
   if (rateLimited(ip)) return send(res, 429, { error: 'You are asking questions very fast. Please wait a minute and try again.' });
 
+  let body;
+  try { body = await readBody(req); } catch (e) { return send(res, 400, { error: 'Invalid JSON request.' }); }
+  // StudyQuest question-bank top-ups have their own small daily allowance, so they never use up AI Coach questions.
+  const quest = body && body.purpose === 'quest';
+  // The starter pack made right after the survey (10 quizzes + flashcards) also has its own allowance.
+  const setup = body && body.purpose === 'setup';
+
   // Daily AI limits by plan (only when the Redis/KV store is configured; otherwise just the per-minute limit applies).
   let usageKey = null, limit = null, planNow = 'free', who = 'ip:' + ip;
   if (S.configured()) {
@@ -90,20 +97,19 @@ module.exports = async function handler(req, res) {
       const email = S.readSession(req);
       const u = email ? await S.getJSON(S.userKey(email)) : null;
       const plan = S.isPlus(u) ? 'plus' : 'free';planNow = plan;if (u) who = email;
-      limit = S.LIMITS[plan];
-      usageKey = 'sf:usage:' + (u ? email : 'ip:' + ip) + ':' + S.today();
+      limit = quest ? (plan === 'plus' ? Number(process.env.AI_PLUS_QUEST || 30) : Number(process.env.AI_FREE_QUEST || 6)) : setup ? Number(process.env.AI_SETUP_DAILY || 12) : S.LIMITS[plan];
+      usageKey = (quest ? 'sf:qusage:' : setup ? 'sf:susage:' : 'sf:usage:') + (u ? email : 'ip:' + ip) + ':' + S.today();
       const used = Number(await S.cmd('INCR', usageKey)) || 0;
       if (used === 1) await S.cmd('EXPIRE', usageKey, 172800);
       if (used > limit) {
+        if (setup) return send(res, 429, { limit: true, setup: true, plan, error: 'Your starter quizzes are being made — try again tomorrow.' });
+        if (quest) return send(res, 429, { limit: true, quest: true, plan, error: 'StudyQuest has made enough new questions for today. More tomorrow!' });
         return send(res, 429, { limit: true, plan, error: plan === 'plus'
           ? `You have used all ${limit} of today's AI questions. Your limit resets tomorrow.`
           : `Your free AI limit for today is over (${limit} questions). Get StudyFlow Plus for ${S.LIMITS.plus} questions a day, or come back tomorrow.`, freeLimit: S.LIMITS.free, plusLimit: S.LIMITS.plus });
       }
     } catch (e) { console.error('usage check failed (allowing request)', e.message); }
   }
-
-  let body;
-  try { body = await readBody(req); } catch (e) { return send(res, 400, { error: 'Invalid JSON request.' }); }
 
   const system = String(body.system || '');
   const contents = buildContents(body.messages, body.user);

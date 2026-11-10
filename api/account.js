@@ -3,6 +3,7 @@
 //   signup  {email, password}                -> {token, email, recoveryCode, ...me}
 //   login   {email, password}                -> {token, ...me}
 //   recover {email, recoveryCode, password}  -> {token, recoveryCode (new), ...me}
+//   google  {credential}                     -> {token, name, ...me}   (Sign in with Google; needs GOOGLE_CLIENT_ID)
 //   me      (Bearer token)                   -> {email, plan, plusUntil, usage, limit, cloud:{v, updated}}
 //   pull    (Bearer token)                   -> {v, updated, blob}
 //   push    (Bearer token) {blob, baseV, force} -> {v, updated}   409 {conflict:true, v, updated} if the cloud copy changed
@@ -16,6 +17,18 @@ const scrypt = (pw, salt) => new Promise((ok, no) => crypto.scrypt(pw, salt, 64,
 const safeEq = (a, b) => a.length === b.length && crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b));
 const newCode = () => crypto.randomBytes(8).toString('hex').toUpperCase().replace(/(.{4})(?=.)/g, '$1-');
 const cleanEmail = e => String(e || '').trim().toLowerCase();
+const GOOGLE_ID = () => String(process.env.GOOGLE_CLIENT_ID || '').trim();
+// Checks a Google sign-in token with Google itself, so nobody can pretend to own an email address.
+async function verifyGoogle(cred) {
+  const id = GOOGLE_ID();
+  if (!id) throw Object.assign(new Error('Sign in with Google is not switched on yet.'), { code: 503 });
+  if (!/^[A-Za-z0-9._-]{20,4000}$/.test(cred)) throw Object.assign(new Error('Google sign-in failed. Please try again.'), { code: 400 });
+  const r = await fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(cred));
+  const p = await r.json().catch(() => ({}));
+  const okIss = p.iss === 'accounts.google.com' || p.iss === 'https://accounts.google.com';
+  if (!r.ok || p.aud !== id || !okIss || Number(p.exp) * 1000 < Date.now() || String(p.email_verified) !== 'true' || !p.email) throw Object.assign(new Error('Google could not confirm this account. Please try again.'), { code: 401 });
+  return { email: cleanEmail(p.email), sub: String(p.sub || ''), name: String(p.given_name || p.name || '').slice(0, 60) };
+}
 const validEmail = e => /^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,}$/i.test(e) && e.length <= 254;
 
 async function me(email, u) {
@@ -36,7 +49,7 @@ async function noteFail(email, ip) {
 }
 
 module.exports = async function handler(req, res) {
-  if (req.method === 'GET') return S.send(res, 200, { configured: S.configured() });
+  if (req.method === 'GET') return S.send(res, 200, { configured: S.configured(), google: S.configured() ? GOOGLE_ID() : '' });
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return S.send(res, 405, { error: 'Method not allowed.' }); }
   if (!S.configured()) return S.send(res, 503, { configured: false, error: 'Accounts are not switched on for this website yet.' });
   let body;
@@ -45,6 +58,22 @@ module.exports = async function handler(req, res) {
   const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
 
   try {
+    if (action === 'google') {
+      if (Number(await S.cmd('GET', 'sf:ipfail:' + ip)) >= 40) return S.send(res, 429, { error: 'Too many attempts from this network. Wait 15 minutes and try again.' });
+      let g;
+      try { g = await verifyGoogle(String(body.credential || '')); } catch (e) { if (e.code === 401) { await S.cmd('INCR', 'sf:ipfail:' + ip); await S.cmd('EXPIRE', 'sf:ipfail:' + ip, 900); } return S.send(res, e.code || 401, { error: e.message }); }
+      if (!validEmail(g.email)) return S.send(res, 400, { error: 'That Google account has no usable email address.' });
+      const key = S.userKey(g.email);
+      let u = await S.getJSON(key);
+      if (!u) {
+        const sk = 'sf:signup:' + ip; const sn = Number(await S.cmd('INCR', sk)) || 0; if (sn === 1) await S.cmd('EXPIRE', sk, 3600); if (sn > 10) return S.send(res, 429, { error: 'Too many new accounts from this network. Try again in an hour.' });
+        u = { google: g.sub, created: Date.now(), plusUntil: null };
+        const ok = await S.cmd('SET', key, JSON.stringify(u), 'NX');
+        if (!ok) u = await S.getJSON(key);
+      } else if (!u.google) { u.google = g.sub; await S.setJSON(key, u); }
+      if (u.google && g.sub && u.google !== g.sub) return S.send(res, 401, { error: 'This email is linked to a different Google account.' });
+      return S.send(res, 200, { token: S.signSession(g.email), name: g.name, google: true, ...(await me(g.email, u)) });
+    }
     if (action === 'signup' || action === 'login' || action === 'recover') {
       const email = cleanEmail(body.email), pw = String(body.password || '');
       if (!validEmail(email)) return S.send(res, 400, { error: 'Enter a valid email address.' });
@@ -63,11 +92,13 @@ module.exports = async function handler(req, res) {
       }
       const u = await S.getJSON(key);
       if (action === 'login') {
+        if (u && !u.hash) return S.send(res, 401, { error: 'This account uses Sign in with Google. Press “Continue with Google”.' });
         if (!u || !safeEq(await scrypt(pw, u.salt), u.hash)) { await noteFail(email, ip); return S.send(res, 401, { error: 'Email or password is incorrect.' }); }
         return S.send(res, 200, { token: S.signSession(email), ...(await me(email, u)) });
       }
       // recover: the one-time recovery code shown at sign-up resets the password
       const code = String(body.recoveryCode || '').replace(/[^0-9a-f]/gi, '').toUpperCase();
+      if (u && !u.codeHash) return S.send(res, 401, { error: 'This account uses Sign in with Google. Press “Continue with Google”.' });
       if (!u || !code || !safeEq(await scrypt(code, u.codeSalt), u.codeHash)) { await noteFail(email, ip); return S.send(res, 401, { error: 'That recovery code does not match this email.' }); }
       const fresh = newCode();
       u.salt = crypto.randomBytes(16).toString('hex'); u.hash = await scrypt(pw, u.salt);
