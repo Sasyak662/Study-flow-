@@ -109,7 +109,16 @@ module.exports = async function handler(req, res) {
       usageKey = 'sf:usage:' + (u ? email : 'ip:' + ip) + ':' + S.today();
       const used = Number(await S.cmd('INCR', usageKey)) || 0;
       if (used === 1) await S.cmd('EXPIRE', usageKey, 172800);
-      if (used > limit) {
+      // The study pack made right after the survey must always be made, even if today's allowance is used up.
+      // It still counts toward today's total, and is capped separately so it cannot be misused.
+      let firstOk = false;
+      if ((setup || quest) && body.first === true) {
+        const fk = 'sf:first:' + who + ':' + S.today();
+        const fn = Number(await S.cmd('INCR', fk)) || 0;
+        if (fn === 1) await S.cmd('EXPIRE', fk, 172800);
+        firstOk = fn <= 24;
+      }
+      if (used > limit && !firstOk) {
         if (setup || quest) return send(res, 429, { limit: true, quest: true, plan, error: 'You have used today\'s AI allowance, so no new quiz questions can be made until tomorrow.' });
         if (false) return send(res, 429, { limit: true, quest: true, plan, error: 'StudyQuest has made enough new questions for today. More tomorrow!' });
         return send(res, 429, { limit: true, plan, error: plan === 'plus'
