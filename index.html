@@ -9737,100 +9737,6 @@ new MutationObserver(swap).observe(document.body,{childList:true});swap();
 window.sfOpenOnboarding=open;window.StudyFlowSetup={open:open};
 })();
 
-</script><style id="sf-fit-css">
-/* ===== Screen fit: phones, tablets and laptops each get their own layout ===== */
-/* Quiz Studio top box never wider than the phone */
-@media (max-width:760px){
- .kq-hero{grid-template-columns:minmax(0,1fr)!important}
- .kq-hero>*{min-width:0;max-width:100%}
- .kq-hero input,.kq-hero select,.kq-hero button{max-width:100%;min-width:0}
- .kq-pin{max-width:100%}
-}
-/* ---- AI Coach ---- */
-#page-coach .chatbox{min-height:0}
-#page-coach .chatbox .messages{max-height:none!important;min-height:120px;flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain}
-#page-coach .chatbox .chatinput{flex:0 0 auto}
-.sf-cset-sum{display:none}
-@media (min-width:1001px){
- #page-coach .pagehead{padding-top:6px;padding-bottom:6px;min-height:0}
- #page-coach .pagehead h1{font-size:28px;margin:0}
- #page-coach .pagehead p{margin:2px 0 0}
- #page-coach .chatlayout{grid-template-columns:minmax(0,1fr) 280px;grid-template-rows:auto 1fr;align-items:start}
- #page-coach .chatlayout>.chatbox{grid-column:1;grid-row:1 / span 2}
- #page-coach .chatlayout>.coach-live-card{grid-column:2;grid-row:1}
- #page-coach .chatlayout>.sf-cset{grid-column:2;grid-row:2}
- #page-coach .sf-cset .notice{display:none}
-}
-@media (max-width:1000px){
- #page-coach .pagehead{display:none}
- #page-coach .chatlayout{gap:10px}
- #page-coach .chatlayout>.sf-cset{order:1!important}
- #page-coach .chatlayout>.chatbox{order:2!important;padding:12px 12px 10px}
- #page-coach .chatlayout>.coach-live-card{order:3!important}
- /* settings shrink to one tidy line; tap to change */
- #page-coach .sf-cset{padding:10px 14px}
- #page-coach .sf-cset h2{display:none}
- #page-coach .sf-cset-sum{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:2px 0;font:inherit;color:inherit;text-align:left;cursor:pointer}
- #page-coach .sf-cset-sum span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
- #page-coach .sf-cset-sum b{font-size:13px;color:var(--p,#4f46e5);white-space:nowrap}
- #page-coach .sf-cset.sf-closed>:not(.sf-cset-sum){display:none!important}
- #page-coach .sf-cset:not(.sf-closed) .sf-cset-sum{margin-bottom:8px}
- /* suggestion buttons and options: one swipeable line instead of many rows */
- #page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
- #page-coach .chatbox .suggestions::-webkit-scrollbar,#page-coach .chatbox .sfm-row::-webkit-scrollbar{display:none}
- #page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex:0 0 auto;white-space:nowrap}
- #page-coach .chatbox .chathead{padding-bottom:8px}
- #page-coach .chatbox .messages{padding:10px 0}
- #page-coach .chatinput textarea{font-size:16px}/* stops iPhone zooming in */
-}
-/* ---- every page: comfortable on phones ---- */
-@media (max-width:760px){
- input,select,textarea{font-size:16px}
- .page img,.page video{max-width:100%}
-}
-/* very small phones */
-@media (max-width:370px){
- .pagehead h1{font-size:24px}
-}
-/* "Hint first" tick box: normal size, next to its words */
-#page-coach .sfm-row label{display:inline-flex!important;align-items:center;gap:7px;width:auto!important;margin:0 6px 0 0}
-#page-coach .sfm-row label input[type=checkbox]{width:18px!important;height:18px!important;min-height:0!important;min-width:0!important;flex:0 0 18px!important;margin:0;padding:0}
-/* laptops with short screens: keep the quick buttons on one swipeable line so the chat has room */
-@media (min-width:1001px) and (max-height:900px){
- #page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;padding-bottom:4px}
- #page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex:0 0 auto;white-space:nowrap}
-}
-#page-coach .chatbox .messages{min-height:150px}
-
-</style><script id="sf-fit-js">
-/* ===== Screen fit: Coach chat fills the screen; settings tidy; cards in a sensible order ===== */
-(function(){
-function $(s,r){return(r||document).querySelector(s)}
-function coach(){var pg=$('#page-coach');if(!pg)return;var lay=$('.chatlayout',pg);if(!lay)return;
- var set=null;[].slice.call(lay.children).forEach(function(c){if(c.querySelector&&c.querySelector('#coachLevel'))set=c});
- if(set&&!set.classList.contains('sf-cset')){set.classList.add('sf-cset');
-  var b=document.createElement('button');b.type='button';b.className='sf-cset-sum';b.innerHTML='<span>⚙️</span><span id="sfCsetTxt"></span><b>Change</b>';b.firstChild.style.flex='0 0 auto';set.insertBefore(b,set.firstChild);
-  if(innerWidth<=1000)set.classList.add('sf-closed');
-  b.onclick=function(){set.classList.toggle('sf-closed');b.lastChild.textContent=set.classList.contains('sf-closed')?'Change':'Done';size()};
-  set.addEventListener('change',sum);sum()}
- size()}
-function sum(){var t=$('#sfCsetTxt');if(!t)return;var v=function(id){var e=$('#'+id);return e&&e.selectedIndex>=0&&e.options[e.selectedIndex]?e.options[e.selectedIndex].text:(e&&e.value)||''};t.textContent=[v('coachLevel'),v('coachSubject'),v('coachStyle')].filter(Boolean).join(' · ')}
-// Make the chat box exactly fill the free space on the screen, so the typing box is always visible.
-function size(){var pg=$('#page-coach');if(!pg||!pg.classList.contains('active'))return;var box=$('.chatbox',pg);if(!box)return;
- var nav=document.getElementById('sfTabs'),bottom=innerHeight;if(nav&&nav.getClientRects().length){var nr=nav.getBoundingClientRect();if(nr.top>innerHeight/2)bottom=nr.top}
- var top=box.getBoundingClientRect().top+scrollY;// where the chat starts when the page is scrolled to the top
- var h=Math.round(bottom-top-12);
- var min=innerWidth<=1000?470:520;box.style.height=Math.max(min,Math.min(h,1100))+'px'}
-var t0=0;function tick(){coach();settings()}
-function settings(){var pg=$('#page-settings');if(!pg)return;var ph=$('.pagehead',pg);if(!ph)return;['sfLangCard','sqAutoCard'].forEach(function(id){var c=document.getElementById(id);if(c&&c.parentNode===pg&&(ph.compareDocumentPosition(c)&Node.DOCUMENT_POSITION_PRECEDING)){var after=document.getElementById('sfAppearance');pg.insertBefore(c,after&&after.parentNode===pg?after.nextSibling:ph.nextSibling)}})}
-setInterval(tick,1200);setTimeout(tick,300);
-addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
-// re-size when the Coach page is opened
-var _go=window.go;if(typeof _go==='function'){window.go=function(){var r=_go.apply(this,arguments);setTimeout(function(){coach();size()},60);return r}}
-document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='chatText')setTimeout(size,350)});
-if(window.visualViewport)visualViewport.addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
-})();
-
 </script><style id="sf-bk-css">
 .bk-ov{position:fixed;inset:0;z-index:99960;display:flex;flex-direction:column;background:#f6f1e7;color:#1f1b16;opacity:0;transition:opacity .25s;font-family:Georgia,'Iowan Old Style','Times New Roman',serif}
 .bk-ov.in{opacity:1}.bk-ov.th-paper{background:#fdfcf9;color:#1b1b1f}.bk-ov.th-sepia{background:#f4ecd8;color:#3b2f20}.bk-ov.th-night{background:#121417;color:#d7d3cb}
@@ -9931,6 +9837,104 @@ document.addEventListener('click',function(e){
 document.addEventListener('keydown',function(e){if(!$('#bkOv'))return;if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();turn(1)}if(e.key==='ArrowLeft'){e.preventDefault();turn(-1)}if(e.key==='Escape')close()});
 window.addEventListener('resize',function(){if($('#bkOv'))layout()});
 window.sfPreview={open:open,close:close};
+})();
+
+</script><style id="sf-fit-css">
+/* ===== Screen fit: phones, tablets and laptops each get their own layout ===== */
+/* Quiz Studio top box never wider than the phone */
+@media (max-width:760px){
+ .kq-hero{grid-template-columns:minmax(0,1fr)!important}
+ .kq-hero>*{min-width:0;max-width:100%}
+ .kq-hero input,.kq-hero select,.kq-hero button{max-width:100%;min-width:0}
+ .kq-pin{max-width:100%}
+}
+/* ---- AI Coach ---- */
+#page-coach .chatbox{min-height:0}
+#page-coach .chatbox .messages{max-height:none!important;min-height:120px;flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain}
+#page-coach .chatbox .chatinput{flex:0 0 auto}
+.sf-cset-sum{display:none}
+@media (min-width:1001px){
+ #page-coach .pagehead{padding-top:6px;padding-bottom:6px;min-height:0}
+ #page-coach .pagehead h1{font-size:28px;margin:0}
+ #page-coach .pagehead p{margin:2px 0 0}
+ #page-coach .chatlayout{grid-template-columns:minmax(0,1fr) 280px;grid-template-rows:auto 1fr;align-items:start}
+ #page-coach .chatlayout>.chatbox{grid-column:1;grid-row:1 / span 2}
+ #page-coach .chatlayout>.coach-live-card{grid-column:2;grid-row:1}
+ #page-coach .chatlayout>.sf-cset{grid-column:2;grid-row:2}
+ #page-coach .sf-cset .notice{display:none}
+}
+@media (max-width:1000px){
+ #page-coach .pagehead{display:none}
+ #page-coach .chatlayout{gap:10px}
+ #page-coach .chatlayout>.sf-cset{order:1!important}
+ #page-coach .chatlayout>.chatbox{order:2!important;padding:12px 12px 10px}
+ #page-coach .chatlayout>.coach-live-card{order:3!important}
+ /* settings shrink to one tidy line; tap to change */
+ #page-coach .sf-cset{padding:10px 14px}
+ #page-coach .sf-cset h2{display:none}
+ #page-coach .sf-cset-sum{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:2px 0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+ #page-coach .sf-cset-sum span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+ #page-coach .sf-cset-sum b{font-size:13px;color:var(--p,#4f46e5);white-space:nowrap}
+ #page-coach .sf-cset.sf-closed>:not(.sf-cset-sum){display:none!important}
+ #page-coach .sf-cset:not(.sf-closed) .sf-cset-sum{margin-bottom:8px}
+ /* suggestion buttons and options: one swipeable line instead of many rows */
+ #page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+ #page-coach .chatbox .suggestions::-webkit-scrollbar,#page-coach .chatbox .sfm-row::-webkit-scrollbar{display:none}
+ #page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex:0 0 auto;white-space:nowrap}
+ #page-coach .chatbox .chathead{padding-bottom:8px}
+ #page-coach .chatbox .messages{padding:10px 0}
+ #page-coach .chatinput textarea{font-size:16px}/* stops iPhone zooming in */
+}
+/* ---- every page: comfortable on phones ---- */
+@media (max-width:760px){
+ input,select,textarea{font-size:16px}
+ .page img,.page video{max-width:100%}
+}
+/* very small phones */
+@media (max-width:370px){
+ .pagehead h1{font-size:24px}
+}
+/* "Hint first" tick box: normal size, next to its words */
+#page-coach .sfm-row label{display:inline-flex!important;align-items:center;gap:7px;width:auto!important;margin:0 6px 0 0}
+#page-coach .sfm-row label input[type=checkbox]{width:18px!important;height:18px!important;min-height:0!important;min-width:0!important;flex:0 0 18px!important;margin:0;padding:0}
+/* laptops with short screens: keep the quick buttons on one swipeable line so the chat has room */
+@media (min-width:1001px) and (max-height:900px){
+ #page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;padding-bottom:4px}
+ #page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex:0 0 auto;white-space:nowrap}
+}
+#page-coach .chatbox .messages{min-height:150px}
+/* button rows above the typing box never get squashed: only the messages area shrinks */
+#page-coach .chatbox>*:not(.messages){flex-shrink:0!important}
+#page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{min-height:max-content;overflow-y:visible!important;align-items:center;padding-top:2px;padding-bottom:6px}
+#page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex-shrink:0}
+
+</style><script id="sf-fit-js">
+/* ===== Screen fit: Coach chat fills the screen; settings tidy; cards in a sensible order ===== */
+(function(){
+function $(s,r){return(r||document).querySelector(s)}
+function coach(){var pg=$('#page-coach');if(!pg)return;var lay=$('.chatlayout',pg);if(!lay)return;
+ var set=null;[].slice.call(lay.children).forEach(function(c){if(c.querySelector&&c.querySelector('#coachLevel'))set=c});
+ if(set&&!set.classList.contains('sf-cset')){set.classList.add('sf-cset');
+  var b=document.createElement('button');b.type='button';b.className='sf-cset-sum';b.innerHTML='<span>⚙️</span><span id="sfCsetTxt"></span><b>Change</b>';b.firstChild.style.flex='0 0 auto';set.insertBefore(b,set.firstChild);
+  if(innerWidth<=1000)set.classList.add('sf-closed');
+  b.onclick=function(){set.classList.toggle('sf-closed');b.lastChild.textContent=set.classList.contains('sf-closed')?'Change':'Done';size()};
+  set.addEventListener('change',sum);sum()}
+ size()}
+function sum(){var t=$('#sfCsetTxt');if(!t)return;var v=function(id){var e=$('#'+id);return e&&e.selectedIndex>=0&&e.options[e.selectedIndex]?e.options[e.selectedIndex].text:(e&&e.value)||''};t.textContent=[v('coachLevel'),v('coachSubject'),v('coachStyle')].filter(Boolean).join(' · ')}
+// Make the chat box exactly fill the free space on the screen, so the typing box is always visible.
+function size(){var pg=$('#page-coach');if(!pg||!pg.classList.contains('active'))return;var box=$('.chatbox',pg);if(!box)return;
+ var nav=document.getElementById('sfTabs'),bottom=innerHeight;if(nav&&nav.getClientRects().length){var nr=nav.getBoundingClientRect();if(nr.top>innerHeight/2)bottom=nr.top}
+ var top=box.getBoundingClientRect().top+scrollY;// where the chat starts when the page is scrolled to the top
+ var h=Math.round(bottom-top-12);
+ var min=innerWidth<=1000?470:520;box.style.height=Math.max(min,Math.min(h,1100))+'px'}
+var t0=0;function tick(){coach();settings()}
+function settings(){var pg=$('#page-settings');if(!pg)return;var ph=$('.pagehead',pg);if(!ph)return;['sfLangCard','sqAutoCard'].forEach(function(id){var c=document.getElementById(id);if(c&&c.parentNode===pg&&(ph.compareDocumentPosition(c)&Node.DOCUMENT_POSITION_PRECEDING)){var after=document.getElementById('sfAppearance');pg.insertBefore(c,after&&after.parentNode===pg?after.nextSibling:ph.nextSibling)}})}
+setInterval(tick,1200);setTimeout(tick,300);
+addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
+// re-size when the Coach page is opened
+var _go=window.go;if(typeof _go==='function'){window.go=function(){var r=_go.apply(this,arguments);setTimeout(function(){coach();size()},60);return r}}
+document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='chatText')setTimeout(size,350)});
+if(window.visualViewport)visualViewport.addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
 })();
 
 </script></body></html>
