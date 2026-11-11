@@ -1480,11 +1480,11 @@ try{(function(){
   const ms=Object.values(data.mastery),weak=ms.filter(m=>!m.mastered).sort((a,b)=>acc(a)-acc(b)).slice(0,4),strong=ms.filter(m=>m.mastered).slice(0,3);
   const rc=data.hist.slice(-10),ra=rc.length?Math.round(rc.filter(h=>h.ok).length/rc.length*100):null;
   return 'PERSONALISATION: '+(data.profile.name?'The student is '+data.profile.name+'. ':'')+(weak.length?'Weak topics to reinforce: '+weak.map(m=>m.topic+' ('+m.subject+', level '+m.level+'/5)').join('; ')+'. ':'')+(strong.length?'Mastered: '+strong.map(m=>m.topic).join(', ')+'. ':'')+(ra!==null?'Recent quiz accuracy '+ra+'%. ':'')+(data.mistakes.length?'Recent mistakes: '+data.mistakes.slice(0,3).map(m=>String(m.question).slice(0,80)).join(' | ')+'. ':'')
-  +'TEACHING RULES: Adapt to this student. If recent accuracy is above 80% raise the difficulty and reduce scaffolding; if below 50% use smaller steps and simpler words. '+(data.profile.hintFirst!==false?'HINT-FIRST: when asked to solve a problem, first give only a hint or the first step and ask the student to try; give the full solution only when they ask to see it or after two attempts. ':'')+'When the student shares an answer or working, find the exact mistake, explain why it is wrong, state the correct idea, then give one similar practice question. End with one short check-for-understanding question.';
+  +'TEACHING RULES: Adapt to this student. If recent accuracy is above 80% raise the difficulty and reduce scaffolding; if below 50% use smaller steps and simpler words. '+(data.profile.hintFirst===true?'HINT-FIRST: when asked to solve a problem, first give only a hint or the first step and ask the student to try; give the full solution only when they ask to see it or after two attempts. ':'')+'When the student shares an answer or working, find the exact mistake, explain why it is wrong, state the correct idea, then give one similar practice question. End with one short check-for-understanding question.';
  };
  const form=document.getElementById('chatForm');
  if(form){const bar=document.createElement('div');bar.className='sfm-row';bar.style.margin='8px 0';
-  bar.innerHTML='<label class="tiny"><input type="checkbox" id="sfHint"'+(data.profile.hintFirst!==false?' checked':'')+'> Hint first, answer later</label><button type="button" class="btn line sm" data-say="Give me a hint for the last question. Do not give the answer yet.">Give me a hint</button><button type="button" class="btn line sm" data-say="Show me the full worked solution now.">Show full answer</button><button type="button" class="btn line sm" data-say="Here is my working. Find my mistake and explain why it is wrong: ">Find my mistake</button><button type="button" class="btn line sm" data-say="Test me with one question on my weakest topic, then adjust the difficulty.">Test my weak topic</button>';
+  bar.innerHTML='<label class="tiny"><input type="checkbox" id="sfHint"'+(data.profile.hintFirst===true?' checked':'')+'> Hint first, answer later</label><button type="button" class="btn line sm" data-say="Give me a hint for the last question. Do not give the answer yet.">Give me a hint</button><button type="button" class="btn line sm" data-say="Show me the full worked solution now.">Show full answer</button><button type="button" class="btn line sm" data-say="Here is my working. Find my mistake and explain why it is wrong: ">Find my mistake</button><button type="button" class="btn line sm" data-say="Test me with one question on my weakest topic, then adjust the difficulty.">Test my weak topic</button>';
   form.before(bar);
   bar.querySelector('#sfHint').onchange=e=>{data.profile.hintFirst=e.target.checked;localStorage.setItem('studyflow-data',JSON.stringify(data));};
   bar.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>{const t=document.getElementById('chatText');t.value=b.dataset.say;t.focus();if(!b.dataset.say.endsWith(': ')&&form.requestSubmit)form.requestSubmit();});}
@@ -2760,9 +2760,17 @@ function needsCheck(o,answer){
   const qtext=String(o.user||'')+' '+((o.messages||[]).slice(-1)[0]?.content||'');
   return MATHY.test(qtext)&&/\d/.test(answer);
 }
+// Turn LaTeX the AI sometimes writes into normal readable symbols (the app shows plain text).
+function sfTexClean(t){if(!/\\[a-zA-Z]|\^\{|_\{/.test(t))return t;var G={alpha:'α',beta:'β',gamma:'γ',delta:'δ',Delta:'Δ',epsilon:'ε',varepsilon:'ε',theta:'θ',Theta:'Θ',lambda:'λ',Lambda:'Λ',mu:'μ',nu:'ν',pi:'π',Pi:'Π',rho:'ρ',sigma:'σ',Sigma:'Σ',tau:'τ',phi:'φ',varphi:'φ',Phi:'Φ',omega:'ω',Omega:'Ω',eta:'η',chi:'χ',psi:'ψ',infty:'∞',times:'×',cdot:'·',div:'÷',pm:'±',mp:'∓',leq:'≤',le:'≤',geq:'≥',ge:'≥',neq:'≠',ne:'≠',approx:'≈',propto:'∝',to:'→',rightarrow:'→',Rightarrow:'⇒',leftarrow:'←',leftrightarrow:'↔',degree:'°',circ:'°',partial:'∂',nabla:'∇',int:'∫',sum:'Σ',prod:'Π',sqrt:'√',therefore:'∴',because:'∵',angle:'∠',perp:'⊥',parallel:'∥',in:'∈',cdots:'…',ldots:'…',quad:' ',qquad:'  ',hbar:'ħ',sin:'sin ',cos:'cos ',tan:'tan ',cot:'cot ',sec:'sec ',csc:'cosec ',log:'log ',ln:'ln ',exp:'exp ',lim:'lim ',max:'max ',min:'min ',vec:'',hat:'',bar:'',overline:''};
+ var SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','+':'⁺','-':'⁻','n':'ⁿ','i':'ⁱ'},SUB={'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','+':'₊','-':'₋'};
+ var sup=function(x){return x.split('').every(function(c){return SUP[c]})?x.split('').map(function(c){return SUP[c]}).join(''):'^('+x+')'},sub=function(x){return x.split('').every(function(c){return SUB[c]})?x.split('').map(function(c){return SUB[c]}).join(''):'_'+x};
+ for(var k=0;k<4;k++){t=t.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g,function(m,a,b){var w=function(x){return/^[\w.√π°²³]+$/.test(x)?x:'('+x+')'};return w(a)+'/'+w(b)}).replace(/\\sqrt\s*\{([^{}]*)\}/g,function(m,a){return/^[\w.]+$/.test(a)?'√'+a:'√('+a+')'})}
+ t=t.replace(/\\(?:vec|overrightarrow)\s*\{([^{}]*)\}/g,'$1⃗').replace(/\\(?:hat|bar|overline|tilde|dot)\s*\{([^{}]*)\}/g,'$1').replace(/\^\s*\{?\\circ\}?/g,'°').replace(/\\(?:text|mathrm|mathbf|mathit|operatorname)\s*\{([^{}]*)\}/g,'$1').replace(/\\(?:left|right|big|Big|bigg|displaystyle)\s*/g,'').replace(/\\,|\;|\\!|\\ /g,' ')
+  .replace(/\\([a-zA-Z]+)/g,function(m,w){return G[w]!=null?G[w]:m}).replace(/\^\{([^{}]*)\}/g,function(m,a){return sup(a)}).replace(/\^([0-9n+-])/g,function(m,a){return SUP[a]}).replace(/_\{([^{}]*)\}/g,function(m,a){return sub(a)})
+  .replace(/\$\$([^$]+)\$\$/g,'$1').replace(/\$([^$\n]{0,200}?[\\^_{=][^$\n]{0,200}?)\$/g,'$1');return t}
 async function verifyAnswer(o,answer){
   const qtext=String(o.user||'')||String((o.messages||[]).filter(m=>m.role!=='assistant').slice(-1)[0]?.content||'');
-  const r=await callStudyAI({system:'You are a strict maths and science checker. Use code execution to recompute every numerical result and check every algebra step in the ANSWER against the QUESTION. Do not trust the answer. Then reply on the last lines exactly in this format:\nVERDICT: VERIFIED or VERDICT: CORRECTED or VERDICT: UNSURE\nNOTE: one or two sentences\nCORRECTION: the corrected final answer (only when CORRECTED)',user:'QUESTION:\n'+qtext.slice(0,6000)+'\n\nANSWER TO CHECK:\n'+answer.slice(0,9000),temperature:0,codeExecution:true});
+  const r=await callStudyAI({system:'You are a strict maths and science checker. Use code execution to recompute every numerical result and check every algebra step in the ANSWER against the QUESTION. Do not trust the answer. Only check results the ANSWER actually states. If the ANSWER deliberately gives just a hint, a first step or a question for the student to try, and nothing it states is wrong, the verdict is VERIFIED (do not treat a missing final answer as a mistake). Write NOTE and CORRECTION in plain text with normal symbols (√ π ° ² ³ × ÷ ≤ ≥ ±), never LaTeX or backslashes. Then reply on the last lines exactly in this format:\nVERDICT: VERIFIED or VERDICT: CORRECTED or VERDICT: UNSURE\nNOTE: one or two sentences\nCORRECTION: the corrected final answer (only when CORRECTED)',user:'QUESTION:\n'+qtext.slice(0,6000)+'\n\nANSWER TO CHECK:\n'+answer.slice(0,9000),temperature:0,codeExecution:true});
   const t=r.answer||'',v=(t.match(/VERDICT:\s*(VERIFIED|CORRECTED|UNSURE)/i)||[])[1]||'UNSURE';
   const n=((t.match(/NOTE:\s*([\s\S]*?)(?:\nCORRECTION:|$)/i)||[])[1]||'').trim(),c=((t.match(/CORRECTION:\s*([\s\S]*)$/i)||[])[1]||'').trim();
   return {v:v.toUpperCase(),n,c};
@@ -2772,12 +2780,13 @@ if(typeof window.requestStudyAI==='function'&&!window.requestStudyAI.__sf){
   const wrapped=async function(o={}){
     o=Object.assign({},o);
     if(!/connection test/i.test(String(o.system||'')))o.system=String(o.system||'')+TRUST;
-    const ans=await base(o);
+    let ans=await base(o);
+    if(!o.json&&typeof ans==='string')ans=sfTexClean(ans);
     if(!needsCheck(o,ans))return ans;
     try{
       const r=await verifyAnswer(o,ans);
       if(r.v==='VERIFIED')return ans+'\n\n✔ Checked: StudyFlow re-ran the calculations with code and they agree.'+(r.n?' '+r.n:'');
-      if(r.v==='CORRECTED')return ans+'\n\n⚠ Check found a problem: '+(r.n||'a calculation did not match.')+(r.c?'\nCorrected answer: '+r.c:'')+'\nUse the corrected answer and recheck the step it mentions.';
+      if(r.v==='CORRECTED')return ans+'\n\n⚠ Check found a problem: '+(r.n||'a calculation did not match.')+(r.c?'\nCorrected answer: '+sfTexClean(r.c):'')+'\nUse the corrected answer and recheck the step it mentions.';
       return ans+'\n\n? Not fully verified: '+(r.n||'the checker could not confirm every step.')+' Treat the final answer with care.';
     }catch(e){return ans+'\n\n(The automatic calculation check could not run this time.)'}
   };
