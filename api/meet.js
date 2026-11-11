@@ -97,7 +97,7 @@ async function waiting(code) {
   if (gone.length) await cmd('SREM', mk(code) + ':wait', ...gone);
   return out;
 }
-const pubMeet = m => ({ code: m.code, title: m.title, host: m.host, hostName: m.hostName, created: m.created, locked: !!m.locked, chat: m.chat !== false, share: m.share !== false, ended: !!m.ended, classCode: m.classCode || '', spot: m.spot || '', rooms: m.rooms || null, max: limOf(m).max, plus: !!(m && m.plus), endsAt: (m && m.created ? m.created + limOf(m).hours * 3600000 : 0) });
+const pubMeet = m => ({ room: !!m.room, code: m.code, title: m.title, host: m.host, hostName: m.hostName, created: m.created, locked: !!m.locked, chat: m.chat !== false, share: m.share !== false, ended: !!m.ended, classCode: m.classCode || '', spot: m.spot || '', rooms: m.rooms || null, max: limOf(m).max, plus: !!(m && m.plus), endsAt: (m && m.created ? m.created + limOf(m).hours * 3600000 : 0) });
 
 module.exports = async (req, res) => {
   if (req.method === 'GET') return send(res, 200, { configured: configured(), iceServers: await ice(), relay: !!(process.env.CF_TURN_KEY_ID || process.env.MEET_TURN_URL), max: MAX, limits: LIM });
@@ -132,9 +132,76 @@ module.exports = async (req, res) => {
       await cmd('SADD', mk(code) + ':ok', id); await cmd('EXPIRE', mk(code) + ':ok', String(TTL));
       return send(res, 200, { ok: true, code, meeting: pubMeet(await getJSON(mk(code))) });
     }
+    // ---- Permanent class links (saved to the host's account, one link for every class) ----
+    let who = ''; try { who = S_.readSession(req) || ''; } catch (e) {}
+    const rk = c => 'sf:room:' + c, ownK = e => 'sf:rooms:' + e;
+    if (['rooms', 'roomnew', 'roomdel', 'roomback', 'roomname'].includes(action)) {
+      if (!who) return send(res, 401, { error: 'Sign in to keep a permanent class link.' });
+      if (action === 'roomnew') {
+        if ((await cmd('SCARD', ownK(who))) >= 20) return send(res, 400, { error: 'You can keep up to 20 class links. Delete one you do not use.' });
+        let code = '';
+        for (let i = 0; i < 8 && !code; i++) {
+          const c = Array.from({ length: 10 }, () => 'abcdefghijkmnopqrstuvwxyz'[Math.floor(Math.random() * 25)]).join('');
+          if (await cmd('EXISTS', mk(c))) continue;
+          const ok = await cmd('SET', rk(c), JSON.stringify({ code: c, title: clean(b.title, 60) || name + "'s class", owner: who, ownerName: name, created: Date.now(), locked: !!b.locked }), 'NX');
+          if (ok) code = c;
+        }
+        if (!code) return send(res, 500, { error: 'Could not make a link, try again' });
+        await cmd('SADD', ownK(who), code);
+        return send(res, 200, { ok: true, code });
+      }
+      if (action === 'rooms') {
+        const codes = (await cmd('SMEMBERS', ownK(who))) || [];
+        const out = [];
+        if (codes.length) {
+          const vals = await cmd('MGET', ...codes.map(rk));
+          const live = await cmd('MGET', ...codes.map(mk));
+          for (let i = 0; i < codes.length; i++) {
+            let r = null; try { r = vals[i] ? JSON.parse(vals[i]) : null; } catch (e) {}
+            if (!r || r.owner !== who) { await cmd('SREM', ownK(who), codes[i]); continue; }
+            if (r.deleted && Date.now() - r.deleted > 30 * 86400000) { await cmd('DEL', rk(codes[i])); await cmd('SREM', ownK(who), codes[i]); continue; }
+            let lm = null; try { lm = live[i] ? JSON.parse(live[i]) : null; } catch (e) {}
+            out.push({ code: r.code, title: r.title, created: r.created, locked: !!r.locked, deleted: r.deleted || 0, live: !!(lm && lm.room && !lm.ended && Date.now() - lm.created < limOf(lm).hours * 3600000) });
+          }
+        }
+        out.sort((a, c) => c.created - a.created);
+        return send(res, 200, { ok: true, rooms: out });
+      }
+      const rc = normCode(b.code), r = await getJSON(rk(rc));
+      if (!r || r.owner !== who) return send(res, 404, { error: 'That class link was not found' });
+      if (action === 'roomdel') r.deleted = Date.now();
+      else if (action === 'roomback') delete r.deleted;
+      else if (action === 'roomname') { r.title = clean(b.title, 60) || r.title; if (b.locked != null) r.locked = !!b.locked; }
+      await cmd('SET', rk(rc), JSON.stringify(r));
+      return send(res, 200, { ok: true });
+    }
     const code = normCode(b.code);
     if (!okCode(code)) return send(res, 400, { error: 'Meeting codes look like abc-defg-hij' });
-    const m = await getJSON(mk(code));
+    let m = await getJSON(mk(code));
+    const over = x => !x || x.ended || (x.created && Date.now() - x.created > limOf(x).hours * 3600000);
+    if (over(m) && action !== 'end') {
+      const room = await getJSON(rk(code));
+      if (room) {
+        const owner = !!who && who === room.owner;
+        if (room.deleted && !owner) return send(res, 404, { error: 'This class link was deleted by its owner.' });
+        const info = { room: true, notStarted: true, code, title: room.title, hostName: room.ownerName, locked: !!room.locked, ended: false };
+        if (action === 'peek') return send(res, 200, { ok: true, meeting: info, owner, people: [], count: 0 });
+        if (!owner) {
+          if (action === 'join' || action === 'sync') return send(res, 200, { ok: true, waiting: true, notStarted: true, meeting: info });
+          return send(res, 410, { ended: true, error: 'The class has not started yet' });
+        }
+        if (action !== 'join') return send(res, 410, { ended: true, error: 'The class has not started yet' });
+        // the owner starts a fresh class on the same link
+        let plus = false; try { plus = S_.isPlus(await getJSON(S_.userKey(who))); } catch (e) {}
+        await cmd('DEL', ...['', ':att', ':ban', ':ev', ':ms', ':ok', ':seq', ':wait'].map(x => mk(code) + x));
+        if (room.deleted) { delete room.deleted; await cmd('SET', rk(code), JSON.stringify(room)); }
+        m = { code, title: room.title, host: id, hostName: name, created: Date.now(), locked: !!room.locked, chat: true, share: true, ended: false, classCode: '', spot: '', rooms: null, plus, room: true, owner: who };
+        await cmd('SET', mk(code), JSON.stringify(m), 'EX', String(TTL));
+        await cmd('SADD', mk(code) + ':ok', id); await cmd('EXPIRE', mk(code) + ':ok', String(TTL));
+      }
+    }
+    // the link's owner is always the host, even from another device
+    if (m && m.room && m.owner && who === m.owner && m.host !== id && action === 'join') { m.host = id; m.hostName = name; await cmd('SET', mk(code), JSON.stringify(m), 'EX', String(TTL)); }
     if (!m) return send(res, 404, { error: 'That meeting does not exist or has expired' });
     if (m.ended && action !== 'peek') return send(res, 410, { ended: true, error: 'This meeting has ended' });
     if (action !== 'peek' && m.created && Date.now() - m.created > limOf(m).hours * 3600000) return send(res, 410, { ended: true, error: 'This class reached its ' + limOf(m).hours + '-hour limit' + (m.plus ? '.' : '. StudyFlow Plus classes can run for ' + LIM.plus.hours + ' hours.') });
