@@ -2787,9 +2787,17 @@ if(typeof window.requestStudyAI==='function'&&!window.requestStudyAI.__sf){
   const base=window.requestStudyAI;
   const wrapped=async function(o={}){
     o=Object.assign({},o);
-    if(!/connection test/i.test(String(o.system||'')))o.system=String(o.system||'')+TRUST;
+    const isData=!!o.json||/valid JSON|Return ONLY|JSON only|Reply with ONLY JSON/i.test(String(o.system||''));
+    if(!isData&&!/connection test/i.test(String(o.system||'')))o.system=String(o.system||'')+TRUST;
     let ans=await base(o);
-    if(!o.json&&typeof ans==='string')ans=sfTexClean(ans);
+    if(isData&&typeof ans==='string'){
+      // structured replies: remove code fences and any extra lines around the JSON
+      let t=ans.trim().replace(/^```(?:json)?\s*/i,'').replace(/\n?Confidence:[^\n]*$/i,'').trim().replace(/```\s*$/,'').trim();
+      const a=t.search(/[\[{]/),b=Math.max(t.lastIndexOf('}'),t.lastIndexOf(']'));
+      if(a>=0&&b>a){const cut=t.slice(a,b+1);try{JSON.parse(cut);t=cut}catch(e){}}
+      return t;
+    }
+    if(typeof ans==='string')ans=sfTexClean(ans);
     if(!needsCheck(o,ans))return ans;
     try{
       const r=await verifyAnswer(o,ans);
