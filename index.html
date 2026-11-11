@@ -6509,105 +6509,6 @@ window.StudyFlowFocusLock={select:function(k){sel.add(k);drawApps()},state:funct
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
 })();
 
-</script><style id="sf-bk-css">
-.bk-ov{position:fixed;inset:0;z-index:99960;display:flex;flex-direction:column;background:#f6f1e7;color:#1f1b16;opacity:0;transition:opacity .25s;font-family:Georgia,'Iowan Old Style','Times New Roman',serif}
-.bk-ov.in{opacity:1}.bk-ov.th-paper{background:#fdfcf9;color:#1b1b1f}.bk-ov.th-sepia{background:#f4ecd8;color:#3b2f20}.bk-ov.th-night{background:#121417;color:#d7d3cb}
-.bk-top{display:flex;align-items:center;gap:10px;padding:10px 14px;font-family:Inter,system-ui,sans-serif;border-bottom:1px solid rgba(127,127,127,.18)}
-.bk-tt{flex:1;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bk-tools{display:flex;gap:6px}.bk-ic{border:1px solid rgba(127,127,127,.3);background:none;color:inherit;border-radius:10px;min-width:38px;height:38px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
-.bk-stage{flex:1;position:relative;display:flex;justify-content:center;min-height:0;padding:18px 0}
-.bk-page{width:min(680px,calc(100vw - 48px));height:100%;overflow:hidden}
-.bk-flow{column-gap:40px;column-fill:auto;overflow:hidden;line-height:1.65;font-size:17px}
-.bk-flow.turn{animation:bkTurn .32s ease}
-@keyframes bkTurn{from{opacity:.35;transform:translateX(8px)}to{opacity:1;transform:none}}
-.bk-side{position:absolute;top:0;bottom:0;width:22%;border:0;background:none;cursor:pointer;z-index:2}.bk-side.l{left:0;cursor:w-resize}.bk-side.r{right:0;cursor:e-resize}
-.bk-foot{display:flex;align-items:center;gap:12px;padding:10px 18px calc(12px + env(safe-area-inset-bottom));font:12.5px Inter,system-ui,sans-serif;opacity:.75}
-.bk-prog{flex:1;height:4px;border-radius:9px;background:rgba(127,127,127,.25);overflow:hidden}.bk-prog i{display:block;height:100%;background:#6366f1;transition:width .3s}
-.bk-cover{break-after:column;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-.bk-cv{width:min(320px,80%);aspect-ratio:3/4;border-radius:6px 16px 16px 6px;background:linear-gradient(150deg,#312e81,#4338ca 55%,#7c3aed);color:#fff;padding:28px 22px;display:flex;flex-direction:column;justify-content:center;box-shadow:12px 14px 30px -10px rgba(0,0,0,.45),inset 8px 0 0 rgba(0,0,0,.18);break-inside:avoid}
-.bk-cv small{font:700 11px Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.8}.bk-cv h1{font-size:26px;line-height:1.2;margin:12px 0}.bk-cv p{margin:0;opacity:.85;font-size:14px}.bk-cvline{height:2px;background:rgba(255,255,255,.4);margin:20px 30%}.bk-cv span{font:600 12px Inter,system-ui,sans-serif;opacity:.8}
-.bk-tip{font:13px Inter,system-ui,sans-serif;opacity:.6;margin-top:18px}
-.bk-sec{break-before:column}.bk-sec h2{font-size:24px;margin:0 0 12px;line-height:1.25}
-.bk-sample h2{font-size:20px}.bk-sample h3{font-size:17px;margin:18px 0 6px}.bk-sample h4{font-size:15px;font-style:italic;font-weight:400;margin:0 0 10px}
-.bk-sample table,.bk-books table{border-collapse:collapse;width:100%;font-size:.85em;margin:10px 0;break-inside:avoid}.bk-sample td,.bk-sample th{border:1px solid rgba(127,127,127,.3);padding:5px 7px;text-align:left}
-.bk-pt{display:flex;gap:12px;margin:0 0 14px;break-inside:avoid}.bk-pt>span{font-size:22px}.bk-pt b{font-family:Inter,system-ui,sans-serif;font-size:.95em}.bk-pt p{margin:2px 0 0}
-.bk-b{border:1px solid rgba(127,127,127,.25);border-radius:12px;padding:10px 12px;margin:0 0 8px;break-inside:avoid}
-.bk-b summary{display:flex;gap:10px;align-items:center;cursor:pointer;list-style:none;font-family:Inter,system-ui,sans-serif}.bk-b summary::-webkit-details-marker{display:none}
-.bk-b summary b{display:block;font-size:14px}.bk-b summary small{opacity:.7;font-size:12px}
-.bk-n{width:28px;height:28px;border-radius:8px;background:#4338ca;color:#fff;display:grid;place-items:center;font:700 13px Inter,system-ui,sans-serif;flex:0 0 auto}
-.bk-b ol{margin:10px 0 6px;padding-left:22px;font-size:.92em}.bk-intro{font-size:.85em;opacity:.8}
-.bk-buy{display:block;width:100%;margin:10px 0 0;border:0;border-radius:12px;padding:13px;background:#4338ca;color:#fff;font:700 14.5px Inter,system-ui,sans-serif;cursor:pointer}.bk-buy.sm{padding:9px;font-size:13px}
-.bk-buy.alt{background:#7c3aed}.bk-buy.ghost{background:none;color:inherit;border:1px solid rgba(127,127,127,.4)}.bk-buy:disabled{opacity:.7;cursor:default}
-.bk-end{text-align:center;font-style:italic;opacity:.6;margin:20px 0}
-.bk-load{display:grid;place-items:center;height:100%}.bk-spin{width:36px;height:36px;border-radius:50%;border:3px solid rgba(127,127,127,.3);border-top-color:#6366f1;animation:bkSpin .8s linear infinite}@keyframes bkSpin{to{transform:rotate(360deg)}}
-.sf-pv-btn{white-space:nowrap}
-.sfbook .sf-pv-link{border:0;background:none;color:var(--p,#4338ca);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer;padding:4px 6px}
-
-</style><script id="sf-bk-js">
-/* ===== Free book preview: Kindle-style "look inside" for every subject series ===== */
-(function(){
-function $(s,r){return(r||document).querySelector(s)}
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-var cache={},R={page:0,pages:1,fs:+(localStorage.getItem('sfbk-fs')||17),th:localStorage.getItem('sfbk-th')||'paper'};
-function price(){return 299}
-function board(sub){var s=sub||'';return/IGCSE/i.test(s)?'Cambridge IGCSE':/A Level|AS & A|AS and A/i.test(s)?'Cambridge AS & A Level':/IB/i.test(s)?'IB Diploma':/Class|CBSE|NCERT/i.test(s)?'CBSE / NCERT':'your exam'}
-function helps(d){var b=board(d.subject),n=d.books.length,units=d.books.reduce(function(a,x){return a+(x.units.length||10)},0);return[
- ['🎯','Follows your syllabus, in order',n+' books split the whole '+b+' course into '+units+' short units, in the same order your teacher teaches it. You always know exactly what to read next.'],
- ['🧠','Explained simply','Every unit starts with the key ideas in plain words, then worked examples that show each step and why it is done.'],
- ['📝','Exam practice in every unit','Each unit ends with a 10-mark exam-style question and a mark guide, so you learn how marks are really given.'],
- ['⚠️','Common mistakes','Every unit lists the mistakes that lose students marks, so you can avoid them before the exam.'],
- ['⚡','Quick recall','Short recall questions at the end of each unit make revision fast — perfect the night before a test.'],
- ['🤖','Works with your AI Coach','Ask StudyFlow’s AI Coach about any page, or turn a unit into flashcards and quizzes in one tap.']]}
-function better(){return[
- ['✅','Practice with marking, not just notes','Most study guides only summarise. Here every single unit has an exam-style question with a mark guide.'],
- ['📚','Small books, not one heavy guide','Ten focused books instead of one 500-page book. Finish one, feel progress, move on.'],
- ['🔄','Up to date','Written for the current syllabus version, with every answer checked.'],
- ['💸','Fair price','₹'+price()+' per book, and you only buy the books you need.'],
- ['📱','Read anywhere','Instant PDF download for phone, tablet or laptop, and you can print it.']]}
-function bookList(d){return'<div class="bk-books">'+d.books.map(function(b){var t=b.title.replace(/^.*?Book \d+:\s*/,'');return'<details class="bk-b"'+(b.n===1?' open':'')+'><summary><span class="bk-n">'+b.n+'</span><span><b>Book '+b.n+': '+esc(t)+'</b><small>'+(b.units.length||10)+' units · ₹'+price()+'</small></span></summary><ol>'+b.units.map(function(u){return'<li>'+esc(u)+'</li>'}).join('')+'</ol>'+(b.intro?'<p class="bk-intro">'+b.intro+'</p>':'')+'<button type="button" class="bk-buy sm" data-bkadd="'+esc(b.id)+'">Add Book '+b.n+' to cart</button></details>'}).join('')+'</div>'}
-function build(d,startBook){
- var b1=d.books[0],T=function(t,h){return'<section class="bk-sec"><h2>'+t+'</h2>'+h+'</section>'};
- var cover='<section class="bk-cover"><div class="bk-cv"><small>'+esc(board(d.subject))+'</small><h1>'+esc(d.subject)+'</h1><p>'+d.books.length+'-book series · free preview</p><div class="bk-cvline"></div><span>StudyFlow Books</span></div><p class="bk-tip">Tap the right side or swipe to turn the page →</p></section>';
- var inside=T('What’s inside this series','<p>'+d.books.length+' books cover the full course. Tap a book to see every unit.</p>'+bookList(d));
- var help=T('How these books help you',helps(d).map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
- var bet=T('Why they are better',better().map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
- var look=T('Look inside: '+esc(b1.title.replace(/^.*?(Book 1)/,'$1')),'<div class="bk-sample">'+d.sample+'</div><p class="bk-end">— End of free preview —</p>');
- var end='<section class="bk-sec bk-last"><h2>Like what you read?</h2><p>Get the full books as instant PDFs. Start with Book 1, or get the whole series.</p><button type="button" class="bk-buy" data-bkadd="'+esc(b1.id)+'">Add Book 1 to cart · ₹'+price()+'</button><button type="button" class="bk-buy alt" data-bkall="'+esc(d.id)+'">Add all '+d.books.length+' books · ₹'+(price()*d.books.length)+'</button><button type="button" class="bk-buy ghost" data-bkcart>Go to cart</button></section>';
- return cover+inside+help+bet+look+end;
-}
-function open(series,book){
- close();var o=document.createElement('div');o.className='bk-ov th-'+R.th;o.id='bkOv';
- o.innerHTML='<div class="bk-top"><button type="button" class="bk-ic" data-bkx aria-label="Close">✕</button><b class="bk-tt">Loading preview…</b><div class="bk-tools"><button type="button" class="bk-ic" data-bkfs="-1" aria-label="Smaller text">A−</button><button type="button" class="bk-ic" data-bkfs="1" aria-label="Bigger text">A+</button><button type="button" class="bk-ic" data-bkth aria-label="Change page colour">🌓</button></div></div><div class="bk-stage"><button type="button" class="bk-side l" data-bkp="-1" aria-label="Previous page"></button><div class="bk-page" id="bkPage"><div class="bk-flow" id="bkFlow"><div class="bk-load"><div class="bk-spin"></div></div></div></div><button type="button" class="bk-side r" data-bkp="1" aria-label="Next page"></button></div><div class="bk-foot"><div class="bk-prog"><i id="bkBar"></i></div><span id="bkPg"></span></div>';
- document.body.appendChild(o);document.documentElement.classList.add('pm-lock');requestAnimationFrame(function(){o.classList.add('in')});
- var go_=function(d){if(!$('#bkOv'))return;$('.bk-tt',o).textContent=d.subject+' — free preview';$('#bkFlow').innerHTML=build(d,book);$('#bkFlow').style.fontSize=R.fs+'px';R.page=0;setTimeout(function(){layout();if(book&&book>1){var el=$('#bkFlow details:nth-child('+book+')');}},60)};
- if(cache[series])return go_(cache[series]);
- fetch('previews/'+encodeURIComponent(series)+'.json').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){cache[series]=d;go_(d)}).catch(function(){var f=$('#bkFlow');if(f)f.innerHTML='<section class="bk-sec"><h2>Preview not available yet</h2><p>This preview will appear once the website is updated. Please try again later.</p></section>';layout()});
- // swipe
- var x0=null;o.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});o.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>45)turn(dx<0?1:-1);x0=null});
-}
-function close(){var o=$('#bkOv');if(o){o.remove();document.documentElement.classList.remove('pm-lock')}}
-function layout(){var pg=$('#bkPage'),fl=$('#bkFlow');if(!pg||!fl)return;var w=pg.clientWidth;fl.style.columnWidth=w+'px';fl.style.width=w+'px';fl.style.height=pg.clientHeight+'px';
- R.pages=Math.max(1,Math.round(fl.scrollWidth/(w+40)));if(R.page>=R.pages)R.page=R.pages-1;show()}
-function show(){var pg=$('#bkPage'),fl=$('#bkFlow');if(!pg)return;fl.scrollLeft=R.page*(pg.clientWidth+40);$('#bkPg').textContent='Page '+(R.page+1)+' of '+R.pages;$('#bkBar').style.width=((R.page+1)/R.pages*100)+'%';
- fl.classList.remove('turn');void fl.offsetWidth;fl.classList.add('turn')}
-function turn(d){var n=R.page+d;if(n<0||n>=R.pages)return;R.page=n;show()}
-document.addEventListener('click',function(e){
- var p=e.target.closest('[data-preview]');if(p){e.preventDefault();e.stopPropagation();open(p.dataset.preview,+p.dataset.pbook||1);return}
- if(!$('#bkOv'))return;
- if(e.target.closest('[data-bkx]'))return close();
- var t=e.target.closest('[data-bkp]');if(t)return turn(+t.dataset.bkp);
- var f=e.target.closest('[data-bkfs]');if(f){R.fs=Math.max(13,Math.min(24,R.fs+ +f.dataset.bkfs*1.5));try{localStorage.setItem('sfbk-fs',R.fs)}catch(_){}$('#bkFlow').style.fontSize=R.fs+'px';var ratio=R.page/Math.max(1,R.pages-1);layout();R.page=Math.round(ratio*(R.pages-1));show();return}
- if(e.target.closest('[data-bkth]')){var o=['paper','sepia','night'];R.th=o[(o.indexOf(R.th)+1)%3];try{localStorage.setItem('sfbk-th',R.th)}catch(_){}$('#bkOv').className='bk-ov in th-'+R.th;return}
- var a=e.target.closest('[data-bkadd]');if(a){try{sfCartAdd(a.dataset.bkadd)}catch(_){}a.textContent='✓ Added to cart';a.disabled=true;return}
- var al=e.target.closest('[data-bkall]');if(al){var d=cache[al.dataset.bkall];if(d)d.books.forEach(function(b){try{sfCartAdd(b.id)}catch(_){}});al.textContent='✓ All books added';al.disabled=true;return}
- if(e.target.closest('[data-bkcart]')){close();try{go('cart')}catch(_){}}
- if(e.target.closest('details summary'))setTimeout(layout,30);
-},true);
-document.addEventListener('keydown',function(e){if(!$('#bkOv'))return;if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();turn(1)}if(e.key==='ArrowLeft'){e.preventDefault();turn(-1)}if(e.key==='Escape')close()});
-window.addEventListener('resize',function(){if($('#bkOv'))layout()});
-window.sfPreview={open:open,close:close};
-})();
-
 </script><style id="sf-lg-css">
 .lg-ov{position:fixed;inset:0;z-index:99970;background:rgba(15,23,42,.5);display:grid;place-items:center;padding:16px;opacity:0;transition:opacity .2s}
 .lg-ov.in{opacity:1}
@@ -9928,6 +9829,108 @@ addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
 var _go=window.go;if(typeof _go==='function'){window.go=function(){var r=_go.apply(this,arguments);setTimeout(function(){coach();size()},60);return r}}
 document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='chatText')setTimeout(size,350)});
 if(window.visualViewport)visualViewport.addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
+})();
+
+</script><style id="sf-bk-css">
+.bk-ov{position:fixed;inset:0;z-index:99960;display:flex;flex-direction:column;background:#f6f1e7;color:#1f1b16;opacity:0;transition:opacity .25s;font-family:Georgia,'Iowan Old Style','Times New Roman',serif}
+.bk-ov.in{opacity:1}.bk-ov.th-paper{background:#fdfcf9;color:#1b1b1f}.bk-ov.th-sepia{background:#f4ecd8;color:#3b2f20}.bk-ov.th-night{background:#121417;color:#d7d3cb}
+.bk-top{display:flex;align-items:center;gap:10px;padding:10px 14px;font-family:Inter,system-ui,sans-serif;border-bottom:1px solid rgba(127,127,127,.18)}
+.bk-tt{flex:1;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk-tools{display:flex;gap:6px}.bk-ic{border:1px solid rgba(127,127,127,.3);background:none;color:inherit;border-radius:10px;min-width:38px;height:38px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
+.bk-stage{flex:1;position:relative;display:flex;justify-content:center;min-height:0;padding:18px 0}
+.bk-page{width:min(680px,calc(100vw - 48px));height:100%;overflow:hidden}
+.bk-flow{column-gap:40px;column-fill:auto;overflow:hidden;line-height:1.65;font-size:17px}
+.bk-flow.turn{animation:bkTurn .32s ease}
+@keyframes bkTurn{from{opacity:.35;transform:translateX(8px)}to{opacity:1;transform:none}}
+.bk-side{position:absolute;top:0;bottom:0;width:22%;border:0;background:none;cursor:pointer;z-index:2}.bk-side.l{left:0;cursor:w-resize}.bk-side.r{right:0;cursor:e-resize}
+.bk-foot{display:flex;align-items:center;gap:12px;padding:10px 18px calc(12px + env(safe-area-inset-bottom));font:12.5px Inter,system-ui,sans-serif;opacity:.75}
+.bk-prog{flex:1;height:4px;border-radius:9px;background:rgba(127,127,127,.25);overflow:hidden}.bk-prog i{display:block;height:100%;background:#6366f1;transition:width .3s}
+.bk-cover{break-after:column;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.bk-cv{width:min(320px,80%);aspect-ratio:3/4;border-radius:6px 16px 16px 6px;background:linear-gradient(150deg,#312e81,#4338ca 55%,#7c3aed);color:#fff;padding:28px 22px;display:flex;flex-direction:column;justify-content:center;box-shadow:12px 14px 30px -10px rgba(0,0,0,.45),inset 8px 0 0 rgba(0,0,0,.18);break-inside:avoid}
+.bk-cv small{font:700 11px Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.8}.bk-cv h1{font-size:26px;line-height:1.2;margin:12px 0}.bk-cv p{margin:0;opacity:.85;font-size:14px}.bk-cvline{height:2px;background:rgba(255,255,255,.4);margin:20px 30%}.bk-cv span{font:600 12px Inter,system-ui,sans-serif;opacity:.8}
+.bk-tip{font:13px Inter,system-ui,sans-serif;opacity:.6;margin-top:18px}
+.bk-sec{break-before:column}.bk-sec h2{font-size:24px;margin:0 0 12px;line-height:1.25}
+.bk-sample h2{font-size:20px}.bk-sample h3{font-size:17px;margin:18px 0 6px}.bk-sample h4{font-size:15px;font-style:italic;font-weight:400;margin:0 0 10px}
+.bk-sample table,.bk-books table{border-collapse:collapse;width:100%;font-size:.85em;margin:10px 0;break-inside:avoid}.bk-sample td,.bk-sample th{border:1px solid rgba(127,127,127,.3);padding:5px 7px;text-align:left}
+.bk-pt{display:flex;gap:12px;margin:0 0 14px;break-inside:avoid}.bk-pt>span{font-size:22px}.bk-pt b{font-family:Inter,system-ui,sans-serif;font-size:.95em}.bk-pt p{margin:2px 0 0}
+.bk-b{border:1px solid rgba(127,127,127,.25);border-radius:12px;padding:10px 12px;margin:0 0 8px;break-inside:avoid}
+.bk-b summary{display:flex;gap:10px;align-items:center;cursor:pointer;list-style:none;font-family:Inter,system-ui,sans-serif}.bk-b summary::-webkit-details-marker{display:none}
+.bk-b summary b{display:block;font-size:14px}.bk-b summary small{opacity:.7;font-size:12px}
+.bk-n{width:28px;height:28px;border-radius:8px;background:#4338ca;color:#fff;display:grid;place-items:center;font:700 13px Inter,system-ui,sans-serif;flex:0 0 auto}
+.bk-b ol{margin:10px 0 6px;padding-left:22px;font-size:.92em}.bk-intro{font-size:.85em;opacity:.8}
+.bk-buy{display:block;width:100%;margin:10px 0 0;border:0;border-radius:12px;padding:13px;background:#4338ca;color:#fff;font:700 14.5px Inter,system-ui,sans-serif;cursor:pointer}.bk-buy.sm{padding:9px;font-size:13px}
+.bk-buy.alt{background:#7c3aed}.bk-buy.ghost{background:none;color:inherit;border:1px solid rgba(127,127,127,.4)}.bk-buy:disabled{opacity:.7;cursor:default}
+.bk-end{text-align:center;font-style:italic;opacity:.6;margin:20px 0}
+.bk-load{display:grid;place-items:center;height:100%}.bk-spin{width:36px;height:36px;border-radius:50%;border:3px solid rgba(127,127,127,.3);border-top-color:#6366f1;animation:bkSpin .8s linear infinite}@keyframes bkSpin{to{transform:rotate(360deg)}}
+.sf-pv-btn{white-space:nowrap}
+.sfbook .sf-pv-link{border:0;background:none;color:var(--p,#4338ca);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer;padding:4px 6px}
+.bk-sample figure{max-width:100%;overflow:hidden}.bk-sample svg{max-width:100%;height:auto}
+
+</style><script id="sf-bk-js">
+/* ===== Free book preview: Kindle-style "look inside" for every subject series ===== */
+(function(){
+function $(s,r){return(r||document).querySelector(s)}
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+var cache={},R={page:0,pages:1,fs:+(localStorage.getItem('sfbk-fs')||17),th:localStorage.getItem('sfbk-th')||'paper'};
+function price(){return 299}
+function board(sub){var s=sub||'';return/IGCSE/i.test(s)?'Cambridge IGCSE':/A Level|AS & A|AS and A/i.test(s)?'Cambridge AS & A Level':/IB/i.test(s)?'IB Diploma':/Class|CBSE|NCERT/i.test(s)?'CBSE / NCERT':'your exam'}
+function helps(d){var b=board(d.subject),n=d.books.length,units=d.books.reduce(function(a,x){return a+(x.units.length||10)},0);return[
+ ['🎯','Follows your syllabus, in order',n+' books split the whole '+b+' course into '+units+' short units, in the same order your teacher teaches it. You always know exactly what to read next.'],
+ ['🧠','Explained simply','Every unit starts with the key ideas in plain words, then worked examples that show each step and why it is done.'],
+ ['📝','Exam practice in every unit','Each unit ends with a 10-mark exam-style question and a mark guide, so you learn how marks are really given.'],
+ ['⚠️','Common mistakes','Every unit lists the mistakes that lose students marks, so you can avoid them before the exam.'],
+ ['⚡','Quick recall','Short recall questions at the end of each unit make revision fast — perfect the night before a test.'],
+ ['🤖','Works with your AI Coach','Ask StudyFlow’s AI Coach about any page, or turn a unit into flashcards and quizzes in one tap.']]}
+function better(){return[
+ ['✅','Practice with marking, not just notes','Most study guides only summarise. Here every single unit has an exam-style question with a mark guide.'],
+ ['📚','Small books, not one heavy guide','Ten focused books instead of one 500-page book. Finish one, feel progress, move on.'],
+ ['🔄','Up to date','Written for the current syllabus version, with every answer checked.'],
+ ['💸','Fair price','₹'+price()+' per book, and you only buy the books you need.'],
+ ['📱','Read anywhere','Instant PDF download for phone, tablet or laptop, and you can print it.']]}
+function bookList(d){return'<div class="bk-books">'+d.books.map(function(b){var t=b.title.replace(/^.*?Book \d+:\s*/,'');return'<details class="bk-b"'+(b.n===1?' open':'')+'><summary><span class="bk-n">'+b.n+'</span><span><b>Book '+b.n+': '+esc(t)+'</b><small>'+(b.units.length||10)+' units · ₹'+price()+'</small></span></summary><ol>'+b.units.map(function(u){return'<li>'+esc(u)+'</li>'}).join('')+'</ol>'+(b.intro?'<p class="bk-intro">'+b.intro+'</p>':'')+'<button type="button" class="bk-buy sm" data-bkadd="'+esc(b.id)+'">Add Book '+b.n+' to cart</button></details>'}).join('')+'</div>'}
+// A diagram that was saved as text is turned back into a picture (only diagram tags are allowed through)
+function fig(h){return String(h||'').replace(/<p>\s*(&lt;(?:figure|svg)[\s\S]*?&lt;\/(?:figure|svg)&gt;)\s*<\/p>/g,function(m,x){var t=document.createElement('textarea');t.innerHTML=x;var v=t.value;return /<(script|iframe|object|embed|foreignObject)|\son\w+=|javascript:/i.test(v)?m:v})}
+function build(d,startBook){
+ var b1=d.books[0],T=function(t,h){return'<section class="bk-sec"><h2>'+t+'</h2>'+h+'</section>'};
+ var cover='<section class="bk-cover"><div class="bk-cv"><small>'+esc(board(d.subject))+'</small><h1>'+esc(d.subject)+'</h1><p>'+d.books.length+'-book series · free preview</p><div class="bk-cvline"></div><span>StudyFlow Books</span></div><p class="bk-tip">Tap the right side or swipe to turn the page →</p></section>';
+ var inside=T('What’s inside this series','<p>'+d.books.length+' books cover the full course. Tap a book to see every unit.</p>'+bookList(d));
+ var help=T('How these books help you',helps(d).map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
+ var bet=T('Why they are better',better().map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
+ var look=T('Look inside: '+esc(b1.title.replace(/^.*?(Book 1)/,'$1')),'<div class="bk-sample">'+fig(d.sample)+'</div><p class="bk-end">— End of free preview —</p>');
+ var end='<section class="bk-sec bk-last"><h2>Like what you read?</h2><p>Get the full books as instant PDFs. Start with Book 1, or get the whole series.</p><button type="button" class="bk-buy" data-bkadd="'+esc(b1.id)+'">Add Book 1 to cart · ₹'+price()+'</button><button type="button" class="bk-buy alt" data-bkall="'+esc(d.id)+'">Add all '+d.books.length+' books · ₹'+(price()*d.books.length)+'</button><button type="button" class="bk-buy ghost" data-bkcart>Go to cart</button></section>';
+ return cover+inside+help+bet+look+end;
+}
+function open(series,book){
+ close();var o=document.createElement('div');o.className='bk-ov th-'+R.th;o.id='bkOv';
+ o.innerHTML='<div class="bk-top"><button type="button" class="bk-ic" data-bkx aria-label="Close">✕</button><b class="bk-tt">Loading preview…</b><div class="bk-tools"><button type="button" class="bk-ic" data-bkfs="-1" aria-label="Smaller text">A−</button><button type="button" class="bk-ic" data-bkfs="1" aria-label="Bigger text">A+</button><button type="button" class="bk-ic" data-bkth aria-label="Change page colour">🌓</button></div></div><div class="bk-stage"><button type="button" class="bk-side l" data-bkp="-1" aria-label="Previous page"></button><div class="bk-page" id="bkPage"><div class="bk-flow" id="bkFlow"><div class="bk-load"><div class="bk-spin"></div></div></div></div><button type="button" class="bk-side r" data-bkp="1" aria-label="Next page"></button></div><div class="bk-foot"><div class="bk-prog"><i id="bkBar"></i></div><span id="bkPg"></span></div>';
+ document.body.appendChild(o);document.documentElement.classList.add('pm-lock');requestAnimationFrame(function(){o.classList.add('in')});
+ var go_=function(d){if(!$('#bkOv'))return;$('.bk-tt',o).textContent=d.subject+' — free preview';$('#bkFlow').innerHTML=build(d,book);$('#bkFlow').style.fontSize=R.fs+'px';R.page=0;setTimeout(function(){layout();if(book&&book>1){var el=$('#bkFlow details:nth-child('+book+')');}},60)};
+ if(cache[series])return go_(cache[series]);
+ fetch('previews/'+encodeURIComponent(series)+'.json').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){cache[series]=d;go_(d)}).catch(function(){var f=$('#bkFlow');if(f)f.innerHTML='<section class="bk-sec"><h2>Preview not available yet</h2><p>This preview will appear once the website is updated. Please try again later.</p></section>';layout()});
+ // swipe
+ var x0=null;o.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});o.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>45)turn(dx<0?1:-1);x0=null});
+}
+function close(){var o=$('#bkOv');if(o){o.remove();document.documentElement.classList.remove('pm-lock')}}
+function layout(){var pg=$('#bkPage'),fl=$('#bkFlow');if(!pg||!fl)return;var w=pg.clientWidth;fl.style.columnWidth=w+'px';fl.style.width=w+'px';fl.style.height=pg.clientHeight+'px';
+ R.pages=Math.max(1,Math.round(fl.scrollWidth/(w+40)));if(R.page>=R.pages)R.page=R.pages-1;show()}
+function show(){var pg=$('#bkPage'),fl=$('#bkFlow');if(!pg)return;fl.scrollLeft=R.page*(pg.clientWidth+40);$('#bkPg').textContent='Page '+(R.page+1)+' of '+R.pages;$('#bkBar').style.width=((R.page+1)/R.pages*100)+'%';
+ fl.classList.remove('turn');void fl.offsetWidth;fl.classList.add('turn')}
+function turn(d){var n=R.page+d;if(n<0||n>=R.pages)return;R.page=n;show()}
+document.addEventListener('click',function(e){
+ var p=e.target.closest('[data-preview]');if(p){e.preventDefault();e.stopPropagation();open(p.dataset.preview,+p.dataset.pbook||1);return}
+ if(!$('#bkOv'))return;
+ if(e.target.closest('[data-bkx]'))return close();
+ var t=e.target.closest('[data-bkp]');if(t)return turn(+t.dataset.bkp);
+ var f=e.target.closest('[data-bkfs]');if(f){R.fs=Math.max(13,Math.min(24,R.fs+ +f.dataset.bkfs*1.5));try{localStorage.setItem('sfbk-fs',R.fs)}catch(_){}$('#bkFlow').style.fontSize=R.fs+'px';var ratio=R.page/Math.max(1,R.pages-1);layout();R.page=Math.round(ratio*(R.pages-1));show();return}
+ if(e.target.closest('[data-bkth]')){var o=['paper','sepia','night'];R.th=o[(o.indexOf(R.th)+1)%3];try{localStorage.setItem('sfbk-th',R.th)}catch(_){}$('#bkOv').className='bk-ov in th-'+R.th;return}
+ var a=e.target.closest('[data-bkadd]');if(a){try{sfCartAdd(a.dataset.bkadd)}catch(_){}a.textContent='✓ Added to cart';a.disabled=true;return}
+ var al=e.target.closest('[data-bkall]');if(al){var d=cache[al.dataset.bkall];if(d)d.books.forEach(function(b){try{sfCartAdd(b.id)}catch(_){}});al.textContent='✓ All books added';al.disabled=true;return}
+ if(e.target.closest('[data-bkcart]')){close();try{go('cart')}catch(_){}}
+ if(e.target.closest('details summary'))setTimeout(layout,30);
+},true);
+document.addEventListener('keydown',function(e){if(!$('#bkOv'))return;if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();turn(1)}if(e.key==='ArrowLeft'){e.preventDefault();turn(-1)}if(e.key==='Escape')close()});
+window.addEventListener('resize',function(){if($('#bkOv'))layout()});
+window.sfPreview={open:open,close:close};
 })();
 
 </script></body></html>
