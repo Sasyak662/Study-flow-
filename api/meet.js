@@ -12,7 +12,7 @@
 const S_ = require('./_store');
 const { configured, cmd, getJSON, send, readBody } = S_;
 
-const TTL = 11 * 3600, MEMBER_TTL = 25, EV_KEEP = 500;
+const TTL = 11 * 3600, MEMBER_TTL = 25, EV_KEEP = 2000;
 // Free: 30 people for 5 hours. StudyFlow Plus host: 200 people for 10 hours.
 const LIM = { free: { max: 30, hours: 5 }, plus: { max: 200, hours: 10 } };
 const MAX = LIM.free.max;
@@ -22,10 +22,10 @@ const okId = id => /^[a-z0-9]{8,32}$/i.test(String(id || ''));
 const normCode = c => String(c || '').toLowerCase().replace(/^.*[?&]meet=/, '').replace(/[^a-z]/g, '').slice(0, 10);
 const okCode = c => /^[a-z]{10}$/.test(c);
 const mk = c => 'sf:meet:' + c;
-const EVENTS = ['chat', 'react', 'poll', 'vote', 'pollend', 'wb', 'wbclear', 'wbundo', 'wbopen', 'wbclose', 'wbbg', 'bgfx', 'cap', 'timer', 'mute', 'muteall', 'lowerhands', 'note',
+const EVENTS = ['chat', 'react', 'poll', 'vote', 'pollend', 'wb', 'wbclear', 'wbundo', 'wbdel', 'wbmove', 'wbpage', 'wbopen', 'wbclose', 'wbbg', 'bgfx', 'cap', 'timer', 'mute', 'muteall', 'lowerhands', 'note',
   'qa', 'qaup', 'qadone', 'pulse', 'pulsereset', 'lq', 'lqa', 'lqr', 'lqend', 'ccall', 'sprint', 'bcast', 'notes'];
-const HOST_ONLY = ['poll', 'pollend', 'wbclear', 'wbopen', 'wbclose', 'timer', 'mute', 'muteall', 'lowerhands', 'qadone', 'pulsereset', 'lq', 'lqr', 'lqend', 'ccall', 'sprint', 'bcast', 'notes'];
-const HISTORY = ['chat', 'poll', 'vote', 'pollend', 'wb', 'wbclear', 'wbundo', 'wbopen', 'wbclose', 'timer', 'qa', 'qaup', 'qadone', 'pulse', 'pulsereset', 'sprint', 'ccall', 'lq', 'lqr', 'lqend', 'notes'];
+const HOST_ONLY = ['poll', 'pollend', 'wbclear', 'wbopen', 'wbclose', 'wbpage', 'wbbg', 'timer', 'mute', 'muteall', 'lowerhands', 'qadone', 'pulsereset', 'lq', 'lqr', 'lqend', 'ccall', 'sprint', 'bcast', 'notes'];
+const HISTORY = ['chat', 'poll', 'vote', 'pollend', 'wb', 'wbclear', 'wbundo', 'wbdel', 'wbmove', 'wbpage', 'wbbg', 'wbopen', 'wbclose', 'timer', 'qa', 'qaup', 'qadone', 'pulse', 'pulsereset', 'sprint', 'ccall', 'lq', 'lqr', 'lqend', 'notes'];
 
 // ---- chat safety: mask common rude words; non-hosts cannot post links (stops scam/phishing links)
 const BAD = /\b(f+u+c+k+\w*|sh[i1]t+\w*|b[i1]tch\w*|bastard\w*|a+s+s+h+o+l+e+\w*|d[i1]ck\w*|c+u+n+t+\w*|wh[o0]re\w*|slut\w*|retard\w*|n[i1]gg\w*|fag+\w*|madarchod\w*|bhenchod\w*|behenchod\w*|chutiya\w*|bhosd\w*|gaand\w*|randi\w*|mc|bc)\b/gi;
@@ -216,7 +216,7 @@ module.exports = async (req, res) => {
       // Anti-spam: at most 40 events per 10 seconds per person (whiteboard drawing included).
       const rk = 'sf:meetrate:' + code + ':' + id + ':' + Math.floor(Date.now() / 10000);
       const rn = Number(await cmd('INCR', rk)) || 0; if (rn === 1) await cmd('EXPIRE', rk, 20);
-      if (rn > (t === 'wb' ? 120 : 40)) return send(res, 429, { error: 'Slow down a little.' });
+      if (rn > (['wb', 'wbdel', 'wbmove'].includes(t) ? 150 : 40)) return send(res, 429, { error: 'Slow down a little.' });
       // Safer chat for students: hide rude words and links from non-hosts.
       if (['chat', 'qa', 'cap', 'note'].includes(t) && d && typeof d === 'object') d = safeText(d, isHost);
       const seq = await pushEvent(code, { t, from: id, name, d });
