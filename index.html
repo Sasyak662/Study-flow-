@@ -1710,9 +1710,13 @@ const CMD={
  justify:{n:'Justify',d:'Support a case with evidence or argument.'},
  'to what extent':{n:'To what extent',d:'Consider the merits of an argument or concept; reach a clear conclusion supported by evidence and sound argument.'},
  assess:{n:'Assess',d:'Make an informed judgement, weighing the factors involved.'},
- examine:{n:'Examine',d:'Consider an argument or concept in a way that uncovers its assumptions and interrelationships.'}
+ examine:{n:'Examine',d:'Consider an argument or concept in a way that uncovers its assumptions and interrelationships.'},
+ derive:{n:'Derive',d:'Start from a known law or principle and show every logical/algebraic step to reach the required result; state assumptions and draw any diagram asked for.'},
+ prove:{n:'Prove',d:'Give a complete logical argument from accepted facts to the result, with every step justified.'},
+ 'show that':{n:'Show that',d:'The result is given; show clear working that leads to it, step by step.'},
+ draw:{n:'Draw / Sketch',d:'Produce a labelled diagram or graph showing the key features asked for.'}
 };
-const CMD_ORDER=['to what extent','evaluate','discuss','justify','assess','examine','analyse','compare','suggest','calculate','explain','describe','outline','define','identify','state'];
+const CMD_ORDER=['to what extent','evaluate','discuss','justify','assess','examine','analyse','prove','derive','show that','compare','suggest','calculate','explain','describe','outline','draw','define','identify','state'];
 
 /* ---------- small helpers ---------- */
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -2056,7 +2060,7 @@ function importBank(){
 let lastMark=null;
 function detectCmd(q){
  const z=' '+String(q||'').toLowerCase().replace(/\s+/g,' ')+' ';
- for(const k of CMD_ORDER){if(z.includes(' '+k+' ')||z.includes(' '+k+','))return k}
+ for(const k of CMD_ORDER){if(z.includes(' '+k+' ')||z.includes(' '+k+',')||(k==='draw'&&/ sketch[ ,]/.test(z))||(k==='derive'&&/ derivation /.test(z)))return k}
  return 'explain';
 }
 const STOP=new Set('the and that with this from have they their there which what when where will would could should because about into than then them these those your been were being also only more most such very much many some other each over under between after before while within without does doing done make made using used uses like just even both either neither cannot can not its it\'s our out per via'.split(' '));
@@ -2088,6 +2092,8 @@ SYLLABUS ALIGNMENT (most important):
 3. If the question itself is outside this syllabus or level, still mark it, but set "outOfSyllabus" to a short explanation.
 4. Interpret the command word exactly as ${f.board} defines it (for example State/Identify = brief, Describe = what, Explain = why/how with reasons, Analyse = chains of reasoning, Evaluate/Discuss = balanced judgement with a conclusion). Do not give marks for content the command word does not ask for.
 5. Allocate marks the way ${f.board} does for this question type: point-based marking for short answers; for extended answers use the board's level descriptors and assessment objectives (knowledge, application, analysis, evaluation) and place the answer in a level before choosing the mark.
+MULTI-PART QUESTIONS: if the question has several command words (for example State … derive … draw), mark each part against its own command word and make the marking points cover every part, including any diagram that is asked for.
+CONSISTENCY: award a marking point whenever the answer contains it in any correct wording, and never list something under strengths that you marked as 0 — the points you award must match your feedback exactly.
 MARKING RULES: positive marking (never subtract for errors unless the board does), credit valid alternative answers and correct working (error carried forward where the board allows it), no half marks, never exceed ${f.max} marks, and do not invent official mark-scheme wording. If you are unsure, give a range with "low" and "high" and say why. Never claim certainty you do not have. ${STYLE}`,`Mark this answer.
 
 Board/level: ${f.board}
@@ -2754,6 +2760,8 @@ window.fetch=function(input,init){
 const TRUST='\n\nTRUST RULES: Base answers on the student\'s question and any material they supplied. If you are not sure of a fact, say so plainly instead of guessing. Never invent official mark-scheme requirements, quotations, statistics or sources. If you used web sources, name them. End with a line "Confidence: high", "Confidence: medium" or "Confidence: low".';
 const MATHY=/(\d\s*[-+×x*\/÷^=]\s*\d|\b(solve|calculate|evaluate|simplify|differentiate|integrate|derivative|integral|equation|percentage|probability|mean|median|area|volume|speed|velocity|acceleration|moles?|molar|concentration|interest|ratio|proportion|gradient|quadratic|matrix|vector|trigonometr|sin|cos|tan|log)\b)/i;
 function needsCheck(o,answer){
+  // only check normal written answers — never quizzes, flashcards, plans or other structured (JSON) data
+  if(o.json||o.purpose||/valid JSON|Return ONLY|JSON only|"questions"|"cards"/i.test(String(o.system||''))||/^\s*[\[{]/.test(String(answer||'')))return false;
   if(o.verify===false)return false;
   const sys=String(o.system||'');
   if(/Return ONLY valid JSON|Reply with ONLY JSON|connection test/i.test(sys))return false;
@@ -2761,7 +2769,7 @@ function needsCheck(o,answer){
   return MATHY.test(qtext)&&/\d/.test(answer);
 }
 // Turn LaTeX the AI sometimes writes into normal readable symbols (the app shows plain text).
-function sfTexClean(t){if(!/\\[a-zA-Z]|\^\{|_\{/.test(t))return t;var G={alpha:'α',beta:'β',gamma:'γ',delta:'δ',Delta:'Δ',epsilon:'ε',varepsilon:'ε',theta:'θ',Theta:'Θ',lambda:'λ',Lambda:'Λ',mu:'μ',nu:'ν',pi:'π',Pi:'Π',rho:'ρ',sigma:'σ',Sigma:'Σ',tau:'τ',phi:'φ',varphi:'φ',Phi:'Φ',omega:'ω',Omega:'Ω',eta:'η',chi:'χ',psi:'ψ',infty:'∞',times:'×',cdot:'·',div:'÷',pm:'±',mp:'∓',leq:'≤',le:'≤',geq:'≥',ge:'≥',neq:'≠',ne:'≠',approx:'≈',propto:'∝',to:'→',rightarrow:'→',Rightarrow:'⇒',leftarrow:'←',leftrightarrow:'↔',degree:'°',circ:'°',partial:'∂',nabla:'∇',int:'∫',sum:'Σ',prod:'Π',sqrt:'√',therefore:'∴',because:'∵',angle:'∠',perp:'⊥',parallel:'∥',in:'∈',cdots:'…',ldots:'…',quad:' ',qquad:'  ',hbar:'ħ',sin:'sin ',cos:'cos ',tan:'tan ',cot:'cot ',sec:'sec ',csc:'cosec ',log:'log ',ln:'ln ',exp:'exp ',lim:'lim ',max:'max ',min:'min ',vec:'',hat:'',bar:'',overline:''};
+function sfTexClean(t){t=t.replace(/([\w)\]²³°])[ \t]\*[ \t](?=[\w(√π])/g,'$1 × ').replace(/([\w)\]²³°])[ \t]\*[ \t](?=[\w(√π])/g,'$1 × ');if(!/\\[a-zA-Z]|\^\{|_\{/.test(t))return t;var G={alpha:'α',beta:'β',gamma:'γ',delta:'δ',Delta:'Δ',epsilon:'ε',varepsilon:'ε',theta:'θ',Theta:'Θ',lambda:'λ',Lambda:'Λ',mu:'μ',nu:'ν',pi:'π',Pi:'Π',rho:'ρ',sigma:'σ',Sigma:'Σ',tau:'τ',phi:'φ',varphi:'φ',Phi:'Φ',omega:'ω',Omega:'Ω',eta:'η',chi:'χ',psi:'ψ',infty:'∞',times:'×',cdot:'·',div:'÷',pm:'±',mp:'∓',leq:'≤',le:'≤',geq:'≥',ge:'≥',neq:'≠',ne:'≠',approx:'≈',propto:'∝',to:'→',rightarrow:'→',Rightarrow:'⇒',leftarrow:'←',leftrightarrow:'↔',degree:'°',circ:'°',partial:'∂',nabla:'∇',int:'∫',sum:'Σ',prod:'Π',sqrt:'√',therefore:'∴',because:'∵',angle:'∠',perp:'⊥',parallel:'∥',in:'∈',cdots:'…',ldots:'…',quad:' ',qquad:'  ',hbar:'ħ',sin:'sin ',cos:'cos ',tan:'tan ',cot:'cot ',sec:'sec ',csc:'cosec ',log:'log ',ln:'ln ',exp:'exp ',lim:'lim ',max:'max ',min:'min ',vec:'',hat:'',bar:'',overline:''};
  var SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','+':'⁺','-':'⁻','n':'ⁿ','i':'ⁱ'},SUB={'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','+':'₊','-':'₋'};
  var sup=function(x){return x.split('').every(function(c){return SUP[c]})?x.split('').map(function(c){return SUP[c]}).join(''):'^('+x+')'},sub=function(x){return x.split('').every(function(c){return SUB[c]})?x.split('').map(function(c){return SUB[c]}).join(''):'_'+x};
  for(var k=0;k<4;k++){t=t.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g,function(m,a,b){var w=function(x){return/^[\w.√π°²³]+$/.test(x)?x:'('+x+')'};return w(a)+'/'+w(b)}).replace(/\\sqrt\s*\{([^{}]*)\}/g,function(m,a){return/^[\w.]+$/.test(a)?'√'+a:'√('+a+')'})}
@@ -4987,7 +4995,7 @@ function ordinal(n){var s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||
 function aiQuiz(topic,count,subject){
  if(typeof requestStudyAI!=='function'||!(typeof aiAvailable==='function'&&aiAvailable()))return Promise.reject(new Error(location.protocol==='file:'?'AI quizzes work on the published website, not a local file.':'The AI is not reachable right now.'));
  var lvl=(D()&&D().profile&&D().profile.level)||'Grade 10';
- return requestStudyAI({system:'You are an educational quiz writer for a fast multiple-choice quiz game. Return ONLY valid JSON, no Markdown: {"questions":[{"question":"...","options":["A","B","C","D"],"correctIndex":0,"explanation":"one short sentence"}]}. Questions must be accurate, specific, distinct, at most 120 characters; options at most 60 characters; exactly four options with one correct answer; vary the position of the correct answer.',user:'Make exactly '+count+' multiple-choice questions about: '+topic+(subject?' (subject: '+subject+')':'')+'. Student level: '+lvl+'.',temperature:.3}).then(function(txt){
+ return requestStudyAI({system:'You are an educational quiz writer for a fast multiple-choice quiz game. Return ONLY valid JSON, no Markdown: {"questions":[{"question":"...","options":["A","B","C","D"],"correctIndex":0,"explanation":"one short sentence"}]}. Questions must be accurate, specific, distinct, at most 120 characters; options at most 60 characters; exactly four options with one correct answer; vary the position of the correct answer. Match the difficulty to the student level given: for upper secondary (Grade 11–12, A Level, IB) most questions should test understanding or application, not just recall. If the topic mentions calculations, numericals, problems or equations, at least half the questions must be short numerical problems with worked numbers in the options (use realistic values and correct units, e.g. using the Nernst equation or Faraday\'s laws). Wrong options should be common mistakes. Never use LaTeX; use plain symbols like ×, ÷, √, ², °, Δ, log.',user:'Make exactly '+count+' multiple-choice questions about: '+topic+(subject?' (subject: '+subject+')':'')+'. Student level: '+lvl+'.',temperature:.3}).then(function(txt){
   var t=String(txt||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'');var j=JSON.parse(t);var arr=Array.isArray(j)?j:j.questions;if(!Array.isArray(arr)||!arr.length)throw new Error('The AI reply had no questions');
   var qs=arr.slice(0,count).map(function(q){var o=(q.options||[]).map(String).slice(0,4);var c=Number.isInteger(q.correctIndex)?q.correctIndex:o.indexOf(q.answer);return{text:String(q.question||q.text||'').trim(),options:o,correct:c,explain:String(q.explanation||''),time:20}}).filter(function(q){return q.text&&q.options.length===4&&q.correct>=0&&q.correct<4});
   if(!qs.length)throw new Error('The AI reply was incomplete');
