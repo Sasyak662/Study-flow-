@@ -8950,6 +8950,22 @@ if(window.visualViewport)visualViewport.addEventListener('resize',function(){cle
 .sf-cls-steps li{counter-increment:st;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted,#475569)}
 .sf-cls-steps li::before{content:counter(st);flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#fff1e6;color:#ea580c;font-weight:800;font-size:13px}
 .sf-cls-steps b{color:var(--ink,#0f172a)}
+#page-classes:not(.sf-live) #sfLiveCards{display:none!important}
+/* banner on top keeps its pictures; its buttons move into the boxes below */
+#lvHub .lv-hub-a{display:none!important}
+.sf-lcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin-top:17px}
+.sf-lc{margin:0;display:flex;flex-direction:column;gap:14px}
+.sf-lc-h{display:flex;gap:12px;align-items:flex-start}.sf-lc-h h2{margin:0 0 2px;font-size:18px}.sf-lc-h p{margin:0}
+.sf-lc-i{flex:0 0 42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:#eef2ff}
+.sf-lc-opts{display:grid;gap:10px}
+.sf-lc-o{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:12px 14px;border-radius:14px;border:1px solid var(--line,#e2e8f0);background:var(--card,#fff);cursor:pointer;font:inherit;color:inherit;transition:border-color .15s,transform .15s}
+.sf-lc-o:hover{border-color:#8b5cf6;transform:translateY(-1px)}
+.sf-lc-o b{font-size:15px}.sf-lc-o small{color:var(--muted,#64748b);font-size:13px}
+.sf-lc-o.pri{background:linear-gradient(135deg,#7c3aed,#4f46e5);border-color:transparent;color:#fff}.sf-lc-o.pri small{color:#e0e7ff}
+.sf-lc-join{display:flex;gap:8px}.sf-lc-join input{flex:1;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid var(--line,#d6d9e8);font:inherit;font-size:16px}
+.sf-lc-tips{list-style:none;margin:2px 0 0;padding:12px 0 0;border-top:1px solid var(--line,#e5e7eb);display:grid;gap:8px;font-size:14px;color:var(--muted,#475569)}
+#sfLcMsg .lv-hub-msg{margin:0;color:inherit;font-size:14px;word-break:break-all}
+@media (max-width:860px){.sf-lcards{grid-template-columns:minmax(0,1fr)}}
 
 </style><script id="sf-clsx-js">
 /* ===== Classes page: role-based layout, separate Live video tab, rejoin last class ===== */
@@ -8977,6 +8993,24 @@ function apply(){var live=TAB==='live';var hub=document.getElementById('lvHub');
  if(live&&hub&&last&&last.code&&Date.now()-last.at<8*3600e3){if(!rj){rj=document.createElement('div');rj.id='sfRejoin';rj.className='card sf-rejoin';hub.after(rj);rj.addEventListener('click',function(e){var b=e.target.closest('[data-rj]');if(!b)return;if(b.dataset.rj==='x'){try{localStorage.removeItem('sf-last-meet')}catch(_){}rj.remove();return}var i=document.getElementById('lvHubCode'),f=document.getElementById('lvHubJoin');if(i&&f){i.value=last.code;i.dispatchEvent(new Event('input',{bubbles:true}));var sb=f.querySelector('button[type=submit]');if(sb)sb.disabled=false;if(f.requestSubmit)f.requestSubmit();else sb.click()}})}
   rj.innerHTML='<div><b>↩️ Rejoin your last class</b><small>'+esc(last.title||'Live class')+' · code '+esc(last.code)+' · you will join as '+(last.host?'the <b>host</b>':'a student')+'</small></div><div class="sf-rj-a"><button type="button" class="btn sm" data-rj="go">Rejoin</button><button type="button" class="link" data-rj="x">Dismiss</button></div>'}
  else if(rj)rj.remove()}
+
+// ---- Live video class: clear Host and Join boxes under the banner ----
+function liveCards(){var hub=document.getElementById('lvHub');if(!hub||document.getElementById('sfLiveCards'))return;
+ var w=document.createElement('div');w.id='sfLiveCards';w.className='sf-lcards';
+ w.innerHTML='<div class="card sf-lc"><div class="sf-lc-h"><span class="sf-lc-i">🎥</span><div><h2>Host a live class</h2><p class="tiny muted">Anyone can host — a study group, your students or your family. Up to 30 people.</p></div></div>'
+ +'<div class="sf-lc-opts"><button type="button" class="sf-lc-o pri" data-lc="instant"><b>Start now</b><small>Open a class instantly</small></button><button type="button" class="sf-lc-o" data-lc="locked"><b>Start with a waiting room</b><small>You let each person in</small></button><button type="button" class="sf-lc-o" data-lc="later"><b>Make a link for later</b><small>Share it before class</small></button></div><div id="sfLcMsg"></div></div>'
+ +'<div class="card sf-lc"><div class="sf-lc-h"><span class="sf-lc-i">🔑</span><div><h2>Join a live class</h2><p class="tiny muted">Type the class code or paste the link you were given.</p></div></div>'
+ +'<form class="sf-lc-join" id="sfLcJoin"><input id="sfLcCode" placeholder="e.g. abc-defg-hij" autocomplete="off" autocapitalize="off"><button class="btn" type="submit">Join</button></form><p class="tiny muted" id="sfLcErr" style="margin:8px 0 0"></p>'
+ +'<ul class="sf-lc-tips"><li>📷 Check your camera and microphone before you join</li><li>✋ Raise your hand, chat and ask questions inside the class</li><li>🧠 Live quizzes, whiteboard and AI class notes</li></ul></div>';
+ hub.after(w);
+ var msg=document.getElementById('lvHubMsg');if(msg)w.querySelector('#sfLcMsg').appendChild(msg);
+ w.addEventListener('click',function(e){var b=e.target.closest('[data-lc]');if(!b)return;var a=b.dataset.lc;
+  if(a==='instant'||a==='locked'){if(window.StudyFlowLive)StudyFlowLive.start(a==='locked'?{locked:true}:{});return}
+  var t=hub.querySelector('[data-lvh="later"]');if(t)t.click()});
+ w.querySelector('#sfLcJoin').addEventListener('submit',function(e){e.preventDefault();var v=w.querySelector('#sfLcCode').value.trim();var m=v.match(/meet=([a-z0-9-]+)/i);if(m)v=m[1];var cd=v.toLowerCase().replace(/[^a-z]/g,'');
+  if(cd.length!==10){w.querySelector('#sfLcErr').textContent='That code looks wrong — it has 10 letters, like abc-defg-hij.';return}w.querySelector('#sfLcErr').textContent='';
+  var i=document.getElementById('lvHubCode'),f=document.getElementById('lvHubJoin');if(i&&f){i.value=cd;i.dispatchEvent(new Event('input',{bubbles:true}));var sb=f.querySelector('button[type=submit]');if(sb)sb.disabled=false;if(f.requestSubmit)f.requestSubmit();else sb.click()}})}
+setInterval(liveCards,800);
 window.sfClsTab=function(t){TAB=t==='live'?'live':'classes';try{localStorage.setItem('sf-cls-tab',TAB)}catch(e){}apply()};
 setInterval(function(){var pg=document.getElementById('page-classes');if(pg&&pg.offsetParent)setup()},700);
 })();
@@ -9345,6 +9379,11 @@ body.lv-open{overflow:hidden}
 .lv-alarm button{border:0;border-radius:12px;background:#dc2626;color:#fff;font-weight:800;padding:10px 22px;font-size:16px;cursor:pointer}
 @keyframes lvAl{from{background:rgba(220,38,38,.08)}to{background:rgba(220,38,38,.35)}}
 .lv-fxm>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;max-height:60vh;overflow:auto}
+/* clock / class code / time left: top of the screen, never on top of name tags */
+.lv-clock{top:20px!important;bottom:auto!important;left:50%!important;transform:translateX(-50%)}
+@media (max-width:760px){.lv-clock{display:none!important}.lv-tile .lv-tn{max-width:calc(100% - 58px)}}
+/* your own small tile on phones: no extra button over it, name gets the full width */
+@media (max-width:760px){.lv-tile.pip .lv-th{display:none!important}.lv-tile.pip .lv-tn{max-width:calc(100% - 16px);left:8px;bottom:8px;font-size:12px;padding:4px 8px 4px 5px}}
 
 </style><script id="sf-lv-js">
 /* ===== StudyFlow Live — video classes ===== */
