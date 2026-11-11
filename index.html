@@ -9644,6 +9644,9 @@ html[data-dark] .iq-world{background:#1a2a31;border-color:#37464f;color:#f1f7fb}
 .iq3-load small{opacity:.85;font-size:14px}
 .iq3-spin{width:54px;height:54px;border-radius:50%;border:5px solid rgba(255,255,255,.35);border-top-color:#fff;animation:iq3spin .9s linear infinite}
 @keyframes iq3spin{to{transform:rotate(360deg)}}
+.iq3-skip{margin-left:6px;background:#fff;color:#1d4ed8;border:0;border-radius:999px;padding:5px 12px;font-weight:700;cursor:pointer}
+.iq3-why{position:absolute;left:12px;bottom:12px;z-index:30;max-width:calc(100% - 24px);background:rgba(15,23,42,.82);color:#fff;font-size:12px;padding:7px 10px;border-radius:10px}
+.iq3-why button{margin-left:6px;background:#fff;color:#0f172a;border:0;border-radius:999px;padding:3px 10px;font-weight:700;cursor:pointer}
 
 </style><script id="sf-iq-js">
 (function(){
@@ -9792,7 +9795,7 @@ function toScreen(x,y){var p=iso(x,y);return{x:(p.x-G.cam.x)*G.zoom+G.w/2,y:(p.y
 function toTile(sx,sy){var X=(sx-G.w/2)/G.zoom+G.cam.x,Y=(sy-G.h/2)/G.zoom+G.cam.y;var tx=(X/(TW/2)+Y/(TH/2))/2,ty=(Y/(TH/2)-X/(TW/2))/2;return{x:Math.floor(tx+.5),y:Math.floor(ty+.5)}}
 function night(){var h=new Date().getHours()+new Date().getMinutes()/60;if(h>=19.5||h<5.5)return 1;if(h>=18)return(h-18)/1.5;if(h<7)return 1-(h-5.5)/1.5;return 0}
 function resize(){var r=G.wrap.getBoundingClientRect();G.dpr=Math.min(2,window.devicePixelRatio||1);G.w=r.width;G.h=r.height;G.cv.width=Math.round(r.width*G.dpr);G.cv.height=Math.round(r.height*G.dpr);G.ctx.setTransform(G.dpr,0,0,G.dpr,0,0);if(G.r3&&G.r3.resize)G.r3.resize();if(!G.zoomSet&&r.width>50){G.zoom=r.width<600?1:Math.max(1,Math.min(1.6,r.width/800));G.zoomSet=1}}
-function loop(ts){G.raf=requestAnimationFrame(loop);if(!isOn()||document.hidden)return;var dt=Math.min(G.r3&&G.r3.ok?.12:.05,(ts-(G.last||ts))/1000);G.last=ts;G.t+=dt;update(dt);if(G.r3&&G.r3.ok){try{G.r3.frame(dt)}catch(e){console.warn(e);G.r3.ok=false;G.cv.style.display=''}}else draw()}
+function loop(ts){G.raf=requestAnimationFrame(loop);if(!isOn()||document.hidden)return;var dt=Math.min(G.r3&&G.r3.ok?.12:.05,(ts-(G.last||ts))/1000);G.last=ts;G.t+=dt;update(dt);if(G.r3&&G.r3.ok){try{G.r3.frame(dt);G.r3.errN=0}catch(e){console.warn(e);G.r3.errN=(G.r3.errN||0)+1;G.r3.lastErr=String(e&&e.message||e);if(G.r3.errN>90){G.r3.ok=false;G.cv.style.display='';if(G.r3.why)G.r3.why('The 3D view stopped: '+G.r3.lastErr)}}}else draw()}
 function update(dt){var p=G.p;
  // keyboard movement
  if(false){var kx=0,ky=0;if(G.keys.ArrowUp||G.keys.w)ky=-1;else if(G.keys.ArrowDown||G.keys.s)ky=1;else if(G.keys.ArrowLeft||G.keys.a)kx=-1;else if(G.keys.ArrowRight||G.keys.d)kx=1;for(var kr=0;kr<(G.keyRot||0);kr++){var kt=kx;kx=-ky;ky=kt}if(kx||ky){var nx=p.x+kx,ny=p.y+ky;if(walk(nx,ny)){p.path=[[nx,ny]];G.target=null}}}
@@ -10085,15 +10088,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 var LIB='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
 var T,SI,I,G,R={ok:false};
 function webgl(){try{var c=document.createElement('canvas');return!!(window.WebGLRenderingContext&&(c.getContext('webgl')||c.getContext('experimental-webgl')))}catch(e){return false}}
-var LQ=null;function loadLib(cb){if(window.THREE)return cb();if(LQ){LQ.push(cb);return}LQ=[cb];var s=document.createElement('script');s.src=LIB;s.async=true;s.onload=function(){var q=LQ;q.forEach(function(f){try{f()}catch(e){}})};s.onerror=function(){console.warn('3D engine could not load — using 2D island');R.fail=1;unveil()};document.head.appendChild(s)}
+var LQ=null,SRCS=['/three-r128.min.js',LIB];function loadLib(cb){if(window.THREE)return cb();if(LQ){LQ.push(cb);return}LQ=[cb];var tryN=function(i){var s=document.createElement('script');s.src=SRCS[i];s.async=true;s.onload=function(){if(!window.THREE){s.onerror();return}var q=LQ;q.forEach(function(f){try{f()}catch(e){}})};s.onerror=function(){if(i+1<SRCS.length)return tryN(i+1);console.warn('3D engine could not load — using 2D island');R.fail=1;why('The 3D engine could not download. Check the internet and try again.');unveil()};document.head.appendChild(s)};tryN(0)}
 function boot(){SI=window.StudyFlowIsland;if(!SI||!SI._G||!SI._G.wrap||!SI._I){setTimeout(boot,300);return}
  // While the 3D engine loads, show a loading card instead of the old flat 2D map
- if(webgl()&&!R.veil){var G0=SI._G;R.veil=document.createElement('div');R.veil.className='iq3-load';R.veil.innerHTML='<div class="iq3-spin"></div><b>Building your 3D island…</b><small>This takes a few seconds the first time</small>';G0.wrap.appendChild(R.veil);G0.cv.style.visibility='hidden';R.veilT=setTimeout(function(){if(!R.ok){R.fail=1;unveil()}},25000);
+ if(webgl()&&!R.veil){var G0=SI._G;R.veil=document.createElement('div');R.veil.className='iq3-load';R.veil.innerHTML='<div class="iq3-spin"></div><b>Building your 3D island…</b><small>This takes a few seconds the first time</small>';G0.wrap.appendChild(R.veil);G0.cv.style.visibility='hidden';R.veilT=setTimeout(function(){if(!R.ok&&R.veil){var sm=R.veil.querySelector('small');if(sm)sm.innerHTML='Still loading — your internet may be slow. <button type="button" class="iq3-skip">Use the simple map</button>';var bt=R.veil.querySelector('.iq3-skip');if(bt)bt.onclick=function(){R.fail=1;unveil()}}},20000);
   if(!window.THREE){var pre=function(){loadLib(function(){})};if(window.requestIdleCallback)requestIdleCallback(pre,{timeout:3000});else setTimeout(pre,1500)}}
- var go=function(){if(R.started||!webgl())return;R.started=1;loadLib(function(){if(R.fail&&!R.veil)return;try{setup();requestAnimationFrame(function(){requestAnimationFrame(unveil)})}catch(e){console.warn('3D island failed',e);R.ok=false;if(G&&G.cv)G.cv.style.display='';R.fail=1;unveil()}})};
+ if(!webgl())why('This browser has 3D graphics (WebGL) switched off, so the simple map is shown.');
+ var go=function(){if(R.started||!webgl())return;R.started=1;loadLib(function(){if(R.fail&&!R.veil)return;var att=function(n){try{setup();requestAnimationFrame(function(){requestAnimationFrame(unveil)})}catch(e){console.warn('3D island failed',e);R.ok=false;var c3=G&&G.wrap&&G.wrap.querySelector('.iq3-cv');if(c3)c3.remove();if(n<1){setTimeout(function(){att(n+1)},1500);return}if(G&&G.cv)G.cv.style.display='';R.fail=1;why('3D could not start on this device: '+(e&&e.message||e));unveil()}};att(0)})};
  if(document.body.dataset.sfpage==='quest')go();else{var mo=new MutationObserver(function(){if(document.body.dataset.sfpage==='quest'){mo.disconnect();go()}});mo.observe(document.body,{attributes:true,attributeFilter:['data-sfpage']})}}
 
-function unveil(){var G1=SI&&SI._G;if(G1&&G1.cv)G1.cv.style.visibility='';if(R.veil){var v=R.veil;R.veil=null;clearTimeout(R.veilT);v.classList.add('out');setTimeout(function(){v.remove()},400)}}
+function why(t){R.whyT=t;try{localStorage.setItem('sf-3d-why',t)}catch(e){}var G2=SI&&SI._G;if(!G2||!G2.wrap)return;var n=G2.wrap.querySelector('.iq3-why');if(!n){n=document.createElement('div');n.className='iq3-why';G2.wrap.appendChild(n)}n.innerHTML='Simple map · '+String(t).replace(/[<>&]/g,'')+' <button type="button">Try 3D again</button>';n.querySelector('button').onclick=function(){location.reload()}}
+R.why=why;
+function unveil(){var G1=SI&&SI._G;if(R.ok&&G1&&G1.wrap){var wn=G1.wrap.querySelector('.iq3-why');if(wn)wn.remove();try{localStorage.removeItem('sf-3d-why')}catch(e){}}if(G1&&G1.cv)G1.cv.style.visibility='';if(R.veil){var v=R.veil;R.veil=null;clearTimeout(R.veilT);v.classList.add('out');setTimeout(function(){v.remove()},400)}}
 /* ---------- helpers ---------- */
 var MATS={},pathIM=null,tuftIM=null,nearRing=null,zs=0,JS={x:0,y:0,kx:0,ky:0};
 function mat(c,o){var k=c+'|'+(o?JSON.stringify(o):'');if(!MATS[k]){var p={color:c,flatShading:true,roughness:.85,metalness:0};if(o)for(var q in o)p[q]=o[q];MATS[k]=new T.MeshStandardMaterial(p)}return MATS[k]}
