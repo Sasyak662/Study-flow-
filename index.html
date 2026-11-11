@@ -9907,6 +9907,13 @@ window.sfPreview={open:open,close:close};
 #page-coach .chatbox>*:not(.messages){flex-shrink:0!important}
 #page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{min-height:max-content;overflow-y:visible!important;align-items:center;padding-top:2px;padding-bottom:6px}
 #page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex-shrink:0}
+/* Chat only: no quick-button rows, bigger message area */
+#page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row,#page-coach #coachVoiceStatus{display:none!important}
+#page-coach .chatbox .speak-row{margin-top:6px}
+#page-coach .chatbox .speak-row .btn,#page-coach .chatbox .speak-row button{padding:5px 12px;font-size:13px}
+@media (min-width:1001px){#page-coach .pagehead{display:none}}
+.sf-hintset{display:flex;align-items:center;gap:8px;margin:12px 0 4px;font-size:14px;cursor:pointer}
+.sf-hintset input{width:18px;height:18px;margin:0;flex:0 0 18px}
 
 </style><script id="sf-fit-js">
 /* ===== Screen fit: Coach chat fills the screen; settings tidy; cards in a sensible order ===== */
@@ -9919,6 +9926,9 @@ function coach(){var pg=$('#page-coach');if(!pg)return;var lay=$('.chatlayout',p
   if(innerWidth<=1000)set.classList.add('sf-closed');
   b.onclick=function(){set.classList.toggle('sf-closed');b.lastChild.textContent=set.classList.contains('sf-closed')?'Change':'Done';size()};
   set.addEventListener('change',sum);sum()}
+ // the 'Hint first' switch lives in the coach settings now (the button rows are hidden)
+ var hb=document.getElementById('sfHint'),setc=document.querySelector('#page-coach .sf-cset');
+ if(hb&&setc&&!setc.contains(hb)){var lab=document.createElement('label');lab.className='sf-hintset';lab.appendChild(hb);lab.appendChild(document.createTextNode(' Give hints first, full answer when I ask'));var note=setc.querySelector('.notice');setc.insertBefore(lab,note||null)}
  size()}
 function sum(){var t=$('#sfCsetTxt');if(!t)return;var v=function(id){var e=$('#'+id);return e&&e.selectedIndex>=0&&e.options[e.selectedIndex]?e.options[e.selectedIndex].text:(e&&e.value)||''};t.textContent=[v('coachLevel'),v('coachSubject'),v('coachStyle')].filter(Boolean).join(' · ')}
 // Make the chat box exactly fill the free space on the screen, so the typing box is always visible.
