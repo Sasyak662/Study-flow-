@@ -81,12 +81,15 @@ module.exports = async function handler(req, res) {
   if (!key) return send(res, 500, { error: 'The AI service is not set up on the server yet.' });
 
   const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
-  if (rateLimited(ip)) return send(res, 429, { error: 'You are asking questions very fast. Please wait a minute and try again.' });
+  const fastHit = rateLimited(ip);
 
   let body;
   try { body = await readBody(req); } catch (e) { return send(res, 400, { error: 'Invalid JSON request.' }); }
   // StudyQuest question-bank top-ups have their own small daily allowance, so they never use up AI Coach questions.
   const quest = body && body.purpose === 'quest';
+  // The first-day starter pack (quizzes, flashcards, StudyQuest questions) sends many small requests at once;
+  // those have their own daily cap below, so the per-minute limit does not block a new student's setup.
+  if (fastHit && !(body && body.first === true && (body.purpose === 'quest' || body.purpose === 'setup'))) return send(res, 429, { error: 'You are asking questions very fast. Please wait a minute and try again.' });
   // The starter pack made right after the survey (10 quizzes + flashcards) also has its own allowance.
   const setup = body && body.purpose === 'setup';
   // These two allowances are only for StudyStarx's own quiz builders: no web search, files or code, a fixed kind of system prompt, and a smaller answer size.
