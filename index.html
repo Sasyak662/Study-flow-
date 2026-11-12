@@ -11122,7 +11122,8 @@ function P(){return D().profile||{}}
 function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function plus(){try{return!!(window.sfAccount&&sfAccount.isPlus&&sfAccount.isPlus())}catch(e){return false}}
 function tst(m){try{toast(m)}catch(e){}}
-function cs(x){x=String(x==null?'':x);try{if(window.sfCleanStr)x=sfCleanStr(x)}catch(e){}return x.replace(/\*\*([^*]+)\*\*/g,'$1').replace(/^#+\s*/gm,'').trim()}
+var SUBS={'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','n':'ₙ','r':'ᵣ','k':'ₖ','m':'ₘ'};
+function cs(x){x=String(x==null?'':x).replace(/([A-Za-z\)])_\{?(?:([0-9]{1,3})|([nrkm])(?![A-Za-z0-9]))\}?/g,function(_,a,d,l){var b=d||l;return a+b.split('').map(function(c){return SUBS[c]||c}).join('')}).replace(/(\d|\))\s\*\s(?=[\d(\[])/g,'$1 × ');try{if(window.sfCleanStr)x=sfCleanStr(x)}catch(e){}return x.replace(/\*\*([^*]+)\*\*/g,'$1').replace(/^#+\s*/gm,'').trim()}
 var LS='sx-papers';
 function saved(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch(e){return[]}}
 function keep(p){try{var l=saved().filter(function(x){return x.id!==p.id});l.unshift(p);while(l.length>6)l.pop();var s=JSON.stringify(l);while(s.length>1500000&&l.length>1){l.pop();s=JSON.stringify(l)}localStorage.setItem(LS,s)}catch(e){}}
@@ -11164,7 +11165,7 @@ function writePrompt(meta,sec,qs,all){
  'WRITE THESE QUESTIONS\n'+JSON.stringify(qs)+'\n\n'+
  'QUALITY RULES\n'+
  '- Write like a real board paper: original, accurate, unambiguous, exam-standard wording and command words that fit the marks (1 mark: state/identify/choose; 2–3 marks: explain/give reasons/calculate; 4–6 marks: describe in detail/derive/analyse/evaluate). Questions must be answerable in the time and space the marks allow.\n'+
- '- Stay inside the syllabus of that board and class. Prefer competency-based, real-life and application questions where the board does.\n'+
+ '- Stay inside the syllabus of that board and class: use only concepts, formulas and methods taught up to that class (no methods from higher classes). Prefer competency-based, real-life and application questions where the board does.\n'+
  '- mcq: exactly 4 options, exactly ONE correct, distractors plausible (common mistakes). Do not write "(a)" in options. Vary the position of the correct option.\n'+
  '- assertion: give "Assertion (A): …" and "Reason (R): …" in text, and the 4 standard options (Both A and R are true and R is the correct explanation of A / Both A and R are true but R is not the correct explanation of A / A is true but R is false / A is false but R is true).\n'+
  '- case / source / comprehension: put a realistic 90–180 word passage, data set or situation in "passage", then 3–4 sub-questions in "parts" whose marks add up to the question\'s marks.\n'+
@@ -11248,6 +11249,9 @@ function make(){var f=read();ST.form=f;if(!f.req&&!f.subject){tst('Tell me the s
  var ff=Object.assign({},f,{req:req});
  var s0=step('Planning the paper pattern for your board…');
  retry(function(){return ai(planPrompt(ff),'Make the blueprint now.','plan',8000)},1).then(function(bp){
+  var want=+bp.maxMarks||0,got=sumBp(bp);
+  if(want&&got!==want){step('Fixing the marks total ('+got+' → '+want+')…','run',s0);return ai(planPrompt(ff)+'\n\nYOUR PREVIOUS BLUEPRINT:\n'+JSON.stringify(bp).slice(0,9000)+'\n\nIts questions add up to '+got+' marks but the paper must total EXACTLY '+want+' marks. Fix it by changing how many questions of each type there are (keep the official marks per question type), renumber the questions from 1, and return the full corrected JSON.','Return the corrected blueprint.','fix',8000).then(function(b2){return sumBp(b2)===want?b2:trim(b2,want)}).catch(function(){return trim(bp,want)})}
+  return bp}).then(function(bp){
   var meta=normMeta(bp,f);var secs=(bp.sections||[]).filter(function(s){return s&&Array.isArray(s.questions)&&s.questions.length});if(!secs.length)throw new Error('The plan came back empty. Please try again.');
   step('Planned '+meta.count+' questions · '+meta.maxMarks+' marks','done',s0);
   var all=secs.map(function(s){return s.questions.map(function(q){return q.n+': '+q.topic}).join('; ')}).join('; ').slice(0,3500);
@@ -11257,6 +11261,21 @@ function make(){var f=read();ST.form=f;if(!f.req&&!f.subject){tst('Tell me the s
   return pool(tasks,4).then(function(parts){step('Laying out the pages…','run',fin);var paper=assemble(meta,secs,parts,f);return render(paper).then(function(imgs){step('Your paper is ready','done',fin);ST.imgs=imgs;ST.paper=paper;keep(paper);ST.busy=false;ST.view='result';draw()})})
  }).catch(function(e){ST.busy=false;if(e&&e.plus){ST.view='form';draw();upsell();return}step(e&&e.message||'Something went wrong','err');var el=$('#epBody');if(el){var d=document.createElement('div');d.className='ep-err';d.innerHTML='<p>'+esc(e&&e.message||'Something went wrong.')+'</p><button type="button" class="ep-go" data-ep="make">Try again</button><button type="button" class="ep-link" data-ep="back">← Back to the form</button>';el.appendChild(d)}ST.view='form-err'})}
 function upsell(){var el=$('#epBody');if(!el)return;var d=$('#epUp');if(d)d.remove();d=document.createElement('div');d.id='epUp';d.className='ep-up';d.innerHTML='<div class="ep-upi">🚀</div><h3>Exam Paper Maker is part of Plus</h3><ul><li>Full board-pattern papers for any subject, class and chapters</li><li>Answer key with step-by-step marking scheme</li><li>Print-ready A4 PDF in about a minute</li><li>Plus higher AI limits, premium quiz themes and more</li></ul><button type="button" class="ep-go" data-ep="plans">See Plus plans</button>';el.insertBefore(d,el.firstChild);d.scrollIntoView({block:'start',behavior:'smooth'})}
+function sumBp(bp){var t=0;((bp&&bp.sections)||[]).forEach(function(s){(s.questions||[]).forEach(function(q){t+=(+q.marks||0)})});return t}
+function trim(bp,want){var got=sumBp(bp);if(got<=want)return bp;var all=[];bp.sections.forEach(function(s){s.questions.forEach(function(q){all.push({s:s,q:q})})});
+ var ex=all.filter(function(x){return(+x.q.marks||0)===got-want&&x.s.questions.length>1}).sort(function(a,b){return b.s.questions.length-a.s.questions.length})[0];if(ex){ex.s.questions.splice(ex.s.questions.indexOf(ex.q),1);all.splice(all.indexOf(ex),1);got=want}
+ for(var m=1;m<=10&&got>want;m++){for(var i=all.length-1;i>=0&&got>want;i--){var x=all[i];if((+x.q.marks||0)===m&&got-m>=want&&x.s.questions.length>1){x.s.questions.splice(x.s.questions.indexOf(x.q),1);all.splice(i,1);got-=m}}}
+ var n=1;bp.sections.forEach(function(s){s.questions.forEach(function(q){q.n=n++})});return bp}
+var TYPE={mcq:'multiple choice questions',assertion:'assertion–reason questions',fill:'fill in the blanks',truefalse:'true / false questions',match:'match the following questions',vsa:'very short answer questions',sa:'short answer questions',la:'long answer questions',case:'case-based questions',source:'source-based questions',map:'map-based questions',diagram:'diagram-based questions',numerical:'numerical problems',proof:'proofs',essay:'essay questions',letter:'letter / writing questions',comprehension:'reading comprehension questions',grammar:'grammar questions'};
+function secLine(s){var q=s.qs,a=q[0].n,b=q[q.length-1].n,ms=q.map(function(x){return x.marks}),same=ms.every(function(m){return m===ms[0]}),tys=q.map(function(x){return x.type}),ty=tys.every(function(t){return t===tys[0]})?TYPE[tys[0]]:'';var tot=ms.reduce(function(x,y){return x+y},0);
+ if(q.length===1)return'Question '+a+' is '+(ty?'a '+ty.replace(/s(\b|$)/,'$1').replace(/ questions?/,' question'):'a question')+' of '+ms[0]+' mark'+(ms[0]>1?'s':'')+'.';
+ return'Questions '+a+(q.length===2?' and ':' to ')+b+' are '+(ty||'questions')+(same?' of '+ms[0]+' mark'+(ms[0]>1?'s':'')+' each':' ('+tot+' marks in total)')+'.'}
+function instr(p){var m=p.meta,S=p.sections,n=p.count,ch=0;S.forEach(function(s){s.qs.forEach(function(q){if(q.or)ch++})});
+ var g=['This question paper contains '+n+' questions'+(S.length>1?' divided into '+S.length+' sections: '+S.map(function(s){return s.id||s.title}).join(', '):'')+'. All questions are compulsory.'];
+ S.forEach(function(s){g.push((S.length>1?s.title+': ':'')+secLine(s))});
+ if(ch)g.push('Internal choice is given in '+ch+' question'+(ch>1?'s':'')+'. Attempt only one of the alternatives in such questions.');
+ (m.gi||[]).forEach(function(x){if(!/\d|section|question paper (consists|contains|has)|compulsory|internal choice/i.test(x)&&g.length<10)g.push(x)});m.gi=g;
+ S.forEach(function(s){s.instructions=secLine(s)})}
 function normMeta(bp,f){var cnt=0,tot=0;(bp.sections||[]).forEach(function(s){(s.questions||[]).forEach(function(q){cnt++;tot+=(+q.marks||0)})});
  return{title:cs(bp.title||'Question Paper'),exam:cs(bp.exam||f.board||''),className:cs(bp.className||f.cls||''),subject:cs(bp.subject||f.subject||''),code:cs(bp.code||''),duration:cs(bp.duration||f.time||''),maxMarks:+bp.maxMarks||tot,total:tot,language:cs(bp.language||f.lang||'English'),gi:(bp.generalInstructions||[]).map(cs).filter(Boolean).slice(0,10),note:cs(bp.note||''),count:cnt}}
 function cleanQ(q){if(!q||typeof q!=='object')return null;var o={text:cs(q.text),passage:cs(q.passage||''),key:String(q.key||'').toLowerCase().replace(/[^a-d]/g,'').slice(0,1),answer:cs(q.answer||''),marking:(Array.isArray(q.marking)?q.marking:q.marking?[q.marking]:[]).map(cs).filter(Boolean)};
@@ -11265,10 +11284,11 @@ function cleanQ(q){if(!q||typeof q!=='object')return null;var o={text:cs(q.text)
  if(q.table&&Array.isArray(q.table.rows))o.table={head:(q.table.head||[]).map(cs),rows:q.table.rows.slice(0,14).map(function(r){return(Array.isArray(r)?r:[r]).map(cs)})};
  var sv=svg(q.figure);if(sv)o.figure=sv;return o}
 function svg(s){s=String(s||'').trim();if(!/^<svg[\s>]/i.test(s)||s.length>20000)return'';if(/<(script|foreignObject|iframe|image|use)\b|\bon\w+\s*=|javascript:|href\s*=/i.test(s))return'';if(!/xmlns=/.test(s))s=s.replace(/^<svg/i,'<svg xmlns="http://www.w3.org/2000/svg"');return s}
-function assemble(meta,secs,parts,f){var byN={};parts.forEach(function(p){var qs=(p.out&&p.out.questions)||[];qs.forEach(function(q,i){var n=+q.n||(p.qs[i]&&p.qs[i].n);if(n)byN[n]=q})});var miss=0;
+function assemble(meta,secs,parts,f){var byN={};parts.forEach(function(p){var qs=Array.isArray(p.out)?p.out:(p.out&&(p.out.questions||p.out.items))||[];qs.forEach(function(q,i){var n=+q.n||(p.qs[i]&&p.qs[i].n);if(n)byN[n]=q})});var miss=0;
  var sections=secs.map(function(s){return{id:cs(s.id||''),title:cs(s.title||('Section '+s.id)),instructions:cs(s.instructions||''),qs:s.questions.map(function(b){var q=cleanQ(byN[b.n]);if(!q||!q.text){miss++;return null}q.n=b.n;q.marks=+b.marks||1;q.type=b.type;if(b.choice&&byN[b.n].or){var o=cleanQ(byN[b.n].or);if(o&&o.text)q.or=o}if(!/mcq|assertion/.test(b.type||'')&&q.options&&q.options.length!==4)delete q.options;return q}).filter(Boolean)}}).filter(function(s){return s.qs.length});
  if(miss>Math.max(2,meta.count*.15))throw new Error('Some questions could not be written. Please try again.');
  var tot=0,cnt=0;sections.forEach(function(s){s.qs.forEach(function(q){tot+=q.marks;cnt++})});meta.total=tot;
+ var P_={sections:sections,meta:meta,count:cnt};instr(P_);
  return{id:'p'+Date.now().toString(36),at:Date.now(),meta:meta,sections:sections,count:cnt,form:{req:f.req,board:f.board,cls:f.cls,subject:f.subject,chapters:f.chapters,marks:f.marks,time:f.time,level:f.level,lang:f.lang,key:f.key,choice:f.choice,student:f.student,school:f.school},opt:{key:f.key,student:f.student,school:f.school}}}
 
 /* ---------- A4 layout ---------- */
