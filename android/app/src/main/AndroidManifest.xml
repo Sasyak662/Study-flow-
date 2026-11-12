@@ -83,5 +83,6 @@
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/study_widget" />
         </receiver>
+        <provider android:name=".FilesProvider" android:authorities="app.studyflow.android.files" android:exported="false" android:grantUriPermissions="true" />
     </application>
 </manifest>

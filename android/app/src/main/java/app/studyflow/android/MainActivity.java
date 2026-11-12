@@ -305,6 +305,42 @@ public class MainActivity extends Activity {
             Lock.p(MainActivity.this).edit().putInt("w_mins", Math.max(0, mins)).putString("w_status", status == null ? "idle" : status).putString("w_day", today).apply();
             StudyWidget.refreshAll(MainActivity.this);
         }
+        /** Saves a file the website made (e.g. an exam paper PDF) to Downloads and opens it. */
+        @JavascriptInterface public String saveFile(String name, String mime, String b64) {
+            if (!trusted()) return "no";
+            try {
+                byte[] bytes = android.util.Base64.decode(b64, android.util.Base64.DEFAULT);
+                String n = String.valueOf(name).replaceAll("[^A-Za-z0-9._\\- ]", "_");
+                if (n.length() > 120) n = n.substring(n.length() - 120);
+                if (mime == null || !mime.matches("^(application/pdf|text/plain|text/csv)$")) mime = "application/pdf";
+                // a private copy any PDF app can open
+                java.io.File f = new java.io.File(FilesProvider.dir(MainActivity.this), n);
+                try (java.io.FileOutputStream o = new java.io.FileOutputStream(f)) { o.write(bytes); }
+                Uri view = Uri.parse("content://" + FilesProvider.AUTH + "/" + Uri.encode(n));
+                boolean saved = false;
+                if (Build.VERSION.SDK_INT >= 29) {
+                    try {
+                        android.content.ContentValues v = new android.content.ContentValues();
+                        v.put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, n);
+                        v.put(android.provider.MediaStore.MediaColumns.MIME_TYPE, mime);
+                        v.put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH, android.os.Environment.DIRECTORY_DOWNLOADS + "/StudyStarx");
+                        Uri d = getContentResolver().insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, v);
+                        if (d != null) { try (java.io.OutputStream o = getContentResolver().openOutputStream(d)) { o.write(bytes); saved = true; } }
+                    } catch (Exception ignored) {}
+                }
+                final String m = mime;
+                runOnUiThread(() -> {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setDataAndType(view, m);
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    try { startActivity(i); } catch (Exception e) {
+                        Intent sh = new Intent(Intent.ACTION_SEND); sh.setType(m); sh.putExtra(Intent.EXTRA_STREAM, view); sh.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        try { startActivity(Intent.createChooser(sh, "Save or share")); } catch (Exception ignored) {}
+                    }
+                });
+                return saved ? "ok" : "open";
+            } catch (Exception e) { return "err"; }
+        }
         @JavascriptInterface public void keepAwake(boolean on) {
             if (!trusted()) return;
             runOnUiThread(() -> {

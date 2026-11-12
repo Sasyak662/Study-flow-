@@ -8,6 +8,9 @@
 
 const S = require('./_store.js');
 const MODEL = (process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite').trim();
+// Exam papers (a Plus feature) use the stronger Flash model for better questions.
+const PAPER_MODEL = (process.env.GEMINI_PAPER_MODEL || 'gemini-3.5-flash').trim();
+const PAPER_DAILY = Number(process.env.PAPER_DAILY || 20); // full papers a Plus member can make per day
 const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 
 const MAX_TOTAL_CHARS = 60000;   // total characters accepted per request
@@ -92,6 +95,13 @@ module.exports = async function handler(req, res) {
   if (fastHit && !(body && body.first === true && (body.purpose === 'quest' || body.purpose === 'setup'))) return send(res, 429, { error: 'You are asking questions very fast. Please wait a minute and try again.' });
   // The starter pack made right after the survey (10 quizzes + flashcards) also has its own allowance.
   const setup = body && body.purpose === 'setup';
+  // Exam Paper Maker (Plus only): a fixed kind of system prompt, no files, search or code.
+  const paper = body && body.purpose === 'paper';
+  if (paper) {
+    if (!String(body.system || '').startsWith('You are a senior board examiner') || (Array.isArray(body.files) && body.files.length) || (Array.isArray(body.messages) && body.messages.length)) return send(res, 400, { error: 'Invalid request.' });
+    body.search = false; body.codeExecution = false; body.maxTokens = Math.min(Number(body.maxTokens) || 12000, 16000);
+    if (String(body.user || '').length > 12000) return send(res, 400, { error: 'Invalid request.' });
+  }
   // These two allowances are only for StudyStarx's own quiz builders: no web search, files or code, a fixed kind of system prompt, and a smaller answer size.
   if (quest || setup) {
     const want = quest ? 'You write accurate multiple-choice quiz questions' : 'You write accurate, syllabus-aligned study material';
@@ -107,6 +117,13 @@ module.exports = async function handler(req, res) {
       const email = S.readSession(req);
       const u = email ? await S.getJSON(S.userKey(email)) : null;
       const plan = S.isPlus(u) ? 'plus' : 'free';planNow = plan;if (u) who = email;
+      if (paper && plan !== 'plus') return send(res, 403, { plus: true, error: 'The Exam Paper Maker is part of StudyStarx Plus.' });
+      if (paper && body.stage === 'plan') {
+        const pk = 'sf:paper:' + who + ':' + S.today();
+        const pn = Number(await S.cmd('INCR', pk)) || 0;
+        if (pn === 1) await S.cmd('EXPIRE', pk, 172800);
+        if (pn > PAPER_DAILY) return send(res, 429, { limit: true, plan, error: 'You have made ' + PAPER_DAILY + ' exam papers today. You can make more tomorrow.' });
+      }
       // StudyQuest and starter-pack quizzes count towards the same daily AI allowance as everything else.
       limit = S.LIMITS[plan];
       usageKey = 'sf:usage:' + (u ? email : 'ip:' + ip) + ':' + S.today();
@@ -191,10 +208,13 @@ module.exports = async function handler(req, res) {
   const FALLBACK = process.env.GEMINI_FALLBACK_MODEL || 'gemini-2.5-flash';
   try {
     let out = null, firstErr = null;
-    try { out = await callModel(MODEL, 26000, true); } catch (e) { firstErr = e; }
+    const primary = paper ? PAPER_MODEL : MODEL;
+    try { out = await callModel(primary, paper ? 34000 : 26000, true); } catch (e) { firstErr = e; }
+    // If the stronger exam-paper model fails, the normal model takes over before the backup.
+    if (paper && primary !== MODEL && (!out || !out.r.ok)) { try { const o2 = await callModel(MODEL, 22000, true); if (o2.r.ok) { out = o2; firstErr = null; } else if (!out) out = o2; } catch (e) {} }
     const emptyOk = o => o && o.r.ok && !((o.json?.candidates?.[0]?.content?.parts || []).some(p => typeof p.text === 'string' && p.text.trim()));
     // A busy or briefly failing model is tried once more before switching to the backup model, so students rarely see an error.
-    if (out && (out.r.status >= 500 || emptyOk(out))) { try { const again = await callModel(MODEL, 20000, true); if (again.r.ok && !emptyOk(again)) out = again; } catch (e) {} }
+    if (!paper && out && (out.r.status >= 500 || emptyOk(out))) { try { const again = await callModel(MODEL, 20000, true); if (again.r.ok && !emptyOk(again)) out = again; } catch (e) {} }
     const retry = !out || emptyOk(out) || out.r.status === 429 || out.r.status === 404 || out.r.status >= 500 || (out.r.status === 400 && !/API key/i.test(out.json?.error?.message || ''));
     if (retry && FALLBACK && FALLBACK !== MODEL) {
       console.error('Primary model failed', MODEL, firstErr ? firstErr.name : out.r.status, '- trying', FALLBACK);
