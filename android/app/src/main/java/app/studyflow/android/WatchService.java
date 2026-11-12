@@ -72,6 +72,7 @@ public class WatchService extends Service {
     private void check() {
         UsageStatsManager um = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
         if (um == null) return;
+        nudge();
         long now = System.currentTimeMillis();
         UsageEvents ev = um.queryEvents(since, now + 1000);
         UsageEvents.Event e = new UsageEvents.Event();
@@ -100,9 +101,9 @@ public class WatchService extends Service {
         } catch (Exception ignored) {}
         if (front.isEmpty() || front.equals(getPackageName())) return;
         if (!Lock.isBlocked(this, front)) return;
-        if (now < graceUntil || shield != null) return;
+        if (now < graceUntil) return;
         if (now - lastShow < 1200) return;
-        lastShow = now; blocks++;
+        lastShow = now; if (shield == null) blocks++;
         android.util.Log.i("SXWatch", "BLOCK " + front);
         String blockedPkg = front;
         // 1) cover the blocked app at once (works even when Android refuses to switch screens)
@@ -110,6 +111,24 @@ public class WatchService extends Service {
         // 2) send the blocked app to the background so it stops playing
         goHome();
     }
+
+    /** Android releases the newest "app opened" event only when another event follows it; reporting our own
+     *  tiny event (a shortcut use) each check makes the real one show up at once. */
+    private void nudge() {
+        if (Build.VERSION.SDK_INT < 25) return;
+        try {
+            android.content.pm.ShortcutManager sm = getSystemService(android.content.pm.ShortcutManager.class);
+            if (sm == null) return;
+            if (!shortcutMade) {
+                shortcutMade = true;
+                Intent open = new Intent(this, MainActivity.class).setAction(Intent.ACTION_VIEW).setData(android.net.Uri.parse("https://study-flow-app-ecru.vercel.app/?go=focuslock"));
+                sm.addDynamicShortcuts(java.util.Collections.singletonList(new android.content.pm.ShortcutInfo.Builder(this, "focus")
+                        .setShortLabel("Focus Lock").setIntent(open).build()));
+            }
+            sm.reportShortcutUsed("focus");
+        } catch (Exception ignored) {}
+    }
+    private boolean shortcutMade = false;
 
     private void goHome() {
         try { startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); } catch (Exception ignored) {}

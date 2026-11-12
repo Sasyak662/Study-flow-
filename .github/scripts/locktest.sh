@@ -18,7 +18,8 @@ cat > prefs.xml <<XML
 <map>
     <long name="until" value="$UNTIL" />
     <set name="blocked">
-        <string>com.android.settings</string>
+        <string>com.google.android.dialer</string>
+        <string>com.android.dialer</string>
     </set>
 </map>
 XML
@@ -32,16 +33,18 @@ echo "=== service ===" ; adb shell dumpsys activity services $PKG | grep -E "Ser
 adb shell input keyevent KEYCODE_HOME; sleep 2
 adb logcat -c
 adb shell log -t SXTest OPEN_SETTINGS
-adb shell am start -n com.android.settings/.Settings; sleep 3
+adb shell am start -a android.intent.action.DIAL; sleep 3
 adb exec-out screencap -p > shots/2-blocked-app-opened.png
 sleep 9
 adb exec-out screencap -p > shots/2b-after-12s.png
 # tap the shield button (centre, a bit below middle) to dismiss, then stay on home 6 s: must NOT block again
-adb shell input tap 540 1500; sleep 6
+SZ=$(adb shell wm size | tr -d "\r" | grep -oE "[0-9]+x[0-9]+" | tail -1); TX=$(( ${SZ%x*} / 2 )); TY=$(( ${SZ#*x} * 54 / 100 ))
+adb shell input tap $TX $TY; sleep 6
 adb exec-out screencap -p > shots/2c-after-dismiss.png
 adb shell log -t SXTest REOPEN_SETTINGS
-adb shell am start -n com.android.settings/.Settings; sleep 4
+adb shell am start -a android.intent.action.DIAL; sleep 4
 adb exec-out screencap -p > shots/2d-reopened.png
+adb shell input tap $TX $TY; sleep 2
 adb shell log -t SXTest PRESS_HOME
 echo "=== after opening blocked app ===" | tee shots/result.txt
 adb shell dumpsys window | grep -E "mCurrentFocus|mFocusedApp" | tee -a shots/result.txt
@@ -50,8 +53,8 @@ adb shell dumpsys window windows | grep -E "Window #|mOwnerUid|ty=APPLICATION_OV
 adb shell input keyevent KEYCODE_HOME; sleep 2
 adb exec-out screencap -p > shots/3-after-home.png
 # control: an app that is NOT blocked must open normally
-adb shell log -t SXTest OPEN_DIALER
-adb shell am start -a android.intent.action.DIAL; sleep 4
+adb shell log -t SXTest OPEN_UNBLOCKED
+adb shell am start -n com.android.settings/.Settings; sleep 4
 adb exec-out screencap -p > shots/4-unblocked-app.png
 echo "=== unblocked app ===" | tee -a shots/result.txt
 adb shell dumpsys window | grep -E "mCurrentFocus" | tee -a shots/result.txt
