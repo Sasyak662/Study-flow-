@@ -84,12 +84,14 @@ public class WatchService extends Service {
                 newest = e.getTimeStamp();
             }
         }
+        if (newest > since) android.util.Log.i("SXWatch", "front=" + front + " t=" + newest + " lag=" + (now - newest));
         since = Math.max(since, newest);
         if (front.isEmpty() || front.equals(getPackageName())) return;
         if (!Lock.isBlocked(this, front)) return;
         if (now < graceUntil || shield != null) return;
         if (now - lastShow < 1200) return;
         lastShow = now; blocks++;
+        android.util.Log.i("SXWatch", "BLOCK " + front);
         String blockedPkg = front;
         // 1) cover the blocked app at once (works even when Android refuses to switch screens)
         showShield(blockedPkg);

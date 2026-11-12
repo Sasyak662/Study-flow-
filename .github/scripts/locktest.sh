@@ -29,8 +29,13 @@ adb shell am start -n $PKG/.MainActivity; sleep 8
 adb exec-out screencap -p > shots/1-app-open.png
 echo "=== service ===" ; adb shell dumpsys activity services $PKG | grep -E "ServiceRecord|isForeground|foregroundServiceType" | tee shots/service.txt
 adb shell input keyevent KEYCODE_HOME; sleep 2
-adb shell am start -n com.android.settings/.Settings; sleep 5
+adb logcat -c
+adb shell log -t SXTest OPEN_SETTINGS
+adb shell am start -n com.android.settings/.Settings; sleep 3
 adb exec-out screencap -p > shots/2-blocked-app-opened.png
+sleep 9
+adb exec-out screencap -p > shots/2b-after-12s.png
+adb shell log -t SXTest PRESS_HOME
 echo "=== after opening blocked app ===" | tee shots/result.txt
 adb shell dumpsys window | grep -E "mCurrentFocus|mFocusedApp" | tee -a shots/result.txt
 adb shell dumpsys window windows | grep -E "Window #|mOwnerUid|ty=APPLICATION_OVERLAY" | grep -B1 -A1 "$PKG" | head -20 | tee -a shots/result.txt
@@ -38,9 +43,10 @@ adb shell dumpsys window windows | grep -E "Window #|mOwnerUid|ty=APPLICATION_OV
 adb shell input keyevent KEYCODE_HOME; sleep 2
 adb exec-out screencap -p > shots/3-after-home.png
 # control: an app that is NOT blocked must open normally
+adb shell log -t SXTest OPEN_DIALER
 adb shell am start -a android.intent.action.DIAL; sleep 4
 adb exec-out screencap -p > shots/4-unblocked-app.png
 echo "=== unblocked app ===" | tee -a shots/result.txt
 adb shell dumpsys window | grep -E "mCurrentFocus" | tee -a shots/result.txt
-adb logcat -d -t 400 | grep -iE "studyflow|WatchService|BAL|Background activity" | tail -40 > shots/log.txt || true
+adb logcat -d | grep -E "SXWatch|SXTest|START u0|BAL_" | cut -c1-220 | tail -80 > shots/log.txt || true
 exit 0
