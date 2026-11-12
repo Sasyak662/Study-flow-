@@ -122,7 +122,7 @@ public final class Lock {
     }
     static boolean isXiaomi() { String m = (Build.MANUFACTURER + " " + Build.BRAND).toLowerCase(Locale.ROOT); return m.contains("xiaomi") || m.contains("redmi") || m.contains("poco"); }
     /** Blocking works if both new permissions are on, or the older Accessibility switch is on. */
-    static boolean ready(Context c) { return (hasUsage(c) && hasOverlay(c)) || serviceEnabled(c); }
+    static boolean ready(Context c) { return hasUsage(c) && hasOverlay(c); }
 
     static boolean serviceEnabled(Context c) {
         String on = Settings.Secure.getString(c.getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);

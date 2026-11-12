@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
         else super.onBackPressed();
     }
 
-    @Override protected void onResume() { super.onResume(); web.onResume(); }
+    @Override protected void onResume() { super.onResume(); web.onResume(); if (Lock.active(this)) WatchService.start(this); }
     @Override protected void onPause() { web.onPause(); super.onPause(); }
 
     /** Methods the website can call as window.SFNative.*  */
@@ -226,7 +226,9 @@ public class MainActivity extends Activity {
                 org.json.JSONObject o = new org.json.JSONObject();
                 o.put("usage", Lock.hasUsage(a)); o.put("overlay", Lock.hasOverlay(a)); o.put("acc", Lock.serviceEnabled(a));
                 o.put("battery", Lock.batteryOk(a)); o.put("xiaomi", Lock.isXiaomi()); o.put("ready", Lock.ready(a));
-                o.put("sdk", Build.VERSION.SDK_INT);
+                o.put("sdk", Build.VERSION.SDK_INT); o.put("v", 6);
+                o.put("watch", WatchService.running && System.currentTimeMillis() - WatchService.lastPoll < 8000);
+                o.put("events", WatchService.events); o.put("blocks", WatchService.blocks);
                 return o.toString();
             } catch (Exception e) { return "{}"; }
         }
@@ -268,6 +270,11 @@ public class MainActivity extends Activity {
             } catch (Exception e) { return "{}"; }
         }
         /** The running lock: {"until":ms,"strict":bool,"apps":["YouTube",...],"extra":n} */
+        /** Starts the watcher again if a lock is running but the watcher is not (e.g. permission was just granted). */
+        @JavascriptInterface public void ensureWatch() {
+            if (!trusted()) return;
+            if (Lock.active(MainActivity.this)) WatchService.start(MainActivity.this);
+        }
         @JavascriptInterface public String lockInfo() {
             Activity a = MainActivity.this;
             try {
