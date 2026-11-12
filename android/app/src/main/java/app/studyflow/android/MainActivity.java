@@ -61,6 +61,9 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= 26) s.setSafeBrowsingEnabled(true);
         WebView.setWebContentsDebuggingEnabled(false);
         s.setLoadWithOverviewMode(true);
+        // Follow the phone's font size a little, but not so much that screens no longer fit (max 115%).
+        float fontScale = getResources().getConfiguration().fontScale;
+        s.setTextZoom(Math.max(85, Math.min(115, Math.round(fontScale * 100))));
         s.setUseWideViewPort(true);
         s.setCacheMode(isOnline() ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
         s.setUserAgentString(s.getUserAgentString() + " StudyFlowAndroid/1.0");
