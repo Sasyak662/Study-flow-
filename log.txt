@@ -1,0 +1,24 @@
+11-12 13:15:29.121  4799  4799 I SXTest  : OPEN_SETTINGS
+11-12 13:15:29.180   518  1106 I ActivityTaskManager: START u0 {act=android.intent.action.DIAL flg=0x10000000 cmp=com.google.android.dialer/com.android.dialer.main.impl.MainActivity} with LAUNCH_SINGLE_TASK from uid 0 (B
+11-12 13:15:29.296  4425  4639 I SXWatch : front=com.google.android.dialer t=1794489329190 lag=103
+11-12 13:15:29.296  4425  4639 I SXWatch : BLOCK com.google.android.dialer
+11-12 13:15:29.327   518  2118 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000000 cmp=com.google.android.apps.nexuslauncher/.NexusLauncherActivity} with LAUN
+11-12 13:15:29.430  4425  4639 I SXWatch : front=com.google.android.apps.nexuslauncher t=1794489329329 lag=101
+11-12 13:15:48.047  5755  5755 I SXTest  : REOPEN_SETTINGS
+11-12 13:15:48.093   518  2898 I ActivityTaskManager: START u0 {act=android.intent.action.DIAL flg=0x10000000 cmp=com.google.android.dialer/com.android.dialer.main.impl.MainActivity} with LAUNCH_SINGLE_TASK from uid 0 (B
+11-12 13:15:48.283  5654  5673 I SXWatch : front=com.google.android.dialer t=1794489348099 lag=184
+11-12 13:15:48.284  5654  5673 I SXWatch : BLOCK com.google.android.dialer
+11-12 13:15:48.323   518  2593 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000000 cmp=com.google.android.apps.nexuslauncher/.NexusLauncherActivity} with LAUN
+11-12 13:15:48.440  5654  5673 I SXWatch : front=com.google.android.apps.nexuslauncher t=1794489348327 lag=113
+11-12 13:15:54.413  5889  5889 I SXTest  : PRESS_HOME
+11-12 13:15:54.491   518   538 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.google.android.apps.nexuslauncher/.NexusLauncherActivity (has extra
+11-12 13:15:58.522  5980  5980 I SXTest  : RECENTS
+11-12 13:16:00.782  5654  5673 I SXWatch : front=com.google.android.dialer t=1794489360690 lag=90
+11-12 13:16:00.782  5654  5673 I SXWatch : BLOCK com.google.android.dialer
+11-12 13:16:00.796   518  2118 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000000 cmp=com.google.android.apps.nexuslauncher/.NexusLauncherActivity} with LAUN
+11-12 13:16:00.905  5654  5673 I SXWatch : front=com.google.android.apps.nexuslauncher t=1794489360815 lag=85
+11-12 13:16:01.697  6033  6033 I SXTest  : RECENTS_TAPPED
+11-12 13:16:11.045   518   538 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.google.android.apps.nexuslauncher/.NexusLauncherActivity (has extra
+11-12 13:16:13.201  6073  6073 I SXTest  : OPEN_UNBLOCKED
+11-12 13:16:13.220   518   534 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=com.android.settings/.Settings} with LAUNCH_MULTIPLE from uid 0 (BAL_ALLOW_ALLOWLISTED_UID) result code=0
+11-12 13:16:13.289  5654  5673 I SXWatch : front=com.android.settings t=1794489373224 lag=64

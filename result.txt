@@ -1,0 +1,8 @@
+=== after opening blocked app ===
+  mCurrentFocus=Window{d526080 u0 com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity}
+  mFocusedApp=ActivityRecord{29ee1ff u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t7}
+      topResumedActivity=ActivityRecord{29ee1ff u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t7}
+  ResumedActivity: ActivityRecord{29ee1ff u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t7}
+      topResumedActivity=ActivityRecord{29ee1ff u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t7}
+=== unblocked app ===
+  mCurrentFocus=Window{c24d15c u0 com.android.settings/com.android.settings.Settings}
