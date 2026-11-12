@@ -7,6 +7,7 @@ adb install -r test.apk
 adb shell appops set $PKG GET_USAGE_STATS allow
 adb shell appops set $PKG SYSTEM_ALERT_WINDOW allow
 adb shell pm grant $PKG android.permission.POST_NOTIFICATIONS || true
+adb shell settings put global hidden_api_policy 1 || true
 adb shell am start -n $PKG/.MainActivity; sleep 6
 adb shell am force-stop $PKG
 adb root; sleep 3
@@ -35,6 +36,12 @@ adb shell am start -n com.android.settings/.Settings; sleep 3
 adb exec-out screencap -p > shots/2-blocked-app-opened.png
 sleep 9
 adb exec-out screencap -p > shots/2b-after-12s.png
+# tap the shield button (centre, a bit below middle) to dismiss, then stay on home 6 s: must NOT block again
+adb shell input tap 540 1500; sleep 6
+adb exec-out screencap -p > shots/2c-after-dismiss.png
+adb shell log -t SXTest REOPEN_SETTINGS
+adb shell am start -n com.android.settings/.Settings; sleep 4
+adb exec-out screencap -p > shots/2d-reopened.png
 adb shell log -t SXTest PRESS_HOME
 echo "=== after opening blocked app ===" | tee shots/result.txt
 adb shell dumpsys window | grep -E "mCurrentFocus|mFocusedApp" | tee -a shots/result.txt
