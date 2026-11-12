@@ -2394,6 +2394,43 @@ function normaliseSet(j,o){
   written:arr(j.written).map(w=>({question:String(w.question||''),marks:clamp(parseInt(w.marks,10)||4,1,25),cmd:String(w.commandWord||'').toLowerCase(),ms:arr(w.markScheme).map(String),topic:norm(w.topic)||'',page:String(w.page||'')})).filter(w=>w.question),
   checklist:arr(j.checklist).map(c=>({text:String(c),done:false})),flags:arr(j.flags).map(String),results:[]};
 }
+// Topic quiz rounds: every Start gives 10 questions the student has not had before.
+function mixOpts(q){if(q.options.some(o=>/all of the above|none of the above|both|neither|\b[A-D] and [A-D]\b|only [A-D]\b/i.test(o)))return {...q};const ix=shuffled(q.options.map((_,i)=>i));return {...q,options:ix.map(i=>q.options[i]),answer:ix.indexOf(q.answer)}}
+async function newQuizRound(s){
+ const last=(s.results||[]).filter(r=>r.kind==='quiz').pop();const weak=last&&Array.isArray(last.weak)?last.weak.filter(Boolean).slice(0,5):[];
+ const mat=['TOPICS: '+(s.topics||[]).join('; '),'NOTES:\n'+(s.notes||[]).map(n=>'# '+n.heading+(n.page?' ('+n.page+')':'')+'\n'+n.points.map(x=>'- '+x).join('\n')).join('\n'),'KEY FACTS:\n'+(s.flashcards||[]).map(f=>'- '+f.front+' → '+f.back).join('\n')].join('\n\n').slice(0,24000);
+ const avoid=(s.quiz||[]).map(q=>q.q).slice(-60).map(x=>'- '+x.slice(0,140)).join('\n');
+ const round=(s.qRound||0)+1;
+ const sys=`You are an expert ${s.level} ${s.subject} teacher writing fresh practice questions from a student's own study notes. ${STYLE}`;
+ const j=await aiJSON(sys,`Write 10 NEW multiple-choice questions for round ${round} of practice on these notes.
+Return only JSON: {"quiz":[{"q":"...","options":["A","B","C","D"],"answer":0,"explanation":"why the answer is right","topic":"one of the topics","page":"p. n or empty"}]}
+Rules:
+- Every question must be different from ALL the questions already asked (listed below): test a different fact or skill, or the same idea in a clearly new way (new numbers, new context, reversed question). Never copy or lightly reword an old question.
+- Cover all topics${weak.length?', with about half the questions on the topics the student got wrong last time: '+weak.join(', '):''}.
+- Mix: about 3 recall, 4 understanding/application, 3 harder exam-style questions${round>2?' (make this round a little harder than before)':''}.
+- Exactly one correct option, plausible wrong options (common mistakes). "answer" is the 0-based index. Check every answer.
+ALREADY ASKED:
+${avoid||'(none)'}
+
+${mat}`,{maxTokens:8000,temperature:.7});
+ const seen=new Set((s.quiz||[]).map(q=>q.q.toLowerCase().replace(/\W+/g,' ').trim()));
+ return normaliseSet({quiz:j.quiz||j.questions||(Array.isArray(j)?j:[])},{subject:s.subject,level:s.level}).quiz.filter(q=>{const k=q.q.toLowerCase().replace(/\W+/g,' ').trim();if(seen.has(k))return false;seen.add(k);return true});
+}
+async function playQuizRound(s,btn){
+ s.qAsked=Array.isArray(s.qAsked)?s.qAsked:[];
+ if(s.qRound==null){s.qRound=(s.results||[]).filter(r=>r.kind==='quiz').length;if(s.qRound)s.qAsked=s.quiz.map(q=>q.q)}
+ let fresh=s.quiz.filter(q=>!s.qAsked.includes(q.q));
+ if(fresh.length<10&&online()){const old=btn?btn.textContent:'';if(btn){btn.disabled=true;btn.textContent='Making 10 new questions…'}
+  try{const add=await newQuizRound(s);if(add.length){s.quiz.push(...add);fresh=fresh.concat(add)}}catch(e){console.warn(e);try{toast(/limit|allowance/i.test(e.message||'')?e.message:'Could not make new questions right now.')}catch(_){}}
+  finally{if(btn){btn.disabled=false;btn.textContent=old}}}
+ let qs=shuffled(fresh).slice(0,10);
+ if(qs.length<10){const pad=shuffled(s.quiz.filter(q=>!qs.includes(q))).slice(0,10-qs.length);if(!qs.length)try{toast('These are questions you have had before, in a new order. New ones will be made when the AI is reachable.')}catch(_){}qs=qs.concat(pad)}
+ qs.forEach(q=>{if(!s.qAsked.includes(q.q))s.qAsked.push(q.q)});
+ if(s.qAsked.length>400)s.qAsked=s.qAsked.slice(-400);
+ if(s.quiz.length>150){const keep=new Set(qs);s.quiz=s.quiz.filter((q,i)=>keep.has(q)||i>=s.quiz.length-150)}
+ s.qRound=(s.qRound||0)+1;save();
+ openPlayer({kind:'quiz',title:s.title+' · topic quiz · round '+s.qRound,subject:s.subject,level:s.level,qs:qs.map(mixOpts),setId:s.id});
+}
 function renderSets(){
  const box=$('#mxSets');if(!box)return;const xs=M().sets;$('#mxSetCount').textContent=xs.length;
  box.innerHTML=xs.length?xs.map(s=>{const r=s.results&&s.results.length?s.results[s.results.length-1]:null;return `<div class="mx-qitem"><div style="min-width:0"><b>${esc(s.title)}</b><small>${esc(s.subject)} · ${esc(s.level)} · ${s.flashcards.length} cards · ${s.quiz.length} quiz · ${s.written.length} written${r?` · last ${esc(r.kind)} ${r.score}/${r.max}`:''}</small></div><div style="display:flex;gap:6px"><button class="btn sm" data-mx="set-open" data-id="${s.id}">Open</button><button class="link" data-mx="set-del" data-id="${s.id}" aria-label="Delete set">×</button></div></div>`}).join(''):'<div class="empty">Upload a chapter or paste notes to create your first study set.</div>';
@@ -2406,7 +2443,7 @@ function renderSetView(){
  let body='';
  if(setTab==='notes')body=s.notes.map(n=>`<div class="mx-note"><h4><span>${esc(n.heading)}</span>${pg(n.page)}</h4><ul>${n.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>`).join('')||'<div class="empty">No notes.</div>';
  if(setTab==='cards')body=(s.flashcards.length?`<div class="tool-action-row" style="margin-top:0;margin-bottom:12px"><button class="btn alt" data-mx="set-cards" data-id="${s.id}">${s.cardsAdded?'Added to your Flashcards ✓':'Add all to my Flashcards'}</button></div>`:'')+`<div class="mx-fc">${s.flashcards.map(f=>`<div class="mx-fcard"><b>${esc(f.front)}</b>${esc(f.back)}<div class="mx-tags">${f.topic?`<span>${esc(f.topic)}</span>`:''}${f.page?`<span>${esc(f.page)}</span>`:''}</div></div>`).join('')||'<div class="empty">No flashcards.</div>'}</div>`;
- if(setTab==='quiz')body=s.quiz.length?`<p class="muted tiny">${s.quiz.length} questions, organised by topic. Each answer updates your topic mastery, and wrong answers go to Mistake-to-Mastery.</p><div class="mx-tags" style="margin-bottom:12px">${[...new Set(s.quiz.map(q=>q.topic))].map(t=>`<span>${esc(t)} (${s.quiz.filter(q=>q.topic===t).length})</span>`).join('')}</div><button class="btn" data-mx="set-play" data-k="quiz" data-id="${s.id}">Start topic quiz</button>`:`<div class="empty">${s.offline?'Quizzes need the AI on the hosted app.':'No quiz questions.'}</div>`;
+ if(setTab==='quiz')body=s.quiz.length?`<p class="muted tiny">${s.qRound?`<b>Round ${s.qRound} done.</b> `:''}Every time you press Start you get 10 questions you have not had before${s.qRound?', with more on the topics you got wrong':''}. Each answer updates your topic mastery, and wrong answers go to Mistake-to-Mastery.</p><div class="mx-tags" style="margin-bottom:12px">${[...new Set(s.quiz.map(q=>q.topic))].map(t=>`<span>${esc(t)} (${s.quiz.filter(q=>q.topic===t).length})</span>`).join('')}</div><button class="btn" data-mx="set-play" data-k="quiz" data-id="${s.id}">${s.qRound?'Start round '+(s.qRound+1)+' · new questions':'Start topic quiz'}</button>`:`<div class="empty">${s.offline?'Quizzes need the AI on the hosted app.':'No quiz questions.'}</div>`;
  if(setTab==='written')body=s.written.length?s.written.map((w,i)=>`<div class="mx-note"><h4><span>${esc(w.question)}</span><span class="mx-page">[${w.marks}]</span></h4><div class="mx-tags">${w.topic?`<span>${esc(w.topic)}</span>`:''}${w.page?`<span>${esc(w.page)}</span>`:''}${w.cmd?`<span>${esc(w.cmd)}</span>`:''}</div><div class="tool-action-row" style="margin-top:10px"><button class="btn sm" data-mx="set-written" data-id="${s.id}" data-i="${i}">Answer and get it marked</button></div></div>`).join(''):`<div class="empty">${s.offline?'Exam questions need the AI on the hosted app.':'No written questions.'}</div>`;
  if(setTab==='check')body=(s.checklist.length?`<div class="tool-action-row" style="margin-top:0;margin-bottom:8px"><button class="btn line sm" data-mx="set-plan" data-id="${s.id}">Add unchecked items to my planner</button></div>`:'')+s.checklist.map((c,i)=>`<label class="mx-check"><input type="checkbox" data-mx-chk="${s.id}" data-i="${i}" ${c.done?'checked':''}><span>${esc(c.text)}</span></label>`).join('');
  if(setTab==='diag'){const last=(s.results||[]).filter(r=>r.kind==='diagnostic').pop();body=s.diagnostic.length?`<p class="muted tiny">A short test with at least one question per topic. It shows which topics are weak, and adds them to your plan.</p>${last?`<div class="mx-fb info"><b>Last result: ${last.score}/${last.max}.</b> ${last.weak&&last.weak.length?'Weak topics: '+esc(last.weak.join(', ')):'No weak topics found.'}</div>`:''}<div class="tool-action-row"><button class="btn" data-mx="set-play" data-k="diagnostic" data-id="${s.id}">${last?'Retake diagnostic':'Take the diagnostic test'}</button></div>`:`<div class="empty">${s.offline?'The diagnostic needs the AI on the hosted app.':'No diagnostic questions.'}</div>`}
@@ -2625,7 +2662,7 @@ document.addEventListener('click',async e=>{
   case 'set-del':if(confirm('Delete this study set?')){m.sets=m.sets.filter(x=>x.id!==b.dataset.id);if(viewSet===b.dataset.id)viewSet=null;save()}break;
   case 'set-tab':setTab=b.dataset.k;renderSetView();break;
   case 'set-cards':{const s=m.sets.find(x=>x.id===b.dataset.id);if(!s||s.cardsAdded)break;const have=new Set((data.flashcards||[]).map(c=>c.front));let n=0;s.flashcards.forEach(f=>{if(have.has(f.front))return;data.flashcards.push({front:f.front,back:f.back+(f.page?' ('+f.page+')':''),learned:false,topic:f.topic,subject:s.subject,set:s.title});n++});s.cardsAdded=true;save();say(n+' flashcards added');break}
-  case 'set-play':{const s=m.sets.find(x=>x.id===b.dataset.id);if(!s)break;const k=b.dataset.k;openPlayer({kind:k,title:s.title+(k==='diagnostic'?' · diagnostic':' · topic quiz'),subject:s.subject,level:s.level,qs:(k==='diagnostic'?s.diagnostic:s.quiz).slice(),setId:s.id});break}
+  case 'set-play':{const s=m.sets.find(x=>x.id===b.dataset.id);if(!s)break;const k=b.dataset.k;if(k==='quiz'){playQuizRound(s,b);break}openPlayer({kind:k,title:s.title+(k==='diagnostic'?' · diagnostic':' · topic quiz'),subject:s.subject,level:s.level,qs:(k==='diagnostic'?s.diagnostic:s.quiz).slice(),setId:s.id});break}
   case 'set-written':{const s=m.sets.find(x=>x.id===b.dataset.id);const w=s&&s.written[+b.dataset.i];if(!w)break;go('examiner');$('#mxExSubject').value=SUBJECTS.includes(s.subject)?s.subject:'Other';const lv=$('#mxExBoard');if([...lv.options].some(o=>o.value===s.level))lv.value=s.level;$('#mxExMarks').value=w.marks;$('#mxExQuestion').value=w.question;$('#mxExCmd').value=CMD[w.cmd]?w.cmd:'auto';$('#mxExMsSource').value='generated';$('#mxExMsField').hidden=false;$('#mxExMs').value=w.ms.join('\n');$('#mxExTopic').value=w.topic||'';$('#mxExAnswer').value='';$('#mxExAnswer').focus();say('Write your answer, then press Mark my answer');break}
   case 'set-plan':{const s=m.sets.find(x=>x.id===b.dataset.id);if(!s)break;const xs=s.checklist.filter(c=>!c.done);xs.slice(0,8).forEach((c,i)=>data.tasks.push({id:id(),title:c.text.slice(0,120),subject:s.subject,duration:15,date:addDays(Math.floor(i/3)),time:m.prefs.start||'18:00',reminder:false,done:false}));save();say(Math.min(8,xs.length)+' tasks added to your planner');break}
   case 'p-pick':if(P&&!P.revealed){P.chosen=+b.dataset.i;renderPlayer()}break;
