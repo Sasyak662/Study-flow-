@@ -4132,363 +4132,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #page-premium .launch-grid#sfPriceGrid{display:block}
 @media (max-width:1100px){#page-premium .pp-grid{grid-template-columns:1fr 1fr}.pp-card.best{transform:none}}
 @media (max-width:640px){#page-premium .pp-grid{grid-template-columns:1fr}.pp-card.best{order:-1}}
-</style><style id="sf-fc-css">
-/* ===== Flashcards (study-set style) ===== */
-#page-flashcards{--p:#4255ff;--p4:#7b89ff}
-#page-flashcards>.fc-old{display:none!important}
-.fc-hero{border-radius:24px;padding:24px;background:linear-gradient(135deg,#4255ff,#6a3df5 60%,#9b5cf6);color:#fff;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;position:relative;overflow:hidden;box-shadow:0 18px 40px -20px rgba(66,85,255,.8)}
-.fc-hero::after{content:"";position:absolute;right:-40px;bottom:-60px;width:220px;height:150px;border-radius:18px;background:rgba(255,255,255,.14);transform:rotate(-14deg);box-shadow:-40px -30px 0 rgba(255,255,255,.08)}
-.fc-hero>*{position:relative;z-index:1}
-.fc-hero h2{color:#fff;font-size:clamp(26px,4vw,36px);margin:0 0 6px;letter-spacing:-.02em}
-.fc-hero p{margin:0 0 14px;opacity:.9}
-.fc-hbtns{display:flex;gap:8px;flex-wrap:wrap}
-.fc-b{border:0;border-radius:12px;padding:11px 16px;font-weight:800;font-size:14px;font-family:inherit;cursor:pointer;background:#fff;color:#4255ff;display:inline-flex;align-items:center;gap:7px;transition:transform .1s,box-shadow .1s}
-.fc-b:hover{transform:translateY(-1px)}
-.fc-b.y{background:#ffcd1f;color:#2e3856}.fc-b.g{background:rgba(255,255,255,.18);color:#fff}.fc-b.p{background:#4255ff;color:#fff}.fc-b.l{background:color-mix(in srgb,#4255ff 10%,var(--card));color:#4255ff}.fc-b.d{background:transparent;color:var(--muted);border:1px solid var(--line)}
-.fc-b:disabled{opacity:.5;cursor:not-allowed}
-.fc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:center}
-.fc-stats div{background:rgba(255,255,255,.15);border-radius:16px;padding:14px;text-align:center}
-.fc-stats b{display:block;font-size:28px;line-height:1.1}.fc-stats small{font-size:12px;opacity:.9}
-.fc-due{margin-top:16px;display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:18px;background:color-mix(in srgb,#ffcd1f 22%,var(--card));border:1px solid color-mix(in srgb,#ffcd1f 60%,var(--line));flex-wrap:wrap}
-.fc-due .e{font-size:30px}.fc-due b{font-size:16px}.fc-due p{margin:2px 0 0;color:var(--muted);font-size:13px}
-.fc-due .sp{flex:1}
-.fc-sec{display:flex;align-items:center;gap:10px;margin:22px 0 10px;flex-wrap:wrap}
-.fc-sec h3{margin:0;font-size:19px}.fc-sec .sp{flex:1}
-.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.fc-set{border:1px solid color-mix(in srgb,var(--line) 70%,transparent);background:var(--card);border-radius:18px;padding:16px;cursor:pointer;display:grid;gap:8px;text-align:left;font-family:inherit;color:var(--ink);border-bottom:4px solid var(--c,#4255ff);transition:transform .14s,box-shadow .14s}
-.fc-set:hover{transform:translateY(-3px);box-shadow:0 14px 28px -18px rgba(46,56,86,.5)}
-.fc-set .fc-st{display:flex;align-items:center;gap:10px}
-.fc-set .em{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:color-mix(in srgb,var(--c,#4255ff) 14%,var(--card))}
-.fc-set b{font-size:15.5px;line-height:1.25}
-.fc-set small{color:var(--muted);font-size:12.5px}
-.fc-prog{height:7px;border-radius:99px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden;display:flex}
-.fc-prog i{display:block;height:100%}
-.fc-prog .m{background:#18ae79}.fc-prog .l{background:#ffcd1f}
-.fc-set.new{border:2px dashed color-mix(in srgb,#4255ff 40%,var(--line));background:color-mix(in srgb,#4255ff 4%,var(--card));place-items:center;text-align:center;color:#4255ff;font-weight:800;min-height:120px}
-/* set page */
-.fc-sethead{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-.fc-sethead h2{margin:0;font-size:clamp(22px,3.4vw,30px)}
-.fc-sethead .sp{flex:1}
-.fc-modes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:16px}
-.fc-mode{border:1px solid color-mix(in srgb,var(--line) 70%,transparent);background:var(--card);border-radius:16px;padding:14px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;font-family:inherit;color:var(--ink);font-weight:800;font-size:14.5px;border-bottom:3px solid #4255ff;transition:transform .12s}
-.fc-mode:hover{transform:translateY(-2px)}
-.fc-mode .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:19px;background:color-mix(in srgb,#4255ff 12%,var(--card));flex:none}
-.fc-mode small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
-.fc-levels{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
-.fc-levels span{border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:700;background:color-mix(in srgb,var(--line) 50%,transparent)}
-.fc-levels .m{background:color-mix(in srgb,#18ae79 18%,var(--card));color:#0f7a55}.fc-levels .l{background:color-mix(in srgb,#ffcd1f 30%,var(--card));color:#8a6500}
-.fc-terms{display:grid;gap:8px}
-.fc-term{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;gap:14px;align-items:center;background:var(--card);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:14px;padding:12px 14px}
-.fc-term .tm{font-weight:700;border-right:1px solid var(--line);padding-right:14px}
-.fc-term .df{color:var(--ink);opacity:.9;font-size:14px}
-.fc-term .act{display:flex;gap:4px}
-.fc-term .act button{border:0;background:transparent;font-size:16px;cursor:pointer;width:32px;height:32px;border-radius:8px;color:var(--muted)}
-.fc-term .act button:hover{background:color-mix(in srgb,var(--line) 60%,transparent)}
-.fc-term .act button.on{color:#f59e0b}
-.fc-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;background:#cbd5e1}
-.fc-dot.l{background:#ffcd1f}.fc-dot.m{background:#18ae79}
-.fc-edit{display:grid;gap:10px}
-.fc-erow{display:grid;grid-template-columns:28px minmax(0,1fr) minmax(0,1fr) 34px;gap:10px;align-items:start;background:var(--card);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:14px;padding:12px}
-.fc-erow .n{font-weight:800;color:var(--muted);padding-top:10px;text-align:center}
-.fc-erow textarea{min-height:44px;resize:vertical}
-.fc-erow label{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
-.fc-erow button{border:0;background:transparent;font-size:18px;cursor:pointer;color:var(--muted);padding-top:8px}
-/* player */
-#fcPlay{position:fixed;inset:0;z-index:215;background:var(--bg,#f6f7fb);color:var(--ink);display:flex;flex-direction:column;overflow:hidden}
-#fcPlay[hidden]{display:none}
-.fc-ptop{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);background:var(--card)}
-.fc-ptop .md{font-weight:800;color:#4255ff;display:flex;align-items:center;gap:6px}
-.fc-ptop .ttl{color:var(--muted);font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;text-align:center}
-.fc-ptop button{border:0;background:color-mix(in srgb,var(--line) 50%,transparent);border-radius:10px;width:38px;height:38px;cursor:pointer;font-size:16px;color:var(--ink)}
-.fc-pbody{flex:1;overflow:auto;display:flex;flex-direction:column;align-items:center;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
-.fc-wrap{width:min(820px,100%);display:flex;flex-direction:column;gap:14px;flex:1}
-.fc-bar{height:8px;border-radius:99px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden}
-.fc-bar span{display:block;height:100%;background:#4255ff;transition:width .3s}
-.fc-counts{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:14px}
-.fc-counts .l{color:#e8590c;display:flex;align-items:center;gap:6px}.fc-counts .k{color:#18ae79;display:flex;align-items:center;gap:6px}
-.fc-counts i{font-style:normal;border:2px solid currentColor;border-radius:99px;padding:1px 10px;min-width:34px;text-align:center}
-.fc-scene{perspective:1600px;flex:1;min-height:280px;max-height:460px;position:relative;touch-action:pan-y}
-.fc-card{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,.2,.2,1);cursor:pointer}
-.fc-card.flip{transform:rotateX(180deg)}
-.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border-radius:22px;box-shadow:0 10px 30px -12px rgba(46,56,86,.35);display:flex;align-items:center;justify-content:center;padding:34px 28px;text-align:center;font-size:clamp(19px,3vw,30px);font-weight:600;line-height:1.35;overflow:auto;border:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
-.fc-face.back{transform:rotateX(180deg);font-size:clamp(16px,2.4vw,24px);font-weight:500}
-.fc-face small{position:absolute;top:14px;left:18px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.05em}
-.fc-face .spk{position:absolute;top:10px;right:12px;border:0;background:transparent;font-size:18px;cursor:pointer;opacity:.7}
-.fc-face .str{position:absolute;top:10px;right:46px;border:0;background:transparent;font-size:18px;cursor:pointer;opacity:.7}
-.fc-card.swl .fc-face{box-shadow:0 0 0 4px #e8590c}
-.fc-card.swr .fc-face{box-shadow:0 0 0 4px #18ae79}
-.fc-ctl{display:flex;align-items:center;justify-content:center;gap:14px}
-.fc-ctl button{border:0;width:56px;height:56px;border-radius:50%;cursor:pointer;font-size:22px;background:var(--card);box-shadow:0 4px 14px -6px rgba(46,56,86,.4);color:var(--ink)}
-.fc-ctl button.x{color:#e8590c;border:2px solid #e8590c}.fc-ctl button.v{color:#18ae79;border:2px solid #18ae79}
-.fc-ctl .n{font-weight:800;min-width:70px;text-align:center}
-.fc-tools{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
-.fc-tools label{display:flex;align-items:center;gap:6px;cursor:pointer}
-.fc-tools button{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 12px;font-size:12.5px;cursor:pointer;color:var(--ink);font-family:inherit}
-.fc-tools button.on{background:#4255ff;color:#fff;border-color:#4255ff}
-.fc-q{background:var(--card);border-radius:20px;padding:22px;box-shadow:0 8px 24px -14px rgba(46,56,86,.35);border:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
-.fc-q .lab{font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between}
-.fc-q .prompt{font-size:clamp(18px,2.8vw,24px);font-weight:600;margin-bottom:20px;line-height:1.35}
-.fc-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.fc-opt{border:2px solid color-mix(in srgb,var(--line) 90%,transparent);background:var(--card);border-radius:14px;padding:14px 16px;text-align:left;cursor:pointer;font-size:15px;font-family:inherit;color:var(--ink);display:flex;gap:10px;align-items:flex-start;transition:border-color .15s,background .15s}
-.fc-opt:hover{border-color:#7b89ff}
-.fc-opt .k{width:24px;height:24px;border-radius:50%;background:color-mix(in srgb,var(--line) 60%,transparent);display:grid;place-items:center;font-size:12px;font-weight:800;flex:none}
-.fc-opt.ok{border-color:#18ae79;background:color-mix(in srgb,#18ae79 12%,var(--card))}
-.fc-opt.no{border-color:#e8590c;background:color-mix(in srgb,#e8590c 10%,var(--card))}
-.fc-opt:disabled{cursor:default}
-.fc-write{display:flex;gap:10px}
-.fc-write input{flex:1;font-size:17px;padding:14px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-family:inherit}
-.fc-write input:focus{border-color:#4255ff;outline:0}
-.fc-fb{margin-top:14px;border-radius:14px;padding:12px 14px;font-size:14.5px}
-.fc-fb.ok{background:color-mix(in srgb,#18ae79 14%,var(--card));color:#0f7a55;font-weight:700}
-.fc-fb.no{background:color-mix(in srgb,#e8590c 12%,var(--card))}
-.fc-fb .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.fc-seg{display:flex;gap:4px}
-.fc-seg i{flex:1;height:8px;border-radius:99px;background:color-mix(in srgb,var(--line) 70%,transparent)}
-.fc-seg i.a{background:#ffcd1f}.fc-seg i.b{background:#18ae79}
-.fc-done{text-align:center;display:grid;gap:12px;justify-items:center;padding:20px 0}
-.fc-done .big{font-size:64px}
-.fc-done h2{margin:0;font-size:28px}
-.fc-ring{width:150px;height:150px;position:relative}
-.fc-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.fc-ring circle{fill:none;stroke-width:12}
-.fc-ring div{position:absolute;inset:0;display:grid;place-content:center;font-size:30px;font-weight:800}
-.fc-match{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:min(900px,100%)}
-.fc-tile{border:2px solid color-mix(in srgb,var(--line) 90%,transparent);background:var(--card);border-radius:14px;min-height:110px;padding:10px;font-size:14px;cursor:pointer;color:var(--ink);font-family:inherit;display:grid;place-items:center;text-align:center;transition:transform .15s,opacity .3s,border-color .15s}
-.fc-tile.sel{border-color:#4255ff;background:color-mix(in srgb,#4255ff 10%,var(--card))}
-.fc-tile.bad{border-color:#e8590c;animation:fcshake .35s}
-.fc-tile.gone{opacity:0;transform:scale(.8);pointer-events:none}
-@keyframes fcshake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.fc-timer{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;text-align:center}
-.fc-rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.fc-rate button{border:0;border-radius:12px;padding:12px 6px;font-weight:800;cursor:pointer;color:#fff;font-family:inherit;font-size:14px}
-.fc-rate button small{display:block;font-weight:500;opacity:.9;font-size:11.5px}
-.fc-test{display:grid;gap:14px;width:min(820px,100%)}
-.fc-tq.ok{border-left:5px solid #18ae79}.fc-tq.no{border-left:5px solid #e8590c}
-.fc-tf{display:flex;gap:10px}
-.fc-modal{position:fixed;inset:0;z-index:216;background:rgba(10,9,45,.55);display:grid;place-items:center;padding:16px}
-.fc-modal[hidden]{display:none}
-.fc-mbox{background:var(--card);border-radius:22px;width:min(640px,100%);max-height:90vh;overflow:auto;padding:20px;display:grid;gap:12px;color:var(--ink)}
-.fc-mbox h3{margin:0}
-.fc-mbox textarea{min-height:180px;font-family:inherit}
-@media (max-width:900px){.fc-modes{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:700px){.fc-hero{grid-template-columns:1fr;padding:20px}.fc-modes{grid-template-columns:1fr 1fr}.fc-term{grid-template-columns:1fr auto}.fc-term .tm{border-right:0;padding-right:0}.fc-term .df{grid-column:1/-1;grid-row:2}.fc-opts{grid-template-columns:1fr}.fc-match{grid-template-columns:repeat(3,minmax(0,1fr))}.fc-tile{min-height:90px;font-size:12.5px}.fc-erow{grid-template-columns:1fr 30px}.fc-erow .n{display:none}.fc-erow>div{grid-column:1}.fc-erow button{grid-column:2;grid-row:1}.fc-scene{min-height:300px}.fc-rate{grid-template-columns:1fr 1fr}}
-
-</style><script id="sf-fc-js">
-(function(){
-var $=function(id){return document.getElementById(id)};
-function esc_(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function toast_(m){try{toast(m)}catch(e){}}
-function D(){try{return data}catch(e){return null}}
-function save(){try{persist()}catch(e){}}
-function uid_(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
-function todayS(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function addDays(n){var d=new Date();d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
-function reward(c,s){try{window.dispatchEvent(new CustomEvent('sf:reward',{detail:{coins:c,src:s}}))}catch(e){}}
-var DEF='My first set';
-var EMO=['📘','🧪','🌍','🧮','🧠','🏛️','💼','⚡','🧬','✍️','🎵','📈'];
-var COL=['#4255ff','#18ae79','#e8590c','#9b5cf6','#e11d48','#0891b2','#ca8a04','#db2777'];
-function cards(){var d=D();if(!d)return[];if(!Array.isArray(d.flashcards))d.flashcards=[];d.flashcards.forEach(function(c){if(!c.id)c.id=uid_();if(!c.set)c.set=DEF;if(c.lv==null)c.lv=c.learned?2:0});return d.flashcards}
-function meta(){var d=D();if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};return d.fcmeta}
-function setMeta(n){var m=meta();if(!m[n]){var k=Object.keys(m).length;m[n]={emoji:EMO[k%EMO.length],color:COL[k%COL.length],created:Date.now()}}return m[n]}
-function sets(){var map={};cards().forEach(function(c){(map[c.set]=map[c.set]||[]).push(c)});Object.keys(meta()).forEach(function(n){if(!map[n]&&meta()[n].keep)map[n]=[]});return Object.keys(map).map(function(n){var cs=map[n];return{name:n,cards:cs,meta:setMeta(n),m:cs.filter(function(c){return c.lv>=2}).length,l:cs.filter(function(c){return c.lv===1}).length}}).sort(function(a,b){return(b.meta.last||b.meta.created||0)-(a.meta.last||a.meta.created||0)})}
-function setCards(n){return cards().filter(function(c){return c.set===n})}
-function due(){var t=todayS();return cards().filter(function(c){return c.due&&c.due<=t})}
-function mark(c,lv){c.lv=Math.max(0,Math.min(2,lv));c.learned=c.lv>=2}
-function norm(s){return String(s||'').toLowerCase().replace(/[‘’]/g,"'").replace(/[^a-z0-9À-ɏऀ-ॿ\s']/g,' ').replace(/\s+/g,' ').trim()}
-function lev(a,b){var m=a.length,n=b.length;if(!m)return n;if(!n)return m;var p=[],i,j;for(j=0;j<=n;j++)p[j]=j;for(i=1;i<=m;i++){var prev=p[0];p[0]=i;for(j=1;j<=n;j++){var t=p[j];p[j]=Math.min(p[j]+1,p[j-1]+1,prev+(a[i-1]===b[j-1]?0:1));prev=t}}return p[n]}
-function close(ans,target){var a=norm(ans),b=norm(target);if(!a)return false;if(a===b)return true;var bs=b.replace(/^(the|a|an) /,''),as=a.replace(/^(the|a|an) /,'');if(as===bs)return true;return lev(as,bs)<=Math.max(1,Math.floor(bs.length*.15))}
-function speak(t){try{var u=new SpeechSynthesisUtterance(String(t));u.rate=.95;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
-
-/* ---------- home ---------- */
-var VIEW={set:null,edit:false};
-function render(){var h=$('fcHome');if(!h)return;if(VIEW.set!=null){renderSet();return}
- var ss=sets(),all=cards(),m=all.filter(function(c){return c.lv>=2}).length,du=due().length,d=D();
- var st=d.fcstats||{};var streak=st.streak||0;if(st.last&&st.last<addDays(-1))streak=0;
- h.innerHTML='<div class="fc-hero"><div><h2>Flashcards</h2><p>Study sets with flip cards, Learn, Test, Match and spaced review. Cards you keep missing come back more often.</p><div class="fc-hbtns"><button class="fc-b" data-fc="new">＋ Create set</button><button class="fc-b y" data-fc="ai">✨ AI set from a topic</button><button class="fc-b g" data-fc="import">📋 Import</button>'+(((d.mistakes||[]).length||((d.mx||{}).items||[]).length)?'<button class="fc-b g" data-fc="frommist">🔁 From my mistakes</button>':'')+'</div></div><div class="fc-stats"><div><b>'+all.length+'</b><small>Cards</small></div><div><b>'+m+'</b><small>Mastered</small></div><div><b>'+streak+'🔥</b><small>Day streak</small></div></div></div>'+
- (du?'<div class="fc-due"><span class="e">⏰</span><div><b>'+du+' card'+(du===1?'':'s')+' due for review</b><p>Spaced repetition: reviewing now locks them into long-term memory.</p></div><span class="sp"></span><button class="fc-b p" data-fc="review">Review now</button></div>':'')+
- '<div class="fc-sec"><h3>Your sets</h3><span class="sp"></span><small class="muted">'+ss.length+' set'+(ss.length===1?'':'s')+'</small></div><div class="fc-grid"><div role="button" tabindex="0" class="fc-set new" data-fc="new"><span style="font-size:30px">＋</span>Create a set</div>'+ss.map(function(s){var n=s.cards.length||1;return'<div role="button" tabindex="0" class="fc-set" style="--c:'+s.meta.color+'" data-fcset="'+esc_(s.name)+'"><div class="fc-st"><span class="em">'+s.meta.emoji+'</span><div><b>'+esc_(s.name)+'</b><br><small>'+s.cards.length+' term'+(s.cards.length===1?'':'s')+'</small></div></div><div class="fc-prog"><i class="m" style="width:'+(s.m/n*100)+'%"></i><i class="l" style="width:'+(s.l/n*100)+'%"></i></div><small>'+s.m+' mastered · '+s.l+' learning</small></div>'}).join('')+'</div>'}
-/* ---------- set page ---------- */
-function renderSet(){var h=$('fcHome'),n=VIEW.set,cs=setCards(n),mt=setMeta(n);
- if(VIEW.edit){renderEdit();return}
- var m=cs.filter(function(c){return c.lv>=2}).length,l=cs.filter(function(c){return c.lv===1}).length;
- h.innerHTML='<button class="btn line sm" data-fc="home" style="margin-bottom:12px">← All sets</button><div class="fc-sethead"><span class="fc-set" style="--c:'+mt.color+';padding:0;border:0;cursor:default"><span class="em" style="width:56px;height:56px;font-size:28px;border-radius:16px;display:grid;place-items:center;background:color-mix(in srgb,'+mt.color+' 14%,var(--card))">'+mt.emoji+'</span></span><div><h2>'+esc_(n)+'</h2><small class="muted">'+cs.length+' terms'+(mt.best?' · Match best '+mt.best.toFixed(1)+'s':'')+'</small></div><span class="sp"></span><button class="fc-b d" data-fc="edit">✏️ Edit</button><button class="fc-b d" data-fc="delset">🗑</button></div>'+
- '<div class="fc-modes"><button class="fc-mode" data-fcm="cards"><span class="ic">🃏</span><span>Flashcards<small>Flip and sort</small></span></button><button class="fc-mode" data-fcm="learn"><span class="ic">🎓</span><span>Learn<small>Adaptive rounds</small></span></button><button class="fc-mode" data-fcm="test"><span class="ic">📝</span><span>Test<small>Graded exam</small></span></button><button class="fc-mode" data-fcm="match"><span class="ic">🧩</span><span>Match<small>Beat the clock</small></span></button><button class="fc-mode" data-fcm="review"><span class="ic">⏰</span><span>Spaced review<small>Again · Good · Easy</small></span></button></div>'+
- '<div class="fc-levels"><span>'+(cs.length-m-l)+' not studied</span><span class="l">'+l+' learning</span><span class="m">'+m+' mastered</span><span style="cursor:pointer" data-fcm="quiz">🎮 Play as a quiz game</span></div>'+
- '<div class="fc-sec" style="margin-top:6px"><h3>Terms in this set</h3><span class="sp"></span><button class="fc-b l" data-fc="edit">＋ Add or edit terms</button></div><div class="fc-terms">'+(cs.length?cs.map(function(c){return'<div class="fc-term"><div class="tm"><span class="fc-dot '+(c.lv>=2?'m':c.lv===1?'l':'')+'"></span>'+esc_(c.front)+'</div><div class="df">'+esc_(c.back)+'</div><div class="act"><button data-fcstar="'+c.id+'" class="'+(c.star?'on':'')+'" aria-label="Star">★</button><button data-fcspk="'+c.id+'" aria-label="Read aloud">🔊</button></div></div>'}).join(''):'<div class="kq-empty">No terms yet — add some.</div>')+'</div>'}
-function renderEdit(){var h=$('fcHome'),n=VIEW.set,isNew=VIEW.edit==='new';var cs=isNew?[]:setCards(n);var rows=cs.map(function(c){return{id:c.id,f:c.front,b:c.back}});if(!rows.length)rows=[{f:'',b:''},{f:'',b:''},{f:'',b:''}];
- h.innerHTML='<div class="fc-sethead"><h2>'+(isNew?'Create a new set':'Edit set')+'</h2><span class="sp"></span><button class="fc-b d" data-fc="cancel">Cancel</button><button class="fc-b p" data-fc="saveset">'+(isNew?'Create':'Save')+'</button></div><div class="field"><label>Title</label><input id="fcTitle" maxlength="60" value="'+esc_(isNew?'':n)+'" placeholder="e.g. Biology — Cell structure"></div><div class="fc-edit" id="fcRows"></div><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="fc-b l" data-fc="addrow">＋ Add card</button><button class="fc-b d" data-fc="import">📋 Import list</button></div>';
- var box=$('fcRows');rows.forEach(function(r){box.appendChild(row(r))});num()}
-function row(r){var d=document.createElement('div');d.className='fc-erow';if(r.id)d.dataset.id=r.id;d.innerHTML='<span class="n"></span><div><textarea class="fcF" maxlength="300" placeholder="Term or question">'+esc_(r.f||'')+'</textarea><label>Term</label></div><div><textarea class="fcB" maxlength="600" placeholder="Definition or answer">'+esc_(r.b||'')+'</textarea><label>Definition</label></div><button type="button" data-fc="delrow" aria-label="Delete card">🗑</button>';return d}
-function num(){[].slice.call(document.querySelectorAll('#fcRows .fc-erow .n')).forEach(function(e,i){e.textContent=i+1})}
-function saveSet(){var t=($('fcTitle').value||'').trim().slice(0,60);if(!t){$('fcTitle').focus();toast_('Give the set a title');return}
- var d=D(),old=VIEW.edit==='new'?null:VIEW.set;var rows=[].slice.call(document.querySelectorAll('#fcRows .fc-erow')).map(function(r){return{id:r.dataset.id,f:r.querySelector('.fcF').value.trim(),b:r.querySelector('.fcB').value.trim()}}).filter(function(r){return r.f&&r.b});
- if(!rows.length){toast_('Add at least one card with both sides filled in');return}
- if(old&&old!==t&&meta()[old]){meta()[t]=meta()[old];delete meta()[old]}
- var keep={};rows.forEach(function(r){if(r.id)keep[r.id]=r});
- d.flashcards=cards().filter(function(c){return c.set!==old||keep[c.id]});
- d.flashcards.forEach(function(c){if(keep[c.id]){var r=keep[c.id];if(c.front!==r.f||c.back!==r.b){c.front=r.f;c.back=r.b}c.set=t}});
- rows.filter(function(r){return!r.id}).forEach(function(r){d.flashcards.push({id:uid_(),front:r.f,back:r.b,learned:false,lv:0,set:t})});
- setMeta(t).last=Date.now();save();VIEW={set:t,edit:false};render();toast_('Set saved')}
-function addCardsTo(set,list,emoji){var d=D();cards();list.forEach(function(x){d.flashcards.push({id:uid_(),front:x.f,back:x.b,learned:false,lv:0,set:set})});var m=setMeta(set);if(emoji)m.emoji=emoji;m.last=Date.now();save()}
-/* ---------- modal (AI / import) ---------- */
-function modal(html){var m=$('fcModal');if(!m){m=document.createElement('div');m.id='fcModal';m.className='fc-modal';document.body.appendChild(m);m.addEventListener('click',function(e){if(e.target===m)m.hidden=true})}m.innerHTML='<div class="fc-mbox">'+html+'</div>';m.hidden=false;return m}
-function parseList(t){return String(t||'').split(/\r?\n/).map(function(l){l=l.trim();if(!l)return null;var m=l.split(/\t| [-–—] | ?: |=/);if(m.length<2){var c=l.indexOf(',');if(c>0)m=[l.slice(0,c),l.slice(c+1)];else return null}return{f:m[0].trim(),b:m.slice(1).join(' - ').trim()}}).filter(function(x){return x&&x.f&&x.b})}
-function importModal(){var m=modal('<h3>Import cards</h3><p class="muted tiny" style="margin:0">Paste one card per line. Separate the term and definition with a tab, a dash ( - ), a colon or a comma — lists exported from other flashcard apps work too.</p><div class="field" style="margin:0"><label>Set title</label><input id="fcImpT" maxlength="60" value="'+esc_(VIEW.set||'')+'" placeholder="Set name"></div><textarea id="fcImpX" placeholder="Mitochondria - site of aerobic respiration&#10;Ribosome - makes proteins"></textarea><p class="tiny muted" id="fcImpN" style="margin:0">0 cards found</p><div style="display:flex;gap:8px;justify-content:flex-end"><button class="fc-b d" id="fcImpC">Cancel</button><button class="fc-b p" id="fcImpGo">Import</button></div>');
- var x=$('fcImpX');x.oninput=function(){$('fcImpN').textContent=parseList(x.value).length+' cards found'};$('fcImpC').onclick=function(){m.hidden=true};
- $('fcImpGo').onclick=function(){var l=parseList(x.value),t=($('fcImpT').value||'').trim()||'Imported set';if(!l.length){toast_('No cards found — check the separators');return}addCardsTo(t,l);m.hidden=true;VIEW={set:t,edit:false};render();toast_(l.length+' cards imported')}}
-function aiModal(){var m=modal('<h3>✨ Make a set with AI</h3><div class="field" style="margin:0"><label>Topic</label><input id="fcAiT" maxlength="120" placeholder="e.g. Causes of World War One, Organic chemistry functional groups"></div><div class="field" style="margin:0"><label>How many cards?</label><select id="fcAiN"><option>10</option><option selected>15</option><option>20</option><option>30</option></select></div><p class="tiny muted" id="fcAiMsg" style="margin:0">Cards are short and exam-focused. You can edit them after.</p><div style="display:flex;gap:8px;justify-content:flex-end"><button class="fc-b d" id="fcAiC">Cancel</button><button class="fc-b p" id="fcAiGo">Create set</button></div>');
- $('fcAiC').onclick=function(){m.hidden=true};$('fcAiT').focus();
- $('fcAiGo').onclick=function(){var t=$('fcAiT').value.trim(),n=+$('fcAiN').value,b=this;if(!t){$('fcAiT').focus();return}
-  if(typeof requestStudyAI!=='function'||!(typeof aiAvailable==='function'&&aiAvailable())){$('fcAiMsg').textContent=location.protocol==='file:'?'AI sets work on the published website, not a local file.':'The AI is not reachable right now. Try Import instead.';return}
-  b.disabled=true;b.textContent='Creating…';var lvl=(D().profile&&D().profile.level)||'Grade 10';
-  requestStudyAI({system:'You write accurate study flashcards. Return ONLY JSON: {"cards":[{"term":"...","definition":"..."}]}. Terms at most 60 characters, definitions at most 160 characters, exam-focused, no duplicates.',user:'Make '+n+' flashcards about: '+t+'. Level: '+lvl+'.',temperature:.3}).then(function(txt){var s=String(txt||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'');var j=JSON.parse(s);var arr=(Array.isArray(j)?j:j.cards)||[];var l=arr.map(function(c){return{f:String(c.term||c.front||'').trim(),b:String(c.definition||c.back||'').trim()}}).filter(function(x){return x.f&&x.b});if(!l.length)throw new Error('empty');var name=t.slice(0,60);addCardsTo(name,l,'✨');m.hidden=true;VIEW={set:name,edit:false};render();toast_(l.length+' cards created')}).catch(function(e){b.disabled=false;b.textContent='Create set';$('fcAiMsg').textContent='The AI could not make this set right now. Please try again.'})}}
-function fromMistakes(){var d=D();var items=[];try{items=(window.StudyFlowMastery.M().items||[]).filter(function(x){return x.question&&x.correctAnswer}).map(function(x){return{f:String(x.question),b:String(x.correctAnswer)+(x.why?' — '+x.why:'')}})}catch(e){}var l=items.concat((d.mistakes||[]).map(function(x){var q=String(x.question||''),mm=q.match(/^(.*)\(Correct answer: (.*)\)\s*$/);return mm?{f:mm[1].trim(),b:mm[2].trim()+(x.lesson?' — '+x.lesson:'')}:{f:q,b:x.lesson||'Review this in Mistake → Mastery'}})).filter(function(x){return x.f});var name='Mistakes to fix';var existing={};setCards(name).forEach(function(c){existing[c.front]=1});l=l.filter(function(x){return!existing[x.f]});if(!l.length){toast_('All your mistakes are already in “'+name+'”');VIEW={set:name,edit:false};render();return}addCardsTo(name,l,'🔁');VIEW={set:name,edit:false};render();toast_(l.length+' cards made from your mistakes')}
-
-/* ---------- player shell ---------- */
-var P=null;
-function shell(mode,icon,title){var e=$('fcPlay');if(!e){e=document.createElement('div');e.id='fcPlay';document.body.appendChild(e)}e.hidden=false;document.body.style.overflow='hidden';
- e.innerHTML='<div class="fc-ptop"><span class="md">'+icon+' '+mode+'</span><span class="ttl">'+esc_(title)+'</span><button id="fcX" aria-label="Close">✕</button></div><div class="fc-pbody"><div class="fc-wrap" id="fcW"></div></div>';$('fcX').onclick=closeP;return $('fcW')}
-function closeP(){var e=$('fcPlay');if(e)e.hidden=true;document.body.style.overflow='';if(P&&P.t)clearInterval(P.t);P=null;try{speechSynthesis.cancel()}catch(x){}render()}
-function streakTick(){var d=D();var s=d.fcstats||(d.fcstats={});var t=todayS();if(s.last===t)return;s.streak=s.last===addDays(-1)?(s.streak||0)+1:1;s.last=t;save()}
-document.addEventListener('keydown',function(e){var el=$('fcPlay');if(!el||el.hidden||!P)return;if(/INPUT|TEXTAREA/.test((e.target||{}).tagName||''))return;if(P.key&&P.key(e)!==false){}if(e.key==='Escape')closeP()});
-
-/* ---------- Flashcards mode ---------- */
-function modeCards(list,title){if(!list.length){toast_('No cards in this set yet');return}var W=shell('Flashcards','🃏',title);
- P={list:list.slice(),i:0,know:[],learn:[],track:true,flip:false,termFirst:true,title:title};
- function cur(){return P.list[P.i]}
- function draw(){var c=cur();if(!c){summary();return}var f=P.termFirst?c.front:c.back,b=P.termFirst?c.back:c.front;
-  W.innerHTML='<div class="fc-counts">'+(P.track?'<span class="l"><i>'+P.learn.length+'</i> Still learning</span><span>'+(P.i+1)+' / '+P.list.length+'</span><span class="k">Know <i>'+P.know.length+'</i></span>':'<span></span><span>'+(P.i+1)+' / '+P.list.length+'</span><span></span>')+'</div><div class="fc-bar"><span style="width:'+(P.i/P.list.length*100)+'%"></span></div>'+
-  '<div class="fc-scene" id="fcScene"><div class="fc-card'+(P.flip?' flip':'')+'" id="fcCard"><div class="fc-face front"><small>'+(P.termFirst?'TERM':'DEFINITION')+'</small><button class="str" data-s>'+(c.star?'⭐':'☆')+'</button><button class="spk" data-k>🔊</button><div>'+esc_(f)+'</div></div><div class="fc-face back"><small>'+(P.termFirst?'DEFINITION':'TERM')+'</small><button class="spk" data-k2>🔊</button><div>'+esc_(b)+'</div></div></div></div>'+
-  '<div class="fc-ctl">'+(P.track?'<button class="x" id="fcNo" aria-label="Still learning">✖</button><span class="n">Tap card to flip</span><button class="v" id="fcYes" aria-label="Know it">✔</button>':'<button id="fcPrev" aria-label="Previous">←</button><span class="n">Tap card to flip</span><button id="fcNext" aria-label="Next">→</button>')+'</div>'+
-  '<div class="fc-tools"><label><input type="checkbox" id="fcTrack" '+(P.track?'checked':'')+'> Track progress</label><div style="display:flex;gap:6px;flex-wrap:wrap"><button id="fcShuf">🔀 Shuffle</button><button id="fcSide" class="'+(P.termFirst?'':'on')+'">⇄ Definition first</button><button id="fcStar">⭐ Starred only</button></div></div><p class="tiny muted" style="text-align:center;margin:0">Keyboard: Space flip · ← still learning · → know it</p>';
-  var card=$('fcCard');card.onclick=function(e){if(e.target.closest('button'))return;P.flip=!P.flip;card.classList.toggle('flip',P.flip)};
-  card.querySelector('[data-k]').onclick=function(){speak(f)};card.querySelector('[data-k2]').onclick=function(){speak(b)};
-  card.querySelector('[data-s]').onclick=function(){c.star=!c.star;save();this.textContent=c.star?'⭐':'☆'};
-  if(P.track){$('fcNo').onclick=function(){sort(false)};$('fcYes').onclick=function(){sort(true)}}else{$('fcPrev').onclick=function(){if(P.i>0){P.i--;P.flip=false;draw()}};$('fcNext').onclick=function(){P.i++;P.flip=false;draw()}}
-  $('fcTrack').onchange=function(){P.track=this.checked;draw()};$('fcShuf').onclick=function(){P.list=P.list.slice(0,P.i).concat(shuffle(P.list.slice(P.i)));P.flip=false;draw();toast_('Shuffled')};$('fcSide').onclick=function(){P.termFirst=!P.termFirst;P.flip=false;draw()};
-  $('fcStar').onclick=function(){var st=list.filter(function(x){return x.star});if(!st.length){toast_('Star some cards first (☆ on the card)');return}P.list=st;P.i=0;P.know=[];P.learn=[];P.flip=false;draw()};
-  swipe($('fcScene'),card)}
- function sort(k){var c=cur();if(!c)return;(k?P.know:P.learn).push(c);if(k){if(c.lv<1)mark(c,1)}else mark(c,Math.min(c.lv,1));c.due=c.due||addDays(k?2:0);save();var card=$('fcCard');card.style.transition='transform .3s, opacity .3s';card.style.transform='translateX('+(k?'':'-')+'120%) rotate('+(k?'':'-')+'12deg)';card.style.opacity='0';setTimeout(function(){P.i++;P.flip=false;draw()},230)}
- function swipe(sc,card){var x0=null,dx=0;sc.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;dx=0;card.style.transition='none'},{passive:true});sc.addEventListener('touchmove',function(e){if(x0==null)return;dx=e.touches[0].clientX-x0;card.style.transform=(P.flip?'rotateX(180deg) ':'')+'translateX('+dx+'px) rotate('+dx/20+'deg)';card.classList.toggle('swl',dx<-40);card.classList.toggle('swr',dx>40)},{passive:true});sc.addEventListener('touchend',function(){card.style.transition='';card.classList.remove('swl','swr');if(Math.abs(dx)>90&&P.track){sort(dx>0)}else if(Math.abs(dx)>90){if(dx<0){P.i++}else if(P.i>0)P.i--;P.flip=false;draw()}else card.style.transform='';x0=null})}
- function summary(){streakTick();reward(Math.min(20,P.know.length*2),'cards');var k=P.know.length,n=P.list.length,pct=Math.round(k/Math.max(1,n)*100);
-  W.innerHTML='<div class="fc-done"><div class="fc-ring"><svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" stroke="#ffe8d6"/><circle cx="75" cy="75" r="62" stroke="#18ae79" stroke-linecap="round" stroke-dasharray="390" stroke-dashoffset="'+(390*(1-pct/100))+'"/></svg><div>'+pct+'%</div></div><h2>'+(pct===100?'You know them all! 🎉':'Nice work — keep going!')+'</h2><p class="muted">'+k+' known · '+P.learn.length+' still learning</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">'+(P.learn.length?'<button class="fc-b p" id="fcAgain">Study '+P.learn.length+' still-learning cards</button>':'')+'<button class="fc-b l" id="fcLearn">🎓 Practise with Learn</button><button class="fc-b d" id="fcRestart">Restart</button></div></div>';
-  if($('fcAgain'))$('fcAgain').onclick=function(){modeCards(P.learn,title)};$('fcLearn').onclick=function(){modeLearn(list,title)};$('fcRestart').onclick=function(){modeCards(list,title)}}
- P.key=function(e){if(e.key===' '){e.preventDefault();var c=$('fcCard');if(c)c.click()}else if(e.key==='ArrowRight'){if(P.track)sort(true);else{P.i++;P.flip=false;draw()}}else if(e.key==='ArrowLeft'){if(P.track)sort(false);else if(P.i>0){P.i--;P.flip=false;draw()}}};
- draw()}
-
-/* ---------- Learn mode ---------- */
-function distractors(c,pool,field){var others=shuffle(pool.filter(function(x){return x!==c&&norm(x[field])!==norm(c[field])})).slice(0,3).map(function(x){return x[field]});var fill=['None of these','All of these','Not sure'];while(others.length<3)others.push(fill[others.length]);return others}
-function modeLearn(list,title){if(!list.length){toast_('No cards in this set yet');return}var W=shell('Learn','🎓',title);
- var pool=cards();var q=list.filter(function(c){return c.lv<2});if(!q.length){q=list.slice()}
- P={queue:shuffle(q),round:[],ri:0,roundNo:0,stage:{},done:0,total:q.length,title:title,wrong:0};
- q.forEach(function(c){P.stage[c.id]=c.lv>=1?1:0});
- function newRound(){P.round=P.queue.filter(function(c){return P.stage[c.id]<2}).slice(0,7);P.ri=0;P.roundNo++;if(!P.round.length){finish();return}ask()}
- function seg(){return'<div class="fc-seg">'+P.round.map(function(c,i){var s=P.stage[c.id];return'<i class="'+(s>=2?'b':s>=1?'a':'')+'"></i>'}).join('')+'</div>'}
- function ask(){var c=P.round[P.ri];if(!c){roundEnd();return}var s=P.stage[c.id];var long=String(c.back).length>45&&String(c.front).length>45;
-  if(s===0||long&&s<2&&s===0){// MCQ: show term, choose definition
-   var opts=shuffle([c.back].concat(distractors(c,pool.length>=4?pool:list,'back')));
-   W.innerHTML=seg()+'<div class="fc-q"><div class="lab"><span>Term</span><span>Round '+P.roundNo+'</span></div><div class="prompt">'+esc_(c.front)+'</div><div class="lab"><span>Choose the matching definition</span></div><div class="fc-opts">'+opts.map(function(o,i){return'<button class="fc-opt" data-o="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc_(o)+'</span></button>'}).join('')+'</div><div id="fcFb"></div></div>';
-   W.querySelectorAll('[data-o]').forEach(function(b){b.onclick=function(){var pick=opts[+b.dataset.o],ok=pick===c.back;W.querySelectorAll('[data-o]').forEach(function(x){x.disabled=true;if(opts[+x.dataset.o]===c.back)x.classList.add('ok')});if(!ok)b.classList.add('no');result(c,ok,c.back)}});
-   P.key=function(e){if(/^[1-4]$/.test(e.key)){var t=W.querySelector('[data-o="'+(+e.key-1)+'"]');if(t&&!t.disabled)t.click()}else if(e.key==='Enter'){var n=$('fcCont');if(n)n.click()}}}
-  else if(String(c.front).length<=60){// written: show definition, type term
-   W.innerHTML=seg()+'<div class="fc-q"><div class="lab"><span>Definition</span><span>Round '+P.roundNo+'</span></div><div class="prompt">'+esc_(c.back)+'</div><div class="lab"><span>Type the term</span><span style="cursor:pointer;color:#4255ff" id="fcDk">Don’t know?</span></div><div class="fc-write"><input id="fcIn" autocomplete="off" placeholder="Type the answer"><button class="fc-b p" id="fcAns">Answer</button></div><div id="fcFb"></div></div>';
-   var inp=$('fcIn');inp.focus();var go_=function(){var v=inp.value;if(!v.trim())return;var ok=close(v,c.front);inp.disabled=true;$('fcAns').disabled=true;result(c,ok,c.front,v)};$('fcAns').onclick=go_;inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();if(!inp.disabled)go_();else{var n=$('fcCont');if(n)n.click()}}};$('fcDk').onclick=function(){inp.disabled=true;$('fcAns').disabled=true;result(c,false,c.front,'')};P.key=function(e){if(e.key==='Enter'){var n=$('fcCont');if(n)n.click()}}}
-  else{// self-check for long cards
-   W.innerHTML=seg()+'<div class="fc-q"><div class="lab"><span>Recall the answer, then reveal</span><span>Round '+P.roundNo+'</span></div><div class="prompt">'+esc_(c.front)+'</div><button class="fc-b p" id="fcRev">Reveal answer</button><div id="fcFb"></div></div>';
-   $('fcRev').onclick=function(){this.remove();$('fcFb').innerHTML='<div class="fc-fb no" style="background:color-mix(in srgb,#4255ff 8%,var(--card))"><b>Answer</b><p style="margin:6px 0 0">'+esc_(c.back)+'</p><div class="row"><button class="fc-b" style="background:#e8590c;color:#fff" id="fcSn">I got it wrong</button><button class="fc-b" style="background:#18ae79;color:#fff" id="fcSy">I got it right</button></div></div>';$('fcSn').onclick=function(){result(c,false,null)};$('fcSy').onclick=function(){result(c,true,null)}};P.key=null}}
- function result(c,ok,ans,typed){if(ok){P.stage[c.id]=Math.min(2,P.stage[c.id]+1)}else{P.stage[c.id]=0;P.wrong++}
-  mark(c,P.stage[c.id]>=2?2:Math.max(1,c.lv===2&&!ok?1:P.stage[c.id]));c.due=addDays(ok?(P.stage[c.id]>=2?3:1):0);save();
-  var fb=$('fcFb');fb.innerHTML=ok?'<div class="fc-fb ok">✔ '+['Great job!','Correct!','You’ve got this!','Nice!'][Math.floor(Math.random()*4)]+(typed!=null&&ans&&norm(typed)!==norm(ans)?' <span style="font-weight:500">(exact answer: '+esc_(ans)+')</span>':'')+'</div>':'<div class="fc-fb no"><b>'+(typed?'Not quite — you’re still learning this one.':'No problem, you’re learning!')+'</b>'+(ans?'<p style="margin:6px 0 0">Correct answer: <b>'+esc_(ans)+'</b></p>':'')+(typed?'<p style="margin:4px 0 0" class="muted">You wrote: '+esc_(typed)+'</p>':'')+'<div class="row">'+(typed?'<button class="fc-b d" id="fcOver">I was right</button>':'')+'</div></div>';
-  var cont=document.createElement('button');cont.className='fc-b p';cont.id='fcCont';cont.textContent='Continue →';cont.style.marginTop='12px';fb.appendChild(cont);cont.focus();
-  cont.onclick=function(){P.ri++;ask()};
-  if($('fcOver'))$('fcOver').onclick=function(){P.stage[c.id]=Math.min(2,P.stage[c.id]+2);P.wrong--;mark(c,P.stage[c.id]>=2?2:1);c.due=addDays(3);save();P.ri++;ask()};
-  if(ok&&P.stage[c.id]>=2)reward(2,'learn')}
- function roundEnd(){var mastered=P.queue.filter(function(c){return P.stage[c.id]>=2}).length;var left=P.queue.length-mastered;if(!left){finish();return}
-  W.innerHTML='<div class="fc-done"><div class="big">💪</div><h2>Round '+P.roundNo+' done</h2><p class="muted">'+mastered+' of '+P.queue.length+' mastered · '+left+' to go</p><div class="fc-bar" style="width:min(420px,100%)"><span style="width:'+(mastered/P.queue.length*100)+'%;background:#18ae79"></span></div><button class="fc-b p" id="fcNextR">Continue to round '+(P.roundNo+1)+'</button></div>';$('fcNextR').onclick=newRound;$('fcNextR').focus();P.key=function(e){if(e.key==='Enter')newRound()}}
- function finish(){streakTick();reward(15,'learn');W.innerHTML='<div class="fc-done"><div class="big">🎓</div><h2>You’ve mastered this set!</h2><p class="muted">'+P.total+' terms learned'+(P.wrong?' · '+P.wrong+' mistakes along the way':'')+'. They’ll come back in spaced review so you don’t forget.</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="fc-b p" id="fcT">📝 Take a test</button><button class="fc-b l" id="fcM">🧩 Play Match</button><button class="fc-b d" id="fcR">Learn again</button></div></div>';$('fcT').onclick=function(){modeTest(list,title)};$('fcM').onclick=function(){modeMatch(list,title)};$('fcR').onclick=function(){list.forEach(function(c){mark(c,0)});save();modeLearn(list,title)};P.key=null;var c=document.querySelector('#fcPlay');try{if(window.StudyFlowQuiz){}}catch(e){}}
- newRound()}
-
-/* ---------- Test mode ---------- */
-function modeTest(list,title){if(list.length<2){toast_('Add at least 2 cards to take a test');return}var W=shell('Test','📝',title);P={key:null};var n=Math.min(list.length,20);
- W.innerHTML='<div class="fc-q"><h2 style="margin:0 0 6px">Test settings</h2><p class="muted tiny" style="margin:0 0 14px">A mixed exam on this set. You get your grade at the end.</p><div class="field"><label>Questions (max '+list.length+')</label><input type="number" id="fcTn" min="2" max="'+list.length+'" value="'+n+'"></div><div class="fc-tools" style="justify-content:flex-start;gap:14px"><label><input type="checkbox" id="fcTmc" checked> Multiple choice</label><label><input type="checkbox" id="fcTtf" checked> True / false</label><label><input type="checkbox" id="fcTw" checked> Written</label></div><button class="fc-b p" id="fcTgo" style="margin-top:14px">Start test</button></div>';
- $('fcTgo').onclick=function(){var k=Math.max(2,Math.min(list.length,+$('fcTn').value||n));var types=[];if($('fcTmc').checked)types.push('mc');if($('fcTtf').checked)types.push('tf');if($('fcTw').checked)types.push('w');if(!types.length)types=['mc'];build(shuffle(list).slice(0,k),types)};
- function build(sel,types){var pool=cards().length>=4?cards():list;var qs=sel.map(function(c,i){var t=types[i%types.length];if(t==='w'&&String(c.front).length>60)t='mc';if(t==='mc')return{t:t,c:c,opts:shuffle([c.back].concat(distractors(c,pool,'back')))};if(t==='tf'){var truth=Math.random()<.5,other=truth?c.back:(distractors(c,pool,'back')[0]);return{t:t,c:c,shown:other,truth:truth||other===c.back}}return{t:'w',c:c}});qs=shuffle(qs);
-  W.innerHTML='<div class="fc-test">'+qs.map(function(q,i){var head='<div class="lab"><span>'+(i+1)+' of '+qs.length+'</span><span>'+{mc:'Multiple choice',tf:'True or false',w:'Written'}[q.t]+'</span></div>';
-   if(q.t==='mc')return'<div class="fc-q fc-tq" data-q="'+i+'">'+head+'<div class="prompt">'+esc_(q.c.front)+'</div><div class="fc-opts">'+q.opts.map(function(o,k){return'<button class="fc-opt" data-k="'+k+'"><span class="k">'+(k+1)+'</span><span>'+esc_(o)+'</span></button>'}).join('')+'</div></div>';
-   if(q.t==='tf')return'<div class="fc-q fc-tq" data-q="'+i+'">'+head+'<div class="prompt">'+esc_(q.c.front)+' <span class="muted" style="font-weight:400">→</span> '+esc_(q.shown)+'</div><div class="fc-tf"><button class="fc-opt" data-k="1">True</button><button class="fc-opt" data-k="0">False</button></div></div>';
-   return'<div class="fc-q fc-tq" data-q="'+i+'">'+head+'<div class="prompt">'+esc_(q.c.back)+'</div><div class="fc-write"><input data-w placeholder="Type the term" autocomplete="off"></div></div>'}).join('')+'<button class="fc-b p" id="fcSubmit" style="justify-self:center;padding:14px 30px">Submit test</button></div>';
-  var picks={};W.querySelectorAll('.fc-tq').forEach(function(box){var i=+box.dataset.q;box.querySelectorAll('[data-k]').forEach(function(b){b.onclick=function(){box.querySelectorAll('[data-k]').forEach(function(x){x.classList.remove('ok');x.style.borderColor=''});b.style.borderColor='#4255ff';picks[i]=+b.dataset.k}})});
-  $('fcSubmit').onclick=function(){var score=0;qs.forEach(function(q,i){var box=W.querySelector('[data-q="'+i+'"]'),ok=false;
-    if(q.t==='mc'){ok=picks[i]!=null&&q.opts[picks[i]]===q.c.back;box.querySelectorAll('[data-k]').forEach(function(b){b.disabled=true;b.style.borderColor='';if(q.opts[+b.dataset.k]===q.c.back)b.classList.add('ok');else if(+b.dataset.k===picks[i])b.classList.add('no')})}
-    else if(q.t==='tf'){var ans=q.truth?1:0;ok=picks[i]===ans;box.querySelectorAll('[data-k]').forEach(function(b){b.disabled=true;b.style.borderColor='';if(+b.dataset.k===ans)b.classList.add('ok');else if(+b.dataset.k===picks[i])b.classList.add('no')});if(!ok)box.insertAdjacentHTML('beforeend','<div class="fc-fb no">Correct definition: <b>'+esc_(q.c.back)+'</b></div>')}
-    else{var inp=box.querySelector('[data-w]');ok=close(inp.value,q.c.front);inp.disabled=true;if(!ok)box.insertAdjacentHTML('beforeend','<div class="fc-fb no">Correct answer: <b>'+esc_(q.c.front)+'</b></div>')}
-    box.classList.add(ok?'ok':'no');if(ok)score++;mark(q.c,ok?Math.max(q.c.lv,1)+(q.c.lv>=1?1:0):Math.min(q.c.lv,1));q.c.due=addDays(ok?3:0)});save();streakTick();
-   var pct=Math.round(score/qs.length*100);reward(Math.round(pct/10)+5,'test');
-   this.remove();W.insertAdjacentHTML('afterbegin','<div class="fc-q fc-done" style="padding:22px"><div class="fc-ring"><svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" stroke="#e2e8f0"/><circle cx="75" cy="75" r="62" stroke="'+(pct>=70?'#18ae79':pct>=40?'#ffcd1f':'#e8590c')+'" stroke-linecap="round" stroke-dasharray="390" stroke-dashoffset="'+(390*(1-pct/100))+'"/></svg><div>'+pct+'%</div></div><h2>'+score+' / '+qs.length+' correct</h2><p class="muted">'+(pct>=90?'Outstanding — you’re exam-ready on this set.':pct>=70?'Solid! Review the red ones below.':'Keep practising — Learn mode will help with the ones you missed.')+'</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="fc-b p" id="fcRet">New test</button><button class="fc-b l" id="fcLrn">🎓 Learn the missed ones</button></div></div>');W.parentNode.scrollTop=0;
-   $('fcRet').onclick=function(){modeTest(list,title)};$('fcLrn').onclick=function(){var miss=qs.filter(function(q,i){return W.querySelector('[data-q="'+i+'"]').classList.contains('no')}).map(function(q){return q.c});modeLearn(miss.length?miss:list,title)}}}}
-
-/* ---------- Match ---------- */
-function modeMatch(list,title){if(list.length<2){toast_('Add at least 2 cards to play Match');return}var W=shell('Match','🧩',title);var mt=setMeta(title);
- W.innerHTML='<div class="fc-done"><div class="big">🧩</div><h2>Ready to play?</h2><p class="muted">Match every term with its definition as fast as you can. A wrong match adds 1 second.</p>'+(mt.best?'<p><b>Your best: '+mt.best.toFixed(1)+'s</b></p>':'')+'<button class="fc-b p" id="fcMgo">Start game</button></div>';
- $('fcMgo').onclick=start;
- function start(){var pick=shuffle(list).slice(0,6);var tiles=shuffle(pick.map(function(c){return{c:c,s:'f',t:c.front}}).concat(pick.map(function(c){return{c:c,s:'b',t:c.back.length>90?c.back.slice(0,88)+'…':c.back}})));
-  P={t0:Date.now(),pen:0,left:pick.length,sel:null,key:null};
-  W.innerHTML='<div class="fc-timer" id="fcClock">0.0s</div><div class="fc-match">'+tiles.map(function(x,i){return'<button class="fc-tile" data-i="'+i+'">'+esc_(x.t)+'</button>'}).join('')+'</div>';
-  P.t=setInterval(function(){var e=$('fcClock');if(e)e.textContent=((Date.now()-P.t0)/1000+P.pen).toFixed(1)+'s'},100);
-  W.querySelectorAll('.fc-tile').forEach(function(b){b.onclick=function(){var x=tiles[+b.dataset.i];if(!P.sel){P.sel={b:b,x:x};b.classList.add('sel');return}if(P.sel.b===b){b.classList.remove('sel');P.sel=null;return}
-   if(P.sel.x.c===x.c&&P.sel.x.s!==x.s){b.classList.add('gone');P.sel.b.classList.add('gone');P.sel=null;P.left--;if(!P.left)done()}
-   else{var a=P.sel.b;a.classList.remove('sel');a.classList.add('bad');b.classList.add('bad');P.pen+=1;setTimeout(function(){a.classList.remove('bad');b.classList.remove('bad')},400);P.sel=null}}})}
- function done(){clearInterval(P.t);var t=(Date.now()-P.t0)/1000+P.pen;var rec=!mt.best||t<mt.best;if(rec){mt.best=t;save()}streakTick();reward(rec?15:8,'match');
-  W.innerHTML='<div class="fc-done"><div class="big">'+(rec?'🏆':'⏱️')+'</div><h2>'+t.toFixed(1)+' seconds</h2><p class="muted">'+(rec?'New personal best!':'Best: '+mt.best.toFixed(1)+'s')+'</p><div style="display:flex;gap:8px;justify-content:center"><button class="fc-b p" id="fcMa">Play again</button><button class="fc-b d" id="fcMx">Done</button></div></div>';$('fcMa').onclick=start;$('fcMx').onclick=closeP;if(rec)try{var k=document.createElement('div');k.className='kq-confetti';for(var i=0;i<60;i++){var z=document.createElement('i');z.style.left=Math.random()*100+'%';z.style.background=COL[i%COL.length];z.style.animationDuration=(2+Math.random()*2)+'s';k.appendChild(z)}$('fcPlay').appendChild(k);setTimeout(function(){k.remove()},4500)}catch(e){}}}
-
-/* ---------- Spaced review ---------- */
-var IV=[0,1,3,7,16,35,70];
-function modeReview(list,title){var t=todayS();var q=list.filter(function(c){return!c.due||c.due<=t});if(!q.length){q=list.slice()}q=shuffle(q).slice(0,40);if(!q.length){toast_('Nothing to review');return}
- var W=shell('Spaced review','⏰',title);P={q:q,i:0,flip:false,again:0};
- function draw(){var c=P.q[P.i];if(!c){end();return}
-  W.innerHTML='<div class="fc-counts"><span>'+(P.i+1)+' / '+P.q.length+'</span><span class="muted" style="font-weight:600">Box '+(c.box||0)+'</span></div><div class="fc-bar"><span style="width:'+(P.i/P.q.length*100)+'%"></span></div><div class="fc-scene"><div class="fc-card'+(P.flip?' flip':'')+'" id="fcCard"><div class="fc-face"><small>RECALL</small><div>'+esc_(c.front)+'</div></div><div class="fc-face back"><small>ANSWER</small><div>'+esc_(c.back)+'</div></div></div></div>'+(P.flip?'<div class="fc-rate"><button style="background:#e8590c" data-r="0">Again<small>today</small></button><button style="background:#ca8a04" data-r="1">Hard<small>'+lab(c,1)+'</small></button><button style="background:#4255ff" data-r="2">Good<small>'+lab(c,2)+'</small></button><button style="background:#18ae79" data-r="3">Easy<small>'+lab(c,3)+'</small></button></div>':'<div class="fc-ctl"><button class="fc-b p" style="width:auto;height:auto;border-radius:12px;padding:14px 26px;box-shadow:none" id="fcShow">Show answer</button></div>')+'<p class="tiny muted" style="text-align:center;margin:0">Space: show · 1–4: rate</p>';
-  $('fcCard').onclick=function(){if(!P.flip){P.flip=true;draw()}};if($('fcShow'))$('fcShow').onclick=function(){P.flip=true;draw()};
-  W.querySelectorAll('[data-r]').forEach(function(b){b.onclick=function(){rate(c,+b.dataset.r)}})}
- function next(c,r){var bx=c.box||0;return r===0?0:r===1?Math.max(1,bx):r===2?bx+1:bx+2}
- function lab(c,r){var d=IV[Math.min(IV.length-1,next(c,r))];return d===0?'today':d===1?'1 day':d+' days'}
- function rate(c,r){var nb=Math.min(IV.length-1,next(c,r));c.box=nb;c.due=addDays(IV[nb]);if(r===0){P.q.push(c);P.again++;mark(c,Math.min(c.lv,1))}else mark(c,nb>=3?2:Math.max(1,c.lv));save();P.i++;P.flip=false;draw()}
- function end(){streakTick();reward(10,'review');W.innerHTML='<div class="fc-done"><div class="big">✅</div><h2>Review complete</h2><p class="muted">'+(P.q.length-P.again)+' cards reviewed. Next reviews are scheduled automatically.</p><button class="fc-b p" id="fcRx">Done</button></div>';$('fcRx').onclick=closeP}
- P.key=function(e){if(e.key===' '){e.preventDefault();if(!P.flip){P.flip=true;draw()}}else if(P.flip&&/^[1-4]$/.test(e.key)){var b=W.querySelector('[data-r="'+(+e.key-1)+'"]');if(b)b.click()}};
- draw()}
-function asQuiz(list,title){if(list.length<4){toast_('Add at least 4 cards to play as a quiz game');return}var pool=cards();var qs=shuffle(list).slice(0,15).map(function(c){var o=shuffle([c.back].concat(distractors(c,pool,'back'))).map(function(x){return x.length>70?x.slice(0,68)+'…':x});var cb=c.back.length>70?c.back.slice(0,68)+'…':c.back;return{text:c.front,options:o,correct:o.indexOf(cb),time:20,explain:c.back}});
- var m=setMeta(title);if(window.StudyFlowQuiz)StudyFlowQuiz.choose({id:'fc-'+title,title:title,subject:'',topic:title,emoji:m.emoji,color:m.color,questions:qs,generated:false,mine:false})}
-
-/* ---------- wiring ---------- */
-function init(){var pg=$('page-flashcards');if(!pg||$('fcHome'))return;cards();
- [].slice.call(pg.children).forEach(function(c){c.classList.add('fc-old')});
- var h=document.createElement('div');h.id='fcHome';pg.insertBefore(h,pg.firstChild);
- h.addEventListener('click',function(e){var b=e.target.closest('[data-fc]');var s=e.target.closest('[data-fcset]');var m=e.target.closest('[data-fcm]');
-  if(s){VIEW={set:s.dataset.fcset,edit:false};setMeta(VIEW.set).last=Date.now();render();window.scrollTo({top:0});return}
-  if(m){var list=setCards(VIEW.set),k=m.dataset.fcm;if(k==='cards')modeCards(list,VIEW.set);else if(k==='learn')modeLearn(list,VIEW.set);else if(k==='test')modeTest(list,VIEW.set);else if(k==='match')modeMatch(list,VIEW.set);else if(k==='review')modeReview(list,VIEW.set);else if(k==='quiz')asQuiz(list,VIEW.set);return}
-  var st=e.target.closest('[data-fcstar]');if(st){var c=cards().filter(function(x){return x.id===st.dataset.fcstar})[0];if(c){c.star=!c.star;save();st.classList.toggle('on',c.star)}return}
-  var sp=e.target.closest('[data-fcspk]');if(sp){var c2=cards().filter(function(x){return x.id===sp.dataset.fcspk})[0];if(c2)speak(c2.front+'. '+c2.back);return}
-  if(!b)return;var a=b.dataset.fc;
-  if(a==='new'){VIEW={set:null,edit:'new'};VIEW.set='';renderEditNew()}
-  else if(a==='ai')aiModal();else if(a==='import')importModal();else if(a==='frommist')fromMistakes();
-  else if(a==='review'){var du=due();if(!du.length){toast_('Nothing due');return}modeReview(du,'All due cards')}
-  else if(a==='home'){VIEW={set:null,edit:false};render()}
-  else if(a==='edit'){VIEW.edit=true;render()}
-  else if(a==='cancel'){if(VIEW.edit==='new')VIEW={set:null,edit:false};else VIEW.edit=false;render()}
-  else if(a==='saveset')saveSet();
-  else if(a==='addrow'){var r=row({f:'',b:''});$('fcRows').appendChild(r);num();r.querySelector('textarea').focus()}
-  else if(a==='delrow'){b.closest('.fc-erow').remove();num()}
-  else if(a==='delset'){if(!confirm('Delete the set “'+VIEW.set+'” and all its cards?'))return;var d=D();d.flashcards=cards().filter(function(c){return c.set!==VIEW.set});delete meta()[VIEW.set];save();VIEW={set:null,edit:false};render();toast_('Set deleted')}
- });
- h.addEventListener('keydown',function(e){if(e.key==='Tab'&&!e.shiftKey&&e.target.classList&&e.target.classList.contains('fcB')){var rows=[].slice.call(document.querySelectorAll('#fcRows .fc-erow'));if(e.target.closest('.fc-erow')===rows[rows.length-1]){e.preventDefault();var r=row({f:'',b:''});$('fcRows').appendChild(r);num();r.querySelector('textarea').focus()}}});
- render();
- if(typeof window.renderAll==='function'&&!window.renderAll.__fc){var ra=window.renderAll;window.renderAll=function(){var r=ra.apply(this,arguments);try{if(!VIEW.edit&&!(($('fcPlay')||{}).hidden===false))render()}catch(e){}return r};window.renderAll.__fc=1}}
-function renderEditNew(){VIEW.edit='new';VIEW.set='';renderEdit()}
-window.StudyFlowCards={refresh:render,open:function(n){VIEW={set:n,edit:false};render()},learn:function(n){modeLearn(setCards(n),n)},flip:function(n){modeCards(setCards(n),n)},review:function(){var d=due();if(d.length)modeReview(d,'All due cards');else{var all=cards();if(all.length)modeReview(all,'All cards')}},due:function(){return due().length},sets:sets};
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,70)});else setTimeout(init,70);
-})();
-
-</script><style id="sf-kq-css">
+</style><style id="sf-kq-css">
 /* ===== Quiz Studio (game-style) ===== */
 #page-quiz{--p:#6d28d9;--p4:#a78bfa}
 body.kq-create #kqHome,body.kq-arena #kqHome{display:none}
@@ -10511,4 +10155,394 @@ setTimeout(auto,1500);
 window.SFStarter={subject:subject,all:all,auto:auto,split:split,emo:emo,quest:quest};
 })();
 
+</script><style id="sf-fc-css">
+/* ===== Flashcards (study-set style) ===== */
+#page-flashcards{--p:#4255ff;--p4:#7b89ff}
+#page-flashcards>.fc-old{display:none!important}
+.fc-hero{border-radius:24px;padding:24px;background:linear-gradient(135deg,#4255ff,#6a3df5 60%,#9b5cf6);color:#fff;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;position:relative;overflow:hidden;box-shadow:0 18px 40px -20px rgba(66,85,255,.8)}
+.fc-hero::after{content:"";position:absolute;right:-40px;bottom:-60px;width:220px;height:150px;border-radius:18px;background:rgba(255,255,255,.14);transform:rotate(-14deg);box-shadow:-40px -30px 0 rgba(255,255,255,.08)}
+.fc-hero>*{position:relative;z-index:1}
+.fc-hero h2{color:#fff;font-size:clamp(26px,4vw,36px);margin:0 0 6px;letter-spacing:-.02em}
+.fc-hero p{margin:0 0 14px;opacity:.9}
+.fc-hbtns{display:flex;gap:8px;flex-wrap:wrap}
+.fc-b{border:0;border-radius:12px;padding:11px 16px;font-weight:800;font-size:14px;font-family:inherit;cursor:pointer;background:#fff;color:#4255ff;display:inline-flex;align-items:center;gap:7px;transition:transform .1s,box-shadow .1s}
+.fc-b:hover{transform:translateY(-1px)}
+.fc-b.y{background:#ffcd1f;color:#2e3856}.fc-b.g{background:rgba(255,255,255,.18);color:#fff}.fc-b.p{background:#4255ff;color:#fff}.fc-b.l{background:color-mix(in srgb,#4255ff 10%,var(--card));color:#4255ff}.fc-b.d{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.fc-b:disabled{opacity:.5;cursor:not-allowed}
+.fc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:center}
+.fc-stats div{background:rgba(255,255,255,.15);border-radius:16px;padding:14px;text-align:center}
+.fc-stats b{display:block;font-size:28px;line-height:1.1}.fc-stats small{font-size:12px;opacity:.9}
+.fc-due{margin-top:16px;display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:18px;background:color-mix(in srgb,#ffcd1f 22%,var(--card));border:1px solid color-mix(in srgb,#ffcd1f 60%,var(--line));flex-wrap:wrap}
+.fc-due .e{font-size:30px}.fc-due b{font-size:16px}.fc-due p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.fc-due .sp{flex:1}
+.fc-sec{display:flex;align-items:center;gap:10px;margin:22px 0 10px;flex-wrap:wrap}
+.fc-sec h3{margin:0;font-size:19px}.fc-sec .sp{flex:1}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.fc-set{border:1px solid color-mix(in srgb,var(--line) 70%,transparent);background:var(--card);border-radius:18px;padding:16px;cursor:pointer;display:grid;gap:8px;text-align:left;font-family:inherit;color:var(--ink);border-bottom:4px solid var(--c,#4255ff);transition:transform .14s,box-shadow .14s}
+.fc-set:hover{transform:translateY(-3px);box-shadow:0 14px 28px -18px rgba(46,56,86,.5)}
+.fc-set .fc-st{display:flex;align-items:center;gap:10px}
+.fc-set .em{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:color-mix(in srgb,var(--c,#4255ff) 14%,var(--card))}
+.fc-set b{font-size:15.5px;line-height:1.25}
+.fc-set small{color:var(--muted);font-size:12.5px}
+.fc-prog{height:7px;border-radius:99px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden;display:flex}
+.fc-prog i{display:block;height:100%}
+.fc-prog .m{background:#18ae79}.fc-prog .l{background:#ffcd1f}
+.fc-set.new{border:2px dashed color-mix(in srgb,#4255ff 40%,var(--line));background:color-mix(in srgb,#4255ff 4%,var(--card));place-items:center;text-align:center;color:#4255ff;font-weight:800;min-height:120px}
+/* set page */
+.fc-sethead{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.fc-sethead h2{margin:0;font-size:clamp(22px,3.4vw,30px)}
+.fc-sethead .sp{flex:1}
+.fc-modes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.fc-mode{border:1px solid color-mix(in srgb,var(--line) 70%,transparent);background:var(--card);border-radius:16px;padding:14px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;font-family:inherit;color:var(--ink);font-weight:800;font-size:14.5px;border-bottom:3px solid #4255ff;transition:transform .12s}
+.fc-mode:hover{transform:translateY(-2px)}
+.fc-mode .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:19px;background:color-mix(in srgb,#4255ff 12%,var(--card));flex:none}
+.fc-mode small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.fc-levels{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
+.fc-levels span{border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:700;background:color-mix(in srgb,var(--line) 50%,transparent)}
+.fc-levels .m{background:color-mix(in srgb,#18ae79 18%,var(--card));color:#0f7a55}.fc-levels .l{background:color-mix(in srgb,#ffcd1f 30%,var(--card));color:#8a6500}
+.fc-terms{display:grid;gap:8px}
+.fc-term{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;gap:14px;align-items:center;background:var(--card);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:14px;padding:12px 14px}
+.fc-term .tm{font-weight:700;border-right:1px solid var(--line);padding-right:14px}
+.fc-term .df{color:var(--ink);opacity:.9;font-size:14px}
+.fc-term .act{display:flex;gap:4px}
+.fc-term .act button{border:0;background:transparent;font-size:16px;cursor:pointer;width:32px;height:32px;border-radius:8px;color:var(--muted)}
+.fc-term .act button:hover{background:color-mix(in srgb,var(--line) 60%,transparent)}
+.fc-term .act button.on{color:#f59e0b}
+.fc-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;background:#cbd5e1}
+.fc-dot.l{background:#ffcd1f}.fc-dot.m{background:#18ae79}
+.fc-edit{display:grid;gap:10px}
+.fc-erow{display:grid;grid-template-columns:28px minmax(0,1fr) minmax(0,1fr) 34px;gap:10px;align-items:start;background:var(--card);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:14px;padding:12px}
+.fc-erow .n{font-weight:800;color:var(--muted);padding-top:10px;text-align:center}
+.fc-erow textarea{min-height:44px;resize:vertical}
+.fc-erow label{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.fc-erow button{border:0;background:transparent;font-size:18px;cursor:pointer;color:var(--muted);padding-top:8px}
+/* player */
+#fcPlay{position:fixed;inset:0;z-index:215;background:var(--bg,#f6f7fb);color:var(--ink);display:flex;flex-direction:column;overflow:hidden}
+#fcPlay[hidden]{display:none}
+.fc-ptop{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);background:var(--card)}
+.fc-ptop .md{font-weight:800;color:#4255ff;display:flex;align-items:center;gap:6px}
+.fc-ptop .ttl{color:var(--muted);font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;text-align:center}
+.fc-ptop button{border:0;background:color-mix(in srgb,var(--line) 50%,transparent);border-radius:10px;width:38px;height:38px;cursor:pointer;font-size:16px;color:var(--ink)}
+.fc-pbody{flex:1;overflow:auto;display:flex;flex-direction:column;align-items:center;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.fc-wrap{width:min(820px,100%);display:flex;flex-direction:column;gap:14px;flex:1}
+.fc-bar{height:8px;border-radius:99px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden}
+.fc-bar span{display:block;height:100%;background:#4255ff;transition:width .3s}
+.fc-counts{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:14px}
+.fc-counts .l{color:#e8590c;display:flex;align-items:center;gap:6px}.fc-counts .k{color:#18ae79;display:flex;align-items:center;gap:6px}
+.fc-counts i{font-style:normal;border:2px solid currentColor;border-radius:99px;padding:1px 10px;min-width:34px;text-align:center}
+.fc-scene{perspective:1600px;flex:1;min-height:280px;max-height:460px;position:relative;touch-action:pan-y}
+.fc-card{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,.2,.2,1);cursor:pointer}
+.fc-card.flip{transform:rotateX(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border-radius:22px;box-shadow:0 10px 30px -12px rgba(46,56,86,.35);display:flex;align-items:center;justify-content:center;padding:34px 28px;text-align:center;font-size:clamp(19px,3vw,30px);font-weight:600;line-height:1.35;overflow:auto;border:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+.fc-face.back{transform:rotateX(180deg);font-size:clamp(16px,2.4vw,24px);font-weight:500}
+.fc-face small{position:absolute;top:14px;left:18px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.05em}
+.fc-face .spk{position:absolute;top:10px;right:12px;border:0;background:transparent;font-size:18px;cursor:pointer;opacity:.7}
+.fc-face .str{position:absolute;top:10px;right:46px;border:0;background:transparent;font-size:18px;cursor:pointer;opacity:.7}
+.fc-card.swl .fc-face{box-shadow:0 0 0 4px #e8590c}
+.fc-card.swr .fc-face{box-shadow:0 0 0 4px #18ae79}
+.fc-ctl{display:flex;align-items:center;justify-content:center;gap:14px}
+.fc-ctl button{border:0;width:56px;height:56px;border-radius:50%;cursor:pointer;font-size:22px;background:var(--card);box-shadow:0 4px 14px -6px rgba(46,56,86,.4);color:var(--ink)}
+.fc-ctl button.x{color:#e8590c;border:2px solid #e8590c}.fc-ctl button.v{color:#18ae79;border:2px solid #18ae79}
+.fc-ctl .n{font-weight:800;min-width:70px;text-align:center}
+.fc-tools{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
+.fc-tools label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.fc-tools button{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 12px;font-size:12.5px;cursor:pointer;color:var(--ink);font-family:inherit}
+.fc-tools button.on{background:#4255ff;color:#fff;border-color:#4255ff}
+.fc-q{background:var(--card);border-radius:20px;padding:22px;box-shadow:0 8px 24px -14px rgba(46,56,86,.35);border:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+.fc-q .lab{font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between}
+.fc-q .prompt{font-size:clamp(18px,2.8vw,24px);font-weight:600;margin-bottom:20px;line-height:1.35}
+.fc-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fc-opt{border:2px solid color-mix(in srgb,var(--line) 90%,transparent);background:var(--card);border-radius:14px;padding:14px 16px;text-align:left;cursor:pointer;font-size:15px;font-family:inherit;color:var(--ink);display:flex;gap:10px;align-items:flex-start;transition:border-color .15s,background .15s}
+.fc-opt:hover{border-color:#7b89ff}
+.fc-opt .k{width:24px;height:24px;border-radius:50%;background:color-mix(in srgb,var(--line) 60%,transparent);display:grid;place-items:center;font-size:12px;font-weight:800;flex:none}
+.fc-opt.ok{border-color:#18ae79;background:color-mix(in srgb,#18ae79 12%,var(--card))}
+.fc-opt.no{border-color:#e8590c;background:color-mix(in srgb,#e8590c 10%,var(--card))}
+.fc-opt:disabled{cursor:default}
+.fc-write{display:flex;gap:10px}
+.fc-write input{flex:1;font-size:17px;padding:14px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-family:inherit}
+.fc-write input:focus{border-color:#4255ff;outline:0}
+.fc-fb{margin-top:14px;border-radius:14px;padding:12px 14px;font-size:14.5px}
+.fc-fb.ok{background:color-mix(in srgb,#18ae79 14%,var(--card));color:#0f7a55;font-weight:700}
+.fc-fb.no{background:color-mix(in srgb,#e8590c 12%,var(--card))}
+.fc-fb .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.fc-seg{display:flex;gap:4px}
+.fc-seg i{flex:1;height:8px;border-radius:99px;background:color-mix(in srgb,var(--line) 70%,transparent)}
+.fc-seg i.a{background:#ffcd1f}.fc-seg i.b{background:#18ae79}
+.fc-done{text-align:center;display:grid;gap:12px;justify-items:center;padding:20px 0}
+.fc-done .big{font-size:64px}
+.fc-done h2{margin:0;font-size:28px}
+.fc-ring{width:150px;height:150px;position:relative}
+.fc-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.fc-ring circle{fill:none;stroke-width:12}
+.fc-ring div{position:absolute;inset:0;display:grid;place-content:center;font-size:30px;font-weight:800}
+.fc-match{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:min(900px,100%)}
+.fc-tile{border:2px solid color-mix(in srgb,var(--line) 90%,transparent);background:var(--card);border-radius:14px;min-height:110px;padding:10px;font-size:14px;cursor:pointer;color:var(--ink);font-family:inherit;display:grid;place-items:center;text-align:center;transition:transform .15s,opacity .3s,border-color .15s}
+.fc-tile.sel{border-color:#4255ff;background:color-mix(in srgb,#4255ff 10%,var(--card))}
+.fc-tile.bad{border-color:#e8590c;animation:fcshake .35s}
+.fc-tile.gone{opacity:0;transform:scale(.8);pointer-events:none}
+@keyframes fcshake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fc-timer{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;text-align:center}
+.fc-rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fc-rate button{border:0;border-radius:12px;padding:12px 6px;font-weight:800;cursor:pointer;color:#fff;font-family:inherit;font-size:14px}
+.fc-rate button small{display:block;font-weight:500;opacity:.9;font-size:11.5px}
+.fc-test{display:grid;gap:14px;width:min(820px,100%)}
+.fc-tq.ok{border-left:5px solid #18ae79}.fc-tq.no{border-left:5px solid #e8590c}
+.fc-tf{display:flex;gap:10px}
+.fc-modal{position:fixed;inset:0;z-index:216;background:rgba(10,9,45,.55);display:grid;place-items:center;padding:16px}
+.fc-modal[hidden]{display:none}
+.fc-mbox{background:var(--card);border-radius:22px;width:min(640px,100%);max-height:90vh;overflow:auto;padding:20px;display:grid;gap:12px;color:var(--ink)}
+.fc-mbox h3{margin:0}
+.fc-mbox textarea{min-height:180px;font-family:inherit}
+@media (max-width:900px){.fc-modes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:700px){.fc-hero{grid-template-columns:1fr;padding:20px}.fc-modes{grid-template-columns:1fr 1fr}.fc-term{grid-template-columns:1fr auto}.fc-term .tm{border-right:0;padding-right:0}.fc-term .df{grid-column:1/-1;grid-row:2}.fc-opts{grid-template-columns:1fr}.fc-match{grid-template-columns:repeat(3,minmax(0,1fr))}.fc-tile{min-height:90px;font-size:12.5px}.fc-erow{grid-template-columns:1fr 30px}.fc-erow .n{display:none}.fc-erow>div{grid-column:1}.fc-erow button{grid-column:2;grid-row:1}.fc-scene{min-height:300px}.fc-rate{grid-template-columns:1fr 1fr}}
+/* keyboard tips only where there is a keyboard */
+@media (hover:none) and (pointer:coarse){.fc-kbd{display:none!important}}
+/* shared set */
+.fc-share-ov{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+.fc-share-c{background:var(--card,#fff);color:var(--ink,#0f172a);border-radius:22px;max-width:440px;width:100%;padding:24px;box-shadow:0 30px 80px -20px rgba(0,0,0,.45);max-height:90vh;overflow:auto}
+.fc-share-e{font-size:40px;line-height:1}
+.fc-share-c h2{margin:10px 0 4px;font-size:22px}
+.fc-share-c ul{list-style:none;padding:0;margin:14px 0;display:flex;flex-direction:column;gap:8px}
+.fc-share-c li{border:1px solid var(--line,#e5e7eb);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;font-size:14px}
+.fc-share-c li span{color:var(--muted,#64748b)}
+.fc-share-c li.more{border-style:dashed;color:var(--muted,#64748b);text-align:center}
+.fc-share-a{display:flex;gap:10px;flex-wrap:wrap}
+.fc-share-a .fc-b{flex:1 1 auto}
+
+</style><script id="sf-fc-js">
+(function(){
+var $=function(id){return document.getElementById(id)};
+function esc_(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function toast_(m){try{toast(m)}catch(e){}}
+function D(){try{return data}catch(e){return null}}
+function save(){try{persist()}catch(e){}}
+function uid_(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function todayS(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function addDays(n){var d=new Date();d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function reward(c,s){try{window.dispatchEvent(new CustomEvent('sf:reward',{detail:{coins:c,src:s}}))}catch(e){}}
+var DEF='My first set';
+var EMO=['📘','🧪','🌍','🧮','🧠','🏛️','💼','⚡','🧬','✍️','🎵','📈'];
+var COL=['#4255ff','#18ae79','#e8590c','#9b5cf6','#e11d48','#0891b2','#ca8a04','#db2777'];
+function cards(){var d=D();if(!d)return[];if(!Array.isArray(d.flashcards))d.flashcards=[];d.flashcards.forEach(function(c){if(!c.id)c.id=uid_();if(!c.set)c.set=DEF;if(c.lv==null)c.lv=c.learned?2:0});return d.flashcards}
+function meta(){var d=D();if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};return d.fcmeta}
+function setMeta(n){var m=meta();if(!m[n]){var k=Object.keys(m).length;m[n]={emoji:EMO[k%EMO.length],color:COL[k%COL.length],created:Date.now()}}return m[n]}
+function sets(){var map={};cards().forEach(function(c){(map[c.set]=map[c.set]||[]).push(c)});Object.keys(meta()).forEach(function(n){if(!map[n]&&meta()[n].keep)map[n]=[]});return Object.keys(map).map(function(n){var cs=map[n];return{name:n,cards:cs,meta:setMeta(n),m:cs.filter(function(c){return c.lv>=2}).length,l:cs.filter(function(c){return c.lv===1}).length}}).sort(function(a,b){return(b.meta.last||b.meta.created||0)-(a.meta.last||a.meta.created||0)})}
+function setCards(n){return cards().filter(function(c){return c.set===n})}
+function due(){var t=todayS();return cards().filter(function(c){return c.due&&c.due<=t})}
+function mark(c,lv){c.lv=Math.max(0,Math.min(2,lv));c.learned=c.lv>=2}
+function norm(s){return String(s||'').toLowerCase().replace(/[‘’]/g,"'").replace(/[^a-z0-9À-ɏऀ-ॿ\s']/g,' ').replace(/\s+/g,' ').trim()}
+function lev(a,b){var m=a.length,n=b.length;if(!m)return n;if(!n)return m;var p=[],i,j;for(j=0;j<=n;j++)p[j]=j;for(i=1;i<=m;i++){var prev=p[0];p[0]=i;for(j=1;j<=n;j++){var t=p[j];p[j]=Math.min(p[j]+1,p[j-1]+1,prev+(a[i-1]===b[j-1]?0:1));prev=t}}return p[n]}
+function close(ans,target){var a=norm(ans),b=norm(target);if(!a)return false;if(a===b)return true;var bs=b.replace(/^(the|a|an) /,''),as=a.replace(/^(the|a|an) /,'');if(as===bs)return true;return lev(as,bs)<=Math.max(1,Math.floor(bs.length*.15))}
+function speak(t){try{var u=new SpeechSynthesisUtterance(String(t));u.rate=.95;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+
+/* ---------- home ---------- */
+var VIEW={set:null,edit:false};
+function render(){var h=$('fcHome');if(!h)return;if(VIEW.set!=null){renderSet();return}
+ var ss=sets(),all=cards(),m=all.filter(function(c){return c.lv>=2}).length,du=due().length,d=D();
+ var st=d.fcstats||{};var streak=st.streak||0;if(st.last&&st.last<addDays(-1))streak=0;
+ h.innerHTML='<div class="fc-hero"><div><h2>Flashcards</h2><p>Study sets with flip cards, Learn, Test, Match and spaced review. Cards you keep missing come back more often.</p><div class="fc-hbtns"><button class="fc-b" data-fc="new">＋ Create set</button><button class="fc-b y" data-fc="ai">✨ AI set from a topic</button><button class="fc-b g" data-fc="import">📋 Import</button>'+(((d.mistakes||[]).length||((d.mx||{}).items||[]).length)?'<button class="fc-b g" data-fc="frommist">🔁 From my mistakes</button>':'')+'</div></div><div class="fc-stats"><div><b>'+all.length+'</b><small>Cards</small></div><div><b>'+m+'</b><small>Mastered</small></div><div><b>'+streak+'🔥</b><small>Day streak</small></div></div></div>'+
+ (du?'<div class="fc-due"><span class="e">⏰</span><div><b>'+du+' card'+(du===1?'':'s')+' due for review</b><p>Spaced repetition: reviewing now locks them into long-term memory.</p></div><span class="sp"></span><button class="fc-b p" data-fc="review">Review now</button></div>':'')+
+ '<div class="fc-sec"><h3>Your sets</h3><span class="sp"></span><small class="muted">'+ss.length+' set'+(ss.length===1?'':'s')+'</small></div><div class="fc-grid"><div role="button" tabindex="0" class="fc-set new" data-fc="new"><span style="font-size:30px">＋</span>Create a set</div>'+ss.map(function(s){var n=s.cards.length||1;return'<div role="button" tabindex="0" class="fc-set" style="--c:'+s.meta.color+'" data-fcset="'+esc_(s.name)+'"><div class="fc-st"><span class="em">'+s.meta.emoji+'</span><div><b>'+esc_(s.name)+'</b><br><small>'+s.cards.length+' term'+(s.cards.length===1?'':'s')+'</small></div></div><div class="fc-prog"><i class="m" style="width:'+(s.m/n*100)+'%"></i><i class="l" style="width:'+(s.l/n*100)+'%"></i></div><small>'+s.m+' mastered · '+s.l+' learning</small></div>'}).join('')+'</div>'}
+/* ---------- set page ---------- */
+function renderSet(){var h=$('fcHome'),n=VIEW.set,cs=setCards(n),mt=setMeta(n);
+ if(VIEW.edit){renderEdit();return}
+ var m=cs.filter(function(c){return c.lv>=2}).length,l=cs.filter(function(c){return c.lv===1}).length;
+ h.innerHTML='<button class="btn line sm" data-fc="home" style="margin-bottom:12px">← All sets</button><div class="fc-sethead"><span class="fc-set" style="--c:'+mt.color+';padding:0;border:0;cursor:default"><span class="em" style="width:56px;height:56px;font-size:28px;border-radius:16px;display:grid;place-items:center;background:color-mix(in srgb,'+mt.color+' 14%,var(--card))">'+mt.emoji+'</span></span><div><h2>'+esc_(n)+'</h2><small class="muted">'+cs.length+' terms'+(mt.best?' · Match best '+mt.best.toFixed(1)+'s':'')+'</small></div><span class="sp"></span><button class="fc-b d" data-fcshare>🔗 Share</button><button class="fc-b d" data-fc="edit">✏️ Edit</button><button class="fc-b d" data-fc="delset">🗑</button></div>'+
+ '<div class="fc-modes"><button class="fc-mode" data-fcm="cards"><span class="ic">🃏</span><span>Flashcards<small>Flip and sort</small></span></button><button class="fc-mode" data-fcm="learn"><span class="ic">🎓</span><span>Learn<small>Adaptive rounds</small></span></button><button class="fc-mode" data-fcm="test"><span class="ic">📝</span><span>Test<small>Graded exam</small></span></button><button class="fc-mode" data-fcm="match"><span class="ic">🧩</span><span>Match<small>Beat the clock</small></span></button><button class="fc-mode" data-fcm="review"><span class="ic">⏰</span><span>Spaced review<small>Again · Good · Easy</small></span></button></div>'+
+ '<div class="fc-levels"><span>'+(cs.length-m-l)+' not studied</span><span class="l">'+l+' learning</span><span class="m">'+m+' mastered</span><span style="cursor:pointer" data-fcm="quiz">🎮 Play as a quiz game</span></div>'+
+ '<div class="fc-sec" style="margin-top:6px"><h3>Terms in this set</h3><span class="sp"></span><button class="fc-b l" data-fc="edit">＋ Add or edit terms</button></div><div class="fc-terms">'+(cs.length?cs.map(function(c){return'<div class="fc-term"><div class="tm"><span class="fc-dot '+(c.lv>=2?'m':c.lv===1?'l':'')+'"></span>'+esc_(c.front)+'</div><div class="df">'+esc_(c.back)+'</div><div class="act"><button data-fcstar="'+c.id+'" class="'+(c.star?'on':'')+'" aria-label="Star">★</button><button data-fcspk="'+c.id+'" aria-label="Read aloud">🔊</button></div></div>'}).join(''):'<div class="kq-empty">No terms yet — add some.</div>')+'</div>'}
+function renderEdit(){var h=$('fcHome'),n=VIEW.set,isNew=VIEW.edit==='new';var cs=isNew?[]:setCards(n);var rows=cs.map(function(c){return{id:c.id,f:c.front,b:c.back}});if(!rows.length)rows=[{f:'',b:''},{f:'',b:''},{f:'',b:''}];
+ h.innerHTML='<div class="fc-sethead"><h2>'+(isNew?'Create a new set':'Edit set')+'</h2><span class="sp"></span><button class="fc-b d" data-fc="cancel">Cancel</button><button class="fc-b p" data-fc="saveset">'+(isNew?'Create':'Save')+'</button></div><div class="field"><label>Title</label><input id="fcTitle" maxlength="60" value="'+esc_(isNew?'':n)+'" placeholder="e.g. Biology — Cell structure"></div><div class="fc-edit" id="fcRows"></div><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="fc-b l" data-fc="addrow">＋ Add card</button><button class="fc-b d" data-fc="import">📋 Import list</button></div>';
+ var box=$('fcRows');rows.forEach(function(r){box.appendChild(row(r))});num()}
+function row(r){var d=document.createElement('div');d.className='fc-erow';if(r.id)d.dataset.id=r.id;d.innerHTML='<span class="n"></span><div><textarea class="fcF" maxlength="300" placeholder="Term or question">'+esc_(r.f||'')+'</textarea><label>Term</label></div><div><textarea class="fcB" maxlength="600" placeholder="Definition or answer">'+esc_(r.b||'')+'</textarea><label>Definition</label></div><button type="button" data-fc="delrow" aria-label="Delete card">🗑</button>';return d}
+function num(){[].slice.call(document.querySelectorAll('#fcRows .fc-erow .n')).forEach(function(e,i){e.textContent=i+1})}
+function saveSet(){var t=($('fcTitle').value||'').trim().slice(0,60);if(!t){$('fcTitle').focus();toast_('Give the set a title');return}
+ var d=D(),old=VIEW.edit==='new'?null:VIEW.set;var rows=[].slice.call(document.querySelectorAll('#fcRows .fc-erow')).map(function(r){return{id:r.dataset.id,f:r.querySelector('.fcF').value.trim(),b:r.querySelector('.fcB').value.trim()}}).filter(function(r){return r.f&&r.b});
+ if(!rows.length){toast_('Add at least one card with both sides filled in');return}
+ if(old&&old!==t&&meta()[old]){meta()[t]=meta()[old];delete meta()[old]}
+ var keep={};rows.forEach(function(r){if(r.id)keep[r.id]=r});
+ d.flashcards=cards().filter(function(c){return c.set!==old||keep[c.id]});
+ d.flashcards.forEach(function(c){if(keep[c.id]){var r=keep[c.id];if(c.front!==r.f||c.back!==r.b){c.front=r.f;c.back=r.b}c.set=t}});
+ rows.filter(function(r){return!r.id}).forEach(function(r){d.flashcards.push({id:uid_(),front:r.f,back:r.b,learned:false,lv:0,set:t})});
+ setMeta(t).last=Date.now();save();VIEW={set:t,edit:false};render();toast_('Set saved')}
+function addCardsTo(set,list,emoji){var d=D();cards();list.forEach(function(x){d.flashcards.push({id:uid_(),front:x.f,back:x.b,learned:false,lv:0,set:set})});var m=setMeta(set);if(emoji)m.emoji=emoji;m.last=Date.now();save()}
+/* ---------- modal (AI / import) ---------- */
+function modal(html){var m=$('fcModal');if(!m){m=document.createElement('div');m.id='fcModal';m.className='fc-modal';document.body.appendChild(m);m.addEventListener('click',function(e){if(e.target===m)m.hidden=true})}m.innerHTML='<div class="fc-mbox">'+html+'</div>';m.hidden=false;return m}
+function parseList(t){return String(t||'').split(/\r?\n/).map(function(l){l=l.trim();if(!l)return null;var m=l.split(/\t| [-–—] | ?: |=/);if(m.length<2){var c=l.indexOf(',');if(c>0)m=[l.slice(0,c),l.slice(c+1)];else return null}return{f:m[0].trim(),b:m.slice(1).join(' - ').trim()}}).filter(function(x){return x&&x.f&&x.b})}
+function importModal(){var m=modal('<h3>Import cards</h3><p class="muted tiny" style="margin:0">Paste one card per line. Separate the term and definition with a tab, a dash ( - ), a colon or a comma — lists exported from other flashcard apps work too.</p><div class="field" style="margin:0"><label>Set title</label><input id="fcImpT" maxlength="60" value="'+esc_(VIEW.set||'')+'" placeholder="Set name"></div><textarea id="fcImpX" placeholder="Mitochondria - site of aerobic respiration&#10;Ribosome - makes proteins"></textarea><p class="tiny muted" id="fcImpN" style="margin:0">0 cards found</p><div style="display:flex;gap:8px;justify-content:flex-end"><button class="fc-b d" id="fcImpC">Cancel</button><button class="fc-b p" id="fcImpGo">Import</button></div>');
+ var x=$('fcImpX');x.oninput=function(){$('fcImpN').textContent=parseList(x.value).length+' cards found'};$('fcImpC').onclick=function(){m.hidden=true};
+ $('fcImpGo').onclick=function(){var l=parseList(x.value),t=($('fcImpT').value||'').trim()||'Imported set';if(!l.length){toast_('No cards found — check the separators');return}addCardsTo(t,l);m.hidden=true;VIEW={set:t,edit:false};render();toast_(l.length+' cards imported')}}
+function aiModal(){var m=modal('<h3>✨ Make a set with AI</h3><div class="field" style="margin:0"><label>Topic</label><input id="fcAiT" maxlength="120" placeholder="e.g. Causes of World War One, Organic chemistry functional groups"></div><div class="field" style="margin:0"><label>How many cards?</label><select id="fcAiN"><option>10</option><option selected>15</option><option>20</option><option>30</option></select></div><p class="tiny muted" id="fcAiMsg" style="margin:0">Cards are short and exam-focused. You can edit them after.</p><div style="display:flex;gap:8px;justify-content:flex-end"><button class="fc-b d" id="fcAiC">Cancel</button><button class="fc-b p" id="fcAiGo">Create set</button></div>');
+ $('fcAiC').onclick=function(){m.hidden=true};$('fcAiT').focus();
+ $('fcAiGo').onclick=function(){var t=$('fcAiT').value.trim(),n=+$('fcAiN').value,b=this;if(!t){$('fcAiT').focus();return}
+  if(typeof requestStudyAI!=='function'||!(typeof aiAvailable==='function'&&aiAvailable())){$('fcAiMsg').textContent=location.protocol==='file:'?'AI sets work on the published website, not a local file.':'The AI is not reachable right now. Try Import instead.';return}
+  b.disabled=true;b.textContent='Creating…';var lvl=(D().profile&&D().profile.level)||'Grade 10';
+  requestStudyAI({system:'You write accurate study flashcards. Return ONLY JSON: {"cards":[{"term":"...","definition":"..."}]}. Terms at most 60 characters, definitions at most 160 characters, exam-focused, no duplicates.',user:'Make '+n+' flashcards about: '+t+'. Level: '+lvl+'.',temperature:.3}).then(function(txt){var s=String(txt||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'');var j=JSON.parse(s);var arr=(Array.isArray(j)?j:j.cards)||[];var l=arr.map(function(c){return{f:String(c.term||c.front||'').trim(),b:String(c.definition||c.back||'').trim()}}).filter(function(x){return x.f&&x.b});if(!l.length)throw new Error('empty');var name=t.slice(0,60);addCardsTo(name,l,'✨');m.hidden=true;VIEW={set:name,edit:false};render();toast_(l.length+' cards created')}).catch(function(e){b.disabled=false;b.textContent='Create set';$('fcAiMsg').textContent='The AI could not make this set right now. Please try again.'})}}
+function fromMistakes(){var d=D();var items=[];try{items=(window.StudyFlowMastery.M().items||[]).filter(function(x){return x.question&&x.correctAnswer}).map(function(x){return{f:String(x.question),b:String(x.correctAnswer)+(x.why?' — '+x.why:'')}})}catch(e){}var l=items.concat((d.mistakes||[]).map(function(x){var q=String(x.question||''),mm=q.match(/^(.*)\(Correct answer: (.*)\)\s*$/);return mm?{f:mm[1].trim(),b:mm[2].trim()+(x.lesson?' — '+x.lesson:'')}:{f:q,b:x.lesson||'Review this in Mistake → Mastery'}})).filter(function(x){return x.f});var name='Mistakes to fix';var existing={};setCards(name).forEach(function(c){existing[c.front]=1});l=l.filter(function(x){return!existing[x.f]});if(!l.length){toast_('All your mistakes are already in “'+name+'”');VIEW={set:name,edit:false};render();return}addCardsTo(name,l,'🔁');VIEW={set:name,edit:false};render();toast_(l.length+' cards made from your mistakes')}
+
+/* ---------- player shell ---------- */
+var P=null;
+function shell(mode,icon,title){var e=$('fcPlay');if(!e){e=document.createElement('div');e.id='fcPlay';document.body.appendChild(e)}e.hidden=false;document.body.style.overflow='hidden';
+ e.innerHTML='<div class="fc-ptop"><span class="md">'+icon+' '+mode+'</span><span class="ttl">'+esc_(title)+'</span><button id="fcX" aria-label="Close">✕</button></div><div class="fc-pbody"><div class="fc-wrap" id="fcW"></div></div>';$('fcX').onclick=closeP;return $('fcW')}
+function closeP(){var e=$('fcPlay');if(e)e.hidden=true;document.body.style.overflow='';if(P&&P.t)clearInterval(P.t);P=null;try{speechSynthesis.cancel()}catch(x){}render()}
+function streakTick(){var d=D();var s=d.fcstats||(d.fcstats={});var t=todayS();if(s.last===t)return;s.streak=s.last===addDays(-1)?(s.streak||0)+1:1;s.last=t;save()}
+document.addEventListener('keydown',function(e){var el=$('fcPlay');if(!el||el.hidden||!P)return;if(/INPUT|TEXTAREA/.test((e.target||{}).tagName||''))return;if(P.key&&P.key(e)!==false){}if(e.key==='Escape')closeP()});
+
+/* ---------- Flashcards mode ---------- */
+function modeCards(list,title){if(!list.length){toast_('No cards in this set yet');return}var W=shell('Flashcards','🃏',title);
+ P={list:list.slice(),i:0,know:[],learn:[],track:true,flip:false,termFirst:true,title:title};
+ function cur(){return P.list[P.i]}
+ function draw(){var c=cur();if(!c){summary();return}var f=P.termFirst?c.front:c.back,b=P.termFirst?c.back:c.front;
+  W.innerHTML='<div class="fc-counts">'+(P.track?'<span class="l"><i>'+P.learn.length+'</i> Still learning</span><span>'+(P.i+1)+' / '+P.list.length+'</span><span class="k">Know <i>'+P.know.length+'</i></span>':'<span></span><span>'+(P.i+1)+' / '+P.list.length+'</span><span></span>')+'</div><div class="fc-bar"><span style="width:'+(P.i/P.list.length*100)+'%"></span></div>'+
+  '<div class="fc-scene" id="fcScene"><div class="fc-card'+(P.flip?' flip':'')+'" id="fcCard"><div class="fc-face front"><small>'+(P.termFirst?'TERM':'DEFINITION')+'</small><button class="str" data-s>'+(c.star?'⭐':'☆')+'</button><button class="spk" data-k>🔊</button><div>'+esc_(f)+'</div></div><div class="fc-face back"><small>'+(P.termFirst?'DEFINITION':'TERM')+'</small><button class="spk" data-k2>🔊</button><div>'+esc_(b)+'</div></div></div></div>'+
+  '<div class="fc-ctl">'+(P.track?'<button class="x" id="fcNo" aria-label="Still learning">✖</button><span class="n">Tap card to flip</span><button class="v" id="fcYes" aria-label="Know it">✔</button>':'<button id="fcPrev" aria-label="Previous">←</button><span class="n">Tap card to flip</span><button id="fcNext" aria-label="Next">→</button>')+'</div>'+
+  '<div class="fc-tools"><label><input type="checkbox" id="fcTrack" '+(P.track?'checked':'')+'> Track progress</label><div style="display:flex;gap:6px;flex-wrap:wrap"><button id="fcShuf">🔀 Shuffle</button><button id="fcSide" class="'+(P.termFirst?'':'on')+'">⇄ Definition first</button><button id="fcStar">⭐ Starred only</button></div></div><p class="tiny muted fc-kbd" style="text-align:center;margin:0">Keyboard: Space flip · ← still learning · → know it</p>';
+  var card=$('fcCard');card.onclick=function(e){if(e.target.closest('button'))return;P.flip=!P.flip;card.classList.toggle('flip',P.flip)};
+  card.querySelector('[data-k]').onclick=function(){speak(f)};card.querySelector('[data-k2]').onclick=function(){speak(b)};
+  card.querySelector('[data-s]').onclick=function(){c.star=!c.star;save();this.textContent=c.star?'⭐':'☆'};
+  if(P.track){$('fcNo').onclick=function(){sort(false)};$('fcYes').onclick=function(){sort(true)}}else{$('fcPrev').onclick=function(){if(P.i>0){P.i--;P.flip=false;draw()}};$('fcNext').onclick=function(){P.i++;P.flip=false;draw()}}
+  $('fcTrack').onchange=function(){P.track=this.checked;draw()};$('fcShuf').onclick=function(){P.list=P.list.slice(0,P.i).concat(shuffle(P.list.slice(P.i)));P.flip=false;draw();toast_('Shuffled')};$('fcSide').onclick=function(){P.termFirst=!P.termFirst;P.flip=false;draw()};
+  $('fcStar').onclick=function(){var st=list.filter(function(x){return x.star});if(!st.length){toast_('Star some cards first (☆ on the card)');return}P.list=st;P.i=0;P.know=[];P.learn=[];P.flip=false;draw()};
+  swipe($('fcScene'),card)}
+ function sort(k){var c=cur();if(!c)return;(k?P.know:P.learn).push(c);if(k){if(c.lv<1)mark(c,1)}else mark(c,Math.min(c.lv,1));c.due=c.due||addDays(k?2:0);save();var card=$('fcCard');card.style.transition='transform .3s, opacity .3s';card.style.transform='translateX('+(k?'':'-')+'120%) rotate('+(k?'':'-')+'12deg)';card.style.opacity='0';setTimeout(function(){P.i++;P.flip=false;draw()},230)}
+ function swipe(sc,card){var x0=null,dx=0;sc.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;dx=0;card.style.transition='none'},{passive:true});sc.addEventListener('touchmove',function(e){if(x0==null)return;dx=e.touches[0].clientX-x0;card.style.transform=(P.flip?'rotateX(180deg) ':'')+'translateX('+dx+'px) rotate('+dx/20+'deg)';card.classList.toggle('swl',dx<-40);card.classList.toggle('swr',dx>40)},{passive:true});sc.addEventListener('touchend',function(){card.style.transition='';card.classList.remove('swl','swr');if(Math.abs(dx)>90&&P.track){sort(dx>0)}else if(Math.abs(dx)>90){if(dx<0){P.i++}else if(P.i>0)P.i--;P.flip=false;draw()}else card.style.transform='';x0=null})}
+ function summary(){streakTick();reward(Math.min(20,P.know.length*2),'cards');var k=P.know.length,n=P.list.length,pct=Math.round(k/Math.max(1,n)*100);
+  W.innerHTML='<div class="fc-done"><div class="fc-ring"><svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" stroke="#ffe8d6"/><circle cx="75" cy="75" r="62" stroke="#18ae79" stroke-linecap="round" stroke-dasharray="390" stroke-dashoffset="'+(390*(1-pct/100))+'"/></svg><div>'+pct+'%</div></div><h2>'+(pct===100?'You know them all! 🎉':'Nice work — keep going!')+'</h2><p class="muted">'+k+' known · '+P.learn.length+' still learning</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">'+(P.learn.length?'<button class="fc-b p" id="fcAgain">Study '+P.learn.length+' still-learning cards</button>':'')+'<button class="fc-b l" id="fcLearn">🎓 Practise with Learn</button><button class="fc-b d" id="fcRestart">Restart</button></div></div>';
+  if($('fcAgain'))$('fcAgain').onclick=function(){modeCards(P.learn,title)};$('fcLearn').onclick=function(){modeLearn(list,title)};$('fcRestart').onclick=function(){modeCards(list,title)}}
+ P.key=function(e){if(e.key===' '){e.preventDefault();var c=$('fcCard');if(c)c.click()}else if(e.key==='ArrowRight'){if(P.track)sort(true);else{P.i++;P.flip=false;draw()}}else if(e.key==='ArrowLeft'){if(P.track)sort(false);else if(P.i>0){P.i--;P.flip=false;draw()}}};
+ draw()}
+
+/* ---------- Learn mode ---------- */
+function distractors(c,pool,field){var others=shuffle(pool.filter(function(x){return x!==c&&norm(x[field])!==norm(c[field])})).slice(0,3).map(function(x){return x[field]});var fill=['None of these','All of these','Not sure'];while(others.length<3)others.push(fill[others.length]);return others}
+function modeLearn(list,title){if(!list.length){toast_('No cards in this set yet');return}var W=shell('Learn','🎓',title);
+ var pool=cards();var q=list.filter(function(c){return c.lv<2});if(!q.length){q=list.slice()}
+ P={queue:shuffle(q),round:[],ri:0,roundNo:0,stage:{},done:0,total:q.length,title:title,wrong:0};
+ q.forEach(function(c){P.stage[c.id]=c.lv>=1?1:0});
+ function newRound(){P.round=P.queue.filter(function(c){return P.stage[c.id]<2}).slice(0,7);P.ri=0;P.roundNo++;if(!P.round.length){finish();return}ask()}
+ function seg(){return'<div class="fc-seg">'+P.round.map(function(c,i){var s=P.stage[c.id];return'<i class="'+(s>=2?'b':s>=1?'a':'')+'"></i>'}).join('')+'</div>'}
+ function ask(){var c=P.round[P.ri];if(!c){roundEnd();return}var s=P.stage[c.id];var long=String(c.back).length>45&&String(c.front).length>45;
+  if(s===0||long&&s<2&&s===0){// MCQ: show term, choose definition
+   var opts=shuffle([c.back].concat(distractors(c,pool.length>=4?pool:list,'back')));
+   W.innerHTML=seg()+'<div class="fc-q"><div class="lab"><span>Term</span><span>Round '+P.roundNo+'</span></div><div class="prompt">'+esc_(c.front)+'</div><div class="lab"><span>Choose the matching definition</span></div><div class="fc-opts">'+opts.map(function(o,i){return'<button class="fc-opt" data-o="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc_(o)+'</span></button>'}).join('')+'</div><div id="fcFb"></div></div>';
+   W.querySelectorAll('[data-o]').forEach(function(b){b.onclick=function(){var pick=opts[+b.dataset.o],ok=pick===c.back;W.querySelectorAll('[data-o]').forEach(function(x){x.disabled=true;if(opts[+x.dataset.o]===c.back)x.classList.add('ok')});if(!ok)b.classList.add('no');result(c,ok,c.back)}});
+   P.key=function(e){if(/^[1-4]$/.test(e.key)){var t=W.querySelector('[data-o="'+(+e.key-1)+'"]');if(t&&!t.disabled)t.click()}else if(e.key==='Enter'){var n=$('fcCont');if(n)n.click()}}}
+  else if(String(c.front).length<=60){// written: show definition, type term
+   W.innerHTML=seg()+'<div class="fc-q"><div class="lab"><span>Definition</span><span>Round '+P.roundNo+'</span></div><div class="prompt">'+esc_(c.back)+'</div><div class="lab"><span>Type the term</span><span style="cursor:pointer;color:#4255ff" id="fcDk">Don’t know?</span></div><div class="fc-write"><input id="fcIn" autocomplete="off" placeholder="Type the answer"><button class="fc-b p" id="fcAns">Answer</button></div><div id="fcFb"></div></div>';
+   var inp=$('fcIn');inp.focus();var go_=function(){var v=inp.value;if(!v.trim())return;var ok=close(v,c.front);inp.disabled=true;$('fcAns').disabled=true;result(c,ok,c.front,v)};$('fcAns').onclick=go_;inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();if(!inp.disabled)go_();else{var n=$('fcCont');if(n)n.click()}}};$('fcDk').onclick=function(){inp.disabled=true;$('fcAns').disabled=true;result(c,false,c.front,'')};P.key=function(e){if(e.key==='Enter'){var n=$('fcCont');if(n)n.click()}}}
+  else{// self-check for long cards
+   W.innerHTML=seg()+'<div class="fc-q"><div class="lab"><span>Recall the answer, then reveal</span><span>Round '+P.roundNo+'</span></div><div class="prompt">'+esc_(c.front)+'</div><button class="fc-b p" id="fcRev">Reveal answer</button><div id="fcFb"></div></div>';
+   $('fcRev').onclick=function(){this.remove();$('fcFb').innerHTML='<div class="fc-fb no" style="background:color-mix(in srgb,#4255ff 8%,var(--card))"><b>Answer</b><p style="margin:6px 0 0">'+esc_(c.back)+'</p><div class="row"><button class="fc-b" style="background:#e8590c;color:#fff" id="fcSn">I got it wrong</button><button class="fc-b" style="background:#18ae79;color:#fff" id="fcSy">I got it right</button></div></div>';$('fcSn').onclick=function(){result(c,false,null)};$('fcSy').onclick=function(){result(c,true,null)}};P.key=null}}
+ function result(c,ok,ans,typed){if(ok){P.stage[c.id]=Math.min(2,P.stage[c.id]+1)}else{P.stage[c.id]=0;P.wrong++}
+  mark(c,P.stage[c.id]>=2?2:Math.max(1,c.lv===2&&!ok?1:P.stage[c.id]));c.due=addDays(ok?(P.stage[c.id]>=2?3:1):0);save();
+  var fb=$('fcFb');fb.innerHTML=ok?'<div class="fc-fb ok">✔ '+['Great job!','Correct!','You’ve got this!','Nice!'][Math.floor(Math.random()*4)]+(typed!=null&&ans&&norm(typed)!==norm(ans)?' <span style="font-weight:500">(exact answer: '+esc_(ans)+')</span>':'')+'</div>':'<div class="fc-fb no"><b>'+(typed?'Not quite — you’re still learning this one.':'No problem, you’re learning!')+'</b>'+(ans?'<p style="margin:6px 0 0">Correct answer: <b>'+esc_(ans)+'</b></p>':'')+(typed?'<p style="margin:4px 0 0" class="muted">You wrote: '+esc_(typed)+'</p>':'')+'<div class="row">'+(typed?'<button class="fc-b d" id="fcOver">I was right</button>':'')+'</div></div>';
+  var cont=document.createElement('button');cont.className='fc-b p';cont.id='fcCont';cont.textContent='Continue →';cont.style.marginTop='12px';fb.appendChild(cont);cont.focus();
+  cont.onclick=function(){P.ri++;ask()};
+  // like Quizlet: a right answer moves on by itself
+  if(ok&&typed==null){cont.textContent='Next…';setTimeout(function(){if(cont.isConnected)cont.click()},1100)}
+  if($('fcOver'))$('fcOver').onclick=function(){P.stage[c.id]=Math.min(2,P.stage[c.id]+2);P.wrong--;mark(c,P.stage[c.id]>=2?2:1);c.due=addDays(3);save();P.ri++;ask()};
+  if(ok&&P.stage[c.id]>=2)reward(2,'learn')}
+ function roundEnd(){var mastered=P.queue.filter(function(c){return P.stage[c.id]>=2}).length;var left=P.queue.length-mastered;if(!left){finish();return}
+  W.innerHTML='<div class="fc-done"><div class="big">💪</div><h2>Round '+P.roundNo+' done</h2><p class="muted">'+mastered+' of '+P.queue.length+' mastered · '+left+' to go</p><div class="fc-bar" style="width:min(420px,100%)"><span style="width:'+(mastered/P.queue.length*100)+'%;background:#18ae79"></span></div><button class="fc-b p" id="fcNextR">Continue to round '+(P.roundNo+1)+'</button></div>';$('fcNextR').onclick=newRound;$('fcNextR').focus();P.key=function(e){if(e.key==='Enter')newRound()}}
+ function finish(){streakTick();reward(15,'learn');W.innerHTML='<div class="fc-done"><div class="big">🎓</div><h2>You’ve mastered this set!</h2><p class="muted">'+P.total+' terms learned'+(P.wrong?' · '+P.wrong+' mistakes along the way':'')+'. They’ll come back in spaced review so you don’t forget.</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="fc-b p" id="fcT">📝 Take a test</button><button class="fc-b l" id="fcM">🧩 Play Match</button><button class="fc-b d" id="fcR">Learn again</button></div></div>';$('fcT').onclick=function(){modeTest(list,title)};$('fcM').onclick=function(){modeMatch(list,title)};$('fcR').onclick=function(){list.forEach(function(c){mark(c,0)});save();modeLearn(list,title)};P.key=null;var c=document.querySelector('#fcPlay');try{if(window.StudyFlowQuiz){}}catch(e){}}
+ newRound()}
+
+/* ---------- Test mode ---------- */
+function modeTest(list,title){if(list.length<2){toast_('Add at least 2 cards to take a test');return}var W=shell('Test','📝',title);P={key:null};var n=Math.min(list.length,20);
+ W.innerHTML='<div class="fc-q"><h2 style="margin:0 0 6px">Test settings</h2><p class="muted tiny" style="margin:0 0 14px">A mixed exam on this set. You get your grade at the end.</p><div class="field"><label>Questions (max '+list.length+')</label><input type="number" id="fcTn" min="2" max="'+list.length+'" value="'+n+'"></div><div class="fc-tools" style="justify-content:flex-start;gap:14px"><label><input type="checkbox" id="fcTmc" checked> Multiple choice</label><label><input type="checkbox" id="fcTtf" checked> True / false</label><label><input type="checkbox" id="fcTw" checked> Written</label></div><button class="fc-b p" id="fcTgo" style="margin-top:14px">Start test</button></div>';
+ $('fcTgo').onclick=function(){var k=Math.max(2,Math.min(list.length,+$('fcTn').value||n));var types=[];if($('fcTmc').checked)types.push('mc');if($('fcTtf').checked)types.push('tf');if($('fcTw').checked)types.push('w');if(!types.length)types=['mc'];build(shuffle(list).slice(0,k),types)};
+ function build(sel,types){var pool=cards().length>=4?cards():list;var qs=sel.map(function(c,i){var t=types[i%types.length];if(t==='w'&&String(c.front).length>60)t='mc';if(t==='mc')return{t:t,c:c,opts:shuffle([c.back].concat(distractors(c,pool,'back')))};if(t==='tf'){var truth=Math.random()<.5,other=truth?c.back:(distractors(c,pool,'back')[0]);return{t:t,c:c,shown:other,truth:truth||other===c.back}}return{t:'w',c:c}});qs=shuffle(qs);
+  W.innerHTML='<div class="fc-test">'+qs.map(function(q,i){var head='<div class="lab"><span>'+(i+1)+' of '+qs.length+'</span><span>'+{mc:'Multiple choice',tf:'True or false',w:'Written'}[q.t]+'</span></div>';
+   if(q.t==='mc')return'<div class="fc-q fc-tq" data-q="'+i+'">'+head+'<div class="prompt">'+esc_(q.c.front)+'</div><div class="fc-opts">'+q.opts.map(function(o,k){return'<button class="fc-opt" data-k="'+k+'"><span class="k">'+(k+1)+'</span><span>'+esc_(o)+'</span></button>'}).join('')+'</div></div>';
+   if(q.t==='tf')return'<div class="fc-q fc-tq" data-q="'+i+'">'+head+'<div class="prompt">'+esc_(q.c.front)+' <span class="muted" style="font-weight:400">→</span> '+esc_(q.shown)+'</div><div class="fc-tf"><button class="fc-opt" data-k="1">True</button><button class="fc-opt" data-k="0">False</button></div></div>';
+   return'<div class="fc-q fc-tq" data-q="'+i+'">'+head+'<div class="prompt">'+esc_(q.c.back)+'</div><div class="fc-write"><input data-w placeholder="Type the term" autocomplete="off"></div></div>'}).join('')+'<button class="fc-b p" id="fcSubmit" style="justify-self:center;padding:14px 30px">Submit test</button></div>';
+  var picks={};W.querySelectorAll('.fc-tq').forEach(function(box){var i=+box.dataset.q;box.querySelectorAll('[data-k]').forEach(function(b){b.onclick=function(){box.querySelectorAll('[data-k]').forEach(function(x){x.classList.remove('ok');x.style.borderColor=''});b.style.borderColor='#4255ff';picks[i]=+b.dataset.k}})});
+  $('fcSubmit').onclick=function(){var score=0;qs.forEach(function(q,i){var box=W.querySelector('[data-q="'+i+'"]'),ok=false;
+    if(q.t==='mc'){ok=picks[i]!=null&&q.opts[picks[i]]===q.c.back;box.querySelectorAll('[data-k]').forEach(function(b){b.disabled=true;b.style.borderColor='';if(q.opts[+b.dataset.k]===q.c.back)b.classList.add('ok');else if(+b.dataset.k===picks[i])b.classList.add('no')})}
+    else if(q.t==='tf'){var ans=q.truth?1:0;ok=picks[i]===ans;box.querySelectorAll('[data-k]').forEach(function(b){b.disabled=true;b.style.borderColor='';if(+b.dataset.k===ans)b.classList.add('ok');else if(+b.dataset.k===picks[i])b.classList.add('no')});if(!ok)box.insertAdjacentHTML('beforeend','<div class="fc-fb no">Correct definition: <b>'+esc_(q.c.back)+'</b></div>')}
+    else{var inp=box.querySelector('[data-w]');ok=close(inp.value,q.c.front);inp.disabled=true;if(!ok)box.insertAdjacentHTML('beforeend','<div class="fc-fb no">Correct answer: <b>'+esc_(q.c.front)+'</b></div>')}
+    box.classList.add(ok?'ok':'no');if(ok)score++;mark(q.c,ok?Math.max(q.c.lv,1)+(q.c.lv>=1?1:0):Math.min(q.c.lv,1));q.c.due=addDays(ok?3:0)});save();streakTick();
+   var pct=Math.round(score/qs.length*100);reward(Math.round(pct/10)+5,'test');
+   this.remove();W.insertAdjacentHTML('afterbegin','<div class="fc-q fc-done" style="padding:22px"><div class="fc-ring"><svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" stroke="#e2e8f0"/><circle cx="75" cy="75" r="62" stroke="'+(pct>=70?'#18ae79':pct>=40?'#ffcd1f':'#e8590c')+'" stroke-linecap="round" stroke-dasharray="390" stroke-dashoffset="'+(390*(1-pct/100))+'"/></svg><div>'+pct+'%</div></div><h2>'+score+' / '+qs.length+' correct</h2><p class="muted">'+(pct>=90?'Outstanding — you’re exam-ready on this set.':pct>=70?'Solid! Review the red ones below.':'Keep practising — Learn mode will help with the ones you missed.')+'</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="fc-b p" id="fcRet">New test</button><button class="fc-b l" id="fcLrn">🎓 Learn the missed ones</button></div></div>');W.parentNode.scrollTop=0;
+   $('fcRet').onclick=function(){modeTest(list,title)};$('fcLrn').onclick=function(){var miss=qs.filter(function(q,i){return W.querySelector('[data-q="'+i+'"]').classList.contains('no')}).map(function(q){return q.c});modeLearn(miss.length?miss:list,title)}}}}
+
+/* ---------- Match ---------- */
+function modeMatch(list,title){if(list.length<2){toast_('Add at least 2 cards to play Match');return}var W=shell('Match','🧩',title);var mt=setMeta(title);
+ W.innerHTML='<div class="fc-done"><div class="big">🧩</div><h2>Ready to play?</h2><p class="muted">Match every term with its definition as fast as you can. A wrong match adds 1 second.</p>'+(mt.best?'<p><b>Your best: '+mt.best.toFixed(1)+'s</b></p>':'')+'<button class="fc-b p" id="fcMgo">Start game</button></div>';
+ $('fcMgo').onclick=start;
+ function start(){var pick=shuffle(list).slice(0,6);var tiles=shuffle(pick.map(function(c){return{c:c,s:'f',t:c.front}}).concat(pick.map(function(c){return{c:c,s:'b',t:c.back.length>90?c.back.slice(0,88)+'…':c.back}})));
+  P={t0:Date.now(),pen:0,left:pick.length,sel:null,key:null};
+  W.innerHTML='<div class="fc-timer" id="fcClock">0.0s</div><div class="fc-match">'+tiles.map(function(x,i){return'<button class="fc-tile" data-i="'+i+'">'+esc_(x.t)+'</button>'}).join('')+'</div>';
+  P.t=setInterval(function(){var e=$('fcClock');if(e)e.textContent=((Date.now()-P.t0)/1000+P.pen).toFixed(1)+'s'},100);
+  W.querySelectorAll('.fc-tile').forEach(function(b){b.onclick=function(){var x=tiles[+b.dataset.i];if(!P.sel){P.sel={b:b,x:x};b.classList.add('sel');return}if(P.sel.b===b){b.classList.remove('sel');P.sel=null;return}
+   if(P.sel.x.c===x.c&&P.sel.x.s!==x.s){b.classList.add('gone');P.sel.b.classList.add('gone');P.sel=null;P.left--;if(!P.left)done()}
+   else{var a=P.sel.b;a.classList.remove('sel');a.classList.add('bad');b.classList.add('bad');P.pen+=1;setTimeout(function(){a.classList.remove('bad');b.classList.remove('bad')},400);P.sel=null}}})}
+ function done(){clearInterval(P.t);var t=(Date.now()-P.t0)/1000+P.pen;var rec=!mt.best||t<mt.best;if(rec){mt.best=t;save()}streakTick();reward(rec?15:8,'match');
+  W.innerHTML='<div class="fc-done"><div class="big">'+(rec?'🏆':'⏱️')+'</div><h2>'+t.toFixed(1)+' seconds</h2><p class="muted">'+(rec?'New personal best!':'Best: '+mt.best.toFixed(1)+'s')+'</p><div style="display:flex;gap:8px;justify-content:center"><button class="fc-b p" id="fcMa">Play again</button><button class="fc-b d" id="fcMx">Done</button></div></div>';$('fcMa').onclick=start;$('fcMx').onclick=closeP;if(rec)try{var k=document.createElement('div');k.className='kq-confetti';for(var i=0;i<60;i++){var z=document.createElement('i');z.style.left=Math.random()*100+'%';z.style.background=COL[i%COL.length];z.style.animationDuration=(2+Math.random()*2)+'s';k.appendChild(z)}$('fcPlay').appendChild(k);setTimeout(function(){k.remove()},4500)}catch(e){}}}
+
+/* ---------- Spaced review ---------- */
+var IV=[0,1,3,7,16,35,70];
+function modeReview(list,title){var t=todayS();var q=list.filter(function(c){return!c.due||c.due<=t});if(!q.length){q=list.slice()}q=shuffle(q).slice(0,40);if(!q.length){toast_('Nothing to review');return}
+ var W=shell('Spaced review','⏰',title);P={q:q,i:0,flip:false,again:0};
+ function draw(){var c=P.q[P.i];if(!c){end();return}
+  W.innerHTML='<div class="fc-counts"><span>'+(P.i+1)+' / '+P.q.length+'</span><span class="muted" style="font-weight:600">Box '+(c.box||0)+'</span></div><div class="fc-bar"><span style="width:'+(P.i/P.q.length*100)+'%"></span></div><div class="fc-scene"><div class="fc-card'+(P.flip?' flip':'')+'" id="fcCard"><div class="fc-face"><small>RECALL</small><div>'+esc_(c.front)+'</div></div><div class="fc-face back"><small>ANSWER</small><div>'+esc_(c.back)+'</div></div></div></div>'+(P.flip?'<div class="fc-rate"><button style="background:#e8590c" data-r="0">Again<small>today</small></button><button style="background:#ca8a04" data-r="1">Hard<small>'+lab(c,1)+'</small></button><button style="background:#4255ff" data-r="2">Good<small>'+lab(c,2)+'</small></button><button style="background:#18ae79" data-r="3">Easy<small>'+lab(c,3)+'</small></button></div>':'<div class="fc-ctl"><button class="fc-b p" style="width:auto;height:auto;border-radius:12px;padding:14px 26px;box-shadow:none" id="fcShow">Show answer</button></div>')+'<p class="tiny muted fc-kbd" style="text-align:center;margin:0">Space: show · 1–4: rate</p>';
+  $('fcCard').onclick=function(){if(!P.flip){P.flip=true;draw()}};if($('fcShow'))$('fcShow').onclick=function(){P.flip=true;draw()};
+  W.querySelectorAll('[data-r]').forEach(function(b){b.onclick=function(){rate(c,+b.dataset.r)}})}
+ function next(c,r){var bx=c.box||0;return r===0?0:r===1?Math.max(1,bx):r===2?bx+1:bx+2}
+ function lab(c,r){var d=IV[Math.min(IV.length-1,next(c,r))];return d===0?'today':d===1?'1 day':d+' days'}
+ function rate(c,r){var nb=Math.min(IV.length-1,next(c,r));c.box=nb;c.due=addDays(IV[nb]);if(r===0){P.q.push(c);P.again++;mark(c,Math.min(c.lv,1))}else mark(c,nb>=3?2:Math.max(1,c.lv));save();P.i++;P.flip=false;draw()}
+ function end(){streakTick();reward(10,'review');W.innerHTML='<div class="fc-done"><div class="big">✅</div><h2>Review complete</h2><p class="muted">'+(P.q.length-P.again)+' cards reviewed. Next reviews are scheduled automatically.</p><button class="fc-b p" id="fcRx">Done</button></div>';$('fcRx').onclick=closeP}
+ P.key=function(e){if(e.key===' '){e.preventDefault();if(!P.flip){P.flip=true;draw()}}else if(P.flip&&/^[1-4]$/.test(e.key)){var b=W.querySelector('[data-r="'+(+e.key-1)+'"]');if(b)b.click()}};
+ draw()}
+function asQuiz(list,title){if(list.length<4){toast_('Add at least 4 cards to play as a quiz game');return}var pool=cards();var qs=shuffle(list).slice(0,15).map(function(c){var o=shuffle([c.back].concat(distractors(c,pool,'back'))).map(function(x){return x.length>70?x.slice(0,68)+'…':x});var cb=c.back.length>70?c.back.slice(0,68)+'…':c.back;return{text:c.front,options:o,correct:o.indexOf(cb),time:20,explain:c.back}});
+ var m=setMeta(title);if(window.StudyFlowQuiz)StudyFlowQuiz.choose({id:'fc-'+title,title:title,subject:'',topic:title,emoji:m.emoji,color:m.color,questions:qs,generated:false,mine:false})}
+
+/* ---------- wiring ---------- */
+function init(){var pg=$('page-flashcards');if(!pg||$('fcHome'))return;cards();
+ [].slice.call(pg.children).forEach(function(c){c.classList.add('fc-old')});
+ var h=document.createElement('div');h.id='fcHome';pg.insertBefore(h,pg.firstChild);
+ h.addEventListener('click',function(e){var b=e.target.closest('[data-fc]');var s=e.target.closest('[data-fcset]');var m=e.target.closest('[data-fcm]');
+  if(s){VIEW={set:s.dataset.fcset,edit:false};setMeta(VIEW.set).last=Date.now();render();window.scrollTo({top:0});return}
+  if(m){var list=setCards(VIEW.set),k=m.dataset.fcm;if(k==='cards')modeCards(list,VIEW.set);else if(k==='learn')modeLearn(list,VIEW.set);else if(k==='test')modeTest(list,VIEW.set);else if(k==='match')modeMatch(list,VIEW.set);else if(k==='review')modeReview(list,VIEW.set);else if(k==='quiz')asQuiz(list,VIEW.set);return}
+  var st=e.target.closest('[data-fcstar]');if(st){var c=cards().filter(function(x){return x.id===st.dataset.fcstar})[0];if(c){c.star=!c.star;save();st.classList.toggle('on',c.star)}return}
+  var sp=e.target.closest('[data-fcspk]');if(sp){var c2=cards().filter(function(x){return x.id===sp.dataset.fcspk})[0];if(c2)speak(c2.front+'. '+c2.back);return}
+  if(!b)return;var a=b.dataset.fc;
+  if(a==='new'){VIEW={set:null,edit:'new'};VIEW.set='';renderEditNew()}
+  else if(a==='ai')aiModal();else if(a==='import')importModal();else if(a==='frommist')fromMistakes();
+  else if(a==='review'){var du=due();if(!du.length){toast_('Nothing due');return}modeReview(du,'All due cards')}
+  else if(a==='home'){VIEW={set:null,edit:false};render()}
+  else if(a==='edit'){VIEW.edit=true;render()}
+  else if(a==='cancel'){if(VIEW.edit==='new')VIEW={set:null,edit:false};else VIEW.edit=false;render()}
+  else if(a==='saveset')saveSet();
+  else if(a==='addrow'){var r=row({f:'',b:''});$('fcRows').appendChild(r);num();r.querySelector('textarea').focus()}
+  else if(a==='delrow'){b.closest('.fc-erow').remove();num()}
+  else if(a==='delset'){if(!confirm('Delete the set “'+VIEW.set+'” and all its cards?'))return;var d=D();d.flashcards=cards().filter(function(c){return c.set!==VIEW.set});delete meta()[VIEW.set];save();VIEW={set:null,edit:false};render();toast_('Set deleted')}
+ });
+ h.addEventListener('keydown',function(e){if(e.key==='Tab'&&!e.shiftKey&&e.target.classList&&e.target.classList.contains('fcB')){var rows=[].slice.call(document.querySelectorAll('#fcRows .fc-erow'));if(e.target.closest('.fc-erow')===rows[rows.length-1]){e.preventDefault();var r=row({f:'',b:''});$('fcRows').appendChild(r);num();r.querySelector('textarea').focus()}}});
+ render();
+ if(typeof window.renderAll==='function'&&!window.renderAll.__fc){var ra=window.renderAll;window.renderAll=function(){var r=ra.apply(this,arguments);try{if(!VIEW.edit&&!(($('fcPlay')||{}).hidden===false))render()}catch(e){}return r};window.renderAll.__fc=1}}
+function renderEditNew(){VIEW.edit='new';VIEW.set='';renderEdit()}
+window.StudyFlowCards={refresh:render,open:function(n){VIEW={set:n,edit:false};render()},learn:function(n){modeLearn(setCards(n),n)},review:function(){var d=due();if(d.length)modeReview(d,'All due cards');else{var all=cards();if(all.length)modeReview(all,'All cards')}},due:function(){return due().length},sets:sets};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,70)});else setTimeout(init,70);
+
+// ---- Share a set with a link (no account needed: the cards travel inside the link) ----
+function b64u(bytes){var s='';for(var i=0;i<bytes.length;i++)s+=String.fromCharCode(bytes[i]);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function unb64u(t){t=t.replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';var s=atob(t),a=new Uint8Array(s.length);for(var i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a}
+function pack(obj){var raw=new TextEncoder().encode(JSON.stringify(obj));if(window.CompressionStream){var cs=new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate-raw'));return new Response(cs).arrayBuffer().then(function(b){return 'z'+b64u(new Uint8Array(b))})}return Promise.resolve('j'+b64u(raw))}
+function unpack(t){var k=t[0],b=unb64u(t.slice(1));if(k==='z'){var ds=new Blob([b]).stream().pipeThrough(new DecompressionStream('deflate-raw'));return new Response(ds).text().then(JSON.parse)}return Promise.resolve(JSON.parse(new TextDecoder().decode(b)))}
+function shareSet(n,btn){var cs=setCards(n).slice(0,300);if(!cs.length)return toast('Add some cards first');var mt=setMeta(n),who='';try{who=(data.profile&&data.profile.name)||''}catch(e){}
+ pack({v:1,n:n,e:mt.emoji||'',by:who,c:cs.map(function(c){return[c.front,c.back]})}).then(function(code){var url=location.origin+'/?fcset='+code;
+  var done=function(t){if(btn){var o=btn.textContent;btn.textContent=t;setTimeout(function(){btn.textContent=o},1800)}};
+  if(navigator.share&&/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){navigator.share({title:n+' — StudyFlow flashcards',text:'Study my "'+n+'" flashcards on StudyFlow',url:url}).catch(function(){})}
+  else if(navigator.clipboard){navigator.clipboard.writeText(url).then(function(){done('✓ Link copied');toast('Link copied — send it to anyone')}).catch(function(){prompt('Copy this link:',url)})}
+  else prompt('Copy this link:',url)})}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-fcshare]');if(b){e.preventDefault();e.stopPropagation();shareSet(VIEW.set,b)}},true);
+function incoming(){var m=location.search.match(/[?&]fcset=([A-Za-z0-9_-]+)/);if(!m)return;var clean=function(){try{var u=new URL(location.href);u.searchParams.delete('fcset');history.replaceState(null,'',u.pathname+(u.search||'')+u.hash)}catch(e){}};
+ unpack(m[1]).then(function(o){if(!o||!Array.isArray(o.c)||!o.c.length)throw 0;var list=o.c.slice(0,300).map(function(x){return{f:String(x[0]||'').slice(0,300),b:String(x[1]||'').slice(0,600)}}).filter(function(x){return x.f&&x.b});
+  var ov=document.createElement('div');ov.className='fc-share-ov';ov.innerHTML='<div class="fc-share-c" role="dialog" aria-modal="true"><div class="fc-share-e">'+esc_(o.e||'🃏')+'</div><h2>'+esc_(o.n||'Flashcards')+'</h2><p class="muted">'+(o.by?esc_(o.by)+' shared ':'Shared set · ')+list.length+' card'+(list.length===1?'':'s')+'</p><ul>'+list.slice(0,4).map(function(x){return'<li><b>'+esc_(x.f)+'</b><span>'+esc_(x.b)+'</span></li>'}).join('')+(list.length>4?'<li class="more">+ '+(list.length-4)+' more</li>':'')+'</ul><div class="fc-share-a"><button type="button" class="fc-b p" data-fsadd>Add to my flashcards</button><button type="button" class="fc-b d" data-fsno>Not now</button></div></div>';
+  document.body.appendChild(ov);clean();
+  ov.addEventListener('click',function(ev){if(ev.target===ov||ev.target.closest('[data-fsno]')){ov.remove();return}if(ev.target.closest('[data-fsadd]')){var name=String(o.n||'Shared set').slice(0,60),base=name,k=2;while(setCards(name).length)name=base+' ('+k+++')';addCardsTo(name,list,o.e||'');ov.remove();try{go('flashcards')}catch(_){}VIEW.set=name;try{render()}catch(_){}toast('Added "'+name+'" to your flashcards')}})
+ }).catch(function(){clean();toast('That share link is broken or incomplete')})}
+setTimeout(incoming,1200);
+})();
 </script></body></html>
