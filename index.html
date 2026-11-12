@@ -6228,7 +6228,10 @@ function system(){
  '1) GRAPHS of equations, lines, curves, points, and BAR CHARTS → a ```plot block with JSON only (the app draws it exactly). Examples:\n```plot\n{"title":"y = x² − 4","functions":[{"f":"x^2-4","label":"y = x² − 4"}],"points":[{"x":2,"y":0,"label":"(2, 0)"},{"x":-2,"y":0,"label":"(−2, 0)"},{"x":0,"y":-4,"label":"(0, −4)"}],"x":[-5,5],"y":[-6,8],"xLabel":"x","yLabel":"y"}\n```\n```plot\n{"title":"Rainfall (mm)","bars":[{"label":"Jan","value":12},{"label":"Feb","value":30}],"yLabel":"mm"}\n```\nFunctions use x, + - * / ^, sqrt(), sin(), cos(), tan(), abs(), log(), ln(), exp(), pi. Mark important points (roots, vertex, intercepts, intersections). Use "lines":[{"x1":..,"y1":..,"x2":..,"y2":..}] for line segments.\n'+
  '2) PROCESSES, CYCLES, STEPS, FLOWCHARTS, CLASSIFICATIONS, TIMELINES, MIND MAPS → a ```flow block in Mermaid syntax, e.g.\n```flow\nflowchart LR\n  A[Evaporation] --> B[Condensation] --> C[Precipitation] --> D[Collection] --> A\n```\nKeep node text short (2–5 words), max about 10 nodes, use quotes for text with brackets: A["Water (liquid)"]. Use flowchart TD for top-to-bottom steps, LR for cycles/chains, mindmap or timeline when that fits.\n'+
  '3) GEOMETRY, CIRCUITS, CELLS, APPARATUS, FORCE or RAY DIAGRAMS, NUMBER LINES → a ```svg block: one <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260">. Make it look like a clean textbook figure: work out exact coordinates first (true angles, proportional lengths, parallel lines really parallel), keep 24px clear margin, strokes #1f2937 width 2, soft fills (#eef2ff, #ecfdf5, #fff7ed, #fef2f2), accent colours #4f46e5 #059669 #d97706 #e11d48, labels font-size 14 placed 6–10px OUTSIDE the shape they name and never on top of lines or other labels, right-angle squares and angle arcs where relevant, arrows with marker-end="url(#arrow)" (the app adds the arrowhead), short leader lines for labels in crowded parts, title at the top only if useful. No scripts, images, links or text outside the svg.\n'+
- 'Never draw a graph by hand in svg — use plot. Never use ascii-art diagrams.',
+ '4) ELECTRIC CIRCUITS → a ```circuit block with JSON only (the app draws the symbols and wires correctly). "series" lists what is on the loop in order; use {"parallel":[...]} for branches (each branch is one component or a list of components in series). Types: resistor, bulb, switch, ammeter, voltmeter, wire. Example:\n```circuit\n{"title":"Series–parallel circuit","source":"12 V","series":[{"type":"resistor","label":"R1 = 2 Ω"},{"parallel":[{"type":"resistor","label":"R2 = 3 Ω"},{"type":"resistor","label":"R3 = 6 Ω"}]}]}\n```\n'+
+ '5) ORGANS AND COMPLEX BIOLOGY (heart, eye, ear, kidney, nephron, digestive system, brain…): do NOT try to draw the organ shape — it comes out wrong. Instead show the structure or pathway as a ```flow block (e.g. blood flow: Vena cava → Right atrium → Right ventricle → Pulmonary artery → Lungs → Pulmonary vein → Left atrium → Left ventricle → Aorta → Body, with valves named on the arrows), and tell the student to compare it with the labelled picture in their textbook.\n'+
+ 'CHECK before sending any svg: every line you describe must really connect (shared end coordinates), nothing overlaps another shape or label, every label names the right part, and the science is right (e.g. rays pass through F, arrows point the way things really move). If you cannot draw it accurately, use flow or explain in words instead.\n'+
+ 'Never draw a graph or a circuit by hand in svg — use plot / circuit. Never use ascii-art diagrams.',
  canMake?'FILES: If the user asks you to make a file (notes, a worksheet, a summary sheet, a revision plan, flashcards list, a CSV table), put the whole file content inside a fenced block that starts with ```file:NAME.EXT (EXT is md, txt or csv) and ends with ```. Make only one file unless asked for more. Outside the block, say in one line what the file contains.':
  'FILES: The user has used today\'s file-making allowance. If they ask you to make a file, answer in the chat instead and say: "You have used today\'s free file creations — StudyStarx Plus lets you make more files."',
  'If files are attached, read them carefully and answer about them. Be honest when unsure; never invent official mark schemes.',
@@ -10532,147 +10535,6 @@ window.StudyFlowFocusLock={select:function(k){sel.add(k);drawApps()},state:funct
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
 })();
 
-</script><style id="sf-fz-css">
-/* Focus Lock — phone app screen */
-body.fz-app #page-focuslock>:not(#fzRoot){display:none!important}
-#fzRoot{max-width:560px;margin:0 auto;padding-bottom:24px;font-family:Inter,system-ui,sans-serif;color:var(--ink,#1f2937)}
-.fz-hero{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#312e81,#6d28d9 60%,#a21caf);color:#fff;border-radius:22px;padding:20px 20px;margin-bottom:14px;box-shadow:0 12px 30px rgba(76,29,149,.25)}
-.fz-ht{flex:1}.fz-hero h1{margin:0;font-size:24px;letter-spacing:-.01em;color:#fff}.fz-hero p{margin:4px 0 0;opacity:.85;font-size:14px}.fz-hi{font-size:40px}
-.fz-card{background:var(--card,#fff);border:1px solid var(--line,#e7e8ef);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
-.fz-sh{display:flex;justify-content:space-between;align-items:baseline}.fz-sh b{font-size:17px}.fz-sh span{font-size:12.5px;color:var(--muted,#6b7280);font-weight:600}
-.fz-prog{height:6px;background:#eef0f6;border-radius:99px;margin:10px 0 6px;overflow:hidden}.fz-prog i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:99px;transition:width .4s}
-.fz-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line,#eef0f4)}.fz-step:first-of-type{border-top:0}
-.fz-si{flex:0 0 40px;height:40px;border-radius:12px;background:#eef2ff;display:grid;place-items:center;font-size:20px}
-.fz-step.ok .fz-si{background:#dcfce7;color:#15803d;font-weight:800}
-.fz-step>div{flex:1;min-width:0}.fz-step b{display:block;font-size:14.5px}.fz-step b em{font-style:normal;font-size:10.5px;font-weight:700;color:#0369a1;background:#e0f2fe;border-radius:99px;padding:1px 7px;margin-left:4px;vertical-align:1px}.fz-step small{display:block;color:var(--muted,#6b7280);font-size:12.5px;line-height:1.4;margin-top:2px}
-.fz-allow{flex:none;border:0;border-radius:12px;padding:10px 16px;font:700 14px Inter,system-ui,sans-serif;background:#4f46e5;color:#fff;cursor:pointer}
-.fz-done{flex:none;font-size:12.5px;font-weight:700;color:#15803d}
-.fz-mini .fz-step{padding:8px 0}.fz-fine{font-size:12.5px;color:var(--muted,#6b7280);margin:10px 0 0;text-align:center}
-.fz-shake{animation:fzS .5s}@keyframes fzS{0%,100%{transform:none}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-.fz-lbl{display:flex;justify-content:space-between;font-weight:700;font-size:15px;margin:4px 0 10px}.fz-lbl span{font-size:12.5px;color:var(--muted,#6b7280)}
-.fz-lbl:not(:first-child){margin-top:18px}
-.fz-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.fz-app{position:relative;display:grid;justify-items:center;gap:4px;padding:10px 2px 8px;border:1.5px solid var(--line,#e7e8ef);border-radius:16px;background:var(--card,#fff);cursor:pointer;color:inherit;font:inherit}
-.fz-ai{font-size:24px;line-height:1.1}.fz-an{font-size:11.5px;font-weight:600;line-height:1.2;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
-.fz-app.on{border-color:#6d28d9;background:#f5f3ff;box-shadow:0 0 0 3px rgba(109,40,217,.12)}
-.fz-ck{position:absolute;top:4px;right:5px;width:17px;height:17px;border-radius:50%;background:#6d28d9;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center}
-.fz-more-apps{display:block;width:100%;margin-top:10px;border:1.5px dashed #c4b5fd;background:transparent;border-radius:14px;padding:11px;font:600 13.5px Inter,system-ui,sans-serif;color:#5b21b6;cursor:pointer}
-.fz-durs{display:flex;flex-wrap:wrap;gap:8px}.fz-dur{flex:1 0 auto;min-width:64px;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);border-radius:999px;padding:10px 12px;font:600 13.5px Inter,system-ui,sans-serif;color:inherit;cursor:pointer}
-.fz-dur.on{background:#6d28d9;border-color:#6d28d9;color:#fff}
-.fz-sw{display:flex;align-items:center;gap:12px;margin-top:16px;cursor:pointer}.fz-sw>span{flex:1}.fz-sw b{display:block;font-size:14.5px}.fz-sw small{color:var(--muted,#6b7280);font-size:12.5px}
-.fz-sw input{position:absolute;opacity:0;pointer-events:none}.fz-sw i{flex:none;width:46px;height:28px;border-radius:99px;background:#d1d5db;position:relative;transition:background .2s}
-.fz-sw i:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
-.fz-sw input:checked+i{background:#6d28d9}.fz-sw input:checked+i:after{transform:translateX(18px)}
-.fz-pl{font-style:normal;font-size:10px;font-weight:800;color:#b45309;background:#fef3c7;border-radius:99px;padding:1px 6px;margin-left:4px}
-.fz-opt{margin-top:14px;border-top:1px solid var(--line,#eef0f4);padding-top:10px}.fz-opt summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--muted,#6b7280);list-style:none}.fz-opt summary:before{content:"▸ "}.fz-opt[open] summary:before{content:"▾ "}.fz-opt summary::-webkit-details-marker{display:none}
-.fz-start{display:block;width:100%;margin-top:18px;border:0;border-radius:16px;padding:16px;font:700 16.5px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 10px 24px rgba(79,70,229,.3);cursor:pointer}
-.fz-start.off{background:#c7c9d9;box-shadow:none}
-.fz-upd{background:#fff7ed;border-color:#fed7aa}.fz-upd p{margin:6px 0 12px;font-size:13.5px;color:#7c2d12}
-.fz-btn{display:inline-block;background:#ea580c;color:#fff;border-radius:12px;padding:10px 16px;font-weight:700;text-decoration:none}
-.fz-run{text-align:center;background:linear-gradient(180deg,#1e1b4b,#312e81);color:#fff;border-radius:24px;padding:26px 18px 22px;box-shadow:0 14px 34px rgba(30,27,75,.35)}
-.fz-ring{position:relative;width:220px;height:220px;margin:0 auto}.fz-ring svg{width:100%;height:100%;transform:rotate(-90deg)}.fz-ring circle{fill:none;stroke-width:12}.fz-ring .bg{stroke:rgba(255,255,255,.12)}.fz-ring .fg{stroke:#a78bfa;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
-.fz-rt{position:absolute;inset:0;display:grid;place-content:center}.fz-rt b{font-size:44px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}.fz-rt span{font-size:13px;opacity:.75}
-.fz-run h2{margin:16px 0 4px;color:#fff;font-size:21px}.fz-run p{margin:0 0 10px;opacity:.8;font-size:14px}
-.fz-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.fz-tags span{background:rgba(255,255,255,.12);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:600}
-.fz-stop{margin-top:18px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:14px;padding:11px 22px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
-.fz-strict{margin-top:16px!important;font-size:13px!important}
-@media(max-width:360px){.fz-apps{grid-template-columns:repeat(3,1fr)}}
-/* Focus Lock — browser page tidy-up */
-body.fz-web #page-focuslock .pagehead .pl-chips{display:none}
-.fz-wmore{margin-top:8px}.fz-wmore summary,.fz-wsched summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--muted,#6b7280);padding:6px 2px;list-style:none}.fz-wmore summary::-webkit-details-marker,.fz-wsched summary::-webkit-details-marker{display:none}
-.fz-wmore summary:before,.fz-wsched summary:before{content:"▸ "}.fz-wmore[open] summary:before,.fz-wsched[open] summary:before{content:"▾ "}
-.fz-wmore .fl-opt{margin-top:8px}
-.fz-wsched{padding:14px 18px}.fz-wsched summary{color:var(--ink,#1f2937);font-size:15px}.fz-wsched summary span{display:block;font-weight:400;font-size:12.5px;color:var(--muted,#6b7280);margin:2px 0 0 14px}
-.fz-wsched .pp-sched{box-shadow:none;border:0;padding:8px 0 0;margin:0}
-
-</style><script id="sf-fz-js">
-/* StudyStarx Focus Lock — clean phone screen (Regain-style): set up once, tap apps, pick a time, start.
-   In the browser it only tidies the page (extra options folded away). */
-(function(){
-var $=function(s,r){return(r||document).querySelector(s)};
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function N(){return window.SFNative||null}
-function J(f,d){try{var v=f();return v?JSON.parse(v):d}catch(e){return d}}
-function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
-function tst(m){try{toast(m)}catch(e){}}
-function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
-var APPS=[['youtube','YouTube','▶️',['youtube']],['instagram','Instagram','📸',['instagram']],['tiktok','TikTok','🎵',['tiktok']],['snapchat','Snapchat','👻',['snapchat']],['whatsapp','WhatsApp','💬',['whatsapp']],['facebook','Facebook','📘',['facebook','katana']],['x','X / Twitter','✖️',['twitter','x']],['reddit','Reddit','👽',['reddit']],['netflix','Netflix','🎬',['netflix']],['hotstar','Hotstar','⭐',['hotstar']],['prime','Prime Video','📺',['primevideo','avod']],['discord','Discord','🎮',['discord']],['telegram','Telegram','✈️',['telegram']],['pinterest','Pinterest','📌',['pinterest']],['spotify','Spotify','🎧',['spotify']],['threads','Threads','🧵',['threads','barcelona']],['bgmi','BGMI','🔫',['pubg','bgmi','imobile']],['freefire','Free Fire','🔥',['freefire','dts.freefire']],['codm','Call of Duty','🎯',['callofduty']],['roblox','Roblox','🧱',['roblox']],['minecraft','Minecraft','⛏️',['minecraft']],['clash','Clash of Clans','🏰',['clashofclans']],['mxplayer','MX Player','🎞️',['mxtech']],['chrome','Chrome','🌐',['com.android.chrome']]];
-var DURS=[25,45,60,90,120];
-var st={sel:null,mins:+(ls('fz-mins')||60),strict:false,guard:false,inst:null,popup:ls('fz-popup')==='1'};
-function sel(){if(!st.sel){var s=J(function(){return ls('fz-sel')},null);st.sel=new Set(Array.isArray(s)?s:['youtube','instagram'])}return st.sel}
-function saveSel(){ls('fz-sel',JSON.stringify(Array.from(sel())))}
-function perms(){var n=N();if(!n||!n.permState)return null;return J(function(){return n.permState()},null)}
-function info(){var n=N();if(!n||!n.lockInfo)return{until:0};return J(function(){return n.lockInfo()},{until:0})}
-function installed(){if(st.inst)return st.inst;var n=N();if(!n||!n.installed)return null;var q={};APPS.forEach(function(a){q[a[0]]=a[3]});st.inst=J(function(){return n.installed(JSON.stringify(q))},null);return st.inst}
-function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0')}
-function durLabel(m){return m<60?m+' min':m%60?Math.floor(m/60)+'h '+m%60+'m':m/60+(m===60?' hour':' hours')}
-
-/* ---------- phone screen ---------- */
-function root(){var pg=$('#page-focuslock');if(!pg)return null;var r=$('#fzRoot');if(!r){r=document.createElement('div');r.id='fzRoot';pg.insertBefore(r,pg.firstChild);r.addEventListener('click',onClick);document.body.classList.add('fz-app')}return r}
-function steps(p){var L=[['usage','📊','Allow usage access','Find StudyStarx in the list and switch it on. This lets StudyStarx notice when a blocked app opens.',p.usage],['overlay','🪟','Allow display over other apps','Switch it on, so the “Stay focused” screen can cover a blocked app.',p.overlay]];
- if(p.xiaomi)L.push(['popup','📱','Allow pop-up windows','On Xiaomi / Redmi / POCO: tap “Other permissions”, then allow “Display pop-up windows while running in the background”.',st.popup]);
- L.push(['battery','🔋','Keep blocking switched on','Choose “Allow” so the phone doesn’t stop StudyStarx in the background.',p.battery,1]);return L}
-function draw(){var r=root();if(!r)return;var n=N(),p=perms(),li=info(),now=Date.now();
- if(li.until>now){drawRun(r,li);return}
- var html='<div class="fz-hero"><div class="fz-ht"><h1>Focus Lock</h1><p>Block distracting apps while you study.</p></div><div class="fz-hi">🔒</div></div>';
- if(!p){html+='<div class="fz-card fz-upd"><b>Update the StudyStarx app</b><p>The new version blocks apps much more reliably. Download it and install it over this one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';r.innerHTML=html+mainCard(false);return}
- var S=steps(p),need=S.filter(function(x){return!x[5]}),done=need.filter(function(x){return x[4]}).length,ready=p.ready&&(!p.xiaomi||st.popup||p.acc);
- if(!ready||!p.battery){html+='<div class="fz-card fz-setup'+(ready?' fz-mini':'')+'" id="fzSetup"><div class="fz-sh"><b>'+(ready?'One more tip':'Set up blocking')+'</b><span>'+(ready?'optional':done+' of '+need.length+' done')+'</span></div>'+(ready?'':'<div class="fz-prog"><i style="width:'+Math.round(done/need.length*100)+'%"></i></div>')+
-  S.filter(function(x){return!ready||!x[4]}).map(function(x,i){return'<div class="fz-step'+(x[4]?' ok':'')+'"><span class="fz-si">'+(x[4]?'✓':x[1])+'</span><div><b>'+esc(x[2])+(x[5]?' <em>recommended</em>':'')+'</b><small>'+esc(x[3])+'</small></div>'+(x[4]?'<span class="fz-done">Done</span>':'<button type="button" class="fz-allow" data-fz="perm" data-k="'+x[0]+'">Allow</button>')+'</div>'}).join('')+
-  (ready?'':'<p class="fz-fine">🔐 StudyStarx only sees which app is open — never what’s on your screen.</p>')+'</div>'}
- r.innerHTML=html+mainCard(ready)}
-function mainCard(ready){var inst=installed(),s=sel(),li=info();
- var list=APPS.filter(function(a){return!inst||inst[a[0]]||s.has(a[0])});var extra=li.chosen||0;
- var durs=DURS.indexOf(st.mins)<0?DURS.concat([st.mins]).sort(function(a,b){return a-b}):DURS;
- return'<div class="fz-card"><div class="fz-lbl">Block these apps <span>'+s.size+' selected</span></div><div class="fz-apps">'+list.map(function(a){var on=s.has(a[0]);return'<button type="button" class="fz-app'+(on?' on':'')+'" data-fz="app" data-k="'+a[0]+'" aria-pressed="'+on+'"><span class="fz-ai">'+a[2]+'</span><span class="fz-an">'+esc(a[1])+'</span>'+(on?'<span class="fz-ck">✓</span>':'')+'</button>'}).join('')+'</div>'+
- '<button type="button" class="fz-more-apps" data-fz="pick">＋ Choose other apps on my phone'+(extra?' <b>('+extra+' chosen)</b>':'')+'</button>'+
- '<div class="fz-lbl">For how long?</div><div class="fz-durs">'+durs.map(function(m){return'<button type="button" class="fz-dur'+(m===st.mins?' on':'')+'" data-fz="dur" data-m="'+m+'">'+durLabel(m)+'</button>'}).join('')+'<button type="button" class="fz-dur" data-fz="custom">Other</button></div>'+
- '<label class="fz-sw"><span><b>Strict mode</b><small>You can’t stop the lock early</small></span><input type="checkbox" id="fzStrict"'+(st.strict?' checked':'')+'><i></i></label>'+
- '<details class="fz-opt"><summary>More options</summary><label class="fz-sw"><span><b>Stop me deleting StudyStarx during a lock <em class="fz-pl">PLUS</em></b><small>Uninstall protection while the lock runs</small></span><input type="checkbox" id="fzGuard"'+(st.guard?' checked':'')+'><i></i></label></details>'+
- '<button type="button" class="fz-start'+(ready?'':' off')+'" data-fz="start">🔒 Start focus · '+durLabel(st.mins)+'</button>'+(ready?'':'<p class="fz-fine">Finish the setup above to start blocking.</p>')+'</div>'}
-function drawRun(r,li){var left=li.until-Date.now(),tot=+(ls('fz-total')||0)||Math.max(left,1),pc=Math.max(0,Math.min(1,left/tot)),C=2*Math.PI*88;
- var end=new Date(li.until).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});var apps=(li.apps||[]).slice(0,12);
- r.innerHTML='<div class="fz-run"><div class="fz-ring"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="88" class="bg"/><circle cx="100" cy="100" r="88" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc)).toFixed(1)+'"/></svg><div class="fz-rt"><b id="fzLeft">'+fmt(left)+'</b><span>until '+esc(end)+'</span></div></div>'+
- '<h2>Stay focused 🌱</h2><p>'+(apps.length?'These apps are blocked:':'Your chosen apps are blocked.')+'</p><div class="fz-tags">'+apps.map(function(a){return'<span>'+esc(a)+'</span>'}).join('')+'</div>'+
- (li.strict?'<p class="fz-strict">🔐 Strict mode — the lock ends by itself at '+esc(end)+'.</p>':'<button type="button" class="fz-stop" data-fz="stop">Stop the lock</button>')+'</div>'}
-function onClick(e){var b=e.target.closest('[data-fz]');if(!b)return;var k=b.dataset.fz,n=N();
- if(k==='perm'){if(b.dataset.k==='popup'){st.popup=true;ls('fz-popup','1')}try{n.openPerm(b.dataset.k)}catch(_){}return}
- if(k==='app'){var s=sel();s.has(b.dataset.k)?s.delete(b.dataset.k):s.add(b.dataset.k);saveSel();draw();return}
- if(k==='pick'){try{n.openBlocker()}catch(_){}return}
- if(k==='dur'){st.mins=+b.dataset.m;ls('fz-mins',st.mins);readOpts();draw();return}
- if(k==='custom'){var v=prompt('How many minutes? (5 – 720)',String(st.mins));v=Math.round(+v);if(v>=5&&v<=720){st.mins=v;ls('fz-mins',v);readOpts();draw()}return}
- if(k==='start'){readOpts();start(b);return}
- if(k==='stop'){if(!confirm('Stop the focus lock now?'))return;try{n.stopBlock()}catch(_){}setTimeout(draw,200);return}}
-function readOpts(){var a=$('#fzStrict'),g=$('#fzGuard');if(a)st.strict=a.checked;if(g)st.guard=g.checked}
-function start(b){var n=N(),p=perms();
- if(b.classList.contains('off')){var su=$('#fzSetup');if(su){su.classList.remove('fz-shake');void su.offsetWidth;su.classList.add('fz-shake');su.scrollIntoView({behavior:'smooth',block:'center'})}else tst('Update the app first.');return}
- var s=sel(),li=info();if(!s.size&&!(li.chosen>0)){tst('Tap at least one app to block.');return}
- if(st.guard&&!plus()){try{if(window.sfPlusGate)sfPlusGate('Uninstall protection','guard');else go('premium')}catch(_){}return}
- var words=[];APPS.forEach(function(a){if(s.has(a[0]))words=words.concat(a[3])});
- if(st.strict&&!confirm('Strict mode: you will NOT be able to stop this lock for '+durLabel(st.mins)+'. Start?'))return;
- try{if(n.startBlockNames)n.startBlockNames(st.mins,JSON.stringify(words),!!st.strict);else n.startBlock(st.mins)}catch(_){}
- if(st.guard&&n.guardOn&&!n.guardOn()&&n.askGuard)try{n.askGuard()}catch(_){}
- ls('fz-total',String(st.mins*60000));
- try{var F=data.flock||(data.flock={locks:[],extra:[]});F.locks=(F.locks||[]).filter(function(l){return l.until>Date.now()});APPS.forEach(function(a){if(s.has(a[0]))F.locks.push({key:a[0],label:a[1],until:Date.now()+st.mins*60000,strict:st.strict})});persist()}catch(_){}
- try{window.sfConfetti&&sfConfetti()}catch(_){}
- setTimeout(draw,250)}
-var tick=null;function loop(){clearInterval(tick);tick=setInterval(function(){var pg=$('#page-focuslock');if(!pg||!pg.classList.contains('active'))return;var li=info();var el=$('#fzLeft');if(li.until>Date.now()){if(el)el.textContent=fmt(li.until-Date.now());else draw();if(Date.now()%10000<1000)draw()}else if(el)draw()},1000)}
-
-/* ---------- browser page: fold the extras away ---------- */
-function tidyWeb(){var pg=$('#page-focuslock');if(!pg||pg.dataset.fzw)return;var opts=$('.fl-opts',pg);if(!opts)return;pg.dataset.fzw=1;document.body.classList.add('fz-web');
- var d=document.createElement('details');d.className='fz-wmore';d.innerHTML='<summary>More options</summary>';['flPomo','flEdu','flGuard'].forEach(function(id){var i=document.getElementById(id);var l=i&&i.closest('label');if(l)d.appendChild(l)});opts.appendChild(d);
- var h=opts.previousElementSibling;if(h&&h.classList.contains('fl-step')){var t=h.querySelector('h2');if(t)t.textContent='Strict lock?'}
- var moveSched=function(){var sc=$('#ppSched');if(!sc||sc.dataset.fzw)return;sc.dataset.fzw=1;var w=document.createElement('details');w.className='card fz-wsched';w.innerHTML='<summary>📅 Weekly schedules <span>Lock automatically at the same time each week</span></summary>';sc.parentNode.insertBefore(w,sc);w.appendChild(sc)};moveSched();setTimeout(moveSched,1500);setTimeout(moveSched,4000)}
-
-function boot(){if(N()){draw();loop()}else tidyWeb()}
-document.addEventListener('visibilitychange',function(){if(!document.hidden&&N()){st.inst=null;draw()}});
-window.addEventListener('focus',function(){if(N())draw()});
-if(typeof window.go==='function'&&!window.go.__fz){var og=window.go,w=function(p){var r=og.apply(this,arguments);if(p==='focuslock')setTimeout(boot,30);return r};w.__fz=1;for(var k in og)try{w[k]=og[k]}catch(e){}window.go=w}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,400)});else setTimeout(boot,400);
-setTimeout(boot,2000);
-window.sfFocusLockDraw=draw;
-})();
-
 </script><style id="sf-st2-css">
 .st2-ov{position:fixed;inset:0;z-index:9990;background:rgba(10,8,30,.72);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px}
 .st2-c{background:#fff;color:#0f172a;border-radius:24px;max-width:480px;width:100%;max-height:90vh;overflow:auto;padding:28px 24px;box-shadow:0 30px 80px rgba(0,0,0,.35);text-align:center}
@@ -11008,353 +10870,6 @@ setInterval(tick,1500);document.addEventListener('visibilitychange',function(){i
 window.StudyStarxHome={render:render};
 })();
 
-</script><style id="sf-cq-css">
-/* ===== StudyStarx Coach look ===== */
-#page-coach .pagehead{display:none!important}
-#page-coach .chatbox{display:flex;flex-direction:column;border-radius:24px;padding:0!important;overflow:hidden;background:var(--card,#fff)}
-#page-coach .chathead{display:flex;align-items:center;gap:12px;padding:14px 18px!important;margin:0!important;border-bottom:1px solid var(--line,#eceef6)!important;background:linear-gradient(135deg,#faf8ff,#f3f4ff)}
-#page-coach .chathead .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6)!important;box-shadow:0 8px 18px -8px rgba(99,102,241,.7)}
-#page-coach .chathead b{font-size:16px}
-.cq-on{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.18);margin-right:4px;vertical-align:1px}
-#clearChat{background:#fff!important;border:1px solid #e0e7ff!important;border-radius:999px!important;padding:7px 14px!important;font-weight:700;color:#4f46e5!important;text-decoration:none!important}
-/* messages */
-#page-coach #messages{padding:20px 20px 10px!important;background:linear-gradient(180deg,#fcfcff,#f7f7fd);display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
-#page-coach #messages .bubble{max-width:none;margin:0;white-space:normal;border-radius:20px;font-size:15.5px;line-height:1.6}
-#page-coach #messages .bubble small{display:none}
-.cq-u{align-self:flex-end;max-width:78%!important;background:linear-gradient(135deg,#6366f1,#7c3aed)!important;color:#fff!important;border:0!important;padding:12px 16px!important;border-bottom-right-radius:6px!important;white-space:pre-wrap!important;box-shadow:0 10px 20px -14px rgba(99,102,241,.9)}
-.cq-row{display:flex;align-items:flex-start;gap:10px;max-width:100%}
-.cq-av{flex:0 0 34px;height:34px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-size:16px;box-shadow:0 6px 14px -8px rgba(99,102,241,.8);margin-top:2px}
-.cq-c{flex:1;min-width:0;max-width:760px;background:#fff!important;border:1px solid #eceef6!important;padding:14px 18px 10px!important;border-top-left-radius:6px!important;box-shadow:0 10px 26px -22px rgba(15,23,42,.45);color:var(--ink,#0f172a)}
-.cq-body>*{margin:0 0 10px}
-.cq-body>:last-child{margin-bottom:6px}
-.cq-body p{margin:0 0 10px}
-.cq-h{font-size:16.5px;font-weight:800;color:#312e81;margin:14px 0 6px!important;display:flex;align-items:center;gap:8px}
-.cq-h::before{content:'';width:6px;height:18px;border-radius:3px;background:linear-gradient(180deg,#8b5cf6,#6366f1);flex:0 0 6px}
-.cq-body>.cq-h:first-child{margin-top:2px!important}
-.cq-body b{color:#1e1b4b;font-weight:700;background:linear-gradient(transparent 62%,#ede9fe 62%);padding:0 2px;border-radius:2px}
-.cq-body code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:1px 6px;font-size:.92em}
-.cq-ul{padding-left:4px;list-style:none}
-.cq-ul li{position:relative;padding-left:22px;margin:5px 0}
-.cq-ul li::before{content:'✦';position:absolute;left:2px;top:0;color:#8b5cf6;font-size:12px;line-height:1.9}
-.cq-ol{list-style:none;padding-left:0;counter-reset:cq}
-.cq-ol li{position:relative;padding:8px 12px 8px 46px;margin:6px 0;background:#f8f7ff;border-radius:12px;counter-increment:cq}
-.cq-ol[start] li{counter-increment:cq}
-.cq-ol li::before{content:counter(cq);position:absolute;left:10px;top:8px;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;line-height:1}
-.cq-tw{overflow-x:auto;border-radius:14px;border:1px solid #e5e7f2}
-.cq-table{width:100%;border-collapse:collapse;font-size:14.5px}
-.cq-table th{background:#eef0ff;color:#312e81;text-align:left;padding:9px 12px;font-weight:800}
-.cq-table td{padding:9px 12px;border-top:1px solid #eef0f6}
-.cq-table tr:nth-child(even) td{background:#fafaff}
-.cq-code{background:#0f172a;color:#e2e8f0;border-radius:12px;padding:12px 14px;overflow-x:auto;font-size:13.5px;line-height:1.5;white-space:pre}
-.cq-note{border-left:4px solid #8b5cf6;background:#f5f3ff;padding:10px 14px;border-radius:10px}
-.cq-try,.cq-key{border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
-.cq-try{background:linear-gradient(135deg,#fff7ed,#fffbeb);border:1px solid #fde68a}
-.cq-try span{font-weight:800;color:#b45309;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
-.cq-key{background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1px solid #bbf7d0}
-.cq-key span{font-weight:800;color:#15803d;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
-.cq-trust{font-size:12.5px;color:#64748b;background:#f8fafc;border-radius:10px;padding:6px 10px;display:inline-block}
-.cq-hr{border:0;height:1px;background:#eceef6;margin:12px 0}
-.cq-fig{margin:6px 0 10px;border:1px solid #e5e7f2;border-radius:14px;padding:10px;background:#fff;text-align:center}
-.cq-fig img{max-width:100%;height:auto}
-.cq-fig figcaption{font-size:12px;color:#64748b;margin-top:6px}
-/* actions under each answer */
-.cq-acts{display:inline-flex;gap:6px;flex-wrap:wrap;margin:4px 6px 2px 0;vertical-align:middle}
-.cq-act,.cq-c .sf-save{border:1px solid #e5e7f2!important;background:#fff!important;color:#475569!important;border-radius:999px!important;padding:5px 11px!important;font-size:12.5px!important;font-weight:600!important;cursor:pointer;display:inline-flex!important;align-items:center;gap:4px;margin:4px 0 2px!important;box-shadow:none!important;vertical-align:middle}
-.cq-act:hover,.cq-c .sf-save:hover{border-color:#c7d2fe!important;color:#4f46e5!important}
-/* thinking dots */
-.cq-dots{display:inline-flex!important;flex:0 0 auto!important;align-items:center;gap:5px;padding:12px 16px!important}
-.cq-dots i{width:7px;height:7px;border-radius:50%;background:#8b5cf6;animation:cqb 1s infinite ease-in-out}
-.cq-dots i:nth-child(2){animation-delay:.15s}.cq-dots i:nth-child(3){animation-delay:.3s}
-.cq-dots span{font-size:13px;color:#64748b;margin-left:6px}
-@keyframes cqb{0%,80%,100%{transform:scale(.6);opacity:.5}40%{transform:scale(1);opacity:1}}
-/* welcome */
-#messages.cq-empty{justify-content:center}
-.cq-welcome{text-align:center;max-width:620px;margin:0 auto;padding:10px 4px}
-.cq-wav{width:64px;height:64px;margin:0 auto 12px;border-radius:20px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;font-size:30px;display:grid;place-items:center;box-shadow:0 16px 30px -14px rgba(124,58,237,.8);animation:cqf 3s ease-in-out infinite}
-@keyframes cqf{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-@media (prefers-reduced-motion:reduce){.cq-wav{animation:none}}
-.cq-welcome h2{font-size:22px;margin:0 0 6px}
-.cq-welcome p{color:#64748b;margin:0 0 18px;font-size:15px}
-.cq-ideas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;text-align:left}
-.cq-idea{display:flex;flex-direction:column;gap:3px;border:1px solid #e5e7f2;background:#fff;border-radius:16px;padding:12px 14px;cursor:pointer;font:inherit;color:inherit;transition:border-color .15s,transform .15s}
-.cq-idea:hover{border-color:#a5b4fc;transform:translateY(-1px)}
-.cq-idea span{font-size:20px}
-.cq-idea b{font-size:14.5px}
-.cq-idea small{font-size:12.5px;color:#64748b;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-/* typing bar */
-#page-coach #chatForm{display:flex!important;align-items:flex-end;gap:8px;margin:0!important;padding:10px 12px!important;border-top:1px solid var(--line,#eceef6);background:var(--card,#fff)}
-#page-coach #chatText{flex:1;min-width:0;resize:none!important;min-height:44px!important;max-height:160px;border-radius:22px!important;padding:11px 16px!important;border:1px solid #e0e3ef!important;background:#f7f7fc!important;font-size:15.5px;line-height:1.4;box-shadow:none!important}
-#page-coach #chatText:focus{border-color:#a5b4fc!important;background:#fff!important;outline:none;box-shadow:0 0 0 3px rgba(165,180,252,.35)!important}
-#page-coach #chatForm .cq-send{flex:0 0 44px;width:44px;height:44px;min-width:44px;padding:0!important;border-radius:50%!important;font-size:0!important;background:linear-gradient(135deg,#6366f1,#7c3aed)!important;position:relative;border:0!important}
-#page-coach #chatForm .cq-send::before{content:'';position:absolute;inset:0;background:no-repeat center/20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 19V5M5 12l7-7 7 7'/%3E%3C/svg%3E")}
-#page-coach #chatForm .cq-mic{flex:0 0 44px;width:44px;height:44px;min-width:44px;padding:0!important;border-radius:50%!important;font-size:0!important;background:#f1f0fb!important;border:1px solid #e0e3ef!important;position:relative;margin:0!important}
-#page-coach #chatForm .cq-mic::before{content:'';position:absolute;inset:0;background:no-repeat center/20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='3' width='6' height='11' rx='3'/%3E%3Cpath d='M5 11a7 7 0 0 0 14 0M12 18v3'/%3E%3C/svg%3E")}
-#page-coach #chatForm .cq-mic.on{background:#fee2e2!important;border-color:#fca5a5!important;animation:cqp 1.2s infinite}
-@keyframes cqp{0%{box-shadow:0 0 0 0 rgba(239,68,68,.45)}100%{box-shadow:0 0 0 12px rgba(239,68,68,0)}}
-#page-coach .speak-row{display:none!important}
-#page-coach #coachVoiceStatus{display:none!important}
-#page-coach #chatForm>button:not(.cq-send):not(.cq-mic){flex:0 0 44px;width:44px;height:44px;min-width:44px;border-radius:50%!important;padding:0!important}
-/* side panel: the old "AI teacher" drawing is gone; settings stay */
-#page-coach .coach-live-card{display:none!important}
-@media (min-width:1001px){
- #page-coach .chatlayout{grid-template-columns:minmax(0,1fr) 290px!important}
- #page-coach .chatlayout>.chatbox{height:calc(100vh - 128px);min-height:520px}
- #page-coach .chatlayout>.sf-cset{grid-row:1 / span 2!important;border-radius:22px}
- #page-coach #messages{flex:1 1 auto;min-height:0;overflow-y:auto}
-}
-/* phone: the chat fills the screen like a messaging app */
-@media (max-width:1000px){
- #page-coach .chatlayout>.chatbox{padding:0!important;border-radius:20px;height:calc(100dvh - 250px);min-height:420px}
- #page-coach #messages{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px 12px 8px!important}
- .cq-c{padding:12px 14px 8px!important}
- .cq-u{max-width:86%!important}
- .cq-av{flex-basis:28px;height:28px;font-size:13px;border-radius:10px}
- .cq-ideas{grid-template-columns:1fr 1fr;gap:8px}
- .cq-idea{padding:10px 12px}
- .cq-idea small{display:none}
- .cq-welcome h2{font-size:19px}
- .cq-welcome p{font-size:14px;margin-bottom:14px}
- #page-coach .chathead{padding:10px 12px!important}
- #page-coach #chatForm{padding:8px!important;gap:6px}
-}
-/* dark theme */
-[data-theme="dark"] #page-coach #messages{background:transparent}[data-theme="dark"] .cq-c{background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.08)!important}[data-theme="dark"] .cq-body b{color:inherit;background:linear-gradient(transparent 62%,rgba(139,92,246,.35) 62%)}[data-theme="dark"] .cq-h{color:#c7d2fe}[data-theme="dark"] .cq-ol li{background:rgba(255,255,255,.05)}[data-theme="dark"] .cq-idea,[data-theme="dark"] .cq-act{background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.1)!important;color:inherit!important}[data-theme="dark"] #page-coach .chathead{background:transparent}
-.cq-tw{display:block;width:100%}
-.cq-table{min-width:100%;table-layout:auto}
-#page-coach #chatText::placeholder{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cq-body .cx-file b{background:none;padding:0}
-.cq-body .cx-fm{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
-.cq-body .cx-fm small{display:block!important;font-size:12px;color:#64748b}
-.cq-act.on{border-color:#a5b4fc!important;color:#4f46e5!important;background:#eef2ff!important}
-.sx-vfield{margin-top:12px}
-.sx-vrow{display:flex;gap:8px}
-.sx-vrow select{flex:1;min-width:0}
-.sx-vtry{flex:0 0 auto;border:1px solid #c7d2fe;background:#eef2ff;color:#4f46e5;border-radius:12px;padding:0 14px;font-weight:700;cursor:pointer}
-
-</style><script id="sf-cq-js">
-/* StudyStarx Coach look: nicely formatted answers, friendly start screen, tidy actions, chat-app typing bar. */
-(function(){
-'use strict';
-function $(s,r){return (r||document).querySelector(s)}
-function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function D(){try{return data}catch(e){return{}}}
-function P(){return D().profile||{}}
-var clean=function(x){try{return window.sfClean?sfClean(x):x}catch(e){return x}};
-var B1='\u0001',B2='\u0002',I1='\u0003',I2='\u0004',C1='\u0005',C2='\u0006';
-function inl(x){x=String(x).replace(/\*\*([^*\n]+)\*\*/g,B1+'$1'+B2).replace(/__([^_\n]+)__/g,B1+'$1'+B2).replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,;:!?]|$)/g,'$1'+I1+'$2'+I2).replace(/`([^`\n]+)`/g,C1+'$1'+C2);
- var c=esc(clean(x));return c.split(B1).join('<b>').split(B2).join('</b>').split(I1).join('<i>').split(I2).join('</i>').split(C1).join('<code>').split(C2).join('</code>')}
-function figure(svg){var s=String(svg||'').trim();if(!/^<svg[\s>]/i.test(s))return'';return'<figure class="cx-fig cq-fig"><img alt="Diagram" src="data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)+'"><figcaption>Diagram by StudyStarx Coach</figcaption></figure>'}
-function fileCard(name,body){name=(name||'notes.md').trim().replace(/[^\w.\- ]/g,'').slice(0,60)||'notes.md';if(!/\.(md|txt|csv)$/i.test(name))name+='.md';body=String(body||'').replace(/\s+$/,'');
- return'<div class="cx-file" data-name="'+esc(name)+'" data-body="'+esc(body)+'"><div class="cx-fi">'+(/csv$/i.test(name)?'📊':'📄')+'</div><div class="cx-fm"><b>'+esc(name)+'</b><small>'+body.split('\n').length+' lines · made by StudyStarx Coach</small></div><button type="button" class="cx-dl" data-kind="file">⬇ Download</button></div>'}
-function rich(t){t=String(t||'').replace(/\r/g,'');
- var blocks=[];
- t=t.replace(/```(svg|plot|chart|graph|flow|mermaid|file:([^\n`]*))[^\n]*\n?([\s\S]*?)```/g,function(m,k,n,b){var D=window.sxDiagram;blocks.push(k==='svg'?(D?D.svg(b):figure(b)):/^(plot|chart|graph)$/.test(k)?(D?D.plot(b):''):/^(flow|mermaid)$/.test(k)?(D?D.flow(b):''):fileCard(n,b));return'\n@@B'+(blocks.length-1)+'@@\n'});
- t=t.replace(/```[a-zA-Z0-9+#-]*[ \t]*\n?([\s\S]*?)```/g,function(m,c){blocks.push('<pre class="cq-code">'+esc(c.replace(/\n+$/,''))+'</pre>');return'\n@@B'+(blocks.length-1)+'@@\n'});
- t=t.replace(/<br\s*\/?>/gi,'\n').replace(/<\/?(p|div)[^>]*>/gi,'\n').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
- var lines=t.split('\n'),out=[],i=0,list=null,m;
- function close(){if(list){out.push('</'+list+'>');list=null}}
- while(i<lines.length){var L=lines[i];
-  if((m=L.match(/^\s*@@B(\d+)@@\s*$/))){close();out.push(blocks[+m[1]]||'');i++;continue}
-  if(/^\s*\|.*\|\s*$/.test(L)){close();var rows=[];while(i<lines.length&&/^\s*\|.*\|\s*$/.test(lines[i])){rows.push(lines[i].trim().replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim()}));i++}
-   rows=rows.filter(function(r){return!r.every(function(c){return/^:?-{2,}:?$/.test(c)||c===''})});
-   if(rows.length)out.push('<div class="cq-tw"><table class="cq-table"><thead><tr>'+rows[0].map(function(c){return'<th>'+inl(c)+'</th>'}).join('')+'</tr></thead><tbody>'+rows.slice(1).map(function(r){return'<tr>'+r.map(function(c){return'<td>'+inl(c)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table></div>');continue}
-  if((m=L.match(/^\s*#{1,6}\s+(.+)$/))){close();out.push('<h4 class="cq-h">'+inl(m[1].replace(/\*\*/g,''))+'</h4>');i++;continue}
-  if(/^\s*([-*_]\s*){3,}$/.test(L)){close();out.push('<hr class="cq-hr">');i++;continue}
-  if((m=L.match(/^\s*(?:[-*•])\s+(.+)$/))){if(list!=='ul'){close();out.push('<ul class="cq-ul">');list='ul'}out.push('<li>'+inl(m[1])+'</li>');i++;continue}
-  if((m=L.match(/^\s*(\d{1,2})[.)]\s+(.+)$/))){if(list!=='ol'){close();out.push('<ol class="cq-ol" start="'+m[1]+'">');list='ol'}out.push('<li>'+inl(m[2])+'</li>');i++;continue}
-  close();
-  if(!L.trim()){i++;continue}
-  if((m=L.match(/^\s*>\s?(.*)$/))){out.push('<div class="cq-note">'+inl(m[1])+'</div>');i++;continue}
-  if(/^\s*(Confidence:|✔|✓ Checked|⚠|Not fully verified|Checked:)/i.test(L)){out.push('<div class="cq-trust">'+inl(L.trim())+'</div>');i++;continue}
-  if((m=L.match(/^\s*\**(Try this|Your turn|Quick check|Practice question|Challenge|Now you try)\**\s*[:：]\**\s*(.*)$/i))){out.push('<div class="cq-try"><span>✏️ '+esc(m[1])+'</span>'+inl(m[2])+'</div>');i++;continue}
-  if((m=L.match(/^\s*\**(Final answer|Answer|Key idea|Remember|Tip|Summary)\**\s*[:：]\**\s*(.*)$/i))){var ic={'final answer':'✅','answer':'✅','key idea':'💡','remember':'📌','tip':'💡','summary':'🧾'}[m[1].toLowerCase()]||'💡';out.push('<div class="cq-key"><span>'+ic+' '+esc(m[1])+'</span>'+inl(m[2])+'</div>');i++;continue}
-  out.push('<p>'+inl(L)+'</p>');i++}
- close();return out.join('')}
-window.sfRich=rich;
-
-var AV='<span class="cq-av" aria-hidden="true">✦</span>';
-function subjects(){var s=P().subjects;return Array.isArray(s)&&s.length?s:['your subjects']}
-function welcome(){var n=String(P().name||'').trim().split(/\s+/)[0],sb=subjects(),a=sb[0],b=sb[1]||sb[0];
- var ideas=[['💡','Explain simply','Explain the hardest topic in '+a+' in simple steps with an example'],['🎯','Quiz me','Give me 5 quick questions on '+b+', one at a time, and check my answers'],['🧮','Solve step by step','Solve this step by step and explain each step: '],['✍️','Check my answer','Check my answer, give a mark out of 10 and show how to improve it: ']];
- return'<div class="cq-welcome"><div class="cq-wav">✦</div><h2>Hi'+(n?' '+esc(n):'')+'! I’m your StudyStarx coach</h2><p>Ask me anything about '+esc(sb.slice(0,3).join(', '))+'. I explain step by step, check your answers and make practice questions.</p><div class="cq-ideas">'+ideas.map(function(x){return'<button type="button" class="cq-idea" data-cqq="'+esc(x[2])+'"><span>'+x[0]+'</span><b>'+esc(x[1])+'</b><small>'+esc(x[2].replace(/: $/,'…'))+'</small></button>'}).join('')+'</div></div>'}
-function renderChat(){var el=$('#messages');if(!el)return;var c=D().chat||[];
- if(!c.length){el.innerHTML=welcome();el.classList.add('cq-empty');return}
- el.classList.remove('cq-empty');
- el.innerHTML=c.map(function(m,ix){if(m.role==='user')return'<div class="bubble user cq-u"><small>YOU</small>'+esc(m.content)+'</div>';
-  return'<div class="cq-row">'+AV+'<div class="bubble cq-c" data-cx="1" data-ix="'+ix+'"><small>STUDYSTARX COACH</small><div class="cq-body">'+rich(m.content)+'</div><div class="cq-acts"><button type="button" class="cq-act" data-cqcopy="'+ix+'">📋 Copy</button><button type="button" class="cq-act" data-cqsay="'+ix+'">🔊 Read aloud</button></div></div></div>'}).join('');
- el.scrollTop=el.scrollHeight;try{window.sxDiagram&&sxDiagram.hydrate(el)}catch(e){}}
-window.renderChat=renderChat;try{renderChat()}catch(e){}
-
-function thinking(on){var el=$('#messages');if(!el)return;var t=$('#cqTyping');if(on&&!t){el.insertAdjacentHTML('beforeend','<div class="cq-row" id="cqTyping">'+AV+'<div class="bubble cq-c cq-dots" data-cx="1"><i></i><i></i><i></i><span>Thinking…</span></div></div>');el.scrollTop=el.scrollHeight}else if(!on&&t)t.remove()}
-function watchBadge(){var b=$('#coachLiveBadge');if(!b||b.dataset.cq)return;b.dataset.cq=1;new MutationObserver(function(){thinking(/THINK/i.test(b.textContent))}).observe(b,{childList:true,characterData:true,subtree:true})}
-function watchCaption(){var c=$('#coach3dCaption');if(!c||c.dataset.cq)return;c.dataset.cq=1;var fix=function(){var t=c.textContent;if(/[#*|`]/.test(t)){var n=clean(t).replace(/\s+/g,' ').trim();if(n!==t)c.textContent=n.length>115?n.slice(0,112)+'…':n}};new MutationObserver(fix).observe(c,{childList:true,characterData:true,subtree:true});fix()}
-function composer(){var f=$('#chatForm'),t=$('#chatText');if(!f||!t||f.dataset.cq)return;f.dataset.cq=1;t.rows=1;t.placeholder=innerWidth<520?'Ask anything…':'Ask your coach anything…';
- var send=f.querySelector('button.btn:not(#coachVoiceAsk)');
- var mic=$('#coachVoiceAsk');if(mic&&send){mic.classList.add('cq-mic');mic.setAttribute('aria-label','Talk to your coach');mic.title='Talk to your coach';f.insertBefore(mic,send);new MutationObserver(function(){mic.classList.toggle('on',/stop/i.test(mic.textContent))}).observe(mic,{childList:true,characterData:true,subtree:true})}
- if(send){send.classList.add('cq-send');send.setAttribute('aria-label','Send')}
- function grow(){t.style.height='auto';t.style.height=Math.min(160,Math.max(44,t.scrollHeight))+'px'}t.addEventListener('input',grow);
- t.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){e.preventDefault();if(t.value.trim()){if(f.requestSubmit)f.requestSubmit();else f.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))}}});
- f.addEventListener('submit',function(){setTimeout(grow,0)})}
-function header(){var h=$('#page-coach .chathead');if(!h||h.dataset.cq)return;h.dataset.cq=1;var st=h.querySelector('.tiny.muted');if(st)st.innerHTML='<span class="cq-on"></span> Online · knows your syllabus';var cl=$('#clearChat');if(cl)cl.textContent='＋ New chat'}
-function ask(q){var t=$('#chatText'),f=$('#chatForm');if(!t||!f)return;t.value=q;t.dispatchEvent(new Event('input',{bubbles:true}));if(/[:：] ?$/.test(q)){t.focus();try{t.setSelectionRange(q.length,q.length)}catch(e){}return}if(f.requestSubmit)f.requestSubmit();else f.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))}
-document.addEventListener('click',function(e){var b=e.target.closest('[data-cqq]');if(b){e.preventDefault();ask(b.dataset.cqq);return}
- var c=e.target.closest('[data-cqcopy]');if(c){var m=(D().chat||[])[+c.dataset.cqcopy];if(m){var txt=clean(m.content);(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){c.textContent='✓ Copied';setTimeout(function(){c.textContent='📋 Copy'},1500)}).catch(function(){})}return}
- var s=e.target.closest('[data-cqsay]');if(s){var mm=(D().chat||[])[+s.dataset.cqsay];if(!mm)return;if(VO.btn===s){stopVoice();return}stopVoice();speak(clean(mm.content),s);return}});
-// ---------- Read aloud with a natural AI voice ----------
-var VOICES=[['warm','Warm teacher'],['friendly','Friendly'],['calm','Calm & gentle'],['clear','Clear'],['bright','Bright'],['deep','Deep']];
-function vpref(){try{return localStorage.getItem('sx-voice')||'warm'}catch(e){return'warm'}}
-var VO={btn:null,audio:null,cancel:false,cache:{}};
-function chunks(t){t=t.replace(/[•─✦]/g,' ').replace(/\s*\n+\s*/g,'. ').replace(/\.\s*\./g,'.').replace(/\s{2,}/g,' ').trim();var parts=t.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g)||[t],out=[],cur='';parts.forEach(function(p){p=p.trim();if(!p)return;if((cur+' '+p).length>(out.length?600:260)&&cur){out.push(cur);cur=p}else cur=cur?cur+' '+p:p});if(cur)out.push(cur);return out.slice(0,12)}
-function label(b,t){if(b)b.textContent=t}
-function stopVoice(){VO.cancel=true;VO.gen=(VO.gen||0)+1;try{if(VO.audio){var oa=VO.audio;oa.onended=oa.onerror=null;oa.pause();oa.removeAttribute('src')}}catch(e){}VO.audio=null;try{speechSynthesis.cancel()}catch(e){}label(VO.btn,'🔊 Read aloud');if(VO.btn)VO.btn.classList.remove('on');VO.btn=null}
-function fetchPart(text,voice){var k=voice+'|'+text;if(VO.cache[k])return VO.cache[k];var h={'Content-Type':'application/json'};try{var tk=localStorage.getItem('sf-session');if(tk)h.Authorization='Bearer '+tk}catch(e){}
- VO.cache[k]=fetch('/api/tts',{method:'POST',headers:h,body:JSON.stringify({text:text,voice:voice})}).then(function(r){if(!r.ok||!/audio/.test(r.headers.get('content-type')||''))return r.json().catch(function(){return{}}).then(function(j){delete VO.cache[k];var e=new Error(j.error||'voice failed');e.limit=!!j.limit;throw e});return r.blob()}).then(function(b){return URL.createObjectURL(b)});return VO.cache[k]}
-function speak(text,btn){VO.cancel=false;VO.gen=(VO.gen||0)+1;var g=VO.gen;VO.btn=btn;btn.classList.add('on');label(btn,'⏳ Getting voice…');var list=chunks(text),voice=vpref(),i=0;
- function dead(){return VO.cancel||VO.gen!==g||VO.btn!==btn}
- function next(){if(dead())return;if(i>=list.length){stopVoice();return}var cur=fetchPart(list[i],voice);if(i+1<list.length)fetchPart(list[i+1],voice).catch(function(){});
-  cur.then(function(url){if(dead())return;var a=new Audio(url);VO.audio=a;a.onended=function(){i++;next()};a.onerror=function(){if(!dead())fallback(list.slice(i),btn)};label(btn,'⏹ Stop');return a.play()}).catch(function(e){if(dead())return;fallback(list.slice(i),btn,e&&e.limit)})}
- next()}
-// the phone/computer's best built-in voice, used only if the AI voice can't be reached
-function bestVoice(){var vs=[];try{vs=speechSynthesis.getVoices()||[]}catch(e){}if(!vs.length)return null;function sc(v){var n=v.name+' '+v.voiceURI,l=(v.lang||'').toLowerCase(),s=0;if(/natural|neural|online|premium|enhanced|wavenet|studio/i.test(n))s+=50;if(/google/i.test(n))s+=25;if(/siri|samantha|karen|daniel|moira|veena|rishi/i.test(n))s+=15;if(l==='en-in')s+=12;else if(l==='en-gb')s+=8;else if(/^en/.test(l))s+=5;else s-=100;if(/compact|espeak|robot/i.test(n))s-=40;return s}return vs.slice().sort(function(a,b){return sc(b)-sc(a)})[0]}
-function fallback(list,btn,limited){if(!window.speechSynthesis||!list.length){stopVoice();return}if(limited&&!VO.told){VO.told=1;try{toast('Today’s AI voice is used up — your phone’s voice is reading instead.')}catch(e){}}
- var v=bestVoice(),j=0;label(btn,'⏹ Stop');(function one(){if(VO.cancel||VO.btn!==btn)return;if(j>=list.length){stopVoice();return}var u=new SpeechSynthesisUtterance(list[j++]);if(v){u.voice=v;u.lang=v.lang}else u.lang='en-IN';u.rate=.96;u.pitch=1.02;u.onend=one;u.onerror=one;speechSynthesis.speak(u)})()}
-try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=function(){}}catch(e){}
-// voice picker in the coach settings
-function picker(){var box=$('#page-coach .sf-cset');if(!box||$('#sxVoicePick'))return;var f=document.createElement('div');f.className='field sx-vfield';f.innerHTML='<label for="sxVoicePick">Read-aloud voice</label><div class="sx-vrow"><select id="sxVoicePick">'+VOICES.map(function(v){return'<option value="'+v[0]+'"'+(v[0]===vpref()?' selected':'')+'>'+v[1]+'</option>'}).join('')+'</select><button type="button" class="sx-vtry" id="sxVoiceTry">▶ Try</button></div>';var after=box.querySelector('.sf-hintset')||box.lastElementChild;box.insertBefore(f,after?after.nextSibling:null);
- $('#sxVoicePick').onchange=function(){try{localStorage.setItem('sx-voice',this.value)}catch(e){}};
- $('#sxVoiceTry').onclick=function(){var b=this;if(VO.btn===b){stopVoice();b.textContent='▶ Try';return}stopVoice();speak('Hi! I am your StudyStarx coach. Let us learn this together, one step at a time.',b);var w=setInterval(function(){if(VO.btn!==b){b.textContent='▶ Try';clearInterval(w)}},400)}}
-function boot(){composer();header();watchBadge();watchCaption();picker()}
-setInterval(boot,1500);setTimeout(boot,200);
-})();
-
-</script><style id="sf-dg-css">
-.dg-fig{cursor:zoom-in}
-.dg-fig img{width:100%;max-width:520px;height:auto;display:block;margin:0 auto;border-radius:12px}
-.dg-flow img{max-width:620px;max-height:520px;object-fit:contain}
-.dg-ld{padding:26px;text-align:center;color:#6366f1;font-size:13.5px;background:#f5f7ff;border-radius:12px}
-.dg-text{padding:12px 14px;background:#f8fafc;border-radius:12px;font-size:14px;line-height:1.7}
-.dg-zoom{position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.88);display:flex;align-items:center;justify-content:center;padding:14px;cursor:zoom-out}
-.dg-zoom img{max-width:100%;max-height:100%;background:#fff;border-radius:14px}
-.dg-zoom button{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;font-size:18px;cursor:pointer}
-
-</style><script id="sf-dg-js">
-/* StudyStarx diagrams for the AI Coach:
-   ```plot  {json}  → exact graphs / bar charts drawn by the app
-   ```flow  text    → flowcharts, cycles, timelines, mind maps (Mermaid)
-   ```svg   <svg>   → geometry, circuits, cells… tidied: fitted, readable labels, arrowheads */
-(function(){
-var PAL=['#4f46e5','#e11d48','#059669','#d97706','#0284c7','#9333ea','#db2777'];
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function uri(s){return'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)}
-function fig(inner,cap,kind){return'<figure class="cx-fig cq-fig dg-fig dg-'+kind+'" tabindex="0" title="Tap to enlarge">'+inner+'<figcaption>'+esc(cap||'Diagram by StudyStarx Coach')+'</figcaption></figure>'}
-var n_=0;
-
-/* ---------- safe maths expressions ---------- */
-function compile(src){var s=String(src||'').toLowerCase().replace(/\s+/g,'').replace(/^y=/,'').replace(/^f\(x\)=/,'').replace(/[×·]/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/π/g,'pi').replace(/√/g,'sqrt').replace(/²/g,'^2').replace(/³/g,'^3');
- if(!/^[0-9x+\-*/^().,a-z]*$/.test(s))return null;
- var words=s.match(/[a-z]+/g)||[];var ok={x:1,sin:1,cos:1,tan:1,sqrt:1,abs:1,log:1,ln:1,exp:1,pi:1,e:1,asin:1,acos:1,atan:1};
- for(var i=0;i<words.length;i++){var w=words[i];if(!ok[w]){var split=w.split('').every(function(c){return c==='x'||c==='e'});if(!split)return null}}
- s=s.replace(/(\d)(x|\(|sin|cos|tan|sqrt|abs|log|ln|exp|pi)/g,'$1*$2').replace(/(x|\))(\d|x|\(|sin|cos|tan|sqrt|abs|log|ln|exp|pi)/g,'$1*$2').replace(/(x|\))(\d|x|\()/g,'$1*$2').replace(/(pi)(x|\()/g,'$1*$2');
- s=s.replace(/\^/g,'**').replace(/\bln\(/g,'Math.log(').replace(/\blog\(/g,'Math.log10(').replace(/\b(sin|cos|tan|asin|acos|atan|sqrt|abs|exp)\(/g,'Math.$1(').replace(/\bpi\b/g,'Math.PI').replace(/\be\b/g,'Math.E');
- try{var f=new Function('x','"use strict";return ('+s+');');f(1.234);return f}catch(e){return null}}
-function nice(span,want){var raw=span/Math.max(1,want),p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;return(m<1.5?1:m<3?2:m<7?5:10)*p}
-function fmtN(v){var a=Math.abs(v);if(a>=1e4||(a>0&&a<1e-3))return v.toExponential(1);return String(+v.toFixed(3))}
-
-/* ---------- ```plot ---------- */
-function plot(json){var o;try{o=JSON.parse(json)}catch(e){try{o=JSON.parse(String(json).replace(/,\s*([}\]])/g,'$1'))}catch(e2){return''}}
- if(o&&Array.isArray(o.bars))return bars(o);
- var W=480,H=330,L=48,R=16,T=o.title?40:18,B=42,pw=W-L-R,ph=H-T-B;
- var fns=(o.functions||o.fns||o.graphs||[]).map(function(f,i){if(typeof f==='string')f={f:f};var fn=compile(f.f||f.y||f.expr||f.equation);return fn?{fn:fn,label:f.label||('y = '+(f.f||f.y||f.expr||'')),color:f.color||PAL[i%PAL.length],dash:f.dashed}:null}).filter(Boolean);
- var pts=(o.points||[]).filter(function(p){return isFinite(+p.x)&&isFinite(+p.y)});
- var segs=(o.lines||o.segments||[]).filter(function(s){return s&&isFinite(+s.x1)&&isFinite(+s.y1)&&isFinite(+s.x2)&&isFinite(+s.y2)});
- var xr=Array.isArray(o.x)?o.x:Array.isArray(o.xRange)?o.xRange:null,yr=Array.isArray(o.y)?o.y:Array.isArray(o.yRange)?o.yRange:null;
- if(!xr){var xs=pts.map(function(p){return+p.x}).concat(segs.reduce(function(a,s){return a.concat([+s.x1,+s.x2])},[]));if(xs.length){var a=Math.min.apply(0,xs),b=Math.max.apply(0,xs),pad=Math.max(1,(b-a)*.2);xr=[Math.min(0,a-pad),Math.max(0,b+pad)]}else xr=[-5,5]}
- var x0=+xr[0],x1=+xr[1];if(!(x1>x0)){x0=-5;x1=5}
- var curves=fns.map(function(f){var c=[];for(var i=0;i<=400;i++){var x=x0+(x1-x0)*i/400,y;try{y=f.fn(x)}catch(e){y=NaN}c.push([x,typeof y==='number'&&isFinite(y)?y:NaN])}return c});
- if(!yr){var ys=[];curves.forEach(function(c){c.forEach(function(p){if(isFinite(p[1]))ys.push(p[1])})});pts.forEach(function(p){ys.push(+p.y)});segs.forEach(function(s){ys.push(+s.y1,+s.y2)});
-  if(ys.length){ys.sort(function(a,b){return a-b});var lo=ys[Math.floor(ys.length*.02)],hi=ys[Math.ceil(ys.length*.98)-1];pts.forEach(function(p){lo=Math.min(lo,+p.y);hi=Math.max(hi,+p.y)});var pd=Math.max(1,(hi-lo)*.15);yr=[Math.min(0,lo-pd),Math.max(0,hi+pd)]}else yr=[-5,5]}
- var y0=+yr[0],y1=+yr[1];if(!(y1>y0)){y0=-5;y1=5}
- function X(x){return L+(x-x0)/(x1-x0)*pw}function Y(y){return T+ph-(y-y0)/(y1-y0)*ph}
- var s=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" font-family="Inter,Segoe UI,Arial,sans-serif"><rect width="'+W+'" height="'+H+'" rx="14" fill="#fff"/>'];
- if(o.title)s.push('<text x="'+W/2+'" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1e1b4b">'+esc(o.title)+'</text>');
- s.push('<defs><clipPath id="pc"><rect x="'+L+'" y="'+T+'" width="'+pw+'" height="'+ph+'"/></clipPath></defs>');
- var sx=nice(x1-x0,8),sy=nice(y1-y0,6);
- for(var gx=Math.ceil(x0/sx)*sx;gx<=x1+1e-9;gx+=sx){var px=X(gx).toFixed(1);s.push('<line x1="'+px+'" y1="'+T+'" x2="'+px+'" y2="'+(T+ph)+'" stroke="'+(Math.abs(gx)<1e-9?'#334155':'#e8eaf3')+'" stroke-width="'+(Math.abs(gx)<1e-9?1.6:1)+'"/>');if(Math.abs(gx)>1e-9||y0>=0||y1<=0)s.push('<text x="'+px+'" y="'+(Math.min(T+ph,Math.max(T,Y(0)))+15)+'" text-anchor="middle" font-size="11" fill="#64748b">'+fmtN(gx)+'</text>')}
- for(var gy=Math.ceil(y0/sy)*sy;gy<=y1+1e-9;gy+=sy){var py=Y(gy).toFixed(1);s.push('<line x1="'+L+'" y1="'+py+'" x2="'+(L+pw)+'" y2="'+py+'" stroke="'+(Math.abs(gy)<1e-9?'#334155':'#e8eaf3')+'" stroke-width="'+(Math.abs(gy)<1e-9?1.6:1)+'"/>');if(Math.abs(gy)>1e-9)s.push('<text x="'+(Math.min(L+pw,Math.max(L,X(0)))-6)+'" y="'+(+py+4)+'" text-anchor="end" font-size="11" fill="#64748b">'+fmtN(gy)+'</text>')}
- if(x0<0&&x1>0&&y0<0&&y1>0)s.push('<text x="'+(X(0)-6)+'" y="'+(Y(0)+15)+'" text-anchor="end" font-size="11" fill="#64748b">0</text>');
- s.push('<text x="'+(L+pw)+'" y="'+(H-8)+'" text-anchor="end" font-size="12.5" font-weight="600" fill="#334155">'+esc(o.xLabel||'x')+'</text><text x="12" y="'+(T+4)+'" font-size="12.5" font-weight="600" fill="#334155" transform="rotate(-90 12 '+(T+4)+')" text-anchor="end">'+esc(o.yLabel||'y')+'</text>');
- s.push('<g clip-path="url(#pc)">');
- curves.forEach(function(c,i){var f=fns[i],d='',pen=false;for(var k=0;k<c.length;k++){var p=c[k];if(!isFinite(p[1])||(k&&isFinite(c[k-1][1])&&Math.abs(p[1]-c[k-1][1])>(y1-y0)*2)){pen=false;continue}var py=Math.max(T-ph,Math.min(T+2*ph,Y(p[1])));d+=(pen?'L':'M')+X(p[0]).toFixed(1)+' '+py.toFixed(1);pen=true}
-  s.push('<path d="'+d+'" fill="none" stroke="'+f.color+'" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"'+(f.dash?' stroke-dasharray="7 5"':'')+'/>')});
- segs.forEach(function(g,i){s.push('<line x1="'+X(+g.x1)+'" y1="'+Y(+g.y1)+'" x2="'+X(+g.x2)+'" y2="'+Y(+g.y2)+'" stroke="'+(g.color||'#0f766e')+'" stroke-width="2.2"'+(g.dashed?' stroke-dasharray="6 5"':'')+'/>')});
- s.push('</g>');
- var occ=[];function hit(b){for(var i=0;i<occ.length;i++){var o2=occ[i];if(b[0]<o2[2]&&b[2]>o2[0]&&b[1]<o2[3]&&b[3]>o2[1])return true}return false}
- var lw=0,lh=0,lx=0,ly=0;if(fns.length){lw=Math.min(pw-20,Math.max.apply(0,fns.map(function(f){return String(f.label).length}))*6.8+34);lh=fns.length*19+10;
-  var cands=[[L+8,T+8],[L+pw-8-lw,T+8],[L+8,T+ph-8-lh],[L+pw-8-lw,T+ph-8-lh]],best=null,bs=1e9;
-  cands.forEach(function(c){var n=0;curves.forEach(function(cv){cv.forEach(function(q){if(!isFinite(q[1]))return;var qx=X(q[0]),qy=Y(q[1]);if(qx>=c[0]-6&&qx<=c[0]+lw+6&&qy>=c[1]-6&&qy<=c[1]+lh+6)n++})});pts.forEach(function(q){var qx=X(+q.x),qy=Y(+q.y);if(qx>=c[0]-30&&qx<=c[0]+lw+30&&qy>=c[1]-20&&qy<=c[1]+lh+20)n+=40});if(n<bs){bs=n;best=c}});
-  lx=best[0];ly=best[1];occ.push([lx,ly,lx+lw,ly+lh])}
- pts.forEach(function(p){var px=X(+p.x),py=Y(+p.y);if(px<L-1||px>L+pw+1||py<T-1||py>T+ph+1)return;occ.push([px-5,py-5,px+5,py+5])});
- pts.forEach(function(p){var px=X(+p.x),py=Y(+p.y);if(px<L-1||px>L+pw+1||py<T-1||py>T+ph+1)return;s.push('<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="4.5" fill="'+(p.color||'#e11d48')+'" stroke="#fff" stroke-width="1.5"/>');var lbl=p.label!=null?String(p.label):'('+fmtN(+p.x)+', '+fmtN(+p.y)+')';if(!lbl)return;
-  var w=lbl.length*6.6+4,h=14,tries=[[8,-8,'start'],[-8,-8,'end'],[8,18,'start'],[-8,18,'end'],[-w/2,-12,'start'],[-w/2,24,'start'],[12,4,'start'],[-12,4,'end'],[8,-26,'start'],[-8,-26,'end'],[8,34,'start'],[-8,34,'end']],pick=null;
-  for(var k=0;k<tries.length;k++){var t=tries[k],tx=px+t[0],x0b=t[2]==='end'?tx-w:tx,b=[x0b,py+t[1]-h+3,x0b+w,py+t[1]+3];if(b[0]<L||b[2]>L+pw||b[1]<T||b[3]>T+ph)continue;if(!hit(b)){pick=[tx,py+t[1],t[2],b];break}}
-  if(!pick){var t0=tries[px<L+pw-90?0:1];pick=[px+t0[0],py+t0[1],t0[2],[0,0,0,0]]}occ.push(pick[3]);
-  s.push('<text x="'+pick[0].toFixed(1)+'" y="'+pick[1].toFixed(1)+'" text-anchor="'+pick[2]+'" font-size="12" font-weight="600" fill="#1f2937" paint-order="stroke" stroke="#fff" stroke-width="4" stroke-linejoin="round">'+esc(lbl)+'</text>')});
- if(fns.length){s.push('<rect x="'+lx+'" y="'+ly+'" width="'+lw+'" height="'+lh+'" rx="8" fill="#fff" fill-opacity=".94" stroke="#e2e8f0"/>');fns.forEach(function(f,i){var yy=ly+16+i*19;s.push('<line x1="'+(lx+8)+'" y1="'+(yy-4)+'" x2="'+(lx+26)+'" y2="'+(yy-4)+'" stroke="'+f.color+'" stroke-width="3"/><text x="'+(lx+32)+'" y="'+yy+'" font-size="12.5" fill="#1f2937">'+esc(f.label)+'</text>')})}
- s.push('</svg>');return fig('<img alt="'+esc(o.title||'Graph')+'" src="'+uri(s.join(''))+'">',o.caption||'Graph drawn by StudyStarx','plot')}
-function bars(o){var B=o.bars.filter(function(b){return b&&isFinite(+b.value)}).slice(0,14);if(!B.length)return'';var W=480,H=320,L=46,R=14,T=o.title?42:20,Bm=58,pw=W-L-R,ph=H-T-Bm;
- var mx=Math.max.apply(0,B.map(function(b){return+b.value}).concat([0])),mn=Math.min.apply(0,B.map(function(b){return+b.value}).concat([0]));var st=nice(mx-mn||1,5),top=Math.ceil(mx/st)*st||st,bot=Math.floor(mn/st)*st;
- function Y(v){return T+ph-(v-bot)/(top-bot)*ph}
- var s=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" font-family="Inter,Segoe UI,Arial,sans-serif"><rect width="'+W+'" height="'+H+'" rx="14" fill="#fff"/>'];
- if(o.title)s.push('<text x="'+W/2+'" y="27" text-anchor="middle" font-size="16" font-weight="700" fill="#1e1b4b">'+esc(o.title)+'</text>');
- for(var v=bot;v<=top+1e-9;v+=st){s.push('<line x1="'+L+'" x2="'+(L+pw)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="'+(Math.abs(v)<1e-9?'#334155':'#e8eaf3')+'"/><text x="'+(L-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-size="11" fill="#64748b">'+fmtN(v)+'</text>')}
- var bw=pw/B.length;B.forEach(function(b,i){var x=L+i*bw+bw*.18,w=bw*.64,y=Y(Math.max(0,+b.value)),h=Math.abs(Y(+b.value)-Y(0));var c=b.color||PAL[i%PAL.length];
-  s.push('<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+Math.max(1,h).toFixed(1)+'" rx="5" fill="'+c+'"/><text x="'+(x+w/2).toFixed(1)+'" y="'+(y-6).toFixed(1)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#1f2937">'+fmtN(+b.value)+'</text>');
-  var lb=String(b.label||'');s.push('<text x="'+(x+w/2).toFixed(1)+'" y="'+(T+ph+17)+'" text-anchor="middle" font-size="'+(lb.length>10?10.5:12)+'" fill="#334155">'+esc(lb.length>16?lb.slice(0,15)+'…':lb)+'</text>')});
- if(o.yLabel)s.push('<text x="12" y="'+(T+ph/2)+'" font-size="12" fill="#334155" text-anchor="middle" transform="rotate(-90 12 '+(T+ph/2)+')">'+esc(o.yLabel)+'</text>');
- if(o.xLabel)s.push('<text x="'+(L+pw/2)+'" y="'+(H-10)+'" font-size="12.5" font-weight="600" fill="#334155" text-anchor="middle">'+esc(o.xLabel)+'</text>');
- s.push('</svg>');return fig('<img alt="'+esc(o.title||'Chart')+'" src="'+uri(s.join(''))+'">',o.caption||'Chart drawn by StudyStarx','plot')}
-
-/* ---------- ```svg: tidy what the AI drew ---------- */
-var STYLE='<style>text{font-family:Inter,Segoe UI,Arial,sans-serif;paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round}</style>';
-var DEFS='<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker><marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1f2937"/></marker></defs>';
-function cleanS(s){s=String(s||'').trim();var a=s.indexOf('<svg'),b=s.lastIndexOf('</svg>');if(a<0||b<0)return'';s=s.slice(a,b+6);
- s=s.replace(/<(script|foreignObject|iframe|image|use)[\s\S]*?(<\/\1>|\/>)/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,'').replace(/(href|xlink:href)\s*=\s*("[^"]*"|'[^']*')/gi,'');
- if(!/xmlns=/.test(s))s=s.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');return s}
-function tidy(s){s=cleanS(s);if(!s)return'';
- // arrowheads the AI asked for but did not define
- if(/url\(#arrow(head)?\)/.test(s)&&!/<marker[^>]+id="arrow/.test(s))s=s.replace(/(<svg[^>]*>)/,'$1'+DEFS);
- s=s.replace(/(<svg[^>]*>)/,'$1'+STYLE);
- // fit the picture to what was actually drawn so nothing is cut off
- try{var host=document.createElement('div');host.style.cssText='position:fixed;left:-9999px;top:0;width:600px;height:600px;visibility:hidden';host.innerHTML=s;document.body.appendChild(host);var el=host.querySelector('svg');
-  if(el){var vb=(el.getAttribute('viewBox')||'').split(/[\s,]+/).map(Number);var bb=el.getBBox();
-   if(bb&&bb.width>4&&bb.height>4){var pad=14,nx=bb.x-pad,ny=bb.y-pad,nw=bb.width+pad*2,nh=bb.height+pad*2;
-    if(vb.length===4&&vb.every(isFinite)){var x0=Math.min(vb[0],nx),y0=Math.min(vb[1],ny),x1=Math.max(vb[0]+vb[2],nx+nw),y1=Math.max(vb[1]+vb[3],ny+nh);
-     // shrink big empty borders, grow if something sticks out
-     if(bb.width<vb[2]*.7||bb.height<vb[3]*.7){x0=nx;y0=ny;x1=nx+nw;y1=ny+nh}
-     nx=x0;ny=y0;nw=x1-x0;nh=y1-y0}
-    el.setAttribute('viewBox',[nx,ny,nw,nh].map(function(v){return+v.toFixed(1)}).join(' '));el.removeAttribute('width');el.removeAttribute('height');
-    var bg=document.createElementNS('http://www.w3.org/2000/svg','rect');bg.setAttribute('x',nx);bg.setAttribute('y',ny);bg.setAttribute('width',nw);bg.setAttribute('height',nh);bg.setAttribute('fill','#fff');var st=el.querySelector('style');el.insertBefore(bg,st?st.nextSibling:el.firstChild);
-    s=new XMLSerializer().serializeToString(el)}}
-  host.remove()}catch(e){}
- return fig('<img alt="Diagram" src="'+uri(s)+'">','Diagram by StudyStarx Coach','svg')}
-
-/* ---------- ```flow (Mermaid) ---------- */
-var MM='https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js',mmP=null;
-function mm(){if(window.mermaid&&window.mermaid.render)return Promise.resolve(window.mermaid);if(mmP)return mmP;mmP=new Promise(function(ok,no){var s=document.createElement('script');s.src=MM;s.onload=function(){try{mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeCSS:'.node rect,.node polygon{rx:10px;ry:10px;stroke-width:1.6px}.edgePath .path,.flowchart-link{stroke-width:2px}.nodeLabel,.label text{font-weight:600}',fontFamily:'Inter,Segoe UI,Arial,sans-serif',flowchart:{htmlLabels:false,curve:'basis',padding:14,nodeSpacing:34,rankSpacing:44,useMaxWidth:true},mindmap:{useMaxWidth:true},timeline:{useMaxWidth:true},
-  themeVariables:{fontSize:'15px',primaryColor:'#eef2ff',primaryBorderColor:'#6366f1',primaryTextColor:'#1e1b4b',secondaryColor:'#ecfdf5',secondaryBorderColor:'#10b981',tertiaryColor:'#fff7ed',tertiaryBorderColor:'#f59e0b',lineColor:'#6366f1',edgeLabelBackground:'#ffffff',clusterBkg:'#f8fafc',clusterBorder:'#cbd5e1'}});ok(mermaid)}catch(e){no(e)}};s.onerror=function(){mmP=null;no(new Error('load'))};document.head.appendChild(s)});return mmP}
-function flowSrc(t){t=String(t||'').trim();if(!/^(graph|flowchart|mindmap|timeline|sequenceDiagram|pie|stateDiagram|classDiagram|journey|quadrantChart|gantt)\b/.test(t))t='flowchart TD\n'+t;return t.replace(/%%\{[\s\S]*?\}%%/g,'').replace(/click\s+\S+.*$/gm,'')}
-function flowPh(t){var id='dgf'+(++n_);return'<figure class="cx-fig cq-fig dg-fig dg-flow dg-wait" id="'+id+'" data-src="'+esc(flowSrc(t))+'" tabindex="0" title="Tap to enlarge"><div class="dg-ld">Drawing the diagram…</div><figcaption>Diagram by StudyStarx Coach</figcaption></figure>'}
-function hydrate(root){var list=(root||document).querySelectorAll('.dg-wait');if(!list.length)return;mm().then(function(M){[].forEach.call(list,function(f){if(!f.classList.contains('dg-wait'))return;f.classList.remove('dg-wait');var src=f.getAttribute('data-src');
-  M.render('m'+f.id+Date.now().toString(36),src).then(function(r){var svg=String(r.svg||r),vb=(svg.match(/viewBox="([^"]+)"/)||[])[1],a=vb?vb.split(/\s+/).map(Number):[];
-   if(a.length===4&&a[2]/a[3]>2.4&&/^(flowchart|graph)\s+(LR|RL)/m.test(src)){var s2=src.replace(/^(flowchart|graph)\s+(LR|RL)/m,'$1 TD');return M.render('m2'+f.id+Date.now().toString(36),s2).then(function(r2){return String(r2.svg||r2)}).catch(function(){return svg})}return svg}).then(function(svg){f.querySelector('.dg-ld').outerHTML='<img alt="Diagram" src="'+uri(svg)+'">'}).catch(function(){var lines=src.split('\n').slice(1).map(function(l){return l.replace(/[A-Za-z0-9_]+\s*[\[\(\{]+\(?/g,'').replace(/[\]\)\}]+/g,'').replace(/-->|---|==>|-\.->/g,' → ').replace(/\|([^|]*)\|/g,'($1) ').trim()}).filter(Boolean);f.querySelector('.dg-ld').outerHTML='<div class="dg-text">'+lines.map(esc).join('<br>')+'</div>'})})}).catch(function(){[].forEach.call(list,function(f){var l=f.querySelector('.dg-ld');if(l)l.textContent='Could not load the diagram drawer — check your internet.'})})}
-
-/* ---------- enlarge on tap ---------- */
-document.addEventListener('click',function(e){var f=e.target.closest('.dg-fig');if(!f||e.target.closest('a,button'))return;var im=f.querySelector('img');if(!im)return;var o=document.createElement('div');o.className='dg-zoom';o.innerHTML='<img alt="" src="'+im.src+'"><button type="button" aria-label="Close">✕</button>';o.onclick=function(){o.remove()};document.body.appendChild(o)});
-
-var C={};function memo(f,k){return function(x){var key=k+String(x);if(C[key])return C[key];var v=f(x);if(v)C[key]=v;return v}}
-window.sxDiagram={plot:memo(plot,'p'),svg:memo(tidy,'s'),flow:flowPh,hydrate:hydrate,compile:compile};
-})();
-
 </script><style id="sf-ep-css">
 /* StudyStarx Exam Paper Maker */
 .ep-hb{margin-left:auto;margin-right:8px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:inherit;border-radius:999px;padding:6px 12px;font:600 13px Inter,system-ui,sans-serif;cursor:pointer;white-space:nowrap}
@@ -11678,6 +11193,530 @@ function boot(){hook();var m=$('#messages');if(m&&!m.dataset.epw){m.dataset.epw=
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,300)});else setTimeout(boot,300);
 setTimeout(boot,1500);setTimeout(boot,4000);
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('#epBox')&&!$('#epBox').hidden&&!ST.busy)close()});
+})();
+
+</script><style id="sf-dg-css">
+.dg-fig{cursor:zoom-in}
+.dg-fig img{width:100%;max-width:520px;height:auto;display:block;margin:0 auto;border-radius:12px}
+.dg-flow img{max-width:620px;max-height:520px;object-fit:contain}
+.dg-ld{padding:26px;text-align:center;color:#6366f1;font-size:13.5px;background:#f5f7ff;border-radius:12px}
+.dg-text{padding:12px 14px;background:#f8fafc;border-radius:12px;font-size:14px;line-height:1.7}
+.dg-zoom{position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.88);display:flex;align-items:center;justify-content:center;padding:14px;cursor:zoom-out}
+.dg-zoom img{max-width:100%;max-height:100%;background:#fff;border-radius:14px}
+.dg-zoom button{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;font-size:18px;cursor:pointer}
+
+</style><script id="sf-dg-js">
+/* StudyStarx diagrams for the AI Coach:
+   ```plot  {json}  → exact graphs / bar charts drawn by the app
+   ```flow  text    → flowcharts, cycles, timelines, mind maps (Mermaid)
+   ```svg   <svg>   → geometry, circuits, cells… tidied: fitted, readable labels, arrowheads */
+(function(){
+var PAL=['#4f46e5','#e11d48','#059669','#d97706','#0284c7','#9333ea','#db2777'];
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function uri(s){return'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)}
+function fig(inner,cap,kind){return'<figure class="cx-fig cq-fig dg-fig dg-'+kind+'" tabindex="0" title="Tap to enlarge">'+inner+'<figcaption>'+esc(cap||'Diagram by StudyStarx Coach')+'</figcaption></figure>'}
+var n_=0;
+
+/* ---------- safe maths expressions ---------- */
+function compile(src){var s=String(src||'').toLowerCase().replace(/\s+/g,'').replace(/^y=/,'').replace(/^f\(x\)=/,'').replace(/[×·]/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/π/g,'pi').replace(/√/g,'sqrt').replace(/²/g,'^2').replace(/³/g,'^3');
+ if(!/^[0-9x+\-*/^().,a-z]*$/.test(s))return null;
+ var words=s.match(/[a-z]+/g)||[];var ok={x:1,sin:1,cos:1,tan:1,sqrt:1,abs:1,log:1,ln:1,exp:1,pi:1,e:1,asin:1,acos:1,atan:1};
+ for(var i=0;i<words.length;i++){var w=words[i];if(!ok[w]){var split=w.split('').every(function(c){return c==='x'||c==='e'});if(!split)return null}}
+ s=s.replace(/(\d)(x|\(|sin|cos|tan|sqrt|abs|log|ln|exp|pi)/g,'$1*$2').replace(/(x|\))(\d|x|\(|sin|cos|tan|sqrt|abs|log|ln|exp|pi)/g,'$1*$2').replace(/(x|\))(\d|x|\()/g,'$1*$2').replace(/(pi)(x|\()/g,'$1*$2');
+ s=s.replace(/\^/g,'**').replace(/\bln\(/g,'Math.log(').replace(/\blog\(/g,'Math.log10(').replace(/\b(sin|cos|tan|asin|acos|atan|sqrt|abs|exp)\(/g,'Math.$1(').replace(/\bpi\b/g,'Math.PI').replace(/\be\b/g,'Math.E');
+ try{var f=new Function('x','"use strict";return ('+s+');');f(1.234);return f}catch(e){return null}}
+function nice(span,want){var raw=span/Math.max(1,want),p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;return(m<1.5?1:m<3?2:m<7?5:10)*p}
+function fmtN(v){var a=Math.abs(v);if(a>=1e4||(a>0&&a<1e-3))return v.toExponential(1);return String(+v.toFixed(3))}
+
+/* ---------- ```plot ---------- */
+function plot(json){var o;try{o=JSON.parse(json)}catch(e){try{o=JSON.parse(String(json).replace(/,\s*([}\]])/g,'$1'))}catch(e2){return''}}
+ if(o&&Array.isArray(o.bars))return bars(o);
+ var W=480,H=330,L=48,R=16,T=o.title?40:18,B=42,pw=W-L-R,ph=H-T-B;
+ var fns=(o.functions||o.fns||o.graphs||[]).map(function(f,i){if(typeof f==='string')f={f:f};var fn=compile(f.f||f.y||f.expr||f.equation);return fn?{fn:fn,label:f.label||('y = '+(f.f||f.y||f.expr||'')),color:f.color||PAL[i%PAL.length],dash:f.dashed}:null}).filter(Boolean);
+ var pts=(o.points||[]).filter(function(p){return isFinite(+p.x)&&isFinite(+p.y)});
+ var segs=(o.lines||o.segments||[]).filter(function(s){return s&&isFinite(+s.x1)&&isFinite(+s.y1)&&isFinite(+s.x2)&&isFinite(+s.y2)});
+ var xr=Array.isArray(o.x)?o.x:Array.isArray(o.xRange)?o.xRange:null,yr=Array.isArray(o.y)?o.y:Array.isArray(o.yRange)?o.yRange:null;
+ if(!xr){var xs=pts.map(function(p){return+p.x}).concat(segs.reduce(function(a,s){return a.concat([+s.x1,+s.x2])},[]));if(xs.length){var a=Math.min.apply(0,xs),b=Math.max.apply(0,xs),pad=Math.max(1,(b-a)*.2);xr=[Math.min(0,a-pad),Math.max(0,b+pad)]}else xr=[-5,5]}
+ var x0=+xr[0],x1=+xr[1];if(!(x1>x0)){x0=-5;x1=5}
+ var curves=fns.map(function(f){var c=[];for(var i=0;i<=400;i++){var x=x0+(x1-x0)*i/400,y;try{y=f.fn(x)}catch(e){y=NaN}c.push([x,typeof y==='number'&&isFinite(y)?y:NaN])}return c});
+ if(!yr){var ys=[];curves.forEach(function(c){c.forEach(function(p){if(isFinite(p[1]))ys.push(p[1])})});pts.forEach(function(p){ys.push(+p.y)});segs.forEach(function(s){ys.push(+s.y1,+s.y2)});
+  if(ys.length){ys.sort(function(a,b){return a-b});var lo=ys[Math.floor(ys.length*.02)],hi=ys[Math.ceil(ys.length*.98)-1];pts.forEach(function(p){lo=Math.min(lo,+p.y);hi=Math.max(hi,+p.y)});var pd=Math.max(1,(hi-lo)*.15);yr=[Math.min(0,lo-pd),Math.max(0,hi+pd)]}else yr=[-5,5]}
+ var y0=+yr[0],y1=+yr[1];if(!(y1>y0)){y0=-5;y1=5}
+ function X(x){return L+(x-x0)/(x1-x0)*pw}function Y(y){return T+ph-(y-y0)/(y1-y0)*ph}
+ var s=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" font-family="Inter,Segoe UI,Arial,sans-serif"><rect width="'+W+'" height="'+H+'" rx="14" fill="#fff"/>'];
+ if(o.title)s.push('<text x="'+W/2+'" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#1e1b4b">'+esc(o.title)+'</text>');
+ s.push('<defs><clipPath id="pc"><rect x="'+L+'" y="'+T+'" width="'+pw+'" height="'+ph+'"/></clipPath></defs>');
+ var sx=nice(x1-x0,8),sy=nice(y1-y0,6);
+ for(var gx=Math.ceil(x0/sx)*sx;gx<=x1+1e-9;gx+=sx){var px=X(gx).toFixed(1);s.push('<line x1="'+px+'" y1="'+T+'" x2="'+px+'" y2="'+(T+ph)+'" stroke="'+(Math.abs(gx)<1e-9?'#334155':'#e8eaf3')+'" stroke-width="'+(Math.abs(gx)<1e-9?1.6:1)+'"/>');if(Math.abs(gx)>1e-9||y0>=0||y1<=0)s.push('<text x="'+px+'" y="'+(Math.min(T+ph,Math.max(T,Y(0)))+15)+'" text-anchor="middle" font-size="11" fill="#64748b">'+fmtN(gx)+'</text>')}
+ for(var gy=Math.ceil(y0/sy)*sy;gy<=y1+1e-9;gy+=sy){var py=Y(gy).toFixed(1);s.push('<line x1="'+L+'" y1="'+py+'" x2="'+(L+pw)+'" y2="'+py+'" stroke="'+(Math.abs(gy)<1e-9?'#334155':'#e8eaf3')+'" stroke-width="'+(Math.abs(gy)<1e-9?1.6:1)+'"/>');if(Math.abs(gy)>1e-9)s.push('<text x="'+(Math.min(L+pw,Math.max(L,X(0)))-6)+'" y="'+(+py+4)+'" text-anchor="end" font-size="11" fill="#64748b">'+fmtN(gy)+'</text>')}
+ if(x0<0&&x1>0&&y0<0&&y1>0)s.push('<text x="'+(X(0)-6)+'" y="'+(Y(0)+15)+'" text-anchor="end" font-size="11" fill="#64748b">0</text>');
+ s.push('<text x="'+(L+pw)+'" y="'+(H-8)+'" text-anchor="end" font-size="12.5" font-weight="600" fill="#334155">'+esc(o.xLabel||'x')+'</text><text x="12" y="'+(T+4)+'" font-size="12.5" font-weight="600" fill="#334155" transform="rotate(-90 12 '+(T+4)+')" text-anchor="end">'+esc(o.yLabel||'y')+'</text>');
+ s.push('<g clip-path="url(#pc)">');
+ curves.forEach(function(c,i){var f=fns[i],d='',pen=false;for(var k=0;k<c.length;k++){var p=c[k];if(!isFinite(p[1])||(k&&isFinite(c[k-1][1])&&Math.abs(p[1]-c[k-1][1])>(y1-y0)*2)){pen=false;continue}var py=Math.max(T-ph,Math.min(T+2*ph,Y(p[1])));d+=(pen?'L':'M')+X(p[0]).toFixed(1)+' '+py.toFixed(1);pen=true}
+  s.push('<path d="'+d+'" fill="none" stroke="'+f.color+'" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"'+(f.dash?' stroke-dasharray="7 5"':'')+'/>')});
+ segs.forEach(function(g,i){s.push('<line x1="'+X(+g.x1)+'" y1="'+Y(+g.y1)+'" x2="'+X(+g.x2)+'" y2="'+Y(+g.y2)+'" stroke="'+(g.color||'#0f766e')+'" stroke-width="2.2"'+(g.dashed?' stroke-dasharray="6 5"':'')+'/>')});
+ s.push('</g>');
+ var occ=[];function hit(b){for(var i=0;i<occ.length;i++){var o2=occ[i];if(b[0]<o2[2]&&b[2]>o2[0]&&b[1]<o2[3]&&b[3]>o2[1])return true}return false}
+ var lw=0,lh=0,lx=0,ly=0;if(fns.length){lw=Math.min(pw-20,Math.max.apply(0,fns.map(function(f){return String(f.label).length}))*6.8+34);lh=fns.length*19+10;
+  var cands=[[L+8,T+8],[L+pw-8-lw,T+8],[L+8,T+ph-8-lh],[L+pw-8-lw,T+ph-8-lh]],best=null,bs=1e9;
+  cands.forEach(function(c){var n=0;curves.forEach(function(cv){cv.forEach(function(q){if(!isFinite(q[1]))return;var qx=X(q[0]),qy=Y(q[1]);if(qx>=c[0]-6&&qx<=c[0]+lw+6&&qy>=c[1]-6&&qy<=c[1]+lh+6)n++})});pts.forEach(function(q){var qx=X(+q.x),qy=Y(+q.y);if(qx>=c[0]-30&&qx<=c[0]+lw+30&&qy>=c[1]-20&&qy<=c[1]+lh+20)n+=40});if(n<bs){bs=n;best=c}});
+  lx=best[0];ly=best[1];occ.push([lx,ly,lx+lw,ly+lh])}
+ pts.forEach(function(p){var px=X(+p.x),py=Y(+p.y);if(px<L-1||px>L+pw+1||py<T-1||py>T+ph+1)return;occ.push([px-5,py-5,px+5,py+5])});
+ pts.forEach(function(p){var px=X(+p.x),py=Y(+p.y);if(px<L-1||px>L+pw+1||py<T-1||py>T+ph+1)return;s.push('<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="4.5" fill="'+(p.color||'#e11d48')+'" stroke="#fff" stroke-width="1.5"/>');var lbl=p.label!=null?String(p.label):'('+fmtN(+p.x)+', '+fmtN(+p.y)+')';if(!lbl)return;
+  var w=lbl.length*6.6+4,h=14,tries=[[8,-8,'start'],[-8,-8,'end'],[8,18,'start'],[-8,18,'end'],[-w/2,-12,'start'],[-w/2,24,'start'],[12,4,'start'],[-12,4,'end'],[8,-26,'start'],[-8,-26,'end'],[8,34,'start'],[-8,34,'end']],pick=null;
+  for(var k=0;k<tries.length;k++){var t=tries[k],tx=px+t[0],x0b=t[2]==='end'?tx-w:tx,b=[x0b,py+t[1]-h+3,x0b+w,py+t[1]+3];if(b[0]<L||b[2]>L+pw||b[1]<T||b[3]>T+ph)continue;if(!hit(b)){pick=[tx,py+t[1],t[2],b];break}}
+  if(!pick){var t0=tries[px<L+pw-90?0:1];pick=[px+t0[0],py+t0[1],t0[2],[0,0,0,0]]}occ.push(pick[3]);
+  s.push('<text x="'+pick[0].toFixed(1)+'" y="'+pick[1].toFixed(1)+'" text-anchor="'+pick[2]+'" font-size="12" font-weight="600" fill="#1f2937" paint-order="stroke" stroke="#fff" stroke-width="4" stroke-linejoin="round">'+esc(lbl)+'</text>')});
+ if(fns.length){s.push('<rect x="'+lx+'" y="'+ly+'" width="'+lw+'" height="'+lh+'" rx="8" fill="#fff" fill-opacity=".94" stroke="#e2e8f0"/>');fns.forEach(function(f,i){var yy=ly+16+i*19;s.push('<line x1="'+(lx+8)+'" y1="'+(yy-4)+'" x2="'+(lx+26)+'" y2="'+(yy-4)+'" stroke="'+f.color+'" stroke-width="3"/><text x="'+(lx+32)+'" y="'+yy+'" font-size="12.5" fill="#1f2937">'+esc(f.label)+'</text>')})}
+ s.push('</svg>');return fig('<img alt="'+esc(o.title||'Graph')+'" src="'+uri(s.join(''))+'">',o.caption||'Graph drawn by StudyStarx','plot')}
+function bars(o){var B=o.bars.filter(function(b){return b&&isFinite(+b.value)}).slice(0,14);if(!B.length)return'';var W=480,H=320,L=46,R=14,T=o.title?42:20,Bm=58,pw=W-L-R,ph=H-T-Bm;
+ var mx=Math.max.apply(0,B.map(function(b){return+b.value}).concat([0])),mn=Math.min.apply(0,B.map(function(b){return+b.value}).concat([0]));var st=nice(mx-mn||1,5),top=Math.ceil(mx/st)*st||st,bot=Math.floor(mn/st)*st;
+ function Y(v){return T+ph-(v-bot)/(top-bot)*ph}
+ var s=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" font-family="Inter,Segoe UI,Arial,sans-serif"><rect width="'+W+'" height="'+H+'" rx="14" fill="#fff"/>'];
+ if(o.title)s.push('<text x="'+W/2+'" y="27" text-anchor="middle" font-size="16" font-weight="700" fill="#1e1b4b">'+esc(o.title)+'</text>');
+ for(var v=bot;v<=top+1e-9;v+=st){s.push('<line x1="'+L+'" x2="'+(L+pw)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="'+(Math.abs(v)<1e-9?'#334155':'#e8eaf3')+'"/><text x="'+(L-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-size="11" fill="#64748b">'+fmtN(v)+'</text>')}
+ var bw=pw/B.length;B.forEach(function(b,i){var x=L+i*bw+bw*.18,w=bw*.64,y=Y(Math.max(0,+b.value)),h=Math.abs(Y(+b.value)-Y(0));var c=b.color||PAL[i%PAL.length];
+  s.push('<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+Math.max(1,h).toFixed(1)+'" rx="5" fill="'+c+'"/><text x="'+(x+w/2).toFixed(1)+'" y="'+(y-6).toFixed(1)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#1f2937">'+fmtN(+b.value)+'</text>');
+  var lb=String(b.label||'');s.push('<text x="'+(x+w/2).toFixed(1)+'" y="'+(T+ph+17)+'" text-anchor="middle" font-size="'+(lb.length>10?10.5:12)+'" fill="#334155">'+esc(lb.length>16?lb.slice(0,15)+'…':lb)+'</text>')});
+ if(o.yLabel)s.push('<text x="12" y="'+(T+ph/2)+'" font-size="12" fill="#334155" text-anchor="middle" transform="rotate(-90 12 '+(T+ph/2)+')">'+esc(o.yLabel)+'</text>');
+ if(o.xLabel)s.push('<text x="'+(L+pw/2)+'" y="'+(H-10)+'" font-size="12.5" font-weight="600" fill="#334155" text-anchor="middle">'+esc(o.xLabel)+'</text>');
+ s.push('</svg>');return fig('<img alt="'+esc(o.title||'Chart')+'" src="'+uri(s.join(''))+'">',o.caption||'Chart drawn by StudyStarx','plot')}
+
+/* ---------- ```circuit: the app draws series / parallel circuits exactly ---------- */
+function circuit(json){var o;try{o=JSON.parse(json)}catch(e){try{o=JSON.parse(String(json).replace(/,\s*([}\]])/g,'$1'))}catch(e2){return''}}
+ var items=(o.series||o.elements||o.components||[]).slice(0,8);if(!items.length)return'';var EW=92,GAP=26,BH=58,INK='#1f2937';
+ function norm(b){return(Array.isArray(b)?b:[b]).filter(Boolean).slice(0,3)}
+ var maxB=1,x=150,lay=items.map(function(it){var L;if(it&&Array.isArray(it.parallel)){var br=it.parallel.slice(0,4).map(norm),n=Math.max.apply(0,br.map(function(b){return b.length}));maxB=Math.max(maxB,br.length);L={par:br,x:x,w:n*EW+40};}else L={el:it,x:x,w:EW};x+=L.w+GAP;return L});
+ var half=(maxB-1)*BH/2,T=o.title?46:22,yTop=T+half+34,yBot=yTop+half+78,xL=70,xR=x+14,W=xR+40,H=yBot+34;
+ var s=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" font-family="Inter,Segoe UI,Arial,sans-serif"><rect width="'+W+'" height="'+H+'" rx="14" fill="#fff"/><defs><marker id="ca" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#e11d48"/></marker></defs>'];
+ if(o.title)s.push('<text x="'+W/2+'" y="27" text-anchor="middle" font-size="16" font-weight="700" fill="#1e1b4b">'+esc(o.title)+'</text>');
+ function wire(x1,y1,x2,y2){s.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+INK+'" stroke-width="2" stroke-linecap="round"/>')}
+ function sym(e,cx,y){var t=String(e&&e.type||'resistor').toLowerCase(),lb=e&&e.label!=null?String(e.label):'';var x1=cx-EW/2,x2=cx+EW/2;
+  if(/bulb|lamp/.test(t)){wire(x1,y,cx-14,y);wire(cx+14,y,x2,y);s.push('<circle cx="'+cx+'" cy="'+y+'" r="14" fill="#fffbeb" stroke="'+INK+'" stroke-width="2"/><path d="M'+(cx-10)+' '+(y-10)+'L'+(cx+10)+' '+(y+10)+'M'+(cx+10)+' '+(y-10)+'L'+(cx-10)+' '+(y+10)+'" stroke="'+INK+'" stroke-width="2"/>')}
+  else if(/ammeter|voltmeter/.test(t)){wire(x1,y,cx-14,y);wire(cx+14,y,x2,y);s.push('<circle cx="'+cx+'" cy="'+y+'" r="14" fill="#ecfdf5" stroke="'+INK+'" stroke-width="2"/><text x="'+cx+'" y="'+(y+5)+'" text-anchor="middle" font-size="14" font-weight="700" fill="'+INK+'">'+(/amm/.test(t)?'A':'V')+'</text>')}
+  else if(/switch/.test(t)){wire(x1,y,cx-16,y);wire(cx+16,y,x2,y);s.push('<circle cx="'+(cx-16)+'" cy="'+y+'" r="3" fill="'+INK+'"/><circle cx="'+(cx+16)+'" cy="'+y+'" r="3" fill="'+INK+'"/>');if(/closed/.test(t+' '+lb.toLowerCase()))wire(cx-16,y,cx+16,y);else wire(cx-16,y,cx+13,y-13)}
+  else if(/wire/.test(t)){wire(x1,y,x2,y)}
+  else{wire(x1,y,cx-28,y);wire(cx+28,y,x2,y);s.push('<rect x="'+(cx-28)+'" y="'+(y-11)+'" width="56" height="22" rx="3" fill="#eef2ff" stroke="'+INK+'" stroke-width="2"/>')}
+  if(lb)s.push('<text x="'+cx+'" y="'+(y-18)+'" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1e1b4b">'+esc(lb)+'</text>')}
+ var px=xL;lay.forEach(function(L){wire(px,yTop,L.x,yTop);
+  if(L.el){sym(L.el,L.x+EW/2,yTop)}
+  else{var n=L.par.length,xa=L.x,xb=L.x+L.w,y0=yTop-(n-1)*BH/2;wire(xa,y0,xa,y0+(n-1)*BH);wire(xb,y0,xb,y0+(n-1)*BH);s.push('<circle cx="'+xa+'" cy="'+yTop+'" r="3.5" fill="'+INK+'"/><circle cx="'+xb+'" cy="'+yTop+'" r="3.5" fill="'+INK+'"/>');
+   L.par.forEach(function(b,i){var y=y0+i*BH,bw=b.length*EW,bx=xa+20+(L.w-40-bw)/2;wire(xa,y,bx,y);b.forEach(function(e,k){sym(e,bx+k*EW+EW/2,y)});wire(bx+bw,y,xb,y)})}
+  px=L.x+L.w});
+ wire(px,yTop,xR,yTop);wire(xR,yTop,xR,yBot);wire(xR,yBot,xL,yBot);
+ var ym=(yTop+yBot)/2;wire(xL,yTop,xL,ym-7);wire(xL,ym+7,xL,yBot);
+ s.push('<line x1="'+(xL-16)+'" y1="'+(ym-7)+'" x2="'+(xL+16)+'" y2="'+(ym-7)+'" stroke="'+INK+'" stroke-width="2.5"/><line x1="'+(xL-8)+'" y1="'+(ym+7)+'" x2="'+(xL+8)+'" y2="'+(ym+7)+'" stroke="'+INK+'" stroke-width="5"/><text x="'+(xL+22)+'" y="'+(ym-9)+'" font-size="13" font-weight="700" fill="#e11d48">+</text><text x="'+(xL+22)+'" y="'+(ym+16)+'" font-size="14" font-weight="700" fill="#2563eb">−</text>');
+ if(o.source||o.battery)s.push('<text x="'+(xL-22)+'" y="'+(ym+5)+'" text-anchor="end" font-size="14" font-weight="700" fill="#1e1b4b">'+esc(o.source||o.battery)+'</text>');
+ s.push('<line x1="'+(xL+14)+'" y1="'+(yTop-12)+'" x2="'+(xL+52)+'" y2="'+(yTop-12)+'" stroke="#e11d48" stroke-width="2" marker-end="url(#ca)"/><text x="'+(xL+33)+'" y="'+(yTop-18)+'" text-anchor="middle" font-size="12.5" font-weight="600" fill="#e11d48">'+esc(o.currentLabel||'I')+'</text>');
+ s.push('</svg>');return fig('<img alt="Circuit diagram" src="'+uri(s.join(''))+'">',o.caption||'Circuit drawn by StudyStarx','plot')}
+
+/* ---------- ```svg: tidy what the AI drew ---------- */
+var STYLE='<style>text{font-family:Inter,Segoe UI,Arial,sans-serif;paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round}</style>';
+var DEFS='<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker><marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1f2937"/></marker></defs>';
+function cleanS(s){s=String(s||'').trim();var a=s.indexOf('<svg'),b=s.lastIndexOf('</svg>');if(a<0||b<0)return'';s=s.slice(a,b+6);
+ s=s.replace(/<(script|foreignObject|iframe|image|use)[\s\S]*?(<\/\1>|\/>)/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,'').replace(/(href|xlink:href)\s*=\s*("[^"]*"|'[^']*')/gi,'');
+ if(!/xmlns=/.test(s))s=s.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');return s}
+function tidy(s){s=cleanS(s);if(!s)return'';
+ // arrowheads the AI asked for but did not define
+ if(/url\(#arrow(head)?\)/.test(s)&&!/<marker[^>]+id="arrow/.test(s))s=s.replace(/(<svg[^>]*>)/,'$1'+DEFS);
+ s=s.replace(/(<svg[^>]*>)/,'$1'+STYLE);
+ // fit the picture to what was actually drawn so nothing is cut off
+ try{var host=document.createElement('div');host.style.cssText='position:fixed;left:-9999px;top:0;width:600px;height:600px;visibility:hidden';host.innerHTML=s;document.body.appendChild(host);var el=host.querySelector('svg');
+  if(el){var vb=(el.getAttribute('viewBox')||'').split(/[\s,]+/).map(Number);var bb=el.getBBox();
+   if(bb&&bb.width>4&&bb.height>4){var pad=14,nx=bb.x-pad,ny=bb.y-pad,nw=bb.width+pad*2,nh=bb.height+pad*2;
+    if(vb.length===4&&vb.every(isFinite)){var x0=Math.min(vb[0],nx),y0=Math.min(vb[1],ny),x1=Math.max(vb[0]+vb[2],nx+nw),y1=Math.max(vb[1]+vb[3],ny+nh);
+     // shrink big empty borders, grow if something sticks out
+     if(bb.width<vb[2]*.7||bb.height<vb[3]*.7){x0=nx;y0=ny;x1=nx+nw;y1=ny+nh}
+     nx=x0;ny=y0;nw=x1-x0;nh=y1-y0}
+    var minF=Math.max(nw,nh*1.3)/30;[].forEach.call(el.querySelectorAll('text'),function(t){var f=parseFloat(t.getAttribute('font-size')||getComputedStyle(t).fontSize)||12;if(f<minF){t.setAttribute('font-size',minF.toFixed(1));t.style.fontSize=''}});
+    el.setAttribute('viewBox',[nx,ny,nw,nh].map(function(v){return+v.toFixed(1)}).join(' '));el.removeAttribute('width');el.removeAttribute('height');
+    var bg=document.createElementNS('http://www.w3.org/2000/svg','rect');bg.setAttribute('x',nx);bg.setAttribute('y',ny);bg.setAttribute('width',nw);bg.setAttribute('height',nh);bg.setAttribute('fill','#fff');var st=el.querySelector('style');el.insertBefore(bg,st?st.nextSibling:el.firstChild);
+    s=new XMLSerializer().serializeToString(el)}}
+  host.remove()}catch(e){}
+ return fig('<img alt="Diagram" src="'+uri(s)+'">','Diagram by StudyStarx Coach','svg')}
+
+/* ---------- ```flow (Mermaid) ---------- */
+var MM='https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js',mmP=null;
+function mm(){if(window.mermaid&&window.mermaid.render)return Promise.resolve(window.mermaid);if(mmP)return mmP;mmP=new Promise(function(ok,no){var s=document.createElement('script');s.src=MM;s.onload=function(){try{mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeCSS:'.node rect,.node polygon{rx:10px;ry:10px;stroke-width:1.6px}.edgePath .path,.flowchart-link{stroke-width:2px}.nodeLabel,.label text{font-weight:600}',fontFamily:'Inter,Segoe UI,Arial,sans-serif',flowchart:{htmlLabels:false,curve:'basis',padding:14,nodeSpacing:34,rankSpacing:44,useMaxWidth:true},mindmap:{useMaxWidth:true},timeline:{useMaxWidth:true},
+  themeVariables:{fontSize:'15px',primaryColor:'#eef2ff',primaryBorderColor:'#6366f1',primaryTextColor:'#1e1b4b',secondaryColor:'#ecfdf5',secondaryBorderColor:'#10b981',tertiaryColor:'#fff7ed',tertiaryBorderColor:'#f59e0b',lineColor:'#6366f1',edgeLabelBackground:'#ffffff',clusterBkg:'#f8fafc',clusterBorder:'#cbd5e1'}});ok(mermaid)}catch(e){no(e)}};s.onerror=function(){mmP=null;no(new Error('load'))};document.head.appendChild(s)});return mmP}
+function flowSrc(t){t=String(t||'').trim();if(!/^(graph|flowchart|mindmap|timeline|sequenceDiagram|pie|stateDiagram|classDiagram|journey|quadrantChart|gantt)\b/.test(t))t='flowchart TD\n'+t;return t.replace(/%%\{[\s\S]*?\}%%/g,'').replace(/click\s+\S+.*$/gm,'')}
+function flowPh(t){var id='dgf'+(++n_);return'<figure class="cx-fig cq-fig dg-fig dg-flow dg-wait" id="'+id+'" data-src="'+esc(flowSrc(t))+'" tabindex="0" title="Tap to enlarge"><div class="dg-ld">Drawing the diagram…</div><figcaption>Diagram by StudyStarx Coach</figcaption></figure>'}
+function hydrate(root){var list=(root||document).querySelectorAll('.dg-wait');if(!list.length)return;mm().then(function(M){[].forEach.call(list,function(f){if(!f.classList.contains('dg-wait'))return;f.classList.remove('dg-wait');var src=f.getAttribute('data-src');
+  M.render('m'+f.id+Date.now().toString(36),src).then(function(r){var svg=String(r.svg||r),vb=(svg.match(/viewBox="([^"]+)"/)||[])[1],a=vb?vb.split(/\s+/).map(Number):[];
+   if(a.length===4&&a[2]/a[3]>2.4&&/^(flowchart|graph)\s+(LR|RL)/m.test(src)){var s2=src.replace(/^(flowchart|graph)\s+(LR|RL)/m,'$1 TD');return M.render('m2'+f.id+Date.now().toString(36),s2).then(function(r2){return String(r2.svg||r2)}).catch(function(){return svg})}return svg}).then(function(svg){f.querySelector('.dg-ld').outerHTML='<img alt="Diagram" src="'+uri(svg)+'">'}).catch(function(){var lines=src.split('\n').slice(1).map(function(l){return l.replace(/[A-Za-z0-9_]+\s*[\[\(\{]+\(?/g,'').replace(/[\]\)\}]+/g,'').replace(/-->|---|==>|-\.->/g,' → ').replace(/\|([^|]*)\|/g,'($1) ').trim()}).filter(Boolean);f.querySelector('.dg-ld').outerHTML='<div class="dg-text">'+lines.map(esc).join('<br>')+'</div>'})})}).catch(function(){[].forEach.call(list,function(f){var l=f.querySelector('.dg-ld');if(l)l.textContent='Could not load the diagram drawer — check your internet.'})})}
+
+/* ---------- enlarge on tap ---------- */
+document.addEventListener('click',function(e){var f=e.target.closest('.dg-fig');if(!f||e.target.closest('a,button'))return;var im=f.querySelector('img');if(!im)return;var o=document.createElement('div');o.className='dg-zoom';o.innerHTML='<img alt="" src="'+im.src+'"><button type="button" aria-label="Close">✕</button>';o.onclick=function(){o.remove()};document.body.appendChild(o)});
+
+var C={};function memo(f,k){return function(x){var key=k+String(x);if(C[key])return C[key];var v=f(x);if(v)C[key]=v;return v}}
+window.sxDiagram={circuit:memo(circuit,'c'),plot:memo(plot,'p'),svg:memo(tidy,'s'),flow:flowPh,hydrate:hydrate,compile:compile};
+})();
+
+</script><style id="sf-cq-css">
+/* ===== StudyStarx Coach look ===== */
+#page-coach .pagehead{display:none!important}
+#page-coach .chatbox{display:flex;flex-direction:column;border-radius:24px;padding:0!important;overflow:hidden;background:var(--card,#fff)}
+#page-coach .chathead{display:flex;align-items:center;gap:12px;padding:14px 18px!important;margin:0!important;border-bottom:1px solid var(--line,#eceef6)!important;background:linear-gradient(135deg,#faf8ff,#f3f4ff)}
+#page-coach .chathead .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6)!important;box-shadow:0 8px 18px -8px rgba(99,102,241,.7)}
+#page-coach .chathead b{font-size:16px}
+.cq-on{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.18);margin-right:4px;vertical-align:1px}
+#clearChat{background:#fff!important;border:1px solid #e0e7ff!important;border-radius:999px!important;padding:7px 14px!important;font-weight:700;color:#4f46e5!important;text-decoration:none!important}
+/* messages */
+#page-coach #messages{padding:20px 20px 10px!important;background:linear-gradient(180deg,#fcfcff,#f7f7fd);display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+#page-coach #messages .bubble{max-width:none;margin:0;white-space:normal;border-radius:20px;font-size:15.5px;line-height:1.6}
+#page-coach #messages .bubble small{display:none}
+.cq-u{align-self:flex-end;max-width:78%!important;background:linear-gradient(135deg,#6366f1,#7c3aed)!important;color:#fff!important;border:0!important;padding:12px 16px!important;border-bottom-right-radius:6px!important;white-space:pre-wrap!important;box-shadow:0 10px 20px -14px rgba(99,102,241,.9)}
+.cq-row{display:flex;align-items:flex-start;gap:10px;max-width:100%}
+.cq-av{flex:0 0 34px;height:34px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-size:16px;box-shadow:0 6px 14px -8px rgba(99,102,241,.8);margin-top:2px}
+.cq-c{flex:1;min-width:0;max-width:760px;background:#fff!important;border:1px solid #eceef6!important;padding:14px 18px 10px!important;border-top-left-radius:6px!important;box-shadow:0 10px 26px -22px rgba(15,23,42,.45);color:var(--ink,#0f172a)}
+.cq-body>*{margin:0 0 10px}
+.cq-body>:last-child{margin-bottom:6px}
+.cq-body p{margin:0 0 10px}
+.cq-h{font-size:16.5px;font-weight:800;color:#312e81;margin:14px 0 6px!important;display:flex;align-items:center;gap:8px}
+.cq-h::before{content:'';width:6px;height:18px;border-radius:3px;background:linear-gradient(180deg,#8b5cf6,#6366f1);flex:0 0 6px}
+.cq-body>.cq-h:first-child{margin-top:2px!important}
+.cq-body b{color:#1e1b4b;font-weight:700;background:linear-gradient(transparent 62%,#ede9fe 62%);padding:0 2px;border-radius:2px}
+.cq-body code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:1px 6px;font-size:.92em}
+.cq-ul{padding-left:4px;list-style:none}
+.cq-ul li{position:relative;padding-left:22px;margin:5px 0}
+.cq-ul li::before{content:'✦';position:absolute;left:2px;top:0;color:#8b5cf6;font-size:12px;line-height:1.9}
+.cq-ol{list-style:none;padding-left:0;counter-reset:cq}
+.cq-ol li{position:relative;padding:8px 12px 8px 46px;margin:6px 0;background:#f8f7ff;border-radius:12px;counter-increment:cq}
+.cq-ol[start] li{counter-increment:cq}
+.cq-ol li::before{content:counter(cq);position:absolute;left:10px;top:8px;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;line-height:1}
+.cq-tw{overflow-x:auto;border-radius:14px;border:1px solid #e5e7f2}
+.cq-table{width:100%;border-collapse:collapse;font-size:14.5px}
+.cq-table th{background:#eef0ff;color:#312e81;text-align:left;padding:9px 12px;font-weight:800}
+.cq-table td{padding:9px 12px;border-top:1px solid #eef0f6}
+.cq-table tr:nth-child(even) td{background:#fafaff}
+.cq-code{background:#0f172a;color:#e2e8f0;border-radius:12px;padding:12px 14px;overflow-x:auto;font-size:13.5px;line-height:1.5;white-space:pre}
+.cq-note{border-left:4px solid #8b5cf6;background:#f5f3ff;padding:10px 14px;border-radius:10px}
+.cq-try,.cq-key{border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.cq-try{background:linear-gradient(135deg,#fff7ed,#fffbeb);border:1px solid #fde68a}
+.cq-try span{font-weight:800;color:#b45309;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.cq-key{background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1px solid #bbf7d0}
+.cq-key span{font-weight:800;color:#15803d;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.cq-trust{font-size:12.5px;color:#64748b;background:#f8fafc;border-radius:10px;padding:6px 10px;display:inline-block}
+.cq-hr{border:0;height:1px;background:#eceef6;margin:12px 0}
+.cq-fig{margin:6px 0 10px;border:1px solid #e5e7f2;border-radius:14px;padding:10px;background:#fff;text-align:center}
+.cq-fig img{max-width:100%;height:auto}
+.cq-fig figcaption{font-size:12px;color:#64748b;margin-top:6px}
+/* actions under each answer */
+.cq-acts{display:inline-flex;gap:6px;flex-wrap:wrap;margin:4px 6px 2px 0;vertical-align:middle}
+.cq-act,.cq-c .sf-save{border:1px solid #e5e7f2!important;background:#fff!important;color:#475569!important;border-radius:999px!important;padding:5px 11px!important;font-size:12.5px!important;font-weight:600!important;cursor:pointer;display:inline-flex!important;align-items:center;gap:4px;margin:4px 0 2px!important;box-shadow:none!important;vertical-align:middle}
+.cq-act:hover,.cq-c .sf-save:hover{border-color:#c7d2fe!important;color:#4f46e5!important}
+/* thinking dots */
+.cq-dots{display:inline-flex!important;flex:0 0 auto!important;align-items:center;gap:5px;padding:12px 16px!important}
+.cq-dots i{width:7px;height:7px;border-radius:50%;background:#8b5cf6;animation:cqb 1s infinite ease-in-out}
+.cq-dots i:nth-child(2){animation-delay:.15s}.cq-dots i:nth-child(3){animation-delay:.3s}
+.cq-dots span{font-size:13px;color:#64748b;margin-left:6px}
+@keyframes cqb{0%,80%,100%{transform:scale(.6);opacity:.5}40%{transform:scale(1);opacity:1}}
+/* welcome */
+#messages.cq-empty{justify-content:center}
+.cq-welcome{text-align:center;max-width:620px;margin:0 auto;padding:10px 4px}
+.cq-wav{width:64px;height:64px;margin:0 auto 12px;border-radius:20px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;font-size:30px;display:grid;place-items:center;box-shadow:0 16px 30px -14px rgba(124,58,237,.8);animation:cqf 3s ease-in-out infinite}
+@keyframes cqf{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){.cq-wav{animation:none}}
+.cq-welcome h2{font-size:22px;margin:0 0 6px}
+.cq-welcome p{color:#64748b;margin:0 0 18px;font-size:15px}
+.cq-ideas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;text-align:left}
+.cq-idea{display:flex;flex-direction:column;gap:3px;border:1px solid #e5e7f2;background:#fff;border-radius:16px;padding:12px 14px;cursor:pointer;font:inherit;color:inherit;transition:border-color .15s,transform .15s}
+.cq-idea:hover{border-color:#a5b4fc;transform:translateY(-1px)}
+.cq-idea span{font-size:20px}
+.cq-idea b{font-size:14.5px}
+.cq-idea small{font-size:12.5px;color:#64748b;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* typing bar */
+#page-coach #chatForm{display:flex!important;align-items:flex-end;gap:8px;margin:0!important;padding:10px 12px!important;border-top:1px solid var(--line,#eceef6);background:var(--card,#fff)}
+#page-coach #chatText{flex:1;min-width:0;resize:none!important;min-height:44px!important;max-height:160px;border-radius:22px!important;padding:11px 16px!important;border:1px solid #e0e3ef!important;background:#f7f7fc!important;font-size:15.5px;line-height:1.4;box-shadow:none!important}
+#page-coach #chatText:focus{border-color:#a5b4fc!important;background:#fff!important;outline:none;box-shadow:0 0 0 3px rgba(165,180,252,.35)!important}
+#page-coach #chatForm .cq-send{flex:0 0 44px;width:44px;height:44px;min-width:44px;padding:0!important;border-radius:50%!important;font-size:0!important;background:linear-gradient(135deg,#6366f1,#7c3aed)!important;position:relative;border:0!important}
+#page-coach #chatForm .cq-send::before{content:'';position:absolute;inset:0;background:no-repeat center/20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 19V5M5 12l7-7 7 7'/%3E%3C/svg%3E")}
+#page-coach #chatForm .cq-mic{flex:0 0 44px;width:44px;height:44px;min-width:44px;padding:0!important;border-radius:50%!important;font-size:0!important;background:#f1f0fb!important;border:1px solid #e0e3ef!important;position:relative;margin:0!important}
+#page-coach #chatForm .cq-mic::before{content:'';position:absolute;inset:0;background:no-repeat center/20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='3' width='6' height='11' rx='3'/%3E%3Cpath d='M5 11a7 7 0 0 0 14 0M12 18v3'/%3E%3C/svg%3E")}
+#page-coach #chatForm .cq-mic.on{background:#fee2e2!important;border-color:#fca5a5!important;animation:cqp 1.2s infinite}
+@keyframes cqp{0%{box-shadow:0 0 0 0 rgba(239,68,68,.45)}100%{box-shadow:0 0 0 12px rgba(239,68,68,0)}}
+#page-coach .speak-row{display:none!important}
+#page-coach #coachVoiceStatus{display:none!important}
+#page-coach #chatForm>button:not(.cq-send):not(.cq-mic){flex:0 0 44px;width:44px;height:44px;min-width:44px;border-radius:50%!important;padding:0!important}
+/* side panel: the old "AI teacher" drawing is gone; settings stay */
+#page-coach .coach-live-card{display:none!important}
+@media (min-width:1001px){
+ #page-coach .chatlayout{grid-template-columns:minmax(0,1fr) 290px!important}
+ #page-coach .chatlayout>.chatbox{height:calc(100vh - 128px);min-height:520px}
+ #page-coach .chatlayout>.sf-cset{grid-row:1 / span 2!important;border-radius:22px}
+ #page-coach #messages{flex:1 1 auto;min-height:0;overflow-y:auto}
+}
+/* phone: the chat fills the screen like a messaging app */
+@media (max-width:1000px){
+ #page-coach .chatlayout>.chatbox{padding:0!important;border-radius:20px;height:calc(100dvh - 250px);min-height:420px}
+ #page-coach #messages{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px 12px 8px!important}
+ .cq-c{padding:12px 14px 8px!important}
+ .cq-u{max-width:86%!important}
+ .cq-av{flex-basis:28px;height:28px;font-size:13px;border-radius:10px}
+ .cq-ideas{grid-template-columns:1fr 1fr;gap:8px}
+ .cq-idea{padding:10px 12px}
+ .cq-idea small{display:none}
+ .cq-welcome h2{font-size:19px}
+ .cq-welcome p{font-size:14px;margin-bottom:14px}
+ #page-coach .chathead{padding:10px 12px!important}
+ #page-coach #chatForm{padding:8px!important;gap:6px}
+}
+/* dark theme */
+[data-theme="dark"] #page-coach #messages{background:transparent}[data-theme="dark"] .cq-c{background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.08)!important}[data-theme="dark"] .cq-body b{color:inherit;background:linear-gradient(transparent 62%,rgba(139,92,246,.35) 62%)}[data-theme="dark"] .cq-h{color:#c7d2fe}[data-theme="dark"] .cq-ol li{background:rgba(255,255,255,.05)}[data-theme="dark"] .cq-idea,[data-theme="dark"] .cq-act{background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.1)!important;color:inherit!important}[data-theme="dark"] #page-coach .chathead{background:transparent}
+.cq-tw{display:block;width:100%}
+.cq-table{min-width:100%;table-layout:auto}
+#page-coach #chatText::placeholder{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cq-body .cx-file b{background:none;padding:0}
+.cq-body .cx-fm{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.cq-body .cx-fm small{display:block!important;font-size:12px;color:#64748b}
+.cq-act.on{border-color:#a5b4fc!important;color:#4f46e5!important;background:#eef2ff!important}
+.sx-vfield{margin-top:12px}
+.sx-vrow{display:flex;gap:8px}
+.sx-vrow select{flex:1;min-width:0}
+.sx-vtry{flex:0 0 auto;border:1px solid #c7d2fe;background:#eef2ff;color:#4f46e5;border-radius:12px;padding:0 14px;font-weight:700;cursor:pointer}
+
+</style><script id="sf-cq-js">
+/* StudyStarx Coach look: nicely formatted answers, friendly start screen, tidy actions, chat-app typing bar. */
+(function(){
+'use strict';
+function $(s,r){return (r||document).querySelector(s)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function D(){try{return data}catch(e){return{}}}
+function P(){return D().profile||{}}
+var clean=function(x){try{return window.sfClean?sfClean(x):x}catch(e){return x}};
+var B1='\u0001',B2='\u0002',I1='\u0003',I2='\u0004',C1='\u0005',C2='\u0006';
+function inl(x){x=String(x).replace(/\*\*([^*\n]+)\*\*/g,B1+'$1'+B2).replace(/__([^_\n]+)__/g,B1+'$1'+B2).replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,;:!?]|$)/g,'$1'+I1+'$2'+I2).replace(/`([^`\n]+)`/g,C1+'$1'+C2);
+ var c=esc(clean(x));return c.split(B1).join('<b>').split(B2).join('</b>').split(I1).join('<i>').split(I2).join('</i>').split(C1).join('<code>').split(C2).join('</code>')}
+function figure(svg){var s=String(svg||'').trim();if(!/^<svg[\s>]/i.test(s))return'';return'<figure class="cx-fig cq-fig"><img alt="Diagram" src="data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)+'"><figcaption>Diagram by StudyStarx Coach</figcaption></figure>'}
+function fileCard(name,body){name=(name||'notes.md').trim().replace(/[^\w.\- ]/g,'').slice(0,60)||'notes.md';if(!/\.(md|txt|csv)$/i.test(name))name+='.md';body=String(body||'').replace(/\s+$/,'');
+ return'<div class="cx-file" data-name="'+esc(name)+'" data-body="'+esc(body)+'"><div class="cx-fi">'+(/csv$/i.test(name)?'📊':'📄')+'</div><div class="cx-fm"><b>'+esc(name)+'</b><small>'+body.split('\n').length+' lines · made by StudyStarx Coach</small></div><button type="button" class="cx-dl" data-kind="file">⬇ Download</button></div>'}
+function rich(t){t=String(t||'').replace(/\r/g,'');
+ var blocks=[];
+ t=t.replace(/```(svg|plot|chart|graph|circuit|flow|mermaid|file:([^\n`]*))[^\n]*\n?([\s\S]*?)```/g,function(m,k,n,b){var D=window.sxDiagram;blocks.push(k==='svg'?(D?D.svg(b):figure(b)):k==='circuit'?(D?D.circuit(b):''):/^(plot|chart|graph)$/.test(k)?(D?D.plot(b):''):/^(flow|mermaid)$/.test(k)?(D?D.flow(b):''):fileCard(n,b));return'\n@@B'+(blocks.length-1)+'@@\n'});
+ t=t.replace(/```[a-zA-Z0-9+#-]*[ \t]*\n?([\s\S]*?)```/g,function(m,c){blocks.push('<pre class="cq-code">'+esc(c.replace(/\n+$/,''))+'</pre>');return'\n@@B'+(blocks.length-1)+'@@\n'});
+ t=t.replace(/<br\s*\/?>/gi,'\n').replace(/<\/?(p|div)[^>]*>/gi,'\n').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+ var lines=t.split('\n'),out=[],i=0,list=null,m;
+ function close(){if(list){out.push('</'+list+'>');list=null}}
+ while(i<lines.length){var L=lines[i];
+  if((m=L.match(/^\s*@@B(\d+)@@\s*$/))){close();out.push(blocks[+m[1]]||'');i++;continue}
+  if(/^\s*\|.*\|\s*$/.test(L)){close();var rows=[];while(i<lines.length&&/^\s*\|.*\|\s*$/.test(lines[i])){rows.push(lines[i].trim().replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim()}));i++}
+   rows=rows.filter(function(r){return!r.every(function(c){return/^:?-{2,}:?$/.test(c)||c===''})});
+   if(rows.length)out.push('<div class="cq-tw"><table class="cq-table"><thead><tr>'+rows[0].map(function(c){return'<th>'+inl(c)+'</th>'}).join('')+'</tr></thead><tbody>'+rows.slice(1).map(function(r){return'<tr>'+r.map(function(c){return'<td>'+inl(c)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table></div>');continue}
+  if((m=L.match(/^\s*#{1,6}\s+(.+)$/))){close();out.push('<h4 class="cq-h">'+inl(m[1].replace(/\*\*/g,''))+'</h4>');i++;continue}
+  if(/^\s*([-*_]\s*){3,}$/.test(L)){close();out.push('<hr class="cq-hr">');i++;continue}
+  if((m=L.match(/^\s*(?:[-*•])\s+(.+)$/))){if(list!=='ul'){close();out.push('<ul class="cq-ul">');list='ul'}out.push('<li>'+inl(m[1])+'</li>');i++;continue}
+  if((m=L.match(/^\s*(\d{1,2})[.)]\s+(.+)$/))){if(list!=='ol'){close();out.push('<ol class="cq-ol" start="'+m[1]+'">');list='ol'}out.push('<li>'+inl(m[2])+'</li>');i++;continue}
+  close();
+  if(!L.trim()){i++;continue}
+  if((m=L.match(/^\s*>\s?(.*)$/))){out.push('<div class="cq-note">'+inl(m[1])+'</div>');i++;continue}
+  if(/^\s*(Confidence:|✔|✓ Checked|⚠|Not fully verified|Checked:)/i.test(L)){out.push('<div class="cq-trust">'+inl(L.trim())+'</div>');i++;continue}
+  if((m=L.match(/^\s*\**(Try this|Your turn|Quick check|Practice question|Challenge|Now you try)\**\s*[:：]\**\s*(.*)$/i))){out.push('<div class="cq-try"><span>✏️ '+esc(m[1])+'</span>'+inl(m[2])+'</div>');i++;continue}
+  if((m=L.match(/^\s*\**(Final answer|Answer|Key idea|Remember|Tip|Summary)\**\s*[:：]\**\s*(.*)$/i))){var ic={'final answer':'✅','answer':'✅','key idea':'💡','remember':'📌','tip':'💡','summary':'🧾'}[m[1].toLowerCase()]||'💡';out.push('<div class="cq-key"><span>'+ic+' '+esc(m[1])+'</span>'+inl(m[2])+'</div>');i++;continue}
+  out.push('<p>'+inl(L)+'</p>');i++}
+ close();return out.join('')}
+window.sfRich=rich;
+
+var AV='<span class="cq-av" aria-hidden="true">✦</span>';
+function subjects(){var s=P().subjects;return Array.isArray(s)&&s.length?s:['your subjects']}
+function welcome(){var n=String(P().name||'').trim().split(/\s+/)[0],sb=subjects(),a=sb[0],b=sb[1]||sb[0];
+ var ideas=[['💡','Explain simply','Explain the hardest topic in '+a+' in simple steps with an example'],['🎯','Quiz me','Give me 5 quick questions on '+b+', one at a time, and check my answers'],['🧮','Solve step by step','Solve this step by step and explain each step: '],['✍️','Check my answer','Check my answer, give a mark out of 10 and show how to improve it: ']];
+ return'<div class="cq-welcome"><div class="cq-wav">✦</div><h2>Hi'+(n?' '+esc(n):'')+'! I’m your StudyStarx coach</h2><p>Ask me anything about '+esc(sb.slice(0,3).join(', '))+'. I explain step by step, check your answers and make practice questions.</p><div class="cq-ideas">'+ideas.map(function(x){return'<button type="button" class="cq-idea" data-cqq="'+esc(x[2])+'"><span>'+x[0]+'</span><b>'+esc(x[1])+'</b><small>'+esc(x[2].replace(/: $/,'…'))+'</small></button>'}).join('')+'</div></div>'}
+function renderChat(){var el=$('#messages');if(!el)return;var c=D().chat||[];
+ if(!c.length){el.innerHTML=welcome();el.classList.add('cq-empty');return}
+ el.classList.remove('cq-empty');
+ el.innerHTML=c.map(function(m,ix){if(m.role==='user')return'<div class="bubble user cq-u"><small>YOU</small>'+esc(m.content)+'</div>';
+  return'<div class="cq-row">'+AV+'<div class="bubble cq-c" data-cx="1" data-ix="'+ix+'"><small>STUDYSTARX COACH</small><div class="cq-body">'+rich(m.content)+'</div><div class="cq-acts"><button type="button" class="cq-act" data-cqcopy="'+ix+'">📋 Copy</button><button type="button" class="cq-act" data-cqsay="'+ix+'">🔊 Read aloud</button></div></div></div>'}).join('');
+ el.scrollTop=el.scrollHeight;try{window.sxDiagram&&sxDiagram.hydrate(el)}catch(e){}}
+window.renderChat=renderChat;try{renderChat()}catch(e){}
+
+function thinking(on){var el=$('#messages');if(!el)return;var t=$('#cqTyping');if(on&&!t){el.insertAdjacentHTML('beforeend','<div class="cq-row" id="cqTyping">'+AV+'<div class="bubble cq-c cq-dots" data-cx="1"><i></i><i></i><i></i><span>Thinking…</span></div></div>');el.scrollTop=el.scrollHeight}else if(!on&&t)t.remove()}
+function watchBadge(){var b=$('#coachLiveBadge');if(!b||b.dataset.cq)return;b.dataset.cq=1;new MutationObserver(function(){thinking(/THINK/i.test(b.textContent))}).observe(b,{childList:true,characterData:true,subtree:true})}
+function watchCaption(){var c=$('#coach3dCaption');if(!c||c.dataset.cq)return;c.dataset.cq=1;var fix=function(){var t=c.textContent;if(/[#*|`]/.test(t)){var n=clean(t).replace(/\s+/g,' ').trim();if(n!==t)c.textContent=n.length>115?n.slice(0,112)+'…':n}};new MutationObserver(fix).observe(c,{childList:true,characterData:true,subtree:true});fix()}
+function composer(){var f=$('#chatForm'),t=$('#chatText');if(!f||!t||f.dataset.cq)return;f.dataset.cq=1;t.rows=1;t.placeholder=innerWidth<520?'Ask anything…':'Ask your coach anything…';
+ var send=f.querySelector('button.btn:not(#coachVoiceAsk)');
+ var mic=$('#coachVoiceAsk');if(mic&&send){mic.classList.add('cq-mic');mic.setAttribute('aria-label','Talk to your coach');mic.title='Talk to your coach';f.insertBefore(mic,send);new MutationObserver(function(){mic.classList.toggle('on',/stop/i.test(mic.textContent))}).observe(mic,{childList:true,characterData:true,subtree:true})}
+ if(send){send.classList.add('cq-send');send.setAttribute('aria-label','Send')}
+ function grow(){t.style.height='auto';t.style.height=Math.min(160,Math.max(44,t.scrollHeight))+'px'}t.addEventListener('input',grow);
+ t.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){e.preventDefault();if(t.value.trim()){if(f.requestSubmit)f.requestSubmit();else f.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))}}});
+ f.addEventListener('submit',function(){setTimeout(grow,0)})}
+function header(){var h=$('#page-coach .chathead');if(!h||h.dataset.cq)return;h.dataset.cq=1;var st=h.querySelector('.tiny.muted');if(st)st.innerHTML='<span class="cq-on"></span> Online · knows your syllabus';var cl=$('#clearChat');if(cl)cl.textContent='＋ New chat'}
+function ask(q){var t=$('#chatText'),f=$('#chatForm');if(!t||!f)return;t.value=q;t.dispatchEvent(new Event('input',{bubbles:true}));if(/[:：] ?$/.test(q)){t.focus();try{t.setSelectionRange(q.length,q.length)}catch(e){}return}if(f.requestSubmit)f.requestSubmit();else f.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-cqq]');if(b){e.preventDefault();ask(b.dataset.cqq);return}
+ var c=e.target.closest('[data-cqcopy]');if(c){var m=(D().chat||[])[+c.dataset.cqcopy];if(m){var txt=clean(m.content);(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){c.textContent='✓ Copied';setTimeout(function(){c.textContent='📋 Copy'},1500)}).catch(function(){})}return}
+ var s=e.target.closest('[data-cqsay]');if(s){var mm=(D().chat||[])[+s.dataset.cqsay];if(!mm)return;if(VO.btn===s){stopVoice();return}stopVoice();speak(clean(mm.content),s);return}});
+// ---------- Read aloud with a natural AI voice ----------
+var VOICES=[['warm','Warm teacher'],['friendly','Friendly'],['calm','Calm & gentle'],['clear','Clear'],['bright','Bright'],['deep','Deep']];
+function vpref(){try{return localStorage.getItem('sx-voice')||'warm'}catch(e){return'warm'}}
+var VO={btn:null,audio:null,cancel:false,cache:{}};
+function chunks(t){t=t.replace(/[•─✦]/g,' ').replace(/\s*\n+\s*/g,'. ').replace(/\.\s*\./g,'.').replace(/\s{2,}/g,' ').trim();var parts=t.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g)||[t],out=[],cur='';parts.forEach(function(p){p=p.trim();if(!p)return;if((cur+' '+p).length>(out.length?600:260)&&cur){out.push(cur);cur=p}else cur=cur?cur+' '+p:p});if(cur)out.push(cur);return out.slice(0,12)}
+function label(b,t){if(b)b.textContent=t}
+function stopVoice(){VO.cancel=true;VO.gen=(VO.gen||0)+1;try{if(VO.audio){var oa=VO.audio;oa.onended=oa.onerror=null;oa.pause();oa.removeAttribute('src')}}catch(e){}VO.audio=null;try{speechSynthesis.cancel()}catch(e){}label(VO.btn,'🔊 Read aloud');if(VO.btn)VO.btn.classList.remove('on');VO.btn=null}
+function fetchPart(text,voice){var k=voice+'|'+text;if(VO.cache[k])return VO.cache[k];var h={'Content-Type':'application/json'};try{var tk=localStorage.getItem('sf-session');if(tk)h.Authorization='Bearer '+tk}catch(e){}
+ VO.cache[k]=fetch('/api/tts',{method:'POST',headers:h,body:JSON.stringify({text:text,voice:voice})}).then(function(r){if(!r.ok||!/audio/.test(r.headers.get('content-type')||''))return r.json().catch(function(){return{}}).then(function(j){delete VO.cache[k];var e=new Error(j.error||'voice failed');e.limit=!!j.limit;throw e});return r.blob()}).then(function(b){return URL.createObjectURL(b)});return VO.cache[k]}
+function speak(text,btn){VO.cancel=false;VO.gen=(VO.gen||0)+1;var g=VO.gen;VO.btn=btn;btn.classList.add('on');label(btn,'⏳ Getting voice…');var list=chunks(text),voice=vpref(),i=0;
+ function dead(){return VO.cancel||VO.gen!==g||VO.btn!==btn}
+ function next(){if(dead())return;if(i>=list.length){stopVoice();return}var cur=fetchPart(list[i],voice);if(i+1<list.length)fetchPart(list[i+1],voice).catch(function(){});
+  cur.then(function(url){if(dead())return;var a=new Audio(url);VO.audio=a;a.onended=function(){i++;next()};a.onerror=function(){if(!dead())fallback(list.slice(i),btn)};label(btn,'⏹ Stop');return a.play()}).catch(function(e){if(dead())return;fallback(list.slice(i),btn,e&&e.limit)})}
+ next()}
+// the phone/computer's best built-in voice, used only if the AI voice can't be reached
+function bestVoice(){var vs=[];try{vs=speechSynthesis.getVoices()||[]}catch(e){}if(!vs.length)return null;function sc(v){var n=v.name+' '+v.voiceURI,l=(v.lang||'').toLowerCase(),s=0;if(/natural|neural|online|premium|enhanced|wavenet|studio/i.test(n))s+=50;if(/google/i.test(n))s+=25;if(/siri|samantha|karen|daniel|moira|veena|rishi/i.test(n))s+=15;if(l==='en-in')s+=12;else if(l==='en-gb')s+=8;else if(/^en/.test(l))s+=5;else s-=100;if(/compact|espeak|robot/i.test(n))s-=40;return s}return vs.slice().sort(function(a,b){return sc(b)-sc(a)})[0]}
+function fallback(list,btn,limited){if(!window.speechSynthesis||!list.length){stopVoice();return}if(limited&&!VO.told){VO.told=1;try{toast('Today’s AI voice is used up — your phone’s voice is reading instead.')}catch(e){}}
+ var v=bestVoice(),j=0;label(btn,'⏹ Stop');(function one(){if(VO.cancel||VO.btn!==btn)return;if(j>=list.length){stopVoice();return}var u=new SpeechSynthesisUtterance(list[j++]);if(v){u.voice=v;u.lang=v.lang}else u.lang='en-IN';u.rate=.96;u.pitch=1.02;u.onend=one;u.onerror=one;speechSynthesis.speak(u)})()}
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=function(){}}catch(e){}
+// voice picker in the coach settings
+function picker(){var box=$('#page-coach .sf-cset');if(!box||$('#sxVoicePick'))return;var f=document.createElement('div');f.className='field sx-vfield';f.innerHTML='<label for="sxVoicePick">Read-aloud voice</label><div class="sx-vrow"><select id="sxVoicePick">'+VOICES.map(function(v){return'<option value="'+v[0]+'"'+(v[0]===vpref()?' selected':'')+'>'+v[1]+'</option>'}).join('')+'</select><button type="button" class="sx-vtry" id="sxVoiceTry">▶ Try</button></div>';var after=box.querySelector('.sf-hintset')||box.lastElementChild;box.insertBefore(f,after?after.nextSibling:null);
+ $('#sxVoicePick').onchange=function(){try{localStorage.setItem('sx-voice',this.value)}catch(e){}};
+ $('#sxVoiceTry').onclick=function(){var b=this;if(VO.btn===b){stopVoice();b.textContent='▶ Try';return}stopVoice();speak('Hi! I am your StudyStarx coach. Let us learn this together, one step at a time.',b);var w=setInterval(function(){if(VO.btn!==b){b.textContent='▶ Try';clearInterval(w)}},400)}}
+function boot(){composer();header();watchBadge();watchCaption();picker()}
+setInterval(boot,1500);setTimeout(boot,200);
+})();
+
+</script><style id="sf-fz-css">
+/* Focus Lock — phone app screen */
+body.fz-app #page-focuslock>:not(#fzRoot){display:none!important}
+#fzRoot{max-width:560px;margin:0 auto;padding-bottom:24px;font-family:Inter,system-ui,sans-serif;color:var(--ink,#1f2937)}
+.fz-hero{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#312e81,#6d28d9 60%,#a21caf);color:#fff;border-radius:22px;padding:20px 20px;margin-bottom:14px;box-shadow:0 12px 30px rgba(76,29,149,.25)}
+.fz-ht{flex:1}.fz-hero h1{margin:0;font-size:24px;letter-spacing:-.01em;color:#fff}.fz-hero p{margin:4px 0 0;opacity:.85;font-size:14px}.fz-hi{font-size:40px}
+.fz-card{background:var(--card,#fff);border:1px solid var(--line,#e7e8ef);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.fz-sh{display:flex;justify-content:space-between;align-items:baseline}.fz-sh b{font-size:17px}.fz-sh span{font-size:12.5px;color:var(--muted,#6b7280);font-weight:600}
+.fz-prog{height:6px;background:#eef0f6;border-radius:99px;margin:10px 0 6px;overflow:hidden}.fz-prog i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:99px;transition:width .4s}
+.fz-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line,#eef0f4)}.fz-step:first-of-type{border-top:0}
+.fz-si{flex:0 0 40px;height:40px;border-radius:12px;background:#eef2ff;display:grid;place-items:center;font-size:20px}
+.fz-step.ok .fz-si{background:#dcfce7;color:#15803d;font-weight:800}
+.fz-step>div{flex:1;min-width:0}.fz-step b{display:block;font-size:14.5px}.fz-step b em{font-style:normal;font-size:10.5px;font-weight:700;color:#0369a1;background:#e0f2fe;border-radius:99px;padding:1px 7px;margin-left:4px;vertical-align:1px}.fz-step small{display:block;color:var(--muted,#6b7280);font-size:12.5px;line-height:1.4;margin-top:2px}
+.fz-allow{flex:none;border:0;border-radius:12px;padding:10px 16px;font:700 14px Inter,system-ui,sans-serif;background:#4f46e5;color:#fff;cursor:pointer}
+.fz-done{flex:none;font-size:12.5px;font-weight:700;color:#15803d}
+.fz-mini .fz-step{padding:8px 0}.fz-fine{font-size:12.5px;color:var(--muted,#6b7280);margin:10px 0 0;text-align:center}
+.fz-shake{animation:fzS .5s}@keyframes fzS{0%,100%{transform:none}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.fz-lbl{display:flex;justify-content:space-between;font-weight:700;font-size:15px;margin:4px 0 10px}.fz-lbl span{font-size:12.5px;color:var(--muted,#6b7280)}
+.fz-lbl:not(:first-child){margin-top:18px}
+.fz-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fz-app{position:relative;display:grid;justify-items:center;gap:4px;padding:10px 2px 8px;border:1.5px solid var(--line,#e7e8ef);border-radius:16px;background:var(--card,#fff);cursor:pointer;color:inherit;font:inherit}
+.fz-ai{font-size:24px;line-height:1.1}.fz-an{font-size:11.5px;font-weight:600;line-height:1.2;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.fz-app.on{border-color:#6d28d9;background:#f5f3ff;box-shadow:0 0 0 3px rgba(109,40,217,.12)}
+.fz-ck{position:absolute;top:4px;right:5px;width:17px;height:17px;border-radius:50%;background:#6d28d9;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center}
+.fz-more-apps{display:block;width:100%;margin-top:10px;border:1.5px dashed #c4b5fd;background:transparent;border-radius:14px;padding:11px;font:600 13.5px Inter,system-ui,sans-serif;color:#5b21b6;cursor:pointer}
+.fz-durs{display:flex;flex-wrap:wrap;gap:8px}.fz-dur{flex:1 0 auto;min-width:64px;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);border-radius:999px;padding:10px 12px;font:600 13.5px Inter,system-ui,sans-serif;color:inherit;cursor:pointer}
+.fz-dur.on{background:#6d28d9;border-color:#6d28d9;color:#fff}
+.fz-sw{display:flex;align-items:center;gap:12px;margin-top:16px;cursor:pointer}.fz-sw>span{flex:1}.fz-sw b{display:block;font-size:14.5px}.fz-sw small{color:var(--muted,#6b7280);font-size:12.5px}
+.fz-sw input{position:absolute;opacity:0;pointer-events:none}.fz-sw i{flex:none;width:46px;height:28px;border-radius:99px;background:#d1d5db;position:relative;transition:background .2s}
+.fz-sw i:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.fz-sw input:checked+i{background:#6d28d9}.fz-sw input:checked+i:after{transform:translateX(18px)}
+.fz-pl{font-style:normal;font-size:10px;font-weight:800;color:#b45309;background:#fef3c7;border-radius:99px;padding:1px 6px;margin-left:4px}
+.fz-opt{margin-top:14px;border-top:1px solid var(--line,#eef0f4);padding-top:10px}.fz-opt summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--muted,#6b7280);list-style:none}.fz-opt summary:before{content:"▸ "}.fz-opt[open] summary:before{content:"▾ "}.fz-opt summary::-webkit-details-marker{display:none}
+.fz-start{display:block;width:100%;margin-top:18px;border:0;border-radius:16px;padding:16px;font:700 16.5px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 10px 24px rgba(79,70,229,.3);cursor:pointer}
+.fz-start.off{background:#c7c9d9;box-shadow:none}
+.fz-upd{background:#fff7ed;border-color:#fed7aa}.fz-upd p{margin:6px 0 12px;font-size:13.5px;color:#7c2d12}
+.fz-btn{display:inline-block;background:#ea580c;color:#fff;border-radius:12px;padding:10px 16px;font-weight:700;text-decoration:none}
+.fz-run{text-align:center;background:linear-gradient(180deg,#1e1b4b,#312e81);color:#fff;border-radius:24px;padding:26px 18px 22px;box-shadow:0 14px 34px rgba(30,27,75,.35)}
+.fz-ring{position:relative;width:220px;height:220px;margin:0 auto}.fz-ring svg{width:100%;height:100%;transform:rotate(-90deg)}.fz-ring circle{fill:none;stroke-width:12}.fz-ring .bg{stroke:rgba(255,255,255,.12)}.fz-ring .fg{stroke:#a78bfa;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.fz-rt{position:absolute;inset:0;display:grid;place-content:center}.fz-rt b{font-size:44px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}.fz-rt span{font-size:13px;opacity:.75}
+.fz-run h2{margin:16px 0 4px;color:#fff;font-size:21px}.fz-run p{margin:0 0 10px;opacity:.8;font-size:14px}
+.fz-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.fz-tags span{background:rgba(255,255,255,.12);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:600}
+.fz-stop{margin-top:18px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:14px;padding:11px 22px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
+.fz-strict{margin-top:16px!important;font-size:13px!important}
+@media(max-width:360px){.fz-apps{grid-template-columns:repeat(3,1fr)}}
+/* Focus Lock — browser page tidy-up */
+body.fz-web #page-focuslock .pagehead .pl-chips{display:none}
+.fz-wmore{margin-top:8px}.fz-wmore summary,.fz-wsched summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--muted,#6b7280);padding:6px 2px;list-style:none}.fz-wmore summary::-webkit-details-marker,.fz-wsched summary::-webkit-details-marker{display:none}
+.fz-wmore summary:before,.fz-wsched summary:before{content:"▸ "}.fz-wmore[open] summary:before,.fz-wsched[open] summary:before{content:"▾ "}
+.fz-wmore .fl-opt{margin-top:8px}
+.fz-wsched{padding:14px 18px}.fz-wsched summary{color:var(--ink,#1f2937);font-size:15px}.fz-wsched summary span{display:block;font-weight:400;font-size:12.5px;color:var(--muted,#6b7280);margin:2px 0 0 14px}
+.fz-wsched .pp-sched{box-shadow:none;border:0;padding:8px 0 0;margin:0}
+
+.fz-warn{background:#fef2f2;border:1.5px solid #fca5a5;color:#7f1d1d;border-radius:18px;padding:14px 16px;margin-bottom:12px}.fz-warn p{margin:6px 0 10px;font-size:13.5px}.fz-warn .fz-allow{margin:0 6px 6px 0}
+.fz-okb{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-weight:600;font-size:14px;text-align:center}
+
+</style><script id="sf-fz-js">
+/* StudyStarx Focus Lock — clean phone screen (Regain-style): set up once, tap apps, pick a time, start.
+   In the browser it only tidies the page (extra options folded away). */
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)};
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function N(){return window.SFNative||null}
+function J(f,d){try{var v=f();return v?JSON.parse(v):d}catch(e){return d}}
+function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
+function tst(m){try{toast(m)}catch(e){}}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+var APPS=[['youtube','YouTube','▶️',['youtube']],['instagram','Instagram','📸',['instagram']],['tiktok','TikTok','🎵',['tiktok']],['snapchat','Snapchat','👻',['snapchat']],['whatsapp','WhatsApp','💬',['whatsapp']],['facebook','Facebook','📘',['facebook','katana']],['x','X / Twitter','✖️',['twitter','x']],['reddit','Reddit','👽',['reddit']],['netflix','Netflix','🎬',['netflix']],['hotstar','Hotstar','⭐',['hotstar']],['prime','Prime Video','📺',['primevideo','avod']],['discord','Discord','🎮',['discord']],['telegram','Telegram','✈️',['telegram']],['pinterest','Pinterest','📌',['pinterest']],['spotify','Spotify','🎧',['spotify']],['threads','Threads','🧵',['threads','barcelona']],['bgmi','BGMI','🔫',['pubg','bgmi','imobile']],['freefire','Free Fire','🔥',['freefire','dts.freefire']],['codm','Call of Duty','🎯',['callofduty']],['roblox','Roblox','🧱',['roblox']],['minecraft','Minecraft','⛏️',['minecraft']],['clash','Clash of Clans','🏰',['clashofclans']],['mxplayer','MX Player','🎞️',['mxtech']],['chrome','Chrome','🌐',['com.android.chrome']]];
+var DURS=[25,45,60,90,120];
+var st={sel:null,mins:+(ls('fz-mins')||60),strict:false,guard:false,inst:null,popup:ls('fz-popup')==='1'};
+function sel(){if(!st.sel){var s=J(function(){return ls('fz-sel')},null);st.sel=new Set(Array.isArray(s)?s:['youtube','instagram'])}return st.sel}
+function saveSel(){ls('fz-sel',JSON.stringify(Array.from(sel())))}
+function perms(){var n=N();if(!n||!n.permState)return null;return J(function(){return n.permState()},null)}
+function info(){var n=N();if(!n||!n.lockInfo)return{until:0};return J(function(){return n.lockInfo()},{until:0})}
+function installed(){if(st.inst)return st.inst;var n=N();if(!n||!n.installed)return null;var q={};APPS.forEach(function(a){q[a[0]]=a[3]});st.inst=J(function(){return n.installed(JSON.stringify(q))},null);return st.inst}
+function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0')}
+function durLabel(m){return m<60?m+' min':m%60?Math.floor(m/60)+'h '+m%60+'m':m/60+(m===60?' hour':' hours')}
+
+/* ---------- phone screen ---------- */
+function root(){var pg=$('#page-focuslock');if(!pg)return null;var r=$('#fzRoot');if(!r){r=document.createElement('div');r.id='fzRoot';pg.insertBefore(r,pg.firstChild);r.addEventListener('click',onClick);document.body.classList.add('fz-app')}return r}
+function steps(p){var L=[['usage','📊','Allow usage access','Find StudyStarx in the list and switch it on. This lets StudyStarx notice when a blocked app opens.',p.usage],['overlay','🪟','Allow display over other apps','Switch it on, so the “Stay focused” screen can cover a blocked app.',p.overlay]];
+ if(p.xiaomi)L.push(['popup','📱','Allow pop-up windows','On Xiaomi / Redmi / POCO: tap “Other permissions”, then allow “Display pop-up windows while running in the background”.',st.popup]);
+ L.push(['battery','🔋','Keep blocking switched on','Choose “Allow” so the phone doesn’t stop StudyStarx in the background.',p.battery,1]);return L}
+function draw(){var r=root();if(!r)return;var n=N(),p=perms(),li=info(),now=Date.now();
+ if(li.until>now){drawRun(r,li,p);return}
+ var html='<div class="fz-hero"><div class="fz-ht"><h1>Focus Lock</h1><p>Block distracting apps while you study.</p></div><div class="fz-hi">🔒</div></div>';
+ if(!p||!(p.v>=6)){html+='<div class="fz-card fz-upd"><b>Update the StudyStarx app</b><p>The new version blocks apps much more reliably. Download it and install it over this one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';r.innerHTML=html+mainCard(false);return}
+ var S=steps(p),need=S.filter(function(x){return!x[5]}),done=need.filter(function(x){return x[4]}).length,ready=p.usage&&p.overlay&&(!p.xiaomi||st.popup);
+ if(!ready||!p.battery){html+='<div class="fz-card fz-setup'+(ready?' fz-mini':'')+'" id="fzSetup"><div class="fz-sh"><b>'+(ready?'One more tip':'Set up blocking')+'</b><span>'+(ready?'optional':done+' of '+need.length+' done')+'</span></div>'+(ready?'':'<div class="fz-prog"><i style="width:'+Math.round(done/need.length*100)+'%"></i></div>')+
+  S.filter(function(x){return!ready||!x[4]}).map(function(x,i){return'<div class="fz-step'+(x[4]?' ok':'')+'"><span class="fz-si">'+(x[4]?'✓':x[1])+'</span><div><b>'+esc(x[2])+(x[5]?' <em>recommended</em>':'')+'</b><small>'+esc(x[3])+'</small></div>'+(x[4]?'<span class="fz-done">Done</span>':'<button type="button" class="fz-allow" data-fz="perm" data-k="'+x[0]+'">Allow</button>')+'</div>'}).join('')+
+  (ready?'':'<p class="fz-fine">🔐 StudyStarx only sees which app is open — never what’s on your screen.</p>')+'</div>'}
+ r.innerHTML=html+mainCard(ready)}
+function mainCard(ready){var inst=installed(),s=sel(),li=info();
+ var list=APPS.filter(function(a){return!inst||inst[a[0]]||s.has(a[0])});var extra=li.chosen||0;
+ var durs=DURS.indexOf(st.mins)<0?DURS.concat([st.mins]).sort(function(a,b){return a-b}):DURS;
+ return'<div class="fz-card"><div class="fz-lbl">Block these apps <span>'+s.size+' selected</span></div><div class="fz-apps">'+list.map(function(a){var on=s.has(a[0]);return'<button type="button" class="fz-app'+(on?' on':'')+'" data-fz="app" data-k="'+a[0]+'" aria-pressed="'+on+'"><span class="fz-ai">'+a[2]+'</span><span class="fz-an">'+esc(a[1])+'</span>'+(on?'<span class="fz-ck">✓</span>':'')+'</button>'}).join('')+'</div>'+
+ '<button type="button" class="fz-more-apps" data-fz="pick">＋ Choose other apps on my phone'+(extra?' <b>('+extra+' chosen)</b>':'')+'</button>'+
+ '<div class="fz-lbl">For how long?</div><div class="fz-durs">'+durs.map(function(m){return'<button type="button" class="fz-dur'+(m===st.mins?' on':'')+'" data-fz="dur" data-m="'+m+'">'+durLabel(m)+'</button>'}).join('')+'<button type="button" class="fz-dur" data-fz="custom">Other</button></div>'+
+ '<label class="fz-sw"><span><b>Strict mode</b><small>You can’t stop the lock early</small></span><input type="checkbox" id="fzStrict"'+(st.strict?' checked':'')+'><i></i></label>'+
+ '<details class="fz-opt"><summary>More options</summary><label class="fz-sw"><span><b>Stop me deleting StudyStarx during a lock <em class="fz-pl">PLUS</em></b><small>Uninstall protection while the lock runs</small></span><input type="checkbox" id="fzGuard"'+(st.guard?' checked':'')+'><i></i></label></details>'+
+ '<button type="button" class="fz-start'+(ready?'':' off')+'" data-fz="start">🔒 Start focus · '+durLabel(st.mins)+'</button>'+(ready?'':'<p class="fz-fine">Finish the setup above to start blocking.</p>')+'</div>'}
+function drawRun(r,li,p){var n=N();if(p&&p.v>=6&&p.usage&&p.overlay&&!p.watch&&n.ensureWatch){try{n.ensureWatch()}catch(_){}}
+ var warn='';if(!p||!(p.v>=6))warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked</b><p>This version of the app can’t block reliably. Install the new one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';
+ else if(!p.usage||!p.overlay)warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked yet</b><p>Two permissions are needed. Tap each one, switch StudyStarx on, and come back.</p>'+(p.usage?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="usage">Allow usage access</button> ')+(p.overlay?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="overlay">Allow display over other apps</button>')+'</div>';
+ else if(p.watch)warn='<div class="fz-okb">✅ Blocking is active'+(p.blocks?' · blocked '+p.blocks+' time'+(p.blocks>1?'s':''):'')+'</div>';
+ else warn='<div class="fz-warn"><b>Starting the blocker…</b><p>If this stays for more than a few seconds, allow “Keep blocking switched on”.</p><button type="button" class="fz-allow" data-fz="perm" data-k="battery">Allow</button></div>';var left=li.until-Date.now(),tot=+(ls('fz-total')||0)||Math.max(left,1),pc=Math.max(0,Math.min(1,left/tot)),C=2*Math.PI*88;
+ var end=new Date(li.until).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});var apps=(li.apps||[]).slice(0,12);
+ r.innerHTML=warn+'<div class="fz-run"><div class="fz-ring"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="88" class="bg"/><circle cx="100" cy="100" r="88" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc)).toFixed(1)+'"/></svg><div class="fz-rt"><b id="fzLeft">'+fmt(left)+'</b><span>until '+esc(end)+'</span></div></div>'+
+ '<h2>Stay focused 🌱</h2><p>'+(apps.length?'These apps are blocked:':'Your chosen apps are blocked.')+'</p><div class="fz-tags">'+apps.map(function(a){return'<span>'+esc(a)+'</span>'}).join('')+'</div>'+
+ (li.strict?'<p class="fz-strict">🔐 Strict mode — the lock ends by itself at '+esc(end)+'.</p>':'<button type="button" class="fz-stop" data-fz="stop">Stop the lock</button>')+'</div>'}
+function onClick(e){var b=e.target.closest('[data-fz]');if(!b)return;var k=b.dataset.fz,n=N();
+ if(k==='perm'){if(b.dataset.k==='popup'){st.popup=true;ls('fz-popup','1')}try{n.openPerm(b.dataset.k)}catch(_){}return}
+ if(k==='app'){var s=sel();s.has(b.dataset.k)?s.delete(b.dataset.k):s.add(b.dataset.k);saveSel();draw();return}
+ if(k==='pick'){try{n.openBlocker()}catch(_){}return}
+ if(k==='dur'){st.mins=+b.dataset.m;ls('fz-mins',st.mins);readOpts();draw();return}
+ if(k==='custom'){var v=prompt('How many minutes? (5 – 720)',String(st.mins));v=Math.round(+v);if(v>=5&&v<=720){st.mins=v;ls('fz-mins',v);readOpts();draw()}return}
+ if(k==='start'){readOpts();start(b);return}
+ if(k==='stop'){if(!confirm('Stop the focus lock now?'))return;try{n.stopBlock()}catch(_){}setTimeout(draw,200);return}}
+function readOpts(){var a=$('#fzStrict'),g=$('#fzGuard');if(a)st.strict=a.checked;if(g)st.guard=g.checked}
+function start(b){var n=N(),p=perms();
+ if(b.classList.contains('off')){var su=$('#fzSetup');if(su){su.classList.remove('fz-shake');void su.offsetWidth;su.classList.add('fz-shake');su.scrollIntoView({behavior:'smooth',block:'center'})}else tst('Update the app first.');return}
+ var s=sel(),li=info();if(!s.size&&!(li.chosen>0)){tst('Tap at least one app to block.');return}
+ if(st.guard&&!plus()){try{if(window.sfPlusGate)sfPlusGate('Uninstall protection','guard');else go('premium')}catch(_){}return}
+ var words=[];APPS.forEach(function(a){if(s.has(a[0]))words=words.concat(a[3])});
+ if(st.strict&&!confirm('Strict mode: you will NOT be able to stop this lock for '+durLabel(st.mins)+'. Start?'))return;
+ try{if(n.startBlockNames)n.startBlockNames(st.mins,JSON.stringify(words),!!st.strict);else n.startBlock(st.mins)}catch(_){}
+ if(st.guard&&n.guardOn&&!n.guardOn()&&n.askGuard)try{n.askGuard()}catch(_){}
+ ls('fz-total',String(st.mins*60000));
+ try{var F=data.flock||(data.flock={locks:[],extra:[]});F.locks=(F.locks||[]).filter(function(l){return l.until>Date.now()});APPS.forEach(function(a){if(s.has(a[0]))F.locks.push({key:a[0],label:a[1],until:Date.now()+st.mins*60000,strict:st.strict})});persist()}catch(_){}
+ try{window.sfConfetti&&sfConfetti()}catch(_){}
+ setTimeout(draw,250)}
+var tick=null;function loop(){clearInterval(tick);tick=setInterval(function(){var pg=$('#page-focuslock');if(!pg||!pg.classList.contains('active'))return;var li=info();var el=$('#fzLeft');if(li.until>Date.now()){if(el)el.textContent=fmt(li.until-Date.now());else draw();if(Date.now()%10000<1000)draw()}else if(el)draw()},1000)}
+
+/* ---------- browser page: fold the extras away ---------- */
+function tidyWeb(){var pg=$('#page-focuslock');if(!pg||pg.dataset.fzw)return;var opts=$('.fl-opts',pg);if(!opts)return;pg.dataset.fzw=1;document.body.classList.add('fz-web');
+ var d=document.createElement('details');d.className='fz-wmore';d.innerHTML='<summary>More options</summary>';['flPomo','flEdu','flGuard'].forEach(function(id){var i=document.getElementById(id);var l=i&&i.closest('label');if(l)d.appendChild(l)});opts.appendChild(d);
+ var h=opts.previousElementSibling;if(h&&h.classList.contains('fl-step')){var t=h.querySelector('h2');if(t)t.textContent='Strict lock?'}
+ var moveSched=function(){var sc=$('#ppSched');if(!sc||sc.dataset.fzw)return;sc.dataset.fzw=1;var w=document.createElement('details');w.className='card fz-wsched';w.innerHTML='<summary>📅 Weekly schedules <span>Lock automatically at the same time each week</span></summary>';sc.parentNode.insertBefore(w,sc);w.appendChild(sc)};moveSched();setTimeout(moveSched,1500);setTimeout(moveSched,4000)}
+
+function boot(){if(N()){draw();loop()}else tidyWeb()}
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&N()){st.inst=null;draw()}});
+window.addEventListener('focus',function(){if(N())draw()});
+if(typeof window.go==='function'&&!window.go.__fz){var og=window.go,w=function(p){var r=og.apply(this,arguments);if(p==='focuslock')setTimeout(boot,30);return r};w.__fz=1;for(var k in og)try{w[k]=og[k]}catch(e){}window.go=w}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,400)});else setTimeout(boot,400);
+setTimeout(boot,2000);
+window.sfFocusLockDraw=draw;
 })();
 
 </script></body></html>
