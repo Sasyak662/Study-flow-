@@ -11203,7 +11203,7 @@ function box(){var b=$('#epBox');if(b)return b;b=document.createElement('div');b
 function confirmLeave(){return window.confirm?confirm('Your paper is still being made. Stop and close?'):true}
 function open(prefill){var b=box();ST.form=Object.assign(defForm(),ST.form&&!prefill?ST.form:{});if(prefill)ST.form.req=prefill;if(!ST.busy){ST.view=(prefill||!ST.paper||['form','result','list'].indexOf(ST.view)<0)?(ST.paper&&!prefill?'result':'form'):ST.view}b.hidden=false;document.body.classList.add('ep-open');draw();if(prefill&&!plus()){}}
 function close(){var b=$('#epBox');if(b)b.hidden=true;document.body.classList.remove('ep-open')}
-window.sxExamPaper=open;
+window.sxExamPaper=open;open.prompts={plan:planPrompt,write:writePrompt};
 function read(){var f=Object.assign({},ST.form||defForm());function v(id){var e=$('#'+id);return e?e.value.trim():''}function c(id){var e=$('#'+id);return e?e.checked:false}
  if($('#epReq')){f.req=v('epReq');f.board=v('epBoard');f.cls=v('epCls');f.subject=v('epSub');f.chapters=v('epCh');f.marks=v('epMarks');f.time=v('epTime');f.lang=v('epLang')||'English';f.school=v('epSchool');f.key=c('epKey');f.choice=c('epChoice');f.student=c('epStu');f.change=v('epChange')}return f}
 function opts(list,val,first){return(first?'<option value="">'+first+'</option>':'')+list.map(function(x){var k=Array.isArray(x)?x[0]:x,l=Array.isArray(x)?x[1]:x;return'<option value="'+esc(k)+'"'+(String(k)===String(val)?' selected':'')+'>'+esc(l)+'</option>'}).join('')}
