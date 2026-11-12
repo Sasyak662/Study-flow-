@@ -50,6 +50,19 @@ echo "=== after opening blocked app ===" | tee shots/result.txt
 adb shell dumpsys window | grep -E "mCurrentFocus|mFocusedApp" | tee -a shots/result.txt
 adb shell dumpsys window windows | grep -E "Window #|mOwnerUid|ty=APPLICATION_OVERLAY" | grep -B1 -A1 "$PKG" | head -20 | tee -a shots/result.txt
 # tap "Back to studying" area is not needed; try opening the blocked app a second time
+# come back to the blocked app through the recent-apps screen (the way a student would try to get round the lock)
+adb shell input keyevent KEYCODE_HOME; sleep 4
+adb shell log -t SXTest RECENTS
+adb shell input keyevent KEYCODE_APP_SWITCH; sleep 2
+adb exec-out screencap -p > shots/3a-recents.png
+adb shell input tap $TX $(( ${SZ#*x} / 2 )); sleep 1
+adb shell log -t SXTest RECENTS_TAPPED
+sleep 4
+adb exec-out screencap -p > shots/3b-after-recents.png
+adb shell dumpsys activity activities | grep -E "ResumedActivity|topResumedActivity" | head -3 | tee -a shots/result.txt
+sleep 5
+adb exec-out screencap -p > shots/3c-after-recents-10s.png
+adb shell dumpsys activity activities | grep -E "topResumedActivity" | head -2 | tee -a shots/result.txt
 adb shell input keyevent KEYCODE_HOME; sleep 2
 adb exec-out screencap -p > shots/3-after-home.png
 # control: an app that is NOT blocked must open normally

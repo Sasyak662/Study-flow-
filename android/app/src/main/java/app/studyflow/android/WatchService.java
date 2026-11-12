@@ -87,18 +87,6 @@ public class WatchService extends Service {
         }
         if (newest > since) android.util.Log.i("SXWatch", "front=" + front + " t=" + newest + " lag=" + (now - newest));
         since = Math.max(since, newest);
-        // Android can hold back the newest "app opened" event until something else happens, so also read
-        // each app's "last used" time, which is updated at once. The most recently used app is the one in front.
-        try {
-            java.util.List<android.app.usage.UsageStats> st = um.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, now - 6 * 3600_000L, now + 1000);
-            String best = null; long bt = 0;
-            if (st != null) for (android.app.usage.UsageStats u : st) { long t = u.getLastTimeUsed(); if (t > bt) { bt = t; best = u.getPackageName(); } }
-            if (best != null && bt > lastT && bt > since) {
-                if (!best.equals(front)) android.util.Log.i("SXWatch", "stats front=" + best + " t=" + bt + " lag=" + (now - bt));
-                front = best;
-            }
-            lastT = Math.max(lastT, Math.max(bt, since));
-        } catch (Exception ignored) {}
         boolean bad = !front.isEmpty() && !front.equals(getPackageName()) && Lock.isBlocked(this, front);
         // once the blocked app is gone, the focus screen clears itself after a few seconds
         if (!bad) { if (shield != null && !front.isEmpty() && now - lastShow > 3500) hideShield(); return; }
