@@ -33,8 +33,8 @@ public class WatchService extends Service {
             if (!Lock.active(WatchService.this)) { hideShield(); stopSelf(); return; }
             lastPoll = System.currentTimeMillis();
             try { check(); } catch (Exception ignored) {}
-            try { tickShield(); } catch (Exception ignored) {}
-            h.postDelayed(this, screenOn() ? 150 : 3000);
+            if (lastPoll - lastTick > 900) { lastTick = lastPoll; try { tickShield(); } catch (Exception ignored) {} }
+            h.postDelayed(this, screenOn() ? 250 : 3000);
         }
     };
 
@@ -103,8 +103,10 @@ public class WatchService extends Service {
 
     /** Android releases the newest "app opened" event only when another event follows it; reporting our own
      *  tiny event (a shortcut use) each check makes the real one show up at once. */
+    private long lastNudge = 0, lastTick = 0;
     private void nudge() {
         if (Build.VERSION.SDK_INT < 25) return;
+        long n = System.currentTimeMillis(); if (n - lastNudge < 240) return; lastNudge = n;
         try {
             android.content.pm.ShortcutManager sm = getSystemService(android.content.pm.ShortcutManager.class);
             if (sm == null) return;
@@ -156,8 +158,12 @@ public class WatchService extends Service {
         root.addView(back, new android.widget.LinearLayout.LayoutParams(-2, -2));
         android.view.WindowManager.LayoutParams lp = new android.view.WindowManager.LayoutParams(-1, -1,
                 Build.VERSION.SDK_INT >= 26 ? android.view.WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : android.view.WindowManager.LayoutParams.TYPE_PHONE,
-                android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | android.view.WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 android.graphics.PixelFormat.OPAQUE);
+        // cover the whole screen (status bar, navigation strip, camera cut-out) and fade in and out smoothly
+        lp.windowAnimations = android.R.style.Animation_Toast;
+        if (Build.VERSION.SDK_INT >= 28) lp.layoutInDisplayCutoutMode = android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        if (Build.VERSION.SDK_INT >= 30) lp.setFitInsetsTypes(0);
         try { wm.addView(root, lp); shield = root; tickShield(); } catch (Exception e) { shield = null; }
     }
 
