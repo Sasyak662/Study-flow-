@@ -1,0 +1,3 @@
+  * ServiceRecord{d6f323f u0 app.studyflow.android/.WatchService}
+    isForeground=true foregroundId=1 types=40000000 foregroundNoti=Notification(channel=focus shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x42 color=0x00000000 vis=PRIVATE)
+  * ServiceRecord{1c14a68 u0 app.studyflow.android/org.chromium.content.app.SandboxedProcessService0:0}

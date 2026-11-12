@@ -1,0 +1,14 @@
+=== after opening blocked app ===
+  mCurrentFocus=Window{db8a471 u0 app.studyflow.android}
+  mFocusedApp=ActivityRecord{ef447f u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t7}
+    mOwnerUid=10140 showForAllUsers=false package=com.google.android.inputmethod.latin appop=NONE
+  Window #5 Window{db8a471 u0 app.studyflow.android}:
+    mOwnerUid=10192 showForAllUsers=false package=app.studyflow.android appop=SYSTEM_ALERT_WINDOW
+    mAttrs={(0,0)(fillxfill) sim={adjust=pan} ty=APPLICATION_OVERLAY
+--
+    mOwnerUid=1000 showForAllUsers=false package=com.android.settings appop=NONE
+  Window #10 Window{a6840c5 u0 app.studyflow.android/app.studyflow.android.MainActivity}:
+    mOwnerUid=10192 showForAllUsers=false package=app.studyflow.android appop=NONE
+  Window #11 Window{5b7a74c u0 com.android.systemui.wallpapers.ImageWallpaper}:
+=== unblocked app ===
+  mCurrentFocus=Window{db8a471 u0 app.studyflow.android}
