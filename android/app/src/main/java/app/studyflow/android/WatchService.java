@@ -19,9 +19,13 @@ import android.os.PowerManager;
  * (needs "Display over other apps"). It stops itself when the lock ends.
  */
 public class WatchService extends Service {
-    private final Handler h = new Handler(Looper.getMainLooper());
+    private final Handler ui = new Handler(Looper.getMainLooper());
+    private android.os.HandlerThread th;
+    private Handler h; // background thread: the checks never slow down the app's own screen
+    private volatile boolean shieldUp = false;
     private String front = "";
-    private long since = 0, lastShow = 0, graceUntil = 0, lastT = 0;
+    private long since = 0, lastT = 0;
+    private volatile long lastShow = 0, graceUntil = 0;
     private android.view.View shield;
     private android.widget.TextView shieldTimer, shieldMsg;
     /** For the app's own "is blocking really running?" check. */
@@ -30,10 +34,10 @@ public class WatchService extends Service {
     static volatile int events = 0, blocks = 0;
     private final Runnable loop = new Runnable() {
         @Override public void run() {
-            if (!Lock.active(WatchService.this)) { hideShield(); stopSelf(); return; }
+            if (!Lock.active(WatchService.this)) { ui.post(() -> hideShield()); stopSelf(); return; }
             lastPoll = System.currentTimeMillis();
             try { check(); } catch (Exception ignored) {}
-            if (lastPoll - lastTick > 900) { lastTick = lastPoll; try { tickShield(); } catch (Exception ignored) {} }
+            if (lastPoll - lastTick > 900) { lastTick = lastPoll; ui.post(() -> { try { tickShield(); } catch (Exception ignored) {} }); }
             h.postDelayed(this, screenOn() ? 250 : 3000);
         }
     };
@@ -51,6 +55,8 @@ public class WatchService extends Service {
         super.onCreate();
         since = System.currentTimeMillis() - 15_000;
         running = true;
+        th = new android.os.HandlerThread("sxwatch"); th.start();
+        h = new Handler(th.getLooper());
         Notification n = Lock.lockNotification(this, Lock.until(this)).build();
         try {
             if (Build.VERSION.SDK_INT >= 34) startForeground(Lock.NOTIF_LOCK, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
@@ -89,14 +95,14 @@ public class WatchService extends Service {
         since = Math.max(since, newest);
         boolean bad = !front.isEmpty() && !front.equals(getPackageName()) && Lock.isBlocked(this, front);
         // once the blocked app is gone, the focus screen clears itself after a few seconds
-        if (!bad) { if (shield != null && !front.isEmpty() && now - lastShow > 3500) hideShield(); return; }
+        if (!bad) { if (shieldUp && !front.isEmpty() && now - lastShow > 3500) ui.post(() -> hideShield()); return; }
         if (now < graceUntil) return;
         if (now - lastShow < 1200) return;
-        lastShow = now; if (shield == null) blocks++;
+        lastShow = now; if (!shieldUp) blocks++;
         android.util.Log.i("SXWatch", "BLOCK " + front);
         String blockedPkg = front;
         // 1) cover the blocked app at once (works even when Android refuses to switch screens)
-        showShield(blockedPkg);
+        ui.post(() -> showShield(blockedPkg));
         // 2) send the blocked app to the background so it stops playing
         goHome();
     }
@@ -129,8 +135,9 @@ public class WatchService extends Service {
 
     private void showShield(String pkg) {
         if (shield != null || !Lock.hasOverlay(this)) return;
+        shieldUp = true;
         android.view.WindowManager wm = (android.view.WindowManager) getSystemService(WINDOW_SERVICE);
-        if (wm == null) return;
+        if (wm == null) { shieldUp = false; return; }
         String app = "This app";
         try { android.content.pm.PackageManager pm = getPackageManager(); app = pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString(); } catch (Exception ignored) {}
         android.widget.LinearLayout root = new android.widget.LinearLayout(this);
@@ -164,7 +171,7 @@ public class WatchService extends Service {
         lp.windowAnimations = android.R.style.Animation_Toast;
         if (Build.VERSION.SDK_INT >= 28) lp.layoutInDisplayCutoutMode = android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         if (Build.VERSION.SDK_INT >= 30) lp.setFitInsetsTypes(0);
-        try { wm.addView(root, lp); shield = root; tickShield(); } catch (Exception e) { shield = null; }
+        try { wm.addView(root, lp); shield = root; tickShield(); } catch (Exception e) { shield = null; shieldUp = false; }
     }
 
     private void tickShield() {
@@ -174,11 +181,12 @@ public class WatchService extends Service {
     }
 
     private void hideShield() {
+        shieldUp = false;
         if (shield == null) return;
         try { ((android.view.WindowManager) getSystemService(WINDOW_SERVICE)).removeView(shield); } catch (Exception ignored) {}
         shield = null; shieldTimer = null; shieldMsg = null;
     }
 
-    @Override public void onDestroy() { running = false; h.removeCallbacks(loop); hideShield(); super.onDestroy(); }
+    @Override public void onDestroy() { running = false; if (h != null) h.removeCallbacks(loop); if (th != null) th.quitSafely(); hideShield(); super.onDestroy(); }
     @Override public IBinder onBind(Intent i) { return null; }
 }
