@@ -34,7 +34,7 @@ public class WatchService extends Service {
             lastPoll = System.currentTimeMillis();
             try { check(); } catch (Exception ignored) {}
             try { tickShield(); } catch (Exception ignored) {}
-            h.postDelayed(this, screenOn() ? 600 : 3000);
+            h.postDelayed(this, screenOn() ? 150 : 3000);
         }
     };
 
