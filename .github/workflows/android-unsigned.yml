@@ -1,0 +1,56 @@
+name: Build Android app (unsigned, signed later on the owner's computer)
+
+on:
+  push:
+    paths:
+      - 'android/**'
+      - '.github/workflows/android-unsigned.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Build the APK (no signing key on GitHub)
+        env:
+          UNSIGNED: '1'
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+          gradle -p android assembleRelease --no-daemon
+
+      - name: Line up the APK and add the signing tool
+        run: |
+          BT=$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)
+          echo "build-tools $BT"
+          mkdir -p out
+          IN=$(ls android/app/build/outputs/apk/release/*.apk | head -1)
+          "$ANDROID_HOME/build-tools/$BT/zipalign" -f -p 4 "$IN" out/StudyFlow-unsigned.apk
+          cp "$ANDROID_HOME/build-tools/$BT/lib/apksigner.jar" out/apksigner.jar
+          echo "${{ github.run_number }}" > out/BUILD_NUMBER.txt
+          ls -la out
+
+      - name: Put the files on the apk-build branch
+        run: |
+          cd out
+          git init -q
+          git config user.name "StudyFlow bot"
+          git config user.email "actions@users.noreply.github.com"
+          git checkout -q -b apk-build
+          git add .
+          git commit -q -m "Unsigned build ${{ github.run_number }}"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" apk-build

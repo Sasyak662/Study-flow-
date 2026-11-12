@@ -20,7 +20,8 @@ android {
         }
     }
     buildTypes {
-        release { minifyEnabled false; signingConfig signingConfigs.release }
+        // UNSIGNED=1: GitHub builds without the key; the owner signs it on their own computer so the key never leaves it.
+        release { minifyEnabled false; signingConfig(System.getenv('UNSIGNED') ? null : signingConfigs.release) }
         debug { signingConfig signingConfigs.release }
     }
     lint { checkReleaseBuilds false; abortOnError false }
