@@ -17,7 +17,7 @@
         </intent>
     </queries>
     <application
-        android:label="StudyFlow"
+        android:label="StudyStarx"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
         android:allowBackup="false"
@@ -35,6 +35,13 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- After "Continue with Google" in the phone's browser, the website sends you back here with a one-time code -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="studystarx" android:host="auth" />
+            </intent-filter>
         </activity>
         <activity android:name=".BlockerActivity" android:exported="false" android:label="Block apps" />
         <activity
@@ -47,7 +54,7 @@
         <service
             android:name=".BlockService"
             android:exported="false"
-            android:label="StudyFlow Focus Lock"
+            android:label="StudyStarx Focus Lock"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
@@ -63,14 +70,14 @@
         <receiver
             android:name=".Guard"
             android:exported="true"
-            android:label="StudyFlow uninstall protection"
+            android:label="StudyStarx uninstall protection"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin" />
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".StudyWidget" android:exported="false" android:label="StudyFlow today">
+        <receiver android:name=".StudyWidget" android:exported="false" android:label="StudyStarx today">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

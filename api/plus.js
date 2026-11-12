@@ -1,13 +1,13 @@
-// StudyFlow Plus: Razorpay payment, verified on the server, stored on the account.
+// StudyStarx Plus: Razorpay payment, verified on the server, stored on the account.
 // POST /api/plus (Bearer token)
 //   {action:'start', plan:'monthly'|'quarterly'|'annual'} -> {url}  (Razorpay payment link)
 //   {action:'verify', plink}                    -> {plan, plusUntil, ...}
 // Needs RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET and the Redis/KV env vars.
 const S = require('./_store.js');
 const PLANS = {
-  monthly: { amount: Number(process.env.PLUS_MONTHLY_INR || 249), days: 31, label: 'StudyFlow Plus (1 month)' },
-  quarterly: { amount: Number(process.env.PLUS_QUARTERLY_INR || 649), days: 93, label: 'StudyFlow Plus (3 months)' },
-  annual: { amount: Number(process.env.PLUS_ANNUAL_INR || 1999), days: 366, label: 'StudyFlow Plus (1 year)' }
+  monthly: { amount: Number(process.env.PLUS_MONTHLY_INR || 249), days: 31, label: 'StudyStarx Plus (1 month)' },
+  quarterly: { amount: Number(process.env.PLUS_QUARTERLY_INR || 649), days: 93, label: 'StudyStarx Plus (3 months)' },
+  annual: { amount: Number(process.env.PLUS_ANNUAL_INR || 1999), days: 366, label: 'StudyStarx Plus (1 year)' }
 };
 
 module.exports = async function handler(req, res) {
@@ -50,7 +50,7 @@ module.exports = async function handler(req, res) {
       const j = await r.json().catch(() => ({}));
       if (!r.ok) return S.send(res, 403, { error: 'We could not confirm this payment.' });
       const plan = PLANS[j.notes && j.notes.plus];
-      if (!plan || String(j.notes.email || '') !== email) return S.send(res, 403, { error: 'This payment is not for StudyFlow Plus on this account.' });
+      if (!plan || String(j.notes.email || '') !== email) return S.send(res, 403, { error: 'This payment is not for StudyStarx Plus on this account.' });
       if (j.status !== 'paid' || Number(j.amount_paid || 0) < plan.amount * 100) return S.send(res, 402, { error: 'The payment is not complete yet.' });
       const first = await S.cmd('SET', 'sf:plusused:' + plink, email, 'NX');
       if (first) {

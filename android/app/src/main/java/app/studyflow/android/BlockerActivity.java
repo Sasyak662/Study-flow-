@@ -62,16 +62,16 @@ public class BlockerActivity extends Activity {
 
         TextView h = text("Block distracting apps", 24, 0xFF0B1220, true);
         root.addView(h);
-        root.addView(text("While a StudyFlow focus session is running, these apps close and you're sent back to studying. When the session ends, everything works normally again.", 14, 0xFF64748B, false));
+        root.addView(text("While a StudyStarx focus session is running, these apps close and you're sent back to studying. When the session ends, everything works normally again.", 14, 0xFF64748B, false));
 
         LinearLayout card = card(0xFFFFFFFF);
         status = text("", 15, 0xFF0B1220, true);
         card.addView(status);
-        TextView how = text("Android needs you to switch on \"StudyFlow Focus Lock\" once in Accessibility settings (Installed apps → StudyFlow Focus Lock → On). It only checks which app is open — it never reads your screen.", 13, 0xFF64748B, false);
+        TextView how = text("Android needs you to switch on \"StudyStarx Focus Lock\" once in Accessibility settings (Installed apps → StudyStarx Focus Lock → On). It only checks which app is open — it never reads your screen.", 13, 0xFF64748B, false);
         card.addView(how);
         if (android.os.Build.VERSION.SDK_INT >= 33) {
-            card.addView(text("Greyed out or says \"Restricted setting\"? Open App info for StudyFlow, tap ⋮ (top right) → \"Allow restricted settings\", then try again.", 13, 0xFFB45309, false));
-            Button info = button("Open StudyFlow App info", 0xFFFFFFFF, 0xFF0B1220);
+            card.addView(text("Greyed out or says \"Restricted setting\"? Open App info for StudyStarx, tap ⋮ (top right) → \"Allow restricted settings\", then try again.", 13, 0xFFB45309, false));
+            Button info = button("Open StudyStarx App info", 0xFFFFFFFF, 0xFF0B1220);
             info.setOnClickListener(v -> {
                 try { startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, android.net.Uri.parse("package:" + getPackageName()))); } catch (Exception ignored) {}
             });

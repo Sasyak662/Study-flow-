@@ -1,4 +1,4 @@
-// StudyFlow interface translation.
+// StudyStarx interface translation.
 // POST /api/i18n {lang, strings:[...]} -> {lang, t:{original: translated}}
 // Translations are saved in the store per language, so each piece of text is translated once and then shared by everyone.
 // Uses GEMINI_API_KEY (server only). Does not count towards anyone's daily AI allowance.
@@ -41,7 +41,7 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return S.send(res, 200, { lang, t: out });
   try {
-    const prompt = 'Translate each item of this JSON array of short app interface texts (a study app for school and college students) from English into ' + lang + '. Keep the meaning, keep it short and natural for app buttons and labels, keep emojis, numbers, symbols and the brand name "StudyFlow" unchanged, and keep words like IB, IGCSE, CBSE, AI and Plus unchanged. Return ONLY a JSON array of strings in the same order with exactly ' + missing.length + ' items.\n' + JSON.stringify(missing);
+    const prompt = 'Translate each item of this JSON array of short app interface texts (a study app for school and college students) from English into ' + lang + '. Keep the meaning, keep it short and natural for app buttons and labels, keep emojis, numbers, symbols and the brand name "StudyStarx" unchanged, and keep words like IB, IGCSE, CBSE, AI and Plus unchanged. Return ONLY a JSON array of strings in the same order with exactly ' + missing.length + ' items.\n' + JSON.stringify(missing);
     const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 25000);
     const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + MODEL + ':generateContent', {
       method: 'POST', signal: ctrl.signal, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },

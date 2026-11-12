@@ -47,7 +47,7 @@ module.exports = async function handler(req, res) {
     const pdf = fs.readFileSync(bookPath(pack));
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename="StudyFlow-' + pack + '.pdf"');
+    res.setHeader('Content-Disposition', 'attachment; filename="StudyStarx-' + pack + '.pdf"');
     res.setHeader('Cache-Control', 'no-store');
     res.end(pdf);
   } catch (e) {

@@ -1,4 +1,4 @@
-// StudyFlow Classes: teachers create a class, students join with a code, teachers see a progress summary and set assignments.
+// StudyStarx Classes: teachers create a class, students join with a code, teachers see a progress summary and set assignments.
 // POST /api/class  (Bearer token from /api/account)  { action, ... }
 //   create   {name}                                   -> {code}
 //   join     {code, name}                             -> {ok}
@@ -9,7 +9,7 @@
 //   unassign {code,id}             (teacher)         -> {cls}
 //   remove   {code,email}          (teacher)         -> {ok}
 //   close    {code}                (teacher)         -> {ok}
-//   golive   {code, meet, title}   (teacher)         -> {cls}   start a StudyFlow Live video class
+//   golive   {code, meet, title}   (teacher)         -> {cls}   start a StudyStarx Live video class
 //   endlive  {code}                (teacher)         -> {cls}
 //   report   {name, summary}       (student; sent to every class they joined) -> {ok, classes}
 // Students choose to join and can leave at any time; only the summary they send is shared, never their notes or chats.
@@ -32,7 +32,7 @@ module.exports = async function handler(req, res) {
   let body;
   try { body = await S.readBody(req, 60000); } catch (e) { return S.send(res, 400, { error: 'Invalid request.' }); }
   const email = S.readSession(req);
-  if (!email) return S.send(res, 401, { error: 'Log in to your StudyFlow account to use Classes.', signedOut: true });
+  if (!email) return S.send(res, 401, { error: 'Log in to your StudyStarx account to use Classes.', signedOut: true });
   const action = String(body.action || '');
   const tk = 'sf:tclasses:' + email, sk = 'sf:sclasses:' + email;
 

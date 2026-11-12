@@ -123,7 +123,7 @@ function readSession(req) {
 const userKey = email => 'sf:user:' + email;
 const isPlus = u => Boolean(u && u.plusUntil && u.plusUntil > Date.now());
 const LIMITS = { free: Number(process.env.AI_FREE_DAILY || 25), plus: Number(process.env.AI_PLUS_DAILY || 400) };
-// The day changes at midnight India time (most StudyFlow students are in India).
+// The day changes at midnight India time (most StudyStarx students are in India).
 const today = () => new Date(Date.now() + 5.5 * 3600e3).toISOString().slice(0, 10);
 
 function send(res, status, body) {

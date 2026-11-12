@@ -1,4 +1,4 @@
-// StudyFlow accounts and cloud sync.
+// StudyStarx accounts and cloud sync.
 // POST /api/account  { action, ... }
 //   signup  {email, password}                -> {token, email, recoveryCode, ...me}
 //   login   {email, password}                -> {token, ...me}
@@ -58,6 +58,26 @@ module.exports = async function handler(req, res) {
   const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
 
   try {
+    // Android app sign-in: Google sign-in happens in the phone's browser, which asks for a one-time code (valid 5 minutes)
+    // and hands it to the app; the app swaps the code for its own session. The code works once only.
+    if (action === 'appcode') {
+      const email = S.readSession(req);
+      if (!email) return S.send(res, 401, { error: 'Sign in first.' });
+      const code = crypto.randomBytes(24).toString('hex');
+      await S.cmd('SET', 'sf:appcode:' + code, email, 'EX', '300');
+      return S.send(res, 200, { code });
+    }
+    if (action === 'appredeem') {
+      const code = String(body.code || '').toLowerCase();
+      if (!/^[a-f0-9]{48}$/.test(code)) return S.send(res, 400, { error: 'That sign-in link is not valid.' });
+      if (Number(await S.cmd('GET', 'sf:ipfail:' + ip)) >= 40) return S.send(res, 429, { error: 'Too many attempts from this network. Wait 15 minutes and try again.' });
+      const email = await S.cmd('GET', 'sf:appcode:' + code);
+      if (!email) { await S.cmd('INCR', 'sf:ipfail:' + ip); await S.cmd('EXPIRE', 'sf:ipfail:' + ip, 900); return S.send(res, 401, { error: 'That sign-in link has expired. Press Continue with Google again.' }); }
+      await S.cmd('DEL', 'sf:appcode:' + code);
+      const u = await S.getJSON(S.userKey(email));
+      if (!u) return S.send(res, 404, { error: 'Account not found.' });
+      return S.send(res, 200, { token: S.signSession(email), google: !!u.google, ...(await me(email, u)) });
+    }
     if (action === 'google') {
       if (Number(await S.cmd('GET', 'sf:ipfail:' + ip)) >= 40) return S.send(res, 429, { error: 'Too many attempts from this network. Wait 15 minutes and try again.' });
       let g;

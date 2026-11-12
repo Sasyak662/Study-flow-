@@ -1,4 +1,4 @@
-// StudyFlow service worker: network-first for the app page, so updates always show;
+// StudyStarx service worker: network-first for the app page, so updates always show;
 // the last good copy is used only when the device is offline. API calls are never cached.
 const CACHE = 'studyflow-v3';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png'];

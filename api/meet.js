@@ -1,4 +1,4 @@
-// StudyFlow Live: video classes (peer-to-peer WebRTC video; this endpoint relays signalling + class events).
+// StudyStarx Live: video classes (peer-to-peer WebRTC video; this endpoint relays signalling + class events).
 // No account needed. Each browser has a random member id. Everything expires automatically.
 // Keys:
 //   sf:meet:<code>          JSON meeting {code,title,host,hostName,created,locked,chat,share,ended,classCode,spot,rooms}  (TTL 8 h)
@@ -13,7 +13,7 @@ const S_ = require('./_store');
 const { configured, cmd, getJSON, send, readBody } = S_;
 
 const TTL = 11 * 3600, MEMBER_TTL = 25, EV_KEEP = 2000;
-// Free: 30 people for 5 hours. StudyFlow Plus host: 200 people for 10 hours.
+// Free: 30 people for 5 hours. StudyStarx Plus host: 200 people for 10 hours.
 const LIM = { free: { max: 30, hours: 5 }, plus: { max: 200, hours: 10 } };
 const MAX = LIM.free.max;
 const limOf = m => (m && m.plus ? LIM.plus : LIM.free);
@@ -102,7 +102,7 @@ const pubMeet = m => ({ room: !!m.room, code: m.code, title: m.title, host: m.ho
 module.exports = async (req, res) => {
   if (req.method === 'GET') return send(res, 200, { configured: configured(), iceServers: await ice(), relay: !!(process.env.CF_TURN_KEY_ID || process.env.MEET_TURN_URL), max: MAX, limits: LIM });
   if (req.method !== 'POST') return send(res, 405, { error: 'Use POST' });
-  if (!configured()) return send(res, 503, { error: 'Live classes need the StudyFlow server store. Ask the site owner to switch it on.' });
+  if (!configured()) return send(res, 503, { error: 'Live classes need the StudyStarx server store. Ask the site owner to switch it on.' });
   let b;
   try { b = await readBody(req, 120000); } catch (e) { return send(res, 400, { error: 'Bad request' }); }
   const action = String(b.action || ''), id = String(b.id || '');
@@ -204,7 +204,7 @@ module.exports = async (req, res) => {
     if (m && m.room && m.owner && who === m.owner && m.host !== id && action === 'join') { m.host = id; m.hostName = name; await cmd('SET', mk(code), JSON.stringify(m), 'EX', String(TTL)); }
     if (!m) return send(res, 404, { error: 'That meeting does not exist or has expired' });
     if (m.ended && action !== 'peek') return send(res, 410, { ended: true, error: 'This meeting has ended' });
-    if (action !== 'peek' && m.created && Date.now() - m.created > limOf(m).hours * 3600000) return send(res, 410, { ended: true, error: 'This class reached its ' + limOf(m).hours + '-hour limit' + (m.plus ? '.' : '. StudyFlow Plus classes can run for ' + LIM.plus.hours + ' hours.') });
+    if (action !== 'peek' && m.created && Date.now() - m.created > limOf(m).hours * 3600000) return send(res, 410, { ended: true, error: 'This class reached its ' + limOf(m).hours + '-hour limit' + (m.plus ? '.' : '. StudyStarx Plus classes can run for ' + LIM.plus.hours + ' hours.') });
     const isHost = m.host === id;
     if (!isHost && await cmd('SISMEMBER', mk(code) + ':ban', id)) return send(res, 403, { kicked: true, error: 'You were removed from this meeting' });
 
@@ -224,7 +224,7 @@ module.exports = async (req, res) => {
       if (!inCall) {
         const n = await cmd('SCARD', mk(code) + ':ms');
         const L = limOf(m);
-        if (n >= L.max) return send(res, 403, { error: 'This live class is full (' + L.max + ' people)' + (m.plus ? '' : '. A StudyFlow Plus host can have up to ' + LIM.plus.max + '.') });
+        if (n >= L.max) return send(res, 403, { error: 'This live class is full (' + L.max + ' people)' + (m.plus ? '' : '. A StudyStarx Plus host can have up to ' + LIM.plus.max + '.') });
       }
       const me = b.me || {};
       const st = { id, name, cam: !!me.cam, mic: !!me.mic, hand: Math.max(0, Number(me.hand) || 0), share: !!me.share, joined: Number(me.joined) || Date.now(), net: Math.max(0, Math.min(3, Number(me.net) || 0)), at: Date.now() };

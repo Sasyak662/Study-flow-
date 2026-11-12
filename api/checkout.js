@@ -54,7 +54,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         amount: total * 100,
         currency: 'INR',
-        description: `StudyFlow books (${items.length})`,
+        description: `StudyStarx books (${items.length})`,
         notes,
         callback_url: callback,
         callback_method: 'get'

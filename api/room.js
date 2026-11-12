@@ -32,7 +32,7 @@ async function roomState(code) {
 module.exports = async (req, res) => {
   if (req.method === 'GET') return send(res, 200, { configured: configured() });
   if (req.method !== 'POST') return send(res, 405, { error: 'Use POST' });
-  if (!configured()) return send(res, 503, { error: 'Group rooms need the StudyFlow server store. Ask the site owner to switch it on.' });
+  if (!configured()) return send(res, 503, { error: 'Group rooms need the StudyStarx server store. Ask the site owner to switch it on.' });
   let b;
   try { b = await readBody(req, 20000); } catch (e) { return send(res, 400, { error: 'Bad request' }); }
   const action = String(b.action || '');

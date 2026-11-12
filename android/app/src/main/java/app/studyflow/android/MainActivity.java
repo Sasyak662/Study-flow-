@@ -26,7 +26,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-/** StudyFlow website inside a WebView, plus a JavaScript bridge (window.SFNative) for native features. */
+/** StudyStarx website inside a WebView, plus a JavaScript bridge (window.SFNative) for native features. */
 public class MainActivity extends Activity {
     static final String SITE = "https://study-flow-app-ecru.vercel.app";
     private static final int FILE_REQ = 41;
@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
             }
             @Override public void onPageStarted(WebView v, String url, Bitmap f) { bar.setVisibility(View.VISIBLE); curUrl = url; }
             @Override public void doUpdateVisitedHistory(WebView v, String url, boolean reload) { curUrl = url; }
-            @Override public void onPageFinished(WebView v, String url) { bar.setVisibility(View.GONE); CookieManager.getInstance().flush(); }
+            @Override public void onPageFinished(WebView v, String url) { bar.setVisibility(View.GONE); CookieManager.getInstance().flush(); tryAuth(); }
         });
         web.setWebChromeClient(new WebChromeClient() {
             @Override public void onProgressChanged(WebView v, int p) { bar.setProgress(p); }
@@ -122,10 +122,32 @@ public class MainActivity extends Activity {
         });
         web.setDownloadListener((url, ua, cd, mime, len) -> openOutside(Uri.parse(url)));
 
-        // Notification permission is asked inside the StudyFlow setup survey, with an explanation.
+        // Notification permission is asked inside the StudyStarx setup survey, with an explanation.
 
         if (b != null) web.restoreState(b);
         else web.loadUrl(startUrl(getIntent()));
+        takeAuth(getIntent());
+    }
+
+    // ---- Google sign-in: Google does not allow its sign-in inside app web views, so it happens in the phone's browser.
+    // The website then opens studystarx://auth?code=... and we pass that one-time code to the page, which swaps it for a session.
+    private String pendingAuth = null;
+    private int authTries = 0;
+    private boolean takeAuth(Intent i) {
+        Uri d = i == null ? null : i.getData();
+        if (d == null || !"studystarx".equals(d.getScheme()) || !"auth".equals(d.getHost())) return false;
+        String c = d.getQueryParameter("code");
+        if (c == null || !c.matches("[a-f0-9]{16,64}")) return true;
+        pendingAuth = c; authTries = 0; tryAuth();
+        return true;
+    }
+    private void tryAuth() {
+        if (pendingAuth == null || web == null) return;
+        final String c = pendingAuth;
+        web.evaluateJavascript("(window.sfAppAuth?(sfAppAuth('" + c + "'),'ok'):'no')", v -> {
+            if (v != null && v.contains("ok")) { if (c.equals(pendingAuth)) pendingAuth = null; }
+            else if (authTries++ < 30) web.postDelayed(this::tryAuth, 700);
+        });
     }
 
     private String startUrl(Intent i) {
@@ -137,6 +159,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onNewIntent(Intent i) {
         super.onNewIntent(i);
+        if (takeAuth(i)) return;
         if (i != null && i.getData() != null) web.loadUrl(startUrl(i));
     }
 
@@ -190,6 +213,8 @@ public class MainActivity extends Activity {
     }
     class Bridge {
         @JavascriptInterface public boolean isApp() { return true; }
+        @JavascriptInterface public boolean canGoogle() { return true; }
+        @JavascriptInterface public void googleSignIn() { runOnUiThread(() -> openOutside(Uri.parse(SITE + "/?appgoogle=1"))); }
         @JavascriptInterface public boolean blockerReady() { return Lock.serviceEnabled(MainActivity.this); }
         @JavascriptInterface public int blockedCount() { return Lock.blocked(MainActivity.this).size(); }
         @JavascriptInterface public void openBlocker() {
@@ -255,7 +280,7 @@ public class MainActivity extends Activity {
                 try {
                     Intent i = new Intent(android.app.admin.DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
                             .putExtra(android.app.admin.DevicePolicyManager.EXTRA_DEVICE_ADMIN, new android.content.ComponentName(MainActivity.this, Guard.class))
-                            .putExtra(android.app.admin.DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Stops StudyFlow being deleted while a focus lock is running. You can switch it off in Settings after your lock.");
+                            .putExtra(android.app.admin.DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Stops StudyStarx being deleted while a focus lock is running. You can switch it off in Settings after your lock.");
                     startActivity(i);
                 } catch (Exception ignored) {}
             });
@@ -270,7 +295,7 @@ public class MainActivity extends Activity {
         }
         @JavascriptInterface public void notify(String title, String body) {
             if (!trusted()) return;
-            Lock.nudge(MainActivity.this, title == null ? "StudyFlow" : title, body == null ? "" : body);
+            Lock.nudge(MainActivity.this, title == null ? "StudyStarx" : title, body == null ? "" : body);
         }
         @JavascriptInterface public void scheduleReminders(String json) {
             if (!trusted()) return; Reminders.schedule(MainActivity.this, json); }

@@ -77,7 +77,7 @@ public class BlockedActivity extends Activity {
         root.addView(timer);
 
         Button back = new Button(this);
-        back.setText("Back to StudyFlow");
+        back.setText("Back to StudyStarx");
         back.setAllCaps(false);
         back.setTextColor(0xFF047857);
         back.setTextSize(16);

@@ -1,4 +1,4 @@
-// StudyFlow — secure Gemini proxy (Vercel Serverless Function, Node 18+)
+// StudyStarx — secure Gemini proxy (Vercel Serverless Function, Node 18+)
 // The API key lives ONLY in the GEMINI_API_KEY environment variable and is never sent to the browser.
 //
 // Request  (POST /api/ai, JSON): { system, messages:[{role,content}], user, temperature, search, codeExecution,
@@ -89,7 +89,7 @@ module.exports = async function handler(req, res) {
   const quest = body && body.purpose === 'quest';
   // The starter pack made right after the survey (10 quizzes + flashcards) also has its own allowance.
   const setup = body && body.purpose === 'setup';
-  // These two allowances are only for StudyFlow's own quiz builders: no web search, files or code, a fixed kind of system prompt, and a smaller answer size.
+  // These two allowances are only for StudyStarx's own quiz builders: no web search, files or code, a fixed kind of system prompt, and a smaller answer size.
   if (quest || setup) {
     const want = quest ? 'You write accurate multiple-choice quiz questions' : 'You write accurate, syllabus-aligned study material';
     if (!String(body.system || '').startsWith(want) || (Array.isArray(body.files) && body.files.length) || (Array.isArray(body.messages) && body.messages.length)) return send(res, 400, { error: 'Invalid request.' });
@@ -123,7 +123,7 @@ module.exports = async function handler(req, res) {
         if (false) return send(res, 429, { limit: true, quest: true, plan, error: 'StudyQuest has made enough new questions for today. More tomorrow!' });
         return send(res, 429, { limit: true, plan, error: plan === 'plus'
           ? `You have used all ${limit} of today's AI questions. Your limit resets tomorrow.`
-          : `Your free AI limit for today is over (${limit} questions). Get StudyFlow Plus for ${S.LIMITS.plus} questions a day, or come back tomorrow.`, freeLimit: S.LIMITS.free, plusLimit: S.LIMITS.plus });
+          : `Your free AI limit for today is over (${limit} questions). Get StudyStarx Plus for ${S.LIMITS.plus} questions a day, or come back tomorrow.`, freeLimit: S.LIMITS.free, plusLimit: S.LIMITS.plus });
       }
     } catch (e) { console.error('usage check failed (allowing request)', e.message); }
   }
@@ -144,7 +144,7 @@ module.exports = async function handler(req, res) {
       const n = Number(await S.cmd('INCRBY', ak, files.length)) || 0;
       if (n === files.length) await S.cmd('EXPIRE', ak, 172800);
       const cap = planNow === 'plus' ? Number(process.env.AI_PLUS_FILES || 40) : Number(process.env.AI_FREE_FILES || 3);
-      if (n > cap) return send(res, 429, { limit: true, plan: planNow, error: planNow === 'plus' ? 'You have attached the most files allowed today. Try again tomorrow.' : 'Free accounts can attach ' + cap + ' files a day. Get StudyFlow Plus to attach up to 40 files a day.' });
+      if (n > cap) return send(res, 429, { limit: true, plan: planNow, error: planNow === 'plus' ? 'You have attached the most files allowed today. Try again tomorrow.' : 'Free accounts can attach ' + cap + ' files a day. Get StudyStarx Plus to attach up to 40 files a day.' });
     } catch (e) { console.error('attachment check failed', e.message); }
   }
   let fileChars = 0;

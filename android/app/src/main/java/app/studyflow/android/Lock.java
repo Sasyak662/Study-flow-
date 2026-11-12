@@ -130,7 +130,7 @@ public final class Lock {
         Set<String> all = blocked(c); all.addAll(session(c)); int n = all.size();
         Notification.Builder b = builder(c, CH_FOCUS)
                 .setContentTitle("Focus lock is on")
-                .setContentText(n == 0 ? "No apps chosen yet — open StudyFlow to pick apps to block." : n + (n == 1 ? " app" : " apps") + " blocked until your session ends")
+                .setContentText(n == 0 ? "No apps chosen yet — open StudyStarx to pick apps to block." : n + (n == 1 ? " app" : " apps") + " blocked until your session ends")
                 .setOngoing(true).setAutoCancel(false)
                 .setWhen(end).setShowWhen(true);
         if (Build.VERSION.SDK_INT >= 24) b.setUsesChronometer(true).setChronometerCountDown(true);
