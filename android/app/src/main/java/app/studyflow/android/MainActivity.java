@@ -215,7 +215,69 @@ public class MainActivity extends Activity {
         @JavascriptInterface public boolean isApp() { return true; }
         @JavascriptInterface public boolean canGoogle() { return true; }
         @JavascriptInterface public void googleSignIn() { runOnUiThread(() -> openOutside(Uri.parse(SITE + "/?appgoogle=1"))); }
-        @JavascriptInterface public boolean blockerReady() { return Lock.serviceEnabled(MainActivity.this); }
+        @JavascriptInterface public boolean blockerReady() { return Lock.ready(MainActivity.this); }
+        /** Which permissions the focus lock has: {"usage":..,"overlay":..,"acc":..,"battery":..,"xiaomi":..,"ready":..} */
+        @JavascriptInterface public String permState() {
+            Activity a = MainActivity.this;
+            try {
+                org.json.JSONObject o = new org.json.JSONObject();
+                o.put("usage", Lock.hasUsage(a)); o.put("overlay", Lock.hasOverlay(a)); o.put("acc", Lock.serviceEnabled(a));
+                o.put("battery", Lock.batteryOk(a)); o.put("xiaomi", Lock.isXiaomi()); o.put("ready", Lock.ready(a));
+                o.put("sdk", Build.VERSION.SDK_INT);
+                return o.toString();
+            } catch (Exception e) { return "{}"; }
+        }
+        @JavascriptInterface public void openPerm(String which) {
+            if (!trusted()) return;
+            runOnUiThread(() -> {
+                Uri me = Uri.parse("package:" + getPackageName());
+                Intent i;
+                if ("usage".equals(which)) {
+                    i = new Intent(android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                    if (Build.VERSION.SDK_INT >= 29) i.setData(me);
+                } else if ("overlay".equals(which)) {
+                    i = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION, me);
+                } else if ("battery".equals(which)) {
+                    i = new Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, me);
+                } else if ("popup".equals(which)) {
+                    i = new Intent("miui.intent.action.APP_PERM_EDITOR").putExtra("extra_pkgname", getPackageName());
+                } else if ("acc".equals(which)) {
+                    i = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                } else {
+                    i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, me);
+                }
+                try { startActivity(i); } catch (Exception e) {
+                    // some phones don't support the direct page: fall back to the general one / App info
+                    try {
+                        if ("usage".equals(which)) startActivity(new Intent(android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS));
+                        else startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, me));
+                    } catch (Exception ignored) {}
+                }
+            });
+        }
+        /** Which of the given app names are installed: {"youtube":["YouTube"],...} -> {"youtube":true,...} */
+        @JavascriptInterface public String installed(String json) {
+            try {
+                org.json.JSONObject in = new org.json.JSONObject(json == null ? "{}" : json), out = new org.json.JSONObject();
+                java.util.Iterator<String> it = in.keys();
+                while (it.hasNext()) { String k = it.next(); out.put(k, !Lock.resolve(MainActivity.this, in.getJSONArray(k).toString()).isEmpty()); }
+                return out.toString();
+            } catch (Exception e) { return "{}"; }
+        }
+        /** The running lock: {"until":ms,"strict":bool,"apps":["YouTube",...],"extra":n} */
+        @JavascriptInterface public String lockInfo() {
+            Activity a = MainActivity.this;
+            try {
+                org.json.JSONObject o = new org.json.JSONObject();
+                o.put("until", Lock.active(a) ? Lock.until(a) : 0); o.put("strict", Lock.strict(a));
+                org.json.JSONArray names = new org.json.JSONArray();
+                java.util.Set<String> all = Lock.session(a); all.addAll(Lock.blocked(a));
+                PackageManager pm = getPackageManager();
+                for (String pkg : all) { try { names.put(pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString()); } catch (Exception ignored) {} }
+                o.put("apps", names); o.put("chosen", Lock.blocked(a).size());
+                return o.toString();
+            } catch (Exception e) { return "{}"; }
+        }
         @JavascriptInterface public int blockedCount() { return Lock.blocked(MainActivity.this).size(); }
         @JavascriptInterface public void openBlocker() {
             if (!trusted()) return;

@@ -42,6 +42,7 @@ public final class Lock {
         long end = System.currentTimeMillis() + m * 60_000L;
         p(c).edit().putLong("until", end).apply();
         showLockNotification(c, end);
+        WatchService.start(c);
     }
 
     /** Apps blocked only for the current lock (picked by name on the website, e.g. "youtube"). */
@@ -82,6 +83,7 @@ public final class Lock {
         long old = until(c);
         start(c, minutes);
         if (old > until(c)) { p(c).edit().putLong("until", old).apply(); showLockNotification(c, old); }
+        WatchService.start(c);
     }
 
     static void stopNames(Context c, String json) {
@@ -97,7 +99,30 @@ public final class Lock {
         p(c).edit().putLong("until", 0L).putStringSet("sess", new HashSet<String>()).putBoolean("strict", false).apply();
         NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
         if (nm != null) nm.cancel(NOTIF_LOCK);
+        WatchService.stop(c);
     }
+
+    /** "Usage access": lets the app see which app is open (needed for blocking without Accessibility). */
+    static boolean hasUsage(Context c) {
+        try {
+            android.app.AppOpsManager ao = (android.app.AppOpsManager) c.getSystemService(Context.APP_OPS_SERVICE);
+            if (ao == null) return false;
+            int mode = Build.VERSION.SDK_INT >= 29
+                    ? ao.unsafeCheckOpNoThrow(android.app.AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(), c.getPackageName())
+                    : ao.checkOpNoThrow(android.app.AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(), c.getPackageName());
+            return mode == android.app.AppOpsManager.MODE_ALLOWED;
+        } catch (Exception e) { return false; }
+    }
+    /** "Display over other apps": lets the Stay-focused screen appear over a blocked app. */
+    static boolean hasOverlay(Context c) { return Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(c); }
+    static boolean batteryOk(Context c) {
+        if (Build.VERSION.SDK_INT < 23) return true;
+        android.os.PowerManager pm = (android.os.PowerManager) c.getSystemService(Context.POWER_SERVICE);
+        return pm == null || pm.isIgnoringBatteryOptimizations(c.getPackageName());
+    }
+    static boolean isXiaomi() { String m = (Build.MANUFACTURER + " " + Build.BRAND).toLowerCase(Locale.ROOT); return m.contains("xiaomi") || m.contains("redmi") || m.contains("poco"); }
+    /** Blocking works if both new permissions are on, or the older Accessibility switch is on. */
+    static boolean ready(Context c) { return (hasUsage(c) && hasOverlay(c)) || serviceEnabled(c); }
 
     static boolean serviceEnabled(Context c) {
         String on = Settings.Secure.getString(c.getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
@@ -127,6 +152,10 @@ public final class Lock {
     static void showLockNotification(Context c, long end) {
         NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
         if (nm == null) return;
+        try { nm.notify(NOTIF_LOCK, lockNotification(c, end).build()); } catch (SecurityException ignored) {}
+    }
+
+    static Notification.Builder lockNotification(Context c, long end) {
         Set<String> all = blocked(c); all.addAll(session(c)); int n = all.size();
         Notification.Builder b = builder(c, CH_FOCUS)
                 .setContentTitle("Focus lock is on")
@@ -134,7 +163,7 @@ public final class Lock {
                 .setOngoing(true).setAutoCancel(false)
                 .setWhen(end).setShowWhen(true);
         if (Build.VERSION.SDK_INT >= 24) b.setUsesChronometer(true).setChronometerCountDown(true);
-        try { nm.notify(NOTIF_LOCK, b.build()); } catch (SecurityException ignored) {}
+        return b;
     }
 
     static void nudge(Context c, String title, String body) {

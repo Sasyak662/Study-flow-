@@ -60,38 +60,16 @@ public class BlockerActivity extends Activity {
         root.setPadding(dp(18), dp(22), dp(18), dp(28));
         sv.addView(root);
 
-        TextView h = text("Block distracting apps", 24, 0xFF0B1220, true);
+        TextView h = text("Choose apps to block", 24, 0xFF0B1220, true);
         root.addView(h);
-        root.addView(text("While a StudyStarx focus session is running, these apps close and you're sent back to studying. When the session ends, everything works normally again.", 14, 0xFF64748B, false));
+        root.addView(text("Tick any app. It is blocked in every focus lock, together with the apps you tap on the Focus Lock page.", 14, 0xFF64748B, false));
 
         LinearLayout card = card(0xFFFFFFFF);
         status = text("", 15, 0xFF0B1220, true);
         card.addView(status);
-        TextView how = text("Android needs you to switch on \"StudyStarx Focus Lock\" once in Accessibility settings (Installed apps → StudyStarx Focus Lock → On). It only checks which app is open — it never reads your screen.", 13, 0xFF64748B, false);
-        card.addView(how);
-        if (android.os.Build.VERSION.SDK_INT >= 33) {
-            card.addView(text("Greyed out or says \"Restricted setting\"? Open App info for StudyStarx, tap ⋮ (top right) → \"Allow restricted settings\", then try again.", 13, 0xFFB45309, false));
-            Button info = button("Open StudyStarx App info", 0xFFFFFFFF, 0xFF0B1220);
-            info.setOnClickListener(v -> {
-                try { startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, android.net.Uri.parse("package:" + getPackageName()))); } catch (Exception ignored) {}
-            });
-            card.addView(info);
-        }
-        enable = button("Open Accessibility settings", 0xFF4F46E5, Color.WHITE);
-        enable.setOnClickListener(v -> {
-            try { startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)); } catch (Exception ignored) {}
-        });
+        enable = button("Done", 0xFF4F46E5, Color.WHITE);
+        enable.setOnClickListener(v -> finish());
         card.addView(enable);
-        Button test = button("Test: lock for 1 minute", 0xFFE0E7FF, 0xFF4338CA);
-        test.setOnClickListener(v -> {
-            Lock.start(this, 1);
-            refresh();
-            android.widget.Toast.makeText(this, "Lock on for 1 minute. Try opening a blocked app.", android.widget.Toast.LENGTH_LONG).show();
-        });
-        card.addView(test);
-        Button stop = button("Stop the lock now", 0xFFFFFFFF, 0xFF0B1220);
-        stop.setOnClickListener(v -> { Lock.stop(this); refresh(); });
-        card.addView(stop);
         root.addView(card);
 
         root.addView(text("Your apps", 18, 0xFF0B1220, true));
@@ -184,15 +162,13 @@ public class BlockerActivity extends Activity {
     @Override protected void onResume() { super.onResume(); refresh(); }
 
     private void refresh() {
-        boolean on = Lock.serviceEnabled(this);
         int n = chosen.size();
-        String s = (on ? "✅ Blocker is switched on" : "⚠️ Blocker is switched off") + " · " + n + (n == 1 ? " app chosen" : " apps chosen");
+        String s = n == 0 ? "No extra apps chosen" : n + (n == 1 ? " app chosen" : " apps chosen");
         if (Lock.active(this)) {
             long left = (Lock.until(this) - System.currentTimeMillis()) / 60000 + 1;
-            s += "\n🔒 Lock running — about " + left + " min left";
+            s += " · 🔒 lock running, about " + left + " min left";
         }
         status.setText(s);
-        enable.setText(on ? "Accessibility settings" : "Switch on the blocker");
     }
 
     private int dp(int v) { return (int) (v * d); }

@@ -53,6 +53,7 @@ public class Reminders extends BroadcastReceiver {
         String a = i.getAction();
         if (Intent.ACTION_BOOT_COMPLETED.equals(a) || "android.intent.action.MY_PACKAGE_REPLACED".equals(a)) {
             schedule(c, p(c).getString("json", "[]"));
+            if (Lock.active(c)) WatchService.start(c);
             return;
         }
         if (ACTION.equals(a)) Lock.nudge(c, i.getStringExtra("title"), i.getStringExtra("body"));
