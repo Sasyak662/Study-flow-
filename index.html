@@ -2762,7 +2762,7 @@ const realFetch=window.fetch.bind(window);
 window.fetch=function(input,init){
   try{
     const url=typeof input==='string'?input:(input&&input.url)||'';
-    if(/^\/api\/(ai|account|plus|class|room|meet)\b/.test(url)&&token()){
+    if(/^\/api\/(ai|account|plus|class|room|meet|tts)\b/.test(url)&&token()){
       init=Object.assign({},init);const hd=new Headers(init.headers||{});if(!hd.has('Authorization'))hd.set('Authorization','Bearer '+token());init.headers=hd;
     }
   }catch(e){}
@@ -10926,6 +10926,11 @@ window.StudyStarxHome={render:render};
 .cq-body .cx-file b{background:none;padding:0}
 .cq-body .cx-fm{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
 .cq-body .cx-fm small{display:block!important;font-size:12px;color:#64748b}
+.cq-act.on{border-color:#a5b4fc!important;color:#4f46e5!important;background:#eef2ff!important}
+.sx-vfield{margin-top:12px}
+.sx-vrow{display:flex;gap:8px}
+.sx-vrow select{flex:1;min-width:0}
+.sx-vtry{flex:0 0 auto;border:1px solid #c7d2fe;background:#eef2ff;color:#4f46e5;border-radius:12px;padding:0 14px;font-weight:700;cursor:pointer}
 
 </style><script id="sf-cq-js">
 /* StudyStarx Coach look: nicely formatted answers, friendly start screen, tidy actions, chat-app typing bar. */
@@ -10995,8 +11000,31 @@ function header(){var h=$('#page-coach .chathead');if(!h||h.dataset.cq)return;h.
 function ask(q){var t=$('#chatText'),f=$('#chatForm');if(!t||!f)return;t.value=q;t.dispatchEvent(new Event('input',{bubbles:true}));if(/[:：] ?$/.test(q)){t.focus();try{t.setSelectionRange(q.length,q.length)}catch(e){}return}if(f.requestSubmit)f.requestSubmit();else f.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-cqq]');if(b){e.preventDefault();ask(b.dataset.cqq);return}
  var c=e.target.closest('[data-cqcopy]');if(c){var m=(D().chat||[])[+c.dataset.cqcopy];if(m){var txt=clean(m.content);(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){c.textContent='✓ Copied';setTimeout(function(){c.textContent='📋 Copy'},1500)}).catch(function(){})}return}
- var s=e.target.closest('[data-cqsay]');if(s){var mm=(D().chat||[])[+s.dataset.cqsay];if(!mm||!window.speechSynthesis)return;if(speechSynthesis.speaking){speechSynthesis.cancel();s.textContent='🔊 Read aloud';return}var u=new SpeechSynthesisUtterance(clean(mm.content).replace(/[•─]/g,' ').slice(0,4000));u.lang='en-IN';u.onend=function(){s.textContent='🔊 Read aloud'};speechSynthesis.speak(u);s.textContent='⏹ Stop';return}});
-function boot(){composer();header();watchBadge();watchCaption()}
+ var s=e.target.closest('[data-cqsay]');if(s){var mm=(D().chat||[])[+s.dataset.cqsay];if(!mm)return;if(VO.btn===s){stopVoice();return}stopVoice();speak(clean(mm.content),s);return}});
+// ---------- Read aloud with a natural AI voice ----------
+var VOICES=[['warm','Warm teacher'],['friendly','Friendly'],['calm','Calm & gentle'],['clear','Clear'],['bright','Bright'],['deep','Deep']];
+function vpref(){try{return localStorage.getItem('sx-voice')||'warm'}catch(e){return'warm'}}
+var VO={btn:null,audio:null,cancel:false,cache:{}};
+function chunks(t){t=t.replace(/[•─✦]/g,' ').replace(/\s*\n+\s*/g,'. ').replace(/\.\s*\./g,'.').replace(/\s{2,}/g,' ').trim();var parts=t.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g)||[t],out=[],cur='';parts.forEach(function(p){p=p.trim();if(!p)return;if((cur+' '+p).length>(out.length?600:260)&&cur){out.push(cur);cur=p}else cur=cur?cur+' '+p:p});if(cur)out.push(cur);return out.slice(0,12)}
+function label(b,t){if(b)b.textContent=t}
+function stopVoice(){VO.cancel=true;VO.gen=(VO.gen||0)+1;try{if(VO.audio){var oa=VO.audio;oa.onended=oa.onerror=null;oa.pause();oa.removeAttribute('src')}}catch(e){}VO.audio=null;try{speechSynthesis.cancel()}catch(e){}label(VO.btn,'🔊 Read aloud');if(VO.btn)VO.btn.classList.remove('on');VO.btn=null}
+function fetchPart(text,voice){var k=voice+'|'+text;if(VO.cache[k])return VO.cache[k];var h={'Content-Type':'application/json'};try{var tk=localStorage.getItem('sf-session');if(tk)h.Authorization='Bearer '+tk}catch(e){}
+ VO.cache[k]=fetch('/api/tts',{method:'POST',headers:h,body:JSON.stringify({text:text,voice:voice})}).then(function(r){if(!r.ok||!/audio/.test(r.headers.get('content-type')||''))return r.json().catch(function(){return{}}).then(function(j){delete VO.cache[k];var e=new Error(j.error||'voice failed');e.limit=!!j.limit;throw e});return r.blob()}).then(function(b){return URL.createObjectURL(b)});return VO.cache[k]}
+function speak(text,btn){VO.cancel=false;VO.gen=(VO.gen||0)+1;var g=VO.gen;VO.btn=btn;btn.classList.add('on');label(btn,'⏳ Getting voice…');var list=chunks(text),voice=vpref(),i=0;
+ function dead(){return VO.cancel||VO.gen!==g||VO.btn!==btn}
+ function next(){if(dead())return;if(i>=list.length){stopVoice();return}var cur=fetchPart(list[i],voice);if(i+1<list.length)fetchPart(list[i+1],voice).catch(function(){});
+  cur.then(function(url){if(dead())return;var a=new Audio(url);VO.audio=a;a.onended=function(){i++;next()};a.onerror=function(){if(!dead())fallback(list.slice(i),btn)};label(btn,'⏹ Stop');return a.play()}).catch(function(e){if(dead())return;fallback(list.slice(i),btn,e&&e.limit)})}
+ next()}
+// the phone/computer's best built-in voice, used only if the AI voice can't be reached
+function bestVoice(){var vs=[];try{vs=speechSynthesis.getVoices()||[]}catch(e){}if(!vs.length)return null;function sc(v){var n=v.name+' '+v.voiceURI,l=(v.lang||'').toLowerCase(),s=0;if(/natural|neural|online|premium|enhanced|wavenet|studio/i.test(n))s+=50;if(/google/i.test(n))s+=25;if(/siri|samantha|karen|daniel|moira|veena|rishi/i.test(n))s+=15;if(l==='en-in')s+=12;else if(l==='en-gb')s+=8;else if(/^en/.test(l))s+=5;else s-=100;if(/compact|espeak|robot/i.test(n))s-=40;return s}return vs.slice().sort(function(a,b){return sc(b)-sc(a)})[0]}
+function fallback(list,btn,limited){if(!window.speechSynthesis||!list.length){stopVoice();return}if(limited&&!VO.told){VO.told=1;try{toast('Today’s AI voice is used up — your phone’s voice is reading instead.')}catch(e){}}
+ var v=bestVoice(),j=0;label(btn,'⏹ Stop');(function one(){if(VO.cancel||VO.btn!==btn)return;if(j>=list.length){stopVoice();return}var u=new SpeechSynthesisUtterance(list[j++]);if(v){u.voice=v;u.lang=v.lang}else u.lang='en-IN';u.rate=.96;u.pitch=1.02;u.onend=one;u.onerror=one;speechSynthesis.speak(u)})()}
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=function(){}}catch(e){}
+// voice picker in the coach settings
+function picker(){var box=$('#page-coach .sf-cset');if(!box||$('#sxVoicePick'))return;var f=document.createElement('div');f.className='field sx-vfield';f.innerHTML='<label for="sxVoicePick">Read-aloud voice</label><div class="sx-vrow"><select id="sxVoicePick">'+VOICES.map(function(v){return'<option value="'+v[0]+'"'+(v[0]===vpref()?' selected':'')+'>'+v[1]+'</option>'}).join('')+'</select><button type="button" class="sx-vtry" id="sxVoiceTry">▶ Try</button></div>';var after=box.querySelector('.sf-hintset')||box.lastElementChild;box.insertBefore(f,after?after.nextSibling:null);
+ $('#sxVoicePick').onchange=function(){try{localStorage.setItem('sx-voice',this.value)}catch(e){}};
+ $('#sxVoiceTry').onclick=function(){var b=this;if(VO.btn===b){stopVoice();b.textContent='▶ Try';return}stopVoice();speak('Hi! I am your StudyStarx coach. Let us learn this together, one step at a time.',b);var w=setInterval(function(){if(VO.btn!==b){b.textContent='▶ Try';clearInterval(w)}},400)}}
+function boot(){composer();header();watchBadge();watchCaption();picker()}
 setInterval(boot,1500);setTimeout(boot,200);
 })();
 
