@@ -10375,116 +10375,6 @@ setInterval(function(){hud();try{var pg=document.getElementById('page-quest');if
 window.StudyQuestRun={open:open,close:close,_R:function(){return R}};
 })();
 
-</script><style id="sf-st2-css">
-.st2-ov{position:fixed;inset:0;z-index:9990;background:rgba(10,8,30,.72);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px}
-.st2-c{background:#fff;color:#0f172a;border-radius:24px;max-width:480px;width:100%;max-height:90vh;overflow:auto;padding:28px 24px;box-shadow:0 30px 80px rgba(0,0,0,.35);text-align:center}
-.st2-orb{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#7c3aed,#ec4899);animation:st2p 1.6s ease-in-out infinite}
-@keyframes st2p{50%{transform:scale(1.08)}}
-.st2-c h2{margin:6px 0 4px;font-size:22px}
-.st2-s{color:#64748b;margin:0 0 14px;font-size:14px}
-.st2-tasks{list-style:none;margin:0 0 16px;padding:0;text-align:left;display:grid;gap:8px}
-.st2-tasks li{display:flex;gap:10px;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;font-size:14px}
-.st2-tasks .s{width:18px;height:18px;flex:none;border-radius:50%;border:2.5px solid #c4b5fd;border-top-color:#7c3aed;animation:st2s .8s linear infinite}
-.st2-tasks li.ok .s{animation:none;border:none;background:#22c55e;position:relative}
-.st2-tasks li.ok .s:after{content:"✓";color:#fff;font-size:12px;font-weight:900;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.st2-tasks li.no .s{animation:none;border:none;background:#f59e0b}
-@keyframes st2s{to{transform:rotate(360deg)}}
-.st2-go{width:100%;border:0;border-radius:14px;padding:14px;font-weight:800;font-size:16px;color:#fff;background:linear-gradient(135deg,#7c3aed,#4f46e5);cursor:pointer}
-.st2-go[hidden]{display:none}
-
-</style><script id="sf-st2-js">
-/* ===== Starter pack: after the survey, 10 quizzes + flashcard sets made for the student's grade, board and subjects.
-   They go into Quiz Studio ("Your quizzes") and Flashcards. StudyQuest keeps its own hidden bank separately. ===== */
-(function(){
-function P(){try{return data.profile||{}}catch(e){return{}}}
-function D(){try{return data}catch(e){return{}}}
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
-function emo(s){s=String(s).toLowerCase();return/math/.test(s)?'🧮':/phys/.test(s)?'⚡':/chem/.test(s)?'🧪':/bio/.test(s)?'🧬':/scien/.test(s)?'🔬':/english|lit/.test(s)?'✍️':/hist/.test(s)?'🏛️':/geog/.test(s)?'🌍':/econ/.test(s)?'📈':/busin|commerce/.test(s)?'💼':/account/.test(s)?'📒':/comput|ict|data|program/.test(s)?'💻':/french|spanish|hindi|language/.test(s)?'🗣️':/social/.test(s)?'🗺️':'📘'}
-function ctx(){var p=P();return{grade:p.grade||p.level||'',syll:p.syllabus||p.board||p.curriculum||'',hard:p.hardest||'',aim:p.aim||'grades',role:p.role||'student',child:p.child||''}}
-function addCards(set,list,e){var d=D();if(!Array.isArray(d.flashcards))d.flashcards=[];list.forEach(function(x){d.flashcards.push({id:uid(),front:x.f,back:x.b,learned:false,lv:0,set:set})});if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};var m=d.fcmeta[set]||(d.fcmeta[set]={color:['#7c3aed','#0d9488','#e8475f','#d97706','#2563eb'][Object.keys(d.fcmeta).length%5],created:Date.now()});m.emoji=e;m.last=Date.now();m.keep=true;m.starter=true}
-function addQuiz(q){try{if(typeof customQuizzes==='undefined')return false;customQuizzes.push(q);saveCustomQuizzes();return true}catch(e){return false}}
-function hasStarter(sub){try{return(customQuizzes||[]).some(function(q){return q.starter&&q.subject===sub})}catch(e){return false}}
-function fallback(sub,k){
- var bank=(window.QB_START&&QB_START[qbKind(sub)])||[];if(!bank.length)return{quizzes:0,cards:0,ai:false};
- var qs=bank.map(function(q){return{text:q[0],options:q[1].slice(),correct:q[2],explain:q[3]||'',time:20}});
- var made=0,per=Math.max(5,Math.min(8,Math.floor(qs.length/Math.max(1,k))));
- for(var i=0;i<k;i++){var part=[];for(var z=0;z<per;z++)part.push(qs[(i*per+z)%qs.length]);addQuiz({id:'st'+uid(),title:sub+' warm-up '+(i+1),subject:sub,topic:'Starter',emoji:emo(sub),theme:'sunrise',questions:part,created:Date.now(),starter:true,general:true});made++}
- var cards=bank.slice(0,12).map(function(q){return{f:q[0],b:q[1][q[2]]+(q[3]?' — '+q[3]:'')}});addCards(sub+' · Starter',cards,emo(sub));
- return{quizzes:made,cards:cards.length,ai:false}}
-function aiCall(body){return fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(!r.ok){var e=new Error(j.error||('HTTP '+r.status));e.status=r.status;throw e}return j})})}
-function firstDay(){try{var t=(data.profile||{}).starterBuilt;return !t||Date.now()-t<20*3600e3}catch(e){return true}}
-function parseObj(t){t=String(t||'');var a=t.indexOf('{'),b=t.lastIndexOf('}');if(a<0||b<a)throw new Error('no JSON');var o_=JSON.parse(t.slice(a,b+1));return window.sfCleanData?sfCleanData(o_):o_;return JSON.parse(t.slice(a,b+1))}
-function who(c,sub){return 'Subject: '+sub+'\nGrade/class/year: '+(c.grade||'not given')+'\nSyllabus/board/course: '+(c.syll||'not given')+(c.hard===sub?'\nThe student finds this subject hardest — start from the basics.':'')+(c.role==='teacher'?'\nThis is for a TEACHER: make lesson-starter class quizzes and revision cards for their students.':c.role==='parent'?'\nThis is set up by a parent for their child'+(c.child?' ('+c.child+')':'')+'.':'')+'\nGoal: '+c.aim+'\nIf the subject name is short or unusual (an abbreviation like EVS/EVM, a local subject name), work out the real school subject it means for this grade and syllabus and write about THAT subject only. Never write general-knowledge or study-skills questions.'}
-// one request per quiz, so each reply is small and fast (big replies were timing out and fell back to general questions)
-function oneQuiz(sub,c,used,i,k){var body={purpose:'setup',first:firstDay(),temperature:0.4,search:false,maxTokens:4000,
-  system:'You write accurate, syllabus-aligned study material: a school quiz. Return ONLY JSON: {"title":"short quiz title","topic":"topic","questions":[{"q":"question","options":["A","B","C","D"],"correct":0,"why":"one sentence"}]}. Exactly 8 questions, exactly 4 options each, all on ONE important topic of the subject. Check each answer carefully before choosing "correct", and vary the correct position. Match the grade and syllabus exactly and use its terminology. Plain text, no LaTeX. Only facts that are certainly true.',
-  user:who(c,sub)+'\nThis is quiz '+(i+1)+' of '+k+'.'+(used.length?' Pick a DIFFERENT topic from these already used: '+used.join('; ')+'.':'')};
- return aiCall(body).then(function(j){var z=parseObj(j.text);var qs=(z.questions||[]).map(function(q){var op=(q.options||[]).map(function(x){return String(x).slice(0,160)});return{text:String(q.q||q.question||'').slice(0,300),options:op,correct:+(q.correct!=null?q.correct:q.correctIndex),explain:String(q.why||q.explanation||'').slice(0,300),time:20}}).filter(function(q){return q.text&&q.options.length===4&&q.correct>=0&&q.correct<4});
-  if(qs.length<4)throw new Error('too few questions');return{title:String(z.title||sub+' quiz '+(i+1)).slice(0,80),topic:String(z.topic||'Starter').slice(0,60),qs:qs}})}
-function someCards(sub,c){var body={purpose:'setup',first:firstDay(),temperature:0.4,search:false,maxTokens:3000,
-  system:'You write accurate, syllabus-aligned study material: revision flashcards. Return ONLY JSON: {"cards":[{"front":"term or question (max 80 chars)","back":"short answer (max 160 chars)"}]}. Exactly 12 cards on the most important topics of the subject for this grade and syllabus. Plain text, no LaTeX. Only facts that are certainly true.',
-  user:who(c,sub)};
- return aiCall(body).then(function(j){var o=parseObj(j.text);return(o.cards||[]).map(function(x){return{f:String(x.front||'').slice(0,200),b:String(x.back||'').slice(0,400)}}).filter(function(x){return x.f&&x.b}).slice(0,15)})}
-function retry(fn,n){return fn().catch(function(e){if(n<=0||e.status===429||/limit/i.test(e.message||''))throw e;return new Promise(function(ok){setTimeout(ok,1800)}).then(function(){return retry(fn,n-1)})})}
-function pend(sub,k,on){try{var p=data.profile;p.starterPending=p.starterPending||{};if(on)p.starterPending[sub]=k;else delete p.starterPending[sub];persist()}catch(e){}}
-function subject(sub,k,c){
- c=c||ctx();k=Math.max(1,Math.min(4,k||2));var used=[],made=0,cards=0,i=0;
- function next(){if(i>=k)return Promise.resolve();var n=i++;return retry(function(){return oneQuiz(sub,c,used,n,k)},2).then(function(z){used.push(z.topic);addQuiz({id:'st'+uid(),title:z.title,subject:sub,topic:z.topic,emoji:emo(sub),theme:'sunrise',questions:z.qs,created:Date.now(),starter:true});made++;try{persist()}catch(e){}return next()}).catch(function(e){try{console.warn('Starter quiz failed for '+sub,e)}catch(_){}if(/limit|busy|429/i.test(e.message||'')||e.status===429)return;return next()})}
- return next().then(function(){return retry(function(){return someCards(sub,c)},1).then(function(l){if(l.length){addCards(sub+' · Starter',l,emo(sub));cards=l.length}}).catch(function(){})}).then(function(){
-  // never fill in with general questions: if nothing was made, try again later by itself
-  pend(sub,k,!made);return{quizzes:made,cards:cards,ai:true}})}
-// Old builds put general (not-your-subject) warm-up quizzes in when the AI was slow. Remove them and remake real ones.
-function purgeGeneral(){try{var d=D(),p=P();if(!p.onboarded||typeof customQuizzes==='undefined')return;var gone={};
- for(var i=customQuizzes.length-1;i>=0;i--){var q=customQuizzes[i];if(q&&q.starter&&q.general){gone[q.subject]=(gone[q.subject]||0)+1;customQuizzes.splice(i,1)}}
- var subs=Object.keys(gone);if(!subs.length)return;saveCustomQuizzes();
- var bank={};try{Object.keys(window.QB_START||{}).forEach(function(k){(QB_START[k]||[]).forEach(function(q){bank[q[0]]=1})})}catch(e){}
- if(Array.isArray(d.flashcards))d.flashcards=d.flashcards.filter(function(c){return!bank[c.front]});
- subs.forEach(function(s){if(!customQuizzes.some(function(q){return q.starter&&q.subject===s}))pend(s,Math.min(4,gone[s]),true)});try{persist()}catch(e){}}catch(e){}}
-var pendBusy=false;function retryPending(){try{var p=P(),pp=p.starterPending||{},subs=Object.keys(pp);if(pendBusy||!subs.length||!p.onboarded||document.getElementById('st2Ov'))return;var last=+localStorage.getItem('sf-pend-try')||0;if(Date.now()-last<10*60e3)return;localStorage.setItem('sf-pend-try',Date.now());pendBusy=true;
- var j=0;(function nx(){if(j>=subs.length){pendBusy=false;try{if(typeof renderAll==='function')renderAll();if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}return}var s=subs[j++];if(customQuizzes.some(function(q){return q.starter&&q.subject===s})){pend(s,0,false);return nx()}subject(s,pp[s]||2).then(nx)})()}catch(e){pendBusy=false}}
-setTimeout(function(){purgeGeneral();retryPending()},4000);setInterval(retryPending,5*60e3);
-function split(n){var subs=n;var base=Math.floor(10/subs),extra=10%subs;return function(i){return Math.min(4,base+(i<extra?1:0))||1}}
-function all(onStep){
- var p=P(),subs=(p.subjects||[]).filter(Boolean).slice(0,10);if(!subs.length)return Promise.resolve({quizzes:0,cards:0});
- var q=split(subs.length),i=0,tot={quizzes:0,cards:0,ai:0};
- return new Promise(function(res){(function next(){if(i>=subs.length){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}try{if(typeof renderAll==='function')renderAll()}catch(e){}return res(tot)}
-  var s=subs[i],k=q(i);i++;if(hasStarter(s))return next();subject(s,k).then(function(r){tot.quizzes+=r.quizzes;tot.cards+=r.cards;if(r.ai)tot.ai++;try{persist()}catch(e){}if(onStep)onStep(s,r);next()})})()})}
-function quest(subs,taskFn){
- if(!window.SFQuestBank)return Promise.resolve();
- // About 60 StudyQuest questions on the first day, shared by ALL subjects. Up to 3 subjects share one AI request
- // (max 25 questions per request), so 1 subject = 3 requests and 8 subjects = 3 requests.
- var list=subs.slice(0,12),groups=[];for(var g=0;g<list.length;g+=3)groups.push(list.slice(g,g+3));
- var each=Math.max(5,Math.ceil(60/Math.max(1,list.length)));var t=taskFn('Making about 60 StudyQuest questions for '+list.join(', '));
- function count(){return list.reduce(function(a,x){return a+SFQuestBank.aiCount(x)},0)}
- function one(grp,n,tries){return SFQuestBank.topUpMulti(grp,n).then(function(r){if(r)return r;if(tries>0&&SFQuestBank.lastErr&&SFQuestBank.lastErr()!=='limit')return new Promise(function(ok){setTimeout(ok,1500)}).then(function(){return one(grp,n,tries-1)});return 0})}
- function runGroup(grp){var need=each*grp.length,jobs=[];while(need>0){jobs.push(Math.max(8,Math.min(25,need)));need-=25}
-  return jobs.reduce(function(pr,n){return pr.then(function(){return one(grp,n,1)})},Promise.resolve())}
- // two groups at a time, so it is quicker
- var gi=0;function worker(){if(gi>=groups.length)return Promise.resolve();var grp=groups[gi++];return runGroup(grp).then(worker)}
- return Promise.all([worker(),worker()]).then(function(){var tot=count();
-  if(tot)t.ok('StudyQuest: '+tot+' quiz questions ready for your syllabus');
-  else t.no(SFQuestBank.lastErr&&SFQuestBank.lastErr()==='limit'?'StudyQuest: today\'s AI limit is used up — questions will be made tomorrow':'StudyQuest: questions will be made when you open it')})}
-var autoRan=false;
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function auto(){
- if(autoRan)return;var p=P();if(!p.onboarded||p.starterBuilt||!(p.subjects||[]).length)return;
- if(document.getElementById('sfOb2')||document.getElementById('sfOnb'))return setTimeout(auto,3000);
- autoRan=true;var subs=(p.subjects||[]).filter(Boolean).slice(0,10);
- var o=document.createElement('div');o.className='st2-ov';o.id='st2Ov';
- o.innerHTML='<div class="st2-c" role="dialog" aria-modal="true"><div class="st2-orb">✨</div><h2 id="st2T">Getting your study space ready…</h2><p class="st2-s">Making everything for '+esc([p.grade||p.level,p.syllabus||p.board].filter(Boolean).join(' · '))+'. This takes about a minute.</p><ul class="st2-tasks" id="st2L"></ul><button type="button" class="st2-go" id="st2Go" hidden>Continue</button></div>';
- document.body.appendChild(o);document.body.style.overflow='hidden';
- function task(t){var li=document.createElement('li');li.innerHTML='<span class="s"></span><b>'+esc(t)+'</b>';document.getElementById('st2L').appendChild(li);li.scrollIntoView({block:'nearest'});return{ok:function(x){li.classList.add('ok');if(x)li.querySelector('b').textContent=x},no:function(x){li.classList.add('no');if(x)li.querySelector('b').textContent=x}}}
- var q=split(subs.length),i=0;
- (function next(){if(i>=subs.length){return quest(subs,task).then(fin)}
-  var s=subs[i],k=q(i);i++;if(hasStarter(s))return next();var t=task('Making '+s+' quizzes & flashcards');
-  subject(s,k).then(function(r){try{persist()}catch(e){}if(r.quizzes)t.ok(s+': '+r.quizzes+' quiz'+(r.quizzes>1?'zes':'')+' + '+r.cards+' flashcards'+' ✓');else t.no(s+': the AI is busy — your quizzes will appear by themselves in a few minutes');next()})})();
- function fin(){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}try{if(typeof renderAll==='function')renderAll()}catch(e){}try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}
-  document.getElementById('st2T').textContent='Your study space is ready!';var ss=document.querySelector('#st2Ov .st2-s');if(ss)ss.textContent='Everything below was made for your grade and subjects.';var b=document.getElementById('st2Go');b.hidden=false;b.onclick=function(){o.remove();document.body.style.overflow='';try{go('dashboard')}catch(e){}}}
-}
-setTimeout(auto,1500);
-window.SFStarter={subject:subject,all:all,auto:auto,split:split,emo:emo,quest:quest};
-})();
-
 </script><style id="sf-fl-css">
 .fl-status{border-radius:16px;padding:16px 18px;margin-bottom:16px;line-height:1.55;border:1px solid var(--line,#e4e7ee);background:var(--card,#fff)}
 .fl-status.ok{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
@@ -11526,6 +11416,127 @@ if(typeof window.go==='function'&&!window.go.__fz){var og=window.go,w=function(p
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,400)});else setTimeout(boot,400);
 setTimeout(boot,2000);
 window.sfFocusLockDraw=draw;
+})();
+
+</script><style id="sf-st2-css">
+.st2-ov{position:fixed;inset:0;z-index:9990;background:rgba(10,8,30,.72);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px}
+.st2-c{background:#fff;color:#0f172a;border-radius:24px;max-width:480px;width:100%;max-height:90vh;overflow:auto;padding:28px 24px;box-shadow:0 30px 80px rgba(0,0,0,.35);text-align:center}
+.st2-orb{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#7c3aed,#ec4899);animation:st2p 1.6s ease-in-out infinite}
+@keyframes st2p{50%{transform:scale(1.08)}}
+.st2-c h2{margin:6px 0 4px;font-size:22px}
+.st2-s{color:#64748b;margin:0 0 14px;font-size:14px}
+.st2-tasks{list-style:none;margin:0 0 16px;padding:0;text-align:left;display:grid;gap:8px}
+.st2-tasks li{display:flex;gap:10px;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;font-size:14px}
+.st2-tasks .s{width:18px;height:18px;flex:none;border-radius:50%;border:2.5px solid #c4b5fd;border-top-color:#7c3aed;animation:st2s .8s linear infinite}
+.st2-tasks li.ok .s{animation:none;border:none;background:#22c55e;position:relative}
+.st2-tasks li.ok .s:after{content:"✓";color:#fff;font-size:12px;font-weight:900;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.st2-tasks li.no .s{animation:none;border:none;background:#f59e0b}
+@keyframes st2s{to{transform:rotate(360deg)}}
+.st2-go{width:100%;border:0;border-radius:14px;padding:14px;font-weight:800;font-size:16px;color:#fff;background:linear-gradient(135deg,#7c3aed,#4f46e5);cursor:pointer}
+.st2-go[hidden]{display:none}
+
+</style><script id="sf-st2-js">
+/* ===== Starter pack: after the survey, 10 quizzes + flashcard sets made for the student's grade, board and subjects.
+   They go into Quiz Studio ("Your quizzes") and Flashcards. StudyQuest keeps its own hidden bank separately. ===== */
+(function(){
+function P(){try{return data.profile||{}}catch(e){return{}}}
+function D(){try{return data}catch(e){return{}}}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function emo(s){s=String(s).toLowerCase();return/math/.test(s)?'🧮':/phys/.test(s)?'⚡':/chem/.test(s)?'🧪':/bio/.test(s)?'🧬':/scien/.test(s)?'🔬':/english|lit/.test(s)?'✍️':/hist/.test(s)?'🏛️':/geog/.test(s)?'🌍':/econ/.test(s)?'📈':/busin|commerce/.test(s)?'💼':/account/.test(s)?'📒':/comput|ict|data|program/.test(s)?'💻':/french|spanish|hindi|language/.test(s)?'🗣️':/social/.test(s)?'🗺️':'📘'}
+function ctx(){var p=P();return{grade:p.grade||p.level||'',syll:p.syllabus||p.board||p.curriculum||'',hard:p.hardest||'',aim:p.aim||'grades',role:p.role||'student',child:p.child||''}}
+function addCards(set,list,e){var d=D();if(!Array.isArray(d.flashcards))d.flashcards=[];list.forEach(function(x){d.flashcards.push({id:uid(),front:x.f,back:x.b,learned:false,lv:0,set:set})});if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};var m=d.fcmeta[set]||(d.fcmeta[set]={color:['#7c3aed','#0d9488','#e8475f','#d97706','#2563eb'][Object.keys(d.fcmeta).length%5],created:Date.now()});m.emoji=e;m.last=Date.now();m.keep=true;m.starter=true}
+function addQuiz(q){try{if(typeof customQuizzes==='undefined')return false;customQuizzes.push(q);saveCustomQuizzes();return true}catch(e){return false}}
+function hasStarter(sub){try{return(customQuizzes||[]).some(function(q){return q.starter&&q.subject===sub})}catch(e){return false}}
+function fallback(sub,k){
+ var bank=(window.QB_START&&QB_START[qbKind(sub)])||[];if(!bank.length)return{quizzes:0,cards:0,ai:false};
+ var qs=bank.map(function(q){return{text:q[0],options:q[1].slice(),correct:q[2],explain:q[3]||'',time:20}});
+ var made=0,per=Math.max(5,Math.min(8,Math.floor(qs.length/Math.max(1,k))));
+ for(var i=0;i<k;i++){var part=[];for(var z=0;z<per;z++)part.push(qs[(i*per+z)%qs.length]);addQuiz({id:'st'+uid(),title:sub+' warm-up '+(i+1),subject:sub,topic:'Starter',emoji:emo(sub),theme:'sunrise',questions:part,created:Date.now(),starter:true,general:true});made++}
+ var cards=bank.slice(0,12).map(function(q){return{f:q[0],b:q[1][q[2]]+(q[3]?' — '+q[3]:'')}});addCards(sub+' · Starter',cards,emo(sub));
+ return{quizzes:made,cards:cards.length,ai:false}}
+function aiCall(body){return fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(!r.ok){var e=new Error(j.error||('HTTP '+r.status));e.status=r.status;throw e}return j})})}
+function firstDay(){try{var t=(data.profile||{}).starterBuilt;return !t||Date.now()-t<20*3600e3}catch(e){return true}}
+function parseObj(t){t=String(t||'');var a=t.indexOf('{'),b=t.lastIndexOf('}');if(a<0||b<a)throw new Error('no JSON');var o_=JSON.parse(t.slice(a,b+1));return window.sfCleanData?sfCleanData(o_):o_;return JSON.parse(t.slice(a,b+1))}
+function who(c,sub){return 'Subject: '+sub+'\nGrade/class/year: '+(c.grade||'not given')+'\nSyllabus/board/course: '+(c.syll||'not given')+(c.hard===sub?'\nThe student finds this subject hardest — start from the basics.':'')+(c.role==='teacher'?'\nThis is for a TEACHER: make lesson-starter class quizzes and revision cards for their students.':c.role==='parent'?'\nThis is set up by a parent for their child'+(c.child?' ('+c.child+')':'')+'.':'')+'\nGoal: '+c.aim+'\nIf the subject name is short or unusual (an abbreviation like EVS/EVM, a local subject name), work out the real school subject it means for this grade and syllabus and write about THAT subject only. Never write general-knowledge or study-skills questions.'}
+// one request per quiz, so each reply is small and fast (big replies were timing out and fell back to general questions)
+function oneQuiz(sub,c,used,i,k){var body={purpose:'setup',first:firstDay(),temperature:0.4,search:false,maxTokens:4000,
+  system:'You write accurate, syllabus-aligned study material: a school quiz. Return ONLY JSON: {"title":"short quiz title","topic":"topic","questions":[{"q":"question","options":["A","B","C","D"],"correct":0,"why":"one sentence"}]}. Exactly 8 questions, exactly 4 options each, all on ONE important topic of the subject. Check each answer carefully before choosing "correct", and vary the correct position. Match the grade and syllabus exactly and use its terminology. Plain text, no LaTeX. Only facts that are certainly true.',
+  user:who(c,sub)+'\nThis is quiz '+(i+1)+' of '+k+'.'+(used.length?' Pick a DIFFERENT topic from these already used: '+used.join('; ')+'.':'')};
+ return aiCall(body).then(function(j){var z=parseObj(j.text);var qs=(z.questions||[]).map(function(q){var op=(q.options||[]).map(function(x){return String(x).slice(0,160)});return{text:String(q.q||q.question||'').slice(0,300),options:op,correct:+(q.correct!=null?q.correct:q.correctIndex),explain:String(q.why||q.explanation||'').slice(0,300),time:20}}).filter(function(q){return q.text&&q.options.length===4&&q.correct>=0&&q.correct<4});
+  if(qs.length<4)throw new Error('too few questions');return{title:String(z.title||sub+' quiz '+(i+1)).slice(0,80),topic:String(z.topic||'Starter').slice(0,60),qs:qs}})}
+function someCards(sub,c){var body={purpose:'setup',first:firstDay(),temperature:0.4,search:false,maxTokens:3000,
+  system:'You write accurate, syllabus-aligned study material: revision flashcards. Return ONLY JSON: {"cards":[{"front":"term or question (max 80 chars)","back":"short answer (max 160 chars)"}]}. Exactly 12 cards on the most important topics of the subject for this grade and syllabus. Plain text, no LaTeX. Only facts that are certainly true.',
+  user:who(c,sub)};
+ return aiCall(body).then(function(j){var o=parseObj(j.text);return(o.cards||[]).map(function(x){return{f:String(x.front||'').slice(0,200),b:String(x.back||'').slice(0,400)}}).filter(function(x){return x.f&&x.b}).slice(0,15)})}
+function retry(fn,n){return fn().catch(function(e){if(n<=0||e.status===429||/limit/i.test(e.message||''))throw e;return new Promise(function(ok){setTimeout(ok,1800)}).then(function(){return retry(fn,n-1)})})}
+function pend(sub,k,on){try{var p=data.profile;p.starterPending=p.starterPending||{};if(on)p.starterPending[sub]=k;else delete p.starterPending[sub];persist()}catch(e){}}
+// quiz titles that mean the same thing ("Quadratic Equations" = "Quadratic equations quiz")
+function qnorm(t){return String(t||'').toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9 ]+/g,' ').replace(/\b(quiz|test|practice|questions|revision|basics|the|an?|of|and|introduction to|intro to)\b/g,' ').replace(/\s+/g,' ').trim()}
+function haveTopics(){var out=[];try{(customQuizzes||[]).forEach(function(q){if(q&&q.title)out.push(q.title);if(q&&q.topic&&q.topic!=='Starter'&&qnorm(q.topic)!==qnorm(q.title))out.push(q.topic)})}catch(e){}return out}
+function isDup(z){var a=qnorm(z.title),b=qnorm(z.topic);try{return(customQuizzes||[]).some(function(q){var t=qnorm(q.title),u=qnorm(q.topic);return(a&&(a===t||a===u))||(b&&b.length>3&&(b===t||b===u))})}catch(e){return false}}
+// join starter quizzes that have the same title into one bigger quiz (no questions are lost)
+function mergeDupes(){try{if(typeof customQuizzes==='undefined')return 0;var by={},gone=0;
+ customQuizzes.slice().sort(function(x,y){return(x.created||0)-(y.created||0)}).forEach(function(q){if(!q||!q.starter)return;var k=qnorm(q.title);if(!k)return;var keep=by[k];if(!keep){by[k]=q;return}
+  var seen={};keep.questions.forEach(function(x){seen[qnorm(x.text)]=1});(q.questions||[]).forEach(function(x){var t=qnorm(x.text);if(!seen[t]&&keep.questions.length<24){seen[t]=1;keep.questions.push(x)}});
+  var ix=customQuizzes.indexOf(q);if(ix>=0){customQuizzes.splice(ix,1);gone++}});
+ if(gone){saveCustomQuizzes();try{if(typeof renderAll==='function')renderAll()}catch(e){}}return gone}catch(e){return 0}}
+function subject(sub,k,c){
+ c=c||ctx();k=Math.max(1,Math.min(4,k||2));var used=haveTopics().slice(-40),made=0,cards=0,i=0;
+ function fresh(n){return retry(function(){return oneQuiz(sub,c,used,n,k)},2).then(function(z){if(!isDup(z))return z;used.push(z.title);return oneQuiz(sub,c,used,n,k).then(function(z2){if(isDup(z2))throw new Error('same topic again');return z2})})}
+ function next(){if(i>=k)return Promise.resolve();var n=i++;return fresh(n).then(function(z){used.push(z.topic);addQuiz({id:'st'+uid(),title:z.title,subject:sub,topic:z.topic,emoji:emo(sub),theme:'sunrise',questions:z.qs,created:Date.now(),starter:true});made++;try{persist()}catch(e){}return next()}).catch(function(e){try{console.warn('Starter quiz failed for '+sub,e)}catch(_){}if(/limit|busy|429/i.test(e.message||'')||e.status===429)return;return next()})}
+ return next().then(function(){return retry(function(){return someCards(sub,c)},1).then(function(l){if(l.length){addCards(sub+' · Starter',l,emo(sub));cards=l.length}}).catch(function(){})}).then(function(){
+  // never fill in with general questions: if nothing was made, try again later by itself
+  pend(sub,k,!made);return{quizzes:made,cards:cards,ai:true}})}
+// Old builds put general (not-your-subject) warm-up quizzes in when the AI was slow. Remove them and remake real ones.
+function purgeGeneral(){try{var d=D(),p=P();if(!p.onboarded||typeof customQuizzes==='undefined')return;var gone={};
+ for(var i=customQuizzes.length-1;i>=0;i--){var q=customQuizzes[i];if(q&&q.starter&&q.general){gone[q.subject]=(gone[q.subject]||0)+1;customQuizzes.splice(i,1)}}
+ var subs=Object.keys(gone);if(!subs.length)return;saveCustomQuizzes();
+ var bank={};try{Object.keys(window.QB_START||{}).forEach(function(k){(QB_START[k]||[]).forEach(function(q){bank[q[0]]=1})})}catch(e){}
+ if(Array.isArray(d.flashcards))d.flashcards=d.flashcards.filter(function(c){return!bank[c.front]});
+ subs.forEach(function(s){if(!customQuizzes.some(function(q){return q.starter&&q.subject===s}))pend(s,Math.min(4,gone[s]),true)});try{persist()}catch(e){}}catch(e){}}
+var pendBusy=false;function retryPending(){try{var p=P(),pp=p.starterPending||{},subs=Object.keys(pp);if(pendBusy||!subs.length||!p.onboarded||document.getElementById('st2Ov'))return;var last=+localStorage.getItem('sf-pend-try')||0;if(Date.now()-last<10*60e3)return;localStorage.setItem('sf-pend-try',Date.now());pendBusy=true;
+ var j=0;(function nx(){if(j>=subs.length){pendBusy=false;try{if(typeof renderAll==='function')renderAll();if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}return}var s=subs[j++];if(customQuizzes.some(function(q){return q.starter&&q.subject===s})){pend(s,0,false);return nx()}subject(s,pp[s]||2).then(nx)})()}catch(e){pendBusy=false}}
+setTimeout(function(){purgeGeneral();mergeDupes();retryPending()},4000);setInterval(retryPending,5*60e3);
+function split(n){var subs=n;var base=Math.floor(10/subs),extra=10%subs;return function(i){return Math.min(4,base+(i<extra?1:0))||1}}
+function all(onStep){
+ var p=P(),subs=(p.subjects||[]).filter(Boolean).slice(0,10);if(!subs.length)return Promise.resolve({quizzes:0,cards:0});
+ var q=split(subs.length),i=0,tot={quizzes:0,cards:0,ai:0};
+ return new Promise(function(res){(function next(){if(i>=subs.length){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}try{if(typeof renderAll==='function')renderAll()}catch(e){}return res(tot)}
+  var s=subs[i],k=q(i);i++;if(hasStarter(s))return next();subject(s,k).then(function(r){tot.quizzes+=r.quizzes;tot.cards+=r.cards;if(r.ai)tot.ai++;try{persist()}catch(e){}if(onStep)onStep(s,r);next()})})()})}
+function quest(subs,taskFn){
+ if(!window.SFQuestBank)return Promise.resolve();
+ // About 60 StudyQuest questions on the first day, shared by ALL subjects. Up to 3 subjects share one AI request
+ // (max 25 questions per request), so 1 subject = 3 requests and 8 subjects = 3 requests.
+ var list=subs.slice(0,12),groups=[];for(var g=0;g<list.length;g+=3)groups.push(list.slice(g,g+3));
+ var each=Math.max(5,Math.ceil(60/Math.max(1,list.length)));var t=taskFn('Making about 60 StudyQuest questions for '+list.join(', '));
+ function count(){return list.reduce(function(a,x){return a+SFQuestBank.aiCount(x)},0)}
+ function one(grp,n,tries){return SFQuestBank.topUpMulti(grp,n).then(function(r){if(r)return r;if(tries>0&&SFQuestBank.lastErr&&SFQuestBank.lastErr()!=='limit')return new Promise(function(ok){setTimeout(ok,1500)}).then(function(){return one(grp,n,tries-1)});return 0})}
+ function runGroup(grp){var need=each*grp.length,jobs=[];while(need>0){jobs.push(Math.max(8,Math.min(25,need)));need-=25}
+  return jobs.reduce(function(pr,n){return pr.then(function(){return one(grp,n,1)})},Promise.resolve())}
+ // two groups at a time, so it is quicker
+ var gi=0;function worker(){if(gi>=groups.length)return Promise.resolve();var grp=groups[gi++];return runGroup(grp).then(worker)}
+ return Promise.all([worker(),worker()]).then(function(){var tot=count();
+  if(tot)t.ok('StudyQuest: '+tot+' quiz questions ready for your syllabus');
+  else t.no(SFQuestBank.lastErr&&SFQuestBank.lastErr()==='limit'?'StudyQuest: today\'s AI limit is used up — questions will be made tomorrow':'StudyQuest: questions will be made when you open it')})}
+var autoRan=false;
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function auto(){
+ if(autoRan)return;var p=P();if(!p.onboarded||p.starterBuilt||!(p.subjects||[]).length)return;
+ if(document.getElementById('sfOb2')||document.getElementById('sfOnb'))return setTimeout(auto,3000);
+ autoRan=true;var subs=(p.subjects||[]).filter(Boolean).slice(0,10);
+ var o=document.createElement('div');o.className='st2-ov';o.id='st2Ov';
+ o.innerHTML='<div class="st2-c" role="dialog" aria-modal="true"><div class="st2-orb">✨</div><h2 id="st2T">Getting your study space ready…</h2><p class="st2-s">Making everything for '+esc([p.grade||p.level,p.syllabus||p.board].filter(Boolean).join(' · '))+'. This takes about a minute.</p><ul class="st2-tasks" id="st2L"></ul><button type="button" class="st2-go" id="st2Go" hidden>Continue</button></div>';
+ document.body.appendChild(o);document.body.style.overflow='hidden';
+ function task(t){var li=document.createElement('li');li.innerHTML='<span class="s"></span><b>'+esc(t)+'</b>';document.getElementById('st2L').appendChild(li);li.scrollIntoView({block:'nearest'});return{ok:function(x){li.classList.add('ok');if(x)li.querySelector('b').textContent=x},no:function(x){li.classList.add('no');if(x)li.querySelector('b').textContent=x}}}
+ var q=split(subs.length),i=0;
+ (function next(){if(i>=subs.length){return quest(subs,task).then(fin)}
+  var s=subs[i],k=q(i);i++;if(hasStarter(s))return next();var t=task('Making '+s+' quizzes & flashcards');
+  subject(s,k).then(function(r){try{persist()}catch(e){}if(r.quizzes)t.ok(s+': '+r.quizzes+' quiz'+(r.quizzes>1?'zes':'')+' + '+r.cards+' flashcards'+' ✓');else t.no(s+': the AI is busy — your quizzes will appear by themselves in a few minutes');next()})})();
+ function fin(){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}try{if(typeof renderAll==='function')renderAll()}catch(e){}try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}
+  document.getElementById('st2T').textContent='Your study space is ready!';var ss=document.querySelector('#st2Ov .st2-s');if(ss)ss.textContent='Everything below was made for your grade and subjects.';var b=document.getElementById('st2Go');b.hidden=false;b.onclick=function(){o.remove();document.body.style.overflow='';try{go('dashboard')}catch(e){}}}
+}
+setTimeout(auto,1500);
+window.SFStarter={mergeDupes:mergeDupes,subject:subject,all:all,auto:auto,split:split,emo:emo,quest:quest};
 })();
 
 </script></body></html>
