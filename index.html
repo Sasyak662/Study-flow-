@@ -6829,97 +6829,6 @@ window.sfStartLang=function(l){var L=norm(l);if(!L||/^(english|en|eng)$/i.test(L
 startTr(lang());
 })();
 
-</script><style id="sf-st2-css">
-.st2-ov{position:fixed;inset:0;z-index:9990;background:rgba(10,8,30,.72);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px}
-.st2-c{background:#fff;color:#0f172a;border-radius:24px;max-width:480px;width:100%;max-height:90vh;overflow:auto;padding:28px 24px;box-shadow:0 30px 80px rgba(0,0,0,.35);text-align:center}
-.st2-orb{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#7c3aed,#ec4899);animation:st2p 1.6s ease-in-out infinite}
-@keyframes st2p{50%{transform:scale(1.08)}}
-.st2-c h2{margin:6px 0 4px;font-size:22px}
-.st2-s{color:#64748b;margin:0 0 14px;font-size:14px}
-.st2-tasks{list-style:none;margin:0 0 16px;padding:0;text-align:left;display:grid;gap:8px}
-.st2-tasks li{display:flex;gap:10px;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;font-size:14px}
-.st2-tasks .s{width:18px;height:18px;flex:none;border-radius:50%;border:2.5px solid #c4b5fd;border-top-color:#7c3aed;animation:st2s .8s linear infinite}
-.st2-tasks li.ok .s{animation:none;border:none;background:#22c55e;position:relative}
-.st2-tasks li.ok .s:after{content:"✓";color:#fff;font-size:12px;font-weight:900;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.st2-tasks li.no .s{animation:none;border:none;background:#f59e0b}
-@keyframes st2s{to{transform:rotate(360deg)}}
-.st2-go{width:100%;border:0;border-radius:14px;padding:14px;font-weight:800;font-size:16px;color:#fff;background:linear-gradient(135deg,#7c3aed,#4f46e5);cursor:pointer}
-.st2-go[hidden]{display:none}
-
-</style><script id="sf-st2-js">
-/* ===== Starter pack: after the survey, 10 quizzes + flashcard sets made for the student's grade, board and subjects.
-   They go into Quiz Studio ("Your quizzes") and Flashcards. StudyQuest keeps its own hidden bank separately. ===== */
-(function(){
-function P(){try{return data.profile||{}}catch(e){return{}}}
-function D(){try{return data}catch(e){return{}}}
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
-function emo(s){s=String(s).toLowerCase();return/math/.test(s)?'🧮':/phys/.test(s)?'⚡':/chem/.test(s)?'🧪':/bio/.test(s)?'🧬':/scien/.test(s)?'🔬':/english|lit/.test(s)?'✍️':/hist/.test(s)?'🏛️':/geog/.test(s)?'🌍':/econ/.test(s)?'📈':/busin|commerce/.test(s)?'💼':/account/.test(s)?'📒':/comput|ict|data|program/.test(s)?'💻':/french|spanish|hindi|language/.test(s)?'🗣️':/social/.test(s)?'🗺️':'📘'}
-function ctx(){var p=P();return{grade:p.grade||p.level||'',syll:p.syllabus||p.board||p.curriculum||'',hard:p.hardest||'',aim:p.aim||'grades',role:p.role||'student',child:p.child||''}}
-function addCards(set,list,e){var d=D();if(!Array.isArray(d.flashcards))d.flashcards=[];list.forEach(function(x){d.flashcards.push({id:uid(),front:x.f,back:x.b,learned:false,lv:0,set:set})});if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};var m=d.fcmeta[set]||(d.fcmeta[set]={color:['#7c3aed','#0d9488','#e8475f','#d97706','#2563eb'][Object.keys(d.fcmeta).length%5],created:Date.now()});m.emoji=e;m.last=Date.now();m.keep=true;m.starter=true}
-function addQuiz(q){try{if(typeof customQuizzes==='undefined')return false;customQuizzes.push(q);saveCustomQuizzes();return true}catch(e){return false}}
-function hasStarter(sub){try{return(customQuizzes||[]).some(function(q){return q.starter&&q.subject===sub})}catch(e){return false}}
-function fallback(sub,k){
- var bank=(window.QB_START&&QB_START[qbKind(sub)])||[];if(!bank.length)return{quizzes:0,cards:0,ai:false};
- var qs=bank.map(function(q){return{text:q[0],options:q[1].slice(),correct:q[2],explain:q[3]||'',time:20}});
- var made=0,per=Math.max(5,Math.min(8,Math.floor(qs.length/Math.max(1,k))));
- for(var i=0;i<k;i++){var part=[];for(var z=0;z<per;z++)part.push(qs[(i*per+z)%qs.length]);addQuiz({id:'st'+uid(),title:sub+' warm-up '+(i+1),subject:sub,topic:'Starter',emoji:emo(sub),theme:'sunrise',questions:part,created:Date.now(),starter:true,general:true});made++}
- var cards=bank.slice(0,12).map(function(q){return{f:q[0],b:q[1][q[2]]+(q[3]?' — '+q[3]:'')}});addCards(sub+' · Starter',cards,emo(sub));
- return{quizzes:made,cards:cards.length,ai:false}}
-function subject(sub,k,c){
- c=c||ctx();k=Math.max(1,Math.min(4,k||2));
- var body={purpose:'setup',first:(function(){try{var t=(data.profile||{}).starterBuilt;return !t||Date.now()-t<20*3600e3}catch(e){return true}})(),temperature:0.4,search:false,maxTokens:12000,
-  system:'You write accurate, syllabus-aligned study material. Return ONLY JSON: {"quizzes":[{"title":"short quiz title","topic":"topic","questions":[{"q":"question","options":["A","B","C","D"],"work":"short working that proves the answer (max 25 words)","correct":0,"why":"one sentence"}]}],"cards":[{"front":"term or question (max 80 chars)","back":"short answer (max 160 chars)"}]}. Make exactly '+k+' quizzes, each on a DIFFERENT important topic, each with exactly 8 questions and exactly 4 options. For every question, solve it in "work" first, then make sure "correct" points to the option that matches. Vary the correct position. Also make 12 flashcards on the most important topics. Match the student\'s grade/year and syllabus/course exactly and use its terminology. Plain text, no LaTeX. Only facts that are certainly true.',
-  user:'Subject: '+sub+'\nGrade/class/year: '+(c.grade||'not given')+'\nSyllabus/board/course: '+(c.syll||'not given')+(c.hard===sub?'\nThe student finds this subject hardest — start from the basics.':'')+(c.role==='teacher'?'\nThis is for a TEACHER: make lesson-starter class quizzes and revision cards for their students.':c.role==='parent'?'\nThis is set up by a parent for their child'+(c.child?' ('+c.child+')':'')+'.':'')+'\nGoal: '+c.aim};
- return fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||('HTTP '+r.status));return j})}).then(function(j){
-  var t=String(j.text||'');var a=t.indexOf('{'),b=t.lastIndexOf('}');var o=JSON.parse(t.slice(a,b+1));
-  var made=0;(o.quizzes||[]).slice(0,k).forEach(function(z,i){var qs=(z.questions||[]).map(function(q){var op=(q.options||[]).map(function(x){return String(x).slice(0,160)});return{text:String(q.q||q.question||'').slice(0,300),options:op,correct:+q.correct,explain:String(q.why||'').slice(0,300),time:20}}).filter(function(q){return q.text&&q.options.length===4&&q.correct>=0&&q.correct<4});
-   if(qs.length>=4){addQuiz({id:'st'+uid(),title:String(z.title||sub+' quiz '+(i+1)).slice(0,80),subject:sub,topic:String(z.topic||'Starter').slice(0,60),emoji:emo(sub),theme:'sunrise',questions:qs,created:Date.now(),starter:true});made++}});
-  var cards=(o.cards||[]).map(function(x){return{f:String(x.front||'').slice(0,200),b:String(x.back||'').slice(0,400)}}).filter(function(x){return x.f&&x.b}).slice(0,15);
-  if(cards.length)addCards(sub+' · Starter',cards,emo(sub));
-  if(!made)throw new Error('no quizzes');
-  return{quizzes:made,cards:cards.length,ai:true}}).catch(function(e){try{console.warn('Starter pack AI failed for '+sub,e)}catch(_){}return fallback(sub,k)})}
-function split(n){var subs=n;var base=Math.floor(10/subs),extra=10%subs;return function(i){return Math.min(4,base+(i<extra?1:0))||1}}
-function all(onStep){
- var p=P(),subs=(p.subjects||[]).filter(Boolean).slice(0,10);if(!subs.length)return Promise.resolve({quizzes:0,cards:0});
- var q=split(subs.length),i=0,tot={quizzes:0,cards:0,ai:0};
- return new Promise(function(res){(function next(){if(i>=subs.length){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}try{if(typeof renderAll==='function')renderAll()}catch(e){}return res(tot)}
-  var s=subs[i],k=q(i);i++;if(hasStarter(s))return next();subject(s,k).then(function(r){tot.quizzes+=r.quizzes;tot.cards+=r.cards;if(r.ai)tot.ai++;try{persist()}catch(e){}if(onStep)onStep(s,r);next()})})()})}
-function quest(subs,taskFn){
- if(!window.SFQuestBank)return Promise.resolve();
- // About 60 StudyQuest questions on the first day, shared by ALL subjects. Up to 3 subjects share one AI request
- // (max 25 questions per request), so 1 subject = 3 requests and 8 subjects = 3 requests.
- var list=subs.slice(0,12),groups=[];for(var g=0;g<list.length;g+=3)groups.push(list.slice(g,g+3));
- var each=Math.max(5,Math.ceil(60/Math.max(1,list.length)));var t=taskFn('Making about 60 StudyQuest questions for '+list.join(', '));
- function count(){return list.reduce(function(a,x){return a+SFQuestBank.aiCount(x)},0)}
- function one(grp,n,tries){return SFQuestBank.topUpMulti(grp,n).then(function(r){if(r)return r;if(tries>0&&SFQuestBank.lastErr&&SFQuestBank.lastErr()!=='limit')return new Promise(function(ok){setTimeout(ok,1500)}).then(function(){return one(grp,n,tries-1)});return 0})}
- function runGroup(grp){var need=each*grp.length,jobs=[];while(need>0){jobs.push(Math.max(8,Math.min(25,need)));need-=25}
-  return jobs.reduce(function(pr,n){return pr.then(function(){return one(grp,n,1)})},Promise.resolve())}
- // two groups at a time, so it is quicker
- var gi=0;function worker(){if(gi>=groups.length)return Promise.resolve();var grp=groups[gi++];return runGroup(grp).then(worker)}
- return Promise.all([worker(),worker()]).then(function(){var tot=count();
-  if(tot)t.ok('StudyQuest: '+tot+' quiz questions ready for your syllabus');
-  else t.no(SFQuestBank.lastErr&&SFQuestBank.lastErr()==='limit'?'StudyQuest: today\'s AI limit is used up — questions will be made tomorrow':'StudyQuest: questions will be made when you open it')})}
-var autoRan=false;
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function auto(){
- if(autoRan)return;var p=P();if(!p.onboarded||p.starterBuilt||!(p.subjects||[]).length)return;
- if(document.getElementById('sfOb2')||document.getElementById('sfOnb'))return setTimeout(auto,3000);
- autoRan=true;var subs=(p.subjects||[]).filter(Boolean).slice(0,10);
- var o=document.createElement('div');o.className='st2-ov';o.id='st2Ov';
- o.innerHTML='<div class="st2-c" role="dialog" aria-modal="true"><div class="st2-orb">✨</div><h2 id="st2T">Getting your study space ready…</h2><p class="st2-s">Making everything for '+esc([p.grade||p.level,p.syllabus||p.board].filter(Boolean).join(' · '))+'. This takes about a minute.</p><ul class="st2-tasks" id="st2L"></ul><button type="button" class="st2-go" id="st2Go" hidden>Continue</button></div>';
- document.body.appendChild(o);document.body.style.overflow='hidden';
- function task(t){var li=document.createElement('li');li.innerHTML='<span class="s"></span><b>'+esc(t)+'</b>';document.getElementById('st2L').appendChild(li);li.scrollIntoView({block:'nearest'});return{ok:function(x){li.classList.add('ok');if(x)li.querySelector('b').textContent=x},no:function(x){li.classList.add('no');if(x)li.querySelector('b').textContent=x}}}
- var q=split(subs.length),i=0;
- (function next(){if(i>=subs.length){return quest(subs,task).then(fin)}
-  var s=subs[i],k=q(i);i++;if(hasStarter(s))return next();var t=task('Making '+s+' quizzes & flashcards');
-  subject(s,k).then(function(r){try{persist()}catch(e){}if(r.quizzes)t.ok(s+': '+r.quizzes+' quiz'+(r.quizzes>1?'zes':'')+' + '+r.cards+' flashcards'+(r.ai?' ✓':' (general level)'));else t.no(s+': could not make quizzes right now');next()})})();
- function fin(){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}try{if(typeof renderAll==='function')renderAll()}catch(e){}try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}
-  document.getElementById('st2T').textContent='Your study space is ready!';var ss=document.querySelector('#st2Ov .st2-s');if(ss)ss.textContent='Everything below was made for your grade and subjects.';var b=document.getElementById('st2Go');b.hidden=false;b.onclick=function(){o.remove();document.body.style.overflow='';try{go('dashboard')}catch(e){}}}
-}
-setTimeout(auto,1500);
-window.SFStarter={subject:subject,all:all,auto:auto,split:split,emo:emo,quest:quest};
-})();
-
 </script><style id="sf-gg-css">
 .sf-gwrap{margin:14px 0 6px}
 .sf-gwrap[hidden]{display:none!important}
@@ -7186,216 +7095,6 @@ function done(made){document.querySelectorAll('#ob2Tasks li:not(.ok):not(.no)').
 function swap(){var o=document.getElementById('sfOnb');if(o&&!o.dataset.ob2){o.dataset.ob2=1;o.style.display='none';o.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id')});if(!document.getElementById('sfOb2'))open();setTimeout(function(){o.remove()},400)}}
 new MutationObserver(swap).observe(document.body,{childList:true});swap();
 window.sfOpenOnboarding=open;window.StudyFlowSetup={open:open};
-})();
-
-</script><style id="sf-bk-css">
-.bk-ov{position:fixed;inset:0;z-index:99960;display:flex;flex-direction:column;background:#f6f1e7;color:#1f1b16;opacity:0;transition:opacity .25s;font-family:Georgia,'Iowan Old Style','Times New Roman',serif}
-.bk-ov.in{opacity:1}.bk-ov.th-paper{background:#fdfcf9;color:#1b1b1f}.bk-ov.th-sepia{background:#f4ecd8;color:#3b2f20}.bk-ov.th-night{background:#121417;color:#d7d3cb}
-.bk-top{display:flex;align-items:center;gap:10px;padding:10px 14px;font-family:Inter,system-ui,sans-serif;border-bottom:1px solid rgba(127,127,127,.18)}
-.bk-tt{flex:1;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bk-tools{display:flex;gap:6px}.bk-ic{border:1px solid rgba(127,127,127,.3);background:none;color:inherit;border-radius:10px;min-width:38px;height:38px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
-.bk-stage{flex:1;position:relative;display:flex;justify-content:center;min-height:0;padding:18px 0}
-.bk-page{width:min(680px,calc(100vw - 48px));height:100%;overflow:hidden}
-.bk-flow{column-gap:40px;column-fill:auto;overflow:hidden;line-height:1.65;font-size:17px}
-.bk-flow.turn{animation:bkTurn .32s ease}
-@keyframes bkTurn{from{opacity:.35;transform:translateX(8px)}to{opacity:1;transform:none}}
-.bk-side{position:absolute;top:0;bottom:0;width:22%;border:0;background:none;cursor:pointer;z-index:2}.bk-side.l{left:0;cursor:w-resize}.bk-side.r{right:0;cursor:e-resize}
-.bk-foot{display:flex;align-items:center;gap:12px;padding:10px 18px calc(12px + env(safe-area-inset-bottom));font:12.5px Inter,system-ui,sans-serif;opacity:.75}
-.bk-prog{flex:1;height:4px;border-radius:9px;background:rgba(127,127,127,.25);overflow:hidden}.bk-prog i{display:block;height:100%;background:#6366f1;transition:width .3s}
-.bk-cover{break-after:column;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-.bk-cv{width:min(320px,80%);aspect-ratio:3/4;border-radius:6px 16px 16px 6px;background:linear-gradient(150deg,#312e81,#4338ca 55%,#7c3aed);color:#fff;padding:28px 22px;display:flex;flex-direction:column;justify-content:center;box-shadow:12px 14px 30px -10px rgba(0,0,0,.45),inset 8px 0 0 rgba(0,0,0,.18);break-inside:avoid}
-.bk-cv small{font:700 11px Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.8}.bk-cv h1{font-size:26px;line-height:1.2;margin:12px 0}.bk-cv p{margin:0;opacity:.85;font-size:14px}.bk-cvline{height:2px;background:rgba(255,255,255,.4);margin:20px 30%}.bk-cv span{font:600 12px Inter,system-ui,sans-serif;opacity:.8}
-.bk-tip{font:13px Inter,system-ui,sans-serif;opacity:.6;margin-top:18px}
-.bk-sec{break-before:column}.bk-sec h2{font-size:24px;margin:0 0 12px;line-height:1.25}
-.bk-sample h2{font-size:20px}.bk-sample h3{font-size:17px;margin:18px 0 6px}.bk-sample h4{font-size:15px;font-style:italic;font-weight:400;margin:0 0 10px}
-.bk-sample table,.bk-books table{border-collapse:collapse;width:100%;font-size:.85em;margin:10px 0;break-inside:avoid}.bk-sample td,.bk-sample th{border:1px solid rgba(127,127,127,.3);padding:5px 7px;text-align:left}
-.bk-pt{display:flex;gap:12px;margin:0 0 14px;break-inside:avoid}.bk-pt>span{font-size:22px}.bk-pt b{font-family:Inter,system-ui,sans-serif;font-size:.95em}.bk-pt p{margin:2px 0 0}
-.bk-b{border:1px solid rgba(127,127,127,.25);border-radius:12px;padding:10px 12px;margin:0 0 8px;break-inside:avoid}
-.bk-b summary{display:flex;gap:10px;align-items:center;cursor:pointer;list-style:none;font-family:Inter,system-ui,sans-serif}.bk-b summary::-webkit-details-marker{display:none}
-.bk-b summary b{display:block;font-size:14px}.bk-b summary small{opacity:.7;font-size:12px}
-.bk-n{width:28px;height:28px;border-radius:8px;background:#4338ca;color:#fff;display:grid;place-items:center;font:700 13px Inter,system-ui,sans-serif;flex:0 0 auto}
-.bk-b ol{margin:10px 0 6px;padding-left:22px;font-size:.92em}.bk-intro{font-size:.85em;opacity:.8}
-.bk-buy{display:block;width:100%;margin:10px 0 0;border:0;border-radius:12px;padding:13px;background:#4338ca;color:#fff;font:700 14.5px Inter,system-ui,sans-serif;cursor:pointer}.bk-buy.sm{padding:9px;font-size:13px}
-.bk-buy.alt{background:#7c3aed}.bk-buy.ghost{background:none;color:inherit;border:1px solid rgba(127,127,127,.4)}.bk-buy:disabled{opacity:.7;cursor:default}
-.bk-end{text-align:center;font-style:italic;opacity:.6;margin:20px 0}
-.bk-load{display:grid;place-items:center;height:100%}.bk-spin{width:36px;height:36px;border-radius:50%;border:3px solid rgba(127,127,127,.3);border-top-color:#6366f1;animation:bkSpin .8s linear infinite}@keyframes bkSpin{to{transform:rotate(360deg)}}
-.sf-pv-btn{white-space:nowrap}
-.sfbook .sf-pv-link{border:0;background:none;color:var(--p,#4338ca);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer;padding:4px 6px}
-.bk-sample figure{max-width:100%;overflow:hidden}.bk-sample svg{max-width:100%;height:auto}
-
-</style><script id="sf-bk-js">
-/* ===== Free book preview: Kindle-style "look inside" for every subject series ===== */
-(function(){
-function $(s,r){return(r||document).querySelector(s)}
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-var cache={},R={page:0,pages:1,fs:+(localStorage.getItem('sfbk-fs')||17),th:localStorage.getItem('sfbk-th')||'paper'};
-function price(){return 299}
-function board(sub){var s=sub||'';return/IGCSE/i.test(s)?'Cambridge IGCSE':/A Level|AS & A|AS and A/i.test(s)?'Cambridge AS & A Level':/IB/i.test(s)?'IB Diploma':/Class|CBSE|NCERT/i.test(s)?'CBSE / NCERT':'your exam'}
-function helps(d){var b=board(d.subject),n=d.books.length,units=d.books.reduce(function(a,x){return a+(x.units.length||10)},0);return[
- ['🎯','Follows your syllabus, in order',n+' books split the whole '+b+' course into '+units+' short units, in the same order your teacher teaches it. You always know exactly what to read next.'],
- ['🧠','Explained simply','Every unit starts with the key ideas in plain words, then worked examples that show each step and why it is done.'],
- ['📝','Exam practice in every unit','Each unit ends with a 10-mark exam-style question and a mark guide, so you learn how marks are really given.'],
- ['⚠️','Common mistakes','Every unit lists the mistakes that lose students marks, so you can avoid them before the exam.'],
- ['⚡','Quick recall','Short recall questions at the end of each unit make revision fast — perfect the night before a test.'],
- ['🤖','Works with your AI Coach','Ask StudyFlow’s AI Coach about any page, or turn a unit into flashcards and quizzes in one tap.']]}
-function better(){return[
- ['✅','Practice with marking, not just notes','Most study guides only summarise. Here every single unit has an exam-style question with a mark guide.'],
- ['📚','Small books, not one heavy guide','Ten focused books instead of one 500-page book. Finish one, feel progress, move on.'],
- ['🔄','Up to date','Written for the current syllabus version, with every answer checked.'],
- ['💸','Fair price','₹'+price()+' per book, and you only buy the books you need.'],
- ['📱','Read anywhere','Instant PDF download for phone, tablet or laptop, and you can print it.']]}
-function bookList(d){return'<div class="bk-books">'+d.books.map(function(b){var t=b.title.replace(/^.*?Book \d+:\s*/,'');return'<details class="bk-b"'+(b.n===1?' open':'')+'><summary><span class="bk-n">'+b.n+'</span><span><b>Book '+b.n+': '+esc(t)+'</b><small>'+(b.units.length||10)+' units · ₹'+price()+'</small></span></summary><ol>'+b.units.map(function(u){return'<li>'+esc(u)+'</li>'}).join('')+'</ol>'+(b.intro?'<p class="bk-intro">'+b.intro+'</p>':'')+'<button type="button" class="bk-buy sm" data-bkadd="'+esc(b.id)+'">Add Book '+b.n+' to cart</button></details>'}).join('')+'</div>'}
-// A diagram that was saved as text is turned back into a picture (only diagram tags are allowed through)
-function fig(h){return String(h||'').replace(/<p>\s*(&lt;(?:figure|svg)[\s\S]*?&lt;\/(?:figure|svg)&gt;)\s*<\/p>/g,function(m,x){var t=document.createElement('textarea');t.innerHTML=x;var v=t.value;return /<(script|iframe|object|embed|foreignObject)|\son\w+=|javascript:/i.test(v)?m:v})}
-function build(d,startBook){
- var b1=d.books[0],T=function(t,h){return'<section class="bk-sec"><h2>'+t+'</h2>'+h+'</section>'};
- var cover='<section class="bk-cover"><div class="bk-cv"><small>'+esc(board(d.subject))+'</small><h1>'+esc(d.subject)+'</h1><p>'+d.books.length+'-book series · free preview</p><div class="bk-cvline"></div><span>StudyFlow Books</span></div><p class="bk-tip">Tap the right side or swipe to turn the page →</p></section>';
- var inside=T('What’s inside this series','<p>'+d.books.length+' books cover the full course. Tap a book to see every unit.</p>'+bookList(d));
- var help=T('How these books help you',helps(d).map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
- var bet=T('Why they are better',better().map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
- var look=T('Look inside: '+esc(b1.title.replace(/^.*?(Book 1)/,'$1')),'<div class="bk-sample">'+fig(d.sample)+'</div><p class="bk-end">— End of free preview —</p>');
- var end='<section class="bk-sec bk-last"><h2>Like what you read?</h2><p>Get the full books as instant PDFs. Start with Book 1, or get the whole series.</p><button type="button" class="bk-buy" data-bkadd="'+esc(b1.id)+'">Add Book 1 to cart · ₹'+price()+'</button><button type="button" class="bk-buy alt" data-bkall="'+esc(d.id)+'">Add all '+d.books.length+' books · ₹'+(price()*d.books.length)+'</button><button type="button" class="bk-buy ghost" data-bkcart>Go to cart</button></section>';
- return cover+inside+help+bet+look+end;
-}
-function open(series,book){
- close();var o=document.createElement('div');o.className='bk-ov th-'+R.th;o.id='bkOv';
- o.innerHTML='<div class="bk-top"><button type="button" class="bk-ic" data-bkx aria-label="Close">✕</button><b class="bk-tt">Loading preview…</b><div class="bk-tools"><button type="button" class="bk-ic" data-bkfs="-1" aria-label="Smaller text">A−</button><button type="button" class="bk-ic" data-bkfs="1" aria-label="Bigger text">A+</button><button type="button" class="bk-ic" data-bkth aria-label="Change page colour">🌓</button></div></div><div class="bk-stage"><button type="button" class="bk-side l" data-bkp="-1" aria-label="Previous page"></button><div class="bk-page" id="bkPage"><div class="bk-flow" id="bkFlow"><div class="bk-load"><div class="bk-spin"></div></div></div></div><button type="button" class="bk-side r" data-bkp="1" aria-label="Next page"></button></div><div class="bk-foot"><div class="bk-prog"><i id="bkBar"></i></div><span id="bkPg"></span></div>';
- document.body.appendChild(o);document.documentElement.classList.add('pm-lock');requestAnimationFrame(function(){o.classList.add('in')});
- var go_=function(d){if(!$('#bkOv'))return;$('.bk-tt',o).textContent=d.subject+' — free preview';$('#bkFlow').innerHTML=build(d,book);$('#bkFlow').style.fontSize=R.fs+'px';R.page=0;setTimeout(function(){layout();if(book&&book>1){var el=$('#bkFlow details:nth-child('+book+')');}},60)};
- if(cache[series])return go_(cache[series]);
- fetch('previews/'+encodeURIComponent(series)+'.json').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){cache[series]=d;go_(d)}).catch(function(){var f=$('#bkFlow');if(f)f.innerHTML='<section class="bk-sec"><h2>Preview not available yet</h2><p>This preview will appear once the website is updated. Please try again later.</p></section>';layout()});
- // swipe
- var x0=null;o.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});o.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>45)turn(dx<0?1:-1);x0=null});
-}
-function close(){var o=$('#bkOv');if(o){o.remove();document.documentElement.classList.remove('pm-lock')}}
-function layout(){var pg=$('#bkPage'),fl=$('#bkFlow');if(!pg||!fl)return;var w=pg.clientWidth;fl.style.columnWidth=w+'px';fl.style.width=w+'px';fl.style.height=pg.clientHeight+'px';
- R.pages=Math.max(1,Math.round(fl.scrollWidth/(w+40)));if(R.page>=R.pages)R.page=R.pages-1;show()}
-function show(){var pg=$('#bkPage'),fl=$('#bkFlow');if(!pg)return;fl.scrollLeft=R.page*(pg.clientWidth+40);$('#bkPg').textContent='Page '+(R.page+1)+' of '+R.pages;$('#bkBar').style.width=((R.page+1)/R.pages*100)+'%';
- fl.classList.remove('turn');void fl.offsetWidth;fl.classList.add('turn')}
-function turn(d){var n=R.page+d;if(n<0||n>=R.pages)return;R.page=n;show()}
-document.addEventListener('click',function(e){
- var p=e.target.closest('[data-preview]');if(p){e.preventDefault();e.stopPropagation();open(p.dataset.preview,+p.dataset.pbook||1);return}
- if(!$('#bkOv'))return;
- if(e.target.closest('[data-bkx]'))return close();
- var t=e.target.closest('[data-bkp]');if(t)return turn(+t.dataset.bkp);
- var f=e.target.closest('[data-bkfs]');if(f){R.fs=Math.max(13,Math.min(24,R.fs+ +f.dataset.bkfs*1.5));try{localStorage.setItem('sfbk-fs',R.fs)}catch(_){}$('#bkFlow').style.fontSize=R.fs+'px';var ratio=R.page/Math.max(1,R.pages-1);layout();R.page=Math.round(ratio*(R.pages-1));show();return}
- if(e.target.closest('[data-bkth]')){var o=['paper','sepia','night'];R.th=o[(o.indexOf(R.th)+1)%3];try{localStorage.setItem('sfbk-th',R.th)}catch(_){}$('#bkOv').className='bk-ov in th-'+R.th;return}
- var a=e.target.closest('[data-bkadd]');if(a){try{sfCartAdd(a.dataset.bkadd)}catch(_){}a.textContent='✓ Added to cart';a.disabled=true;return}
- var al=e.target.closest('[data-bkall]');if(al){var d=cache[al.dataset.bkall];if(d)d.books.forEach(function(b){try{sfCartAdd(b.id)}catch(_){}});al.textContent='✓ All books added';al.disabled=true;return}
- if(e.target.closest('[data-bkcart]')){close();try{go('cart')}catch(_){}}
- if(e.target.closest('details summary'))setTimeout(layout,30);
-},true);
-document.addEventListener('keydown',function(e){if(!$('#bkOv'))return;if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();turn(1)}if(e.key==='ArrowLeft'){e.preventDefault();turn(-1)}if(e.key==='Escape')close()});
-window.addEventListener('resize',function(){if($('#bkOv'))layout()});
-window.sfPreview={open:open,close:close};
-})();
-
-</script><style id="sf-fit-css">
-/* ===== Screen fit: phones, tablets and laptops each get their own layout ===== */
-/* Quiz Studio top box never wider than the phone */
-@media (max-width:760px){
- .kq-hero{grid-template-columns:minmax(0,1fr)!important}
- .kq-hero>*{min-width:0;max-width:100%}
- .kq-hero input,.kq-hero select,.kq-hero button{max-width:100%;min-width:0}
- .kq-pin{max-width:100%}
-}
-/* ---- AI Coach ---- */
-#page-coach .chatbox{min-height:0}
-#page-coach .chatbox .messages{max-height:none!important;min-height:120px;flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain}
-#page-coach .chatbox .chatinput{flex:0 0 auto}
-.sf-cset-sum{display:none}
-@media (min-width:1001px){
- #page-coach .pagehead{padding-top:6px;padding-bottom:6px;min-height:0}
- #page-coach .pagehead h1{font-size:28px;margin:0}
- #page-coach .pagehead p{margin:2px 0 0}
- #page-coach .chatlayout{grid-template-columns:minmax(0,1fr) 280px;grid-template-rows:auto 1fr;align-items:start}
- #page-coach .chatlayout>.chatbox{grid-column:1;grid-row:1 / span 2}
- #page-coach .chatlayout>.coach-live-card{grid-column:2;grid-row:1}
- #page-coach .chatlayout>.sf-cset{grid-column:2;grid-row:2}
- #page-coach .sf-cset .notice{display:none}
-}
-@media (max-width:1000px){
- #page-coach .pagehead{display:none}
- #page-coach .chatlayout{gap:10px}
- #page-coach .chatlayout>.sf-cset{order:1!important}
- #page-coach .chatlayout>.chatbox{order:2!important;padding:12px 12px 10px}
- #page-coach .chatlayout>.coach-live-card{order:3!important}
- /* settings shrink to one tidy line; tap to change */
- #page-coach .sf-cset{padding:10px 14px}
- #page-coach .sf-cset h2{display:none}
- #page-coach .sf-cset-sum{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:2px 0;font:inherit;color:inherit;text-align:left;cursor:pointer}
- #page-coach .sf-cset-sum span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
- #page-coach .sf-cset-sum b{font-size:13px;color:var(--p,#4f46e5);white-space:nowrap}
- #page-coach .sf-cset.sf-closed>:not(.sf-cset-sum){display:none!important}
- #page-coach .sf-cset:not(.sf-closed) .sf-cset-sum{margin-bottom:8px}
- /* suggestion buttons and options: one swipeable line instead of many rows */
- #page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
- #page-coach .chatbox .suggestions::-webkit-scrollbar,#page-coach .chatbox .sfm-row::-webkit-scrollbar{display:none}
- #page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex:0 0 auto;white-space:nowrap}
- #page-coach .chatbox .chathead{padding-bottom:8px}
- #page-coach .chatbox .messages{padding:10px 0}
- #page-coach .chatinput textarea{font-size:16px}/* stops iPhone zooming in */
-}
-/* ---- every page: comfortable on phones ---- */
-@media (max-width:760px){
- input,select,textarea{font-size:16px}
- .page img,.page video{max-width:100%}
-}
-/* very small phones */
-@media (max-width:370px){
- .pagehead h1{font-size:24px}
-}
-/* "Hint first" tick box: normal size, next to its words */
-#page-coach .sfm-row label{display:inline-flex!important;align-items:center;gap:7px;width:auto!important;margin:0 6px 0 0}
-#page-coach .sfm-row label input[type=checkbox]{width:18px!important;height:18px!important;min-height:0!important;min-width:0!important;flex:0 0 18px!important;margin:0;padding:0}
-/* laptops with short screens: keep the quick buttons on one swipeable line so the chat has room */
-@media (min-width:1001px) and (max-height:900px){
- #page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;padding-bottom:4px}
- #page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex:0 0 auto;white-space:nowrap}
-}
-#page-coach .chatbox .messages{min-height:150px}
-/* button rows above the typing box never get squashed: only the messages area shrinks */
-#page-coach .chatbox>*:not(.messages){flex-shrink:0!important}
-#page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{min-height:max-content;overflow-y:visible!important;align-items:center;padding-top:2px;padding-bottom:6px}
-#page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex-shrink:0}
-/* Chat only: no quick-button rows, bigger message area */
-#page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row,#page-coach #coachVoiceStatus{display:none!important}
-#page-coach .chatbox .speak-row{margin-top:6px}
-#page-coach .chatbox .speak-row .btn,#page-coach .chatbox .speak-row button{padding:5px 12px;font-size:13px}
-@media (min-width:1001px){#page-coach .pagehead{display:none}}
-.sf-hintset{display:flex;align-items:center;gap:8px;margin:12px 0 4px;font-size:14px;cursor:pointer}
-.sf-hintset input{width:18px;height:18px;margin:0;flex:0 0 18px}
-
-</style><script id="sf-fit-js">
-/* ===== Screen fit: Coach chat fills the screen; settings tidy; cards in a sensible order ===== */
-(function(){
-function $(s,r){return(r||document).querySelector(s)}
-function coach(){var pg=$('#page-coach');if(!pg)return;var lay=$('.chatlayout',pg);if(!lay)return;
- var set=null;[].slice.call(lay.children).forEach(function(c){if(c.querySelector&&c.querySelector('#coachLevel'))set=c});
- if(set&&!set.classList.contains('sf-cset')){set.classList.add('sf-cset');
-  var b=document.createElement('button');b.type='button';b.className='sf-cset-sum';b.innerHTML='<span>⚙️</span><span id="sfCsetTxt"></span><b>Change</b>';b.firstChild.style.flex='0 0 auto';set.insertBefore(b,set.firstChild);
-  if(innerWidth<=1000)set.classList.add('sf-closed');
-  b.onclick=function(){set.classList.toggle('sf-closed');b.lastChild.textContent=set.classList.contains('sf-closed')?'Change':'Done';size()};
-  set.addEventListener('change',sum);sum()}
- // the 'Hint first' switch lives in the coach settings now (the button rows are hidden)
- var hb=document.getElementById('sfHint'),setc=document.querySelector('#page-coach .sf-cset');
- if(hb&&setc&&!setc.contains(hb)){var lab=document.createElement('label');lab.className='sf-hintset';lab.appendChild(hb);lab.appendChild(document.createTextNode(' Give hints first, full answer when I ask'));var note=setc.querySelector('.notice');setc.insertBefore(lab,note||null)}
- size()}
-function sum(){var t=$('#sfCsetTxt');if(!t)return;var v=function(id){var e=$('#'+id);return e&&e.selectedIndex>=0&&e.options[e.selectedIndex]?e.options[e.selectedIndex].text:(e&&e.value)||''};t.textContent=[v('coachLevel'),v('coachSubject'),v('coachStyle')].filter(Boolean).join(' · ')}
-// Make the chat box exactly fill the free space on the screen, so the typing box is always visible.
-function size(){var pg=$('#page-coach');if(!pg||!pg.classList.contains('active'))return;var box=$('.chatbox',pg);if(!box)return;
- var nav=document.getElementById('sfTabs'),bottom=innerHeight;if(nav&&nav.getClientRects().length){var nr=nav.getBoundingClientRect();if(nr.top>innerHeight/2)bottom=nr.top}
- var top=box.getBoundingClientRect().top+scrollY;// where the chat starts when the page is scrolled to the top
- var h=Math.round(bottom-top-12);
- var min=innerWidth<=1000?470:520;box.style.height=Math.max(min,Math.min(h,1100))+'px'}
-var t0=0;function tick(){coach();settings()}
-function settings(){var pg=$('#page-settings');if(!pg)return;var ph=$('.pagehead',pg);if(!ph)return;['sfLangCard','sqAutoCard'].forEach(function(id){var c=document.getElementById(id);if(c&&c.parentNode===pg&&(ph.compareDocumentPosition(c)&Node.DOCUMENT_POSITION_PRECEDING)){var after=document.getElementById('sfAppearance');pg.insertBefore(c,after&&after.parentNode===pg?after.nextSibling:ph.nextSibling)}})}
-setInterval(tick,1200);setTimeout(tick,300);
-addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
-// re-size when the Coach page is opened
-var _go=window.go;if(typeof _go==='function'){window.go=function(){var r=_go.apply(this,arguments);setTimeout(function(){coach();size()},60);return r}}
-document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='chatText')setTimeout(size,350)});
-if(window.visualViewport)visualViewport.addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
 })();
 
 </script><style id="sf-lib2-css">
@@ -10472,6 +10171,344 @@ function frame(dt){if(!R.w)resize();if(!WG)return;var t=G.t;if(t-lastSync>.4){la
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,200)});else setTimeout(boot,200);
 window.StudyFlowIsland3D=R;
+})();
+
+</script><style id="sf-bk-css">
+.bk-ov{position:fixed;inset:0;z-index:99960;display:flex;flex-direction:column;background:#f6f1e7;color:#1f1b16;opacity:0;transition:opacity .25s;font-family:Georgia,'Iowan Old Style','Times New Roman',serif}
+.bk-ov.in{opacity:1}.bk-ov.th-paper{background:#fdfcf9;color:#1b1b1f}.bk-ov.th-sepia{background:#f4ecd8;color:#3b2f20}.bk-ov.th-night{background:#121417;color:#d7d3cb}
+.bk-top{display:flex;align-items:center;gap:10px;padding:10px 14px;font-family:Inter,system-ui,sans-serif;border-bottom:1px solid rgba(127,127,127,.18)}
+.bk-tt{flex:1;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk-tools{display:flex;gap:6px}.bk-ic{border:1px solid rgba(127,127,127,.3);background:none;color:inherit;border-radius:10px;min-width:38px;height:38px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
+.bk-stage{flex:1;position:relative;display:flex;justify-content:center;min-height:0;padding:18px 0}
+.bk-page{width:min(680px,calc(100vw - 48px));height:100%;overflow:hidden}
+.bk-flow{column-gap:40px;column-fill:auto;overflow:hidden;line-height:1.65;font-size:17px}
+.bk-flow.turn{animation:bkTurn .32s ease}
+@keyframes bkTurn{from{opacity:.35;transform:translateX(8px)}to{opacity:1;transform:none}}
+.bk-side{position:absolute;top:0;bottom:0;width:22%;border:0;background:none;cursor:pointer;z-index:2}.bk-side.l{left:0;cursor:w-resize}.bk-side.r{right:0;cursor:e-resize}
+.bk-foot{display:flex;align-items:center;gap:12px;padding:10px 18px calc(12px + env(safe-area-inset-bottom));font:12.5px Inter,system-ui,sans-serif;opacity:.75}
+.bk-prog{flex:1;height:4px;border-radius:9px;background:rgba(127,127,127,.25);overflow:hidden}.bk-prog i{display:block;height:100%;background:#6366f1;transition:width .3s}
+.bk-cover{break-after:column;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.bk-cv{width:min(320px,80%);aspect-ratio:3/4;border-radius:6px 16px 16px 6px;background:linear-gradient(150deg,#312e81,#4338ca 55%,#7c3aed);color:#fff;padding:28px 22px;display:flex;flex-direction:column;justify-content:center;box-shadow:12px 14px 30px -10px rgba(0,0,0,.45),inset 8px 0 0 rgba(0,0,0,.18);break-inside:avoid}
+.bk-cv small{font:700 11px Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.8}.bk-cv h1{font-size:26px;line-height:1.2;margin:12px 0}.bk-cv p{margin:0;opacity:.85;font-size:14px}.bk-cvline{height:2px;background:rgba(255,255,255,.4);margin:20px 30%}.bk-cv span{font:600 12px Inter,system-ui,sans-serif;opacity:.8}
+.bk-tip{font:13px Inter,system-ui,sans-serif;opacity:.6;margin-top:18px}
+.bk-sec{break-before:column}.bk-sec h2{font-size:24px;margin:0 0 12px;line-height:1.25}
+.bk-sample h2{font-size:20px}.bk-sample h3{font-size:17px;margin:18px 0 6px}.bk-sample h4{font-size:15px;font-style:italic;font-weight:400;margin:0 0 10px}
+.bk-sample table,.bk-books table{border-collapse:collapse;width:100%;font-size:.85em;margin:10px 0;break-inside:avoid}.bk-sample td,.bk-sample th{border:1px solid rgba(127,127,127,.3);padding:5px 7px;text-align:left}
+.bk-pt{display:flex;gap:12px;margin:0 0 14px;break-inside:avoid}.bk-pt>span{font-size:22px}.bk-pt b{font-family:Inter,system-ui,sans-serif;font-size:.95em}.bk-pt p{margin:2px 0 0}
+.bk-b{border:1px solid rgba(127,127,127,.25);border-radius:12px;padding:10px 12px;margin:0 0 8px;break-inside:avoid}
+.bk-b summary{display:flex;gap:10px;align-items:center;cursor:pointer;list-style:none;font-family:Inter,system-ui,sans-serif}.bk-b summary::-webkit-details-marker{display:none}
+.bk-b summary b{display:block;font-size:14px}.bk-b summary small{opacity:.7;font-size:12px}
+.bk-n{width:28px;height:28px;border-radius:8px;background:#4338ca;color:#fff;display:grid;place-items:center;font:700 13px Inter,system-ui,sans-serif;flex:0 0 auto}
+.bk-b ol{margin:10px 0 6px;padding-left:22px;font-size:.92em}.bk-intro{font-size:.85em;opacity:.8}
+.bk-buy{display:block;width:100%;margin:10px 0 0;border:0;border-radius:12px;padding:13px;background:#4338ca;color:#fff;font:700 14.5px Inter,system-ui,sans-serif;cursor:pointer}.bk-buy.sm{padding:9px;font-size:13px}
+.bk-buy.alt{background:#7c3aed}.bk-buy.ghost{background:none;color:inherit;border:1px solid rgba(127,127,127,.4)}.bk-buy:disabled{opacity:.7;cursor:default}
+.bk-end{text-align:center;font-style:italic;opacity:.6;margin:20px 0}
+.bk-load{display:grid;place-items:center;height:100%}.bk-spin{width:36px;height:36px;border-radius:50%;border:3px solid rgba(127,127,127,.3);border-top-color:#6366f1;animation:bkSpin .8s linear infinite}@keyframes bkSpin{to{transform:rotate(360deg)}}
+.sf-pv-btn{white-space:nowrap}
+.sfbook .sf-pv-link{border:0;background:none;color:var(--p,#4338ca);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer;padding:4px 6px}
+.bk-sample figure{max-width:100%;overflow:hidden}.bk-sample svg{max-width:100%;height:auto}
+/* text moves with a transform (works in every phone browser); the page clips it */
+.bk-page{position:relative}
+.bk-flow{overflow:visible!important;will-change:transform;transition:transform .28s ease}
+.bk-flow.turn{animation:none}
+.bk-side{z-index:3}
+.bk-all{margin:26px 0 8px;font-size:18px}
+.bk-endmark{display:block;height:1px}
+
+</style><script id="sf-bk-js">
+/* ===== Free book preview: Kindle-style "look inside" for every subject series ===== */
+(function(){
+function $(s,r){return(r||document).querySelector(s)}
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+var cache={},R={page:0,pages:1,fs:+(localStorage.getItem('sfbk-fs')||17),th:localStorage.getItem('sfbk-th')||'paper'};
+function price(){return 299}
+function board(sub){var s=sub||'';return/IGCSE/i.test(s)?'Cambridge IGCSE':/A Level|AS & A|AS and A/i.test(s)?'Cambridge AS & A Level':/IB/i.test(s)?'IB Diploma':/Class|CBSE|NCERT/i.test(s)?'CBSE / NCERT':'your exam'}
+function helps(d){var b=board(d.subject),n=d.books.length,units=d.books.reduce(function(a,x){return a+(x.units.length||10)},0);return[
+ ['🎯','Follows your syllabus, in order',n+' books split the whole '+b+' course into '+units+' short units, in the same order your teacher teaches it. You always know exactly what to read next.'],
+ ['🧠','Explained simply','Every unit starts with the key ideas in plain words, then worked examples that show each step and why it is done.'],
+ ['📝','Exam practice in every unit','Each unit ends with a 10-mark exam-style question and a mark guide, so you learn how marks are really given.'],
+ ['⚠️','Common mistakes','Every unit lists the mistakes that lose students marks, so you can avoid them before the exam.'],
+ ['⚡','Quick recall','Short recall questions at the end of each unit make revision fast — perfect the night before a test.'],
+ ['🤖','Works with your AI Coach','Ask StudyFlow’s AI Coach about any page, or turn a unit into flashcards and quizzes in one tap.']]}
+function better(){return[
+ ['✅','Practice with marking, not just notes','Most study guides only summarise. Here every single unit has an exam-style question with a mark guide.'],
+ ['📚','Small books, not one heavy guide','Ten focused books instead of one 500-page book. Finish one, feel progress, move on.'],
+ ['🔄','Up to date','Written for the current syllabus version, with every answer checked.'],
+ ['💸','Fair price','₹'+price()+' per book, and you only buy the books you need.'],
+ ['📱','Read anywhere','Instant PDF download for phone, tablet or laptop, and you can print it.']]}
+function bookList(d){return'<div class="bk-books">'+d.books.map(function(b){var t=b.title.replace(/^.*?Book \d+:\s*/,'');return'<details class="bk-b"'+(b.n===1?' open':'')+'><summary><span class="bk-n">'+b.n+'</span><span><b>Book '+b.n+': '+esc(t)+'</b><small>'+(b.units.length||10)+' units · ₹'+price()+'</small></span></summary><ol>'+b.units.map(function(u){return'<li>'+esc(u)+'</li>'}).join('')+'</ol>'+(b.intro?'<p class="bk-intro">'+b.intro+'</p>':'')+'<button type="button" class="bk-buy sm" data-bkadd="'+esc(b.id)+'">Add Book '+b.n+' to cart</button></details>'}).join('')+'</div>'}
+// A diagram that was saved as text is turned back into a picture (only diagram tags are allowed through)
+function fig(h){return String(h||'').replace(/<p>\s*(&lt;(?:figure|svg)[\s\S]*?&lt;\/(?:figure|svg)&gt;)\s*<\/p>/g,function(m,x){var t=document.createElement('textarea');t.innerHTML=x;var v=t.value;return /<(script|iframe|object|embed|foreignObject)|\son\w+=|javascript:/i.test(v)?m:v})}
+function build(d,startBook){
+ var b1=d.books[0],T=function(t,h){return'<section class="bk-sec"><h2>'+t+'</h2>'+h+'</section>'};
+ var cover='<section class="bk-cover"><div class="bk-cv"><small>'+esc(board(d.subject))+'</small><h1>'+esc(d.subject)+'</h1><p>'+d.books.length+'-book series · free preview</p><div class="bk-cvline"></div><span>StudyFlow Books</span></div><p class="bk-tip">Tap the right side or swipe to turn the page →</p></section>';
+ var inside=T('What’s inside this series','<p>'+d.books.length+' books cover the full course. Tap a book to see every unit.</p>'+bookList(d));
+ var help=T('How these books help you',helps(d).map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
+ var bet=T('Why they are better',better().map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
+ var look=T('Look inside: '+esc(b1.title.replace(/^.*?(Book 1)/,'$1')),'<div class="bk-sample">'+fig(d.sample)+'</div><p class="bk-end">— End of free preview —</p>');
+ var end='<section class="bk-sec bk-last"><h2>Like what you read?</h2><p>Get the full books as instant PDFs. Start with Book 1, or get the whole series.</p><button type="button" class="bk-buy" data-bkadd="'+esc(b1.id)+'">Add Book 1 to cart · ₹'+price()+'</button><button type="button" class="bk-buy alt" data-bkall="'+esc(d.id)+'">Add all '+d.books.length+' books · ₹'+(price()*d.books.length)+'</button><button type="button" class="bk-buy ghost" data-bkcart>Go to cart</button></section>';
+ var look2=T('Look inside: '+esc(b1.title.replace(/^.*?(Book 1)/,'$1')),'<div class="bk-sample">'+fig(d.sample)+'</div><p class="bk-end">— End of free preview —</p>');
+ var end2='<section class="bk-sec bk-last"><h2>Like what you read?</h2><p>Get the full books as instant PDFs. Start with Book 1, or get the whole series.</p><button type="button" class="bk-buy" data-bkadd="'+esc(b1.id)+'">Add Book 1 to cart · ₹'+price()+'</button><button type="button" class="bk-buy alt" data-bkall="'+esc(d.id)+'">Add all '+d.books.length+' books · ₹'+(price()*d.books.length)+'</button><button type="button" class="bk-buy ghost" data-bkcart>Go to cart</button><h3 class="bk-all">All '+d.books.length+' books in this series</h3>'+bookList(d)+'</section>';
+ // cover, then straight into the book itself
+ return cover+look2+end2+'<span class="bk-endmark"></span>';
+}
+function open(series,book){
+ close();var o=document.createElement('div');o.className='bk-ov th-'+R.th;o.id='bkOv';
+ o.innerHTML='<div class="bk-top"><button type="button" class="bk-ic" data-bkx aria-label="Close">✕</button><b class="bk-tt">Loading preview…</b><div class="bk-tools"><button type="button" class="bk-ic" data-bkfs="-1" aria-label="Smaller text">A−</button><button type="button" class="bk-ic" data-bkfs="1" aria-label="Bigger text">A+</button><button type="button" class="bk-ic" data-bkth aria-label="Change page colour">🌓</button></div></div><div class="bk-stage"><button type="button" class="bk-side l" data-bkp="-1" aria-label="Previous page"></button><div class="bk-page" id="bkPage"><div class="bk-flow" id="bkFlow"><div class="bk-load"><div class="bk-spin"></div></div></div></div><button type="button" class="bk-side r" data-bkp="1" aria-label="Next page"></button></div><div class="bk-foot"><div class="bk-prog"><i id="bkBar"></i></div><span id="bkPg"></span></div>';
+ document.body.appendChild(o);document.documentElement.classList.add('pm-lock');requestAnimationFrame(function(){o.classList.add('in')});
+ var go_=function(d){if(!$('#bkOv'))return;$('.bk-tt',o).textContent=d.subject+' — free preview';$('#bkFlow').innerHTML=build(d,book);$('#bkFlow').style.fontSize=R.fs+'px';R.page=0;try{document.fonts&&document.fonts.ready.then(layout)}catch(_){}[300,900,2000].forEach(function(t){setTimeout(layout,t)});setTimeout(function(){layout();if(book&&book>1){var el=$('#bkFlow details:nth-child('+book+')');}},60)};
+ if(cache[series])return go_(cache[series]);
+ fetch('previews/'+encodeURIComponent(series)+'.json').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){cache[series]=d;go_(d)}).catch(function(){var f=$('#bkFlow');if(f)f.innerHTML='<section class="bk-sec"><h2>Preview not available yet</h2><p>This preview will appear once the website is updated. Please try again later.</p></section>';layout()});
+ // swipe
+ var x0=null;o.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});o.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>45)turn(dx<0?1:-1);x0=null});
+}
+function close(){var o=$('#bkOv');if(o){o.remove();document.documentElement.classList.remove('pm-lock')}}
+function layout(){var pg=$('#bkPage'),fl=$('#bkFlow');if(!pg||!fl)return;var w=pg.clientWidth;fl.style.columnWidth=w+'px';fl.style.width=w+'px';fl.style.height=pg.clientHeight+'px';
+ var mk=fl.querySelector('.bk-endmark'),byMark=mk?Math.floor((mk.offsetLeft+1)/(w+40))+1:0;R.pages=Math.max(1,byMark,Math.round(fl.scrollWidth/(w+40)));if(R.page>=R.pages)R.page=R.pages-1;show()}
+function show(){var pg=$('#bkPage'),fl=$('#bkFlow');if(!pg)return;fl.scrollLeft=0;fl.style.transform='translateX('+(-R.page*(pg.clientWidth+40))+'px)';$('#bkPg').textContent='Page '+(R.page+1)+' of '+R.pages;$('#bkBar').style.width=((R.page+1)/R.pages*100)+'%';
+ fl.classList.remove('turn');void fl.offsetWidth;fl.classList.add('turn')}
+function turn(d){layout();var n=R.page+d;if(n<0||n>=R.pages)return;R.page=n;show()}
+document.addEventListener('click',function(e){
+ var p=e.target.closest('[data-preview]');if(p){e.preventDefault();e.stopPropagation();open(p.dataset.preview,+p.dataset.pbook||1);return}
+ if(!$('#bkOv'))return;
+ if(e.target.closest('[data-bkx]'))return close();
+ var t=e.target.closest('[data-bkp]');if(t)return turn(+t.dataset.bkp);
+ var pgc=e.target.closest('#bkPage');if(pgc&&!e.target.closest('button,a,summary,input,details[open] li')){var rc=pgc.getBoundingClientRect();return turn(e.clientX>rc.left+rc.width/2?1:-1)}
+ var f=e.target.closest('[data-bkfs]');if(f){R.fs=Math.max(13,Math.min(24,R.fs+ +f.dataset.bkfs*1.5));try{localStorage.setItem('sfbk-fs',R.fs)}catch(_){}$('#bkFlow').style.fontSize=R.fs+'px';var ratio=R.page/Math.max(1,R.pages-1);layout();R.page=Math.round(ratio*(R.pages-1));show();return}
+ if(e.target.closest('[data-bkth]')){var o=['paper','sepia','night'];R.th=o[(o.indexOf(R.th)+1)%3];try{localStorage.setItem('sfbk-th',R.th)}catch(_){}$('#bkOv').className='bk-ov in th-'+R.th;return}
+ var a=e.target.closest('[data-bkadd]');if(a){try{sfCartAdd(a.dataset.bkadd)}catch(_){}a.textContent='✓ Added to cart';a.disabled=true;return}
+ var al=e.target.closest('[data-bkall]');if(al){var d=cache[al.dataset.bkall];if(d)d.books.forEach(function(b){try{sfCartAdd(b.id)}catch(_){}});al.textContent='✓ All books added';al.disabled=true;return}
+ if(e.target.closest('[data-bkcart]')){close();try{go('cart')}catch(_){}}
+ if(e.target.closest('details summary'))setTimeout(layout,30);
+},true);
+document.addEventListener('keydown',function(e){if(!$('#bkOv'))return;if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();turn(1)}if(e.key==='ArrowLeft'){e.preventDefault();turn(-1)}if(e.key==='Escape')close()});
+window.addEventListener('resize',function(){if($('#bkOv'))layout()});
+window.sfPreview={open:open,close:close};
+})();
+
+</script><style id="sf-fit-css">
+/* ===== Screen fit: phones, tablets and laptops each get their own layout ===== */
+/* Quiz Studio top box never wider than the phone */
+@media (max-width:760px){
+ .kq-hero{grid-template-columns:minmax(0,1fr)!important}
+ .kq-hero>*{min-width:0;max-width:100%}
+ .kq-hero input,.kq-hero select,.kq-hero button{max-width:100%;min-width:0}
+ .kq-pin{max-width:100%}
+}
+/* ---- AI Coach ---- */
+#page-coach .chatbox{min-height:0}
+#page-coach .chatbox .messages{max-height:none!important;min-height:120px;flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain}
+#page-coach .chatbox .chatinput{flex:0 0 auto}
+.sf-cset-sum{display:none}
+@media (min-width:1001px){
+ #page-coach .pagehead{padding-top:6px;padding-bottom:6px;min-height:0}
+ #page-coach .pagehead h1{font-size:28px;margin:0}
+ #page-coach .pagehead p{margin:2px 0 0}
+ #page-coach .chatlayout{grid-template-columns:minmax(0,1fr) 280px;grid-template-rows:auto 1fr;align-items:start}
+ #page-coach .chatlayout>.chatbox{grid-column:1;grid-row:1 / span 2}
+ #page-coach .chatlayout>.coach-live-card{grid-column:2;grid-row:1}
+ #page-coach .chatlayout>.sf-cset{grid-column:2;grid-row:2}
+ #page-coach .sf-cset .notice{display:none}
+}
+@media (max-width:1000px){
+ #page-coach .pagehead{display:none}
+ #page-coach .chatlayout{gap:10px}
+ #page-coach .chatlayout>.sf-cset{order:1!important}
+ #page-coach .chatlayout>.chatbox{order:2!important;padding:12px 12px 10px}
+ #page-coach .chatlayout>.coach-live-card{order:3!important}
+ /* settings shrink to one tidy line; tap to change */
+ #page-coach .sf-cset{padding:10px 14px}
+ #page-coach .sf-cset h2{display:none}
+ #page-coach .sf-cset-sum{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:2px 0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+ #page-coach .sf-cset-sum span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+ #page-coach .sf-cset-sum b{font-size:13px;color:var(--p,#4f46e5);white-space:nowrap}
+ #page-coach .sf-cset.sf-closed>:not(.sf-cset-sum){display:none!important}
+ #page-coach .sf-cset:not(.sf-closed) .sf-cset-sum{margin-bottom:8px}
+ /* suggestion buttons and options: one swipeable line instead of many rows */
+ #page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+ #page-coach .chatbox .suggestions::-webkit-scrollbar,#page-coach .chatbox .sfm-row::-webkit-scrollbar{display:none}
+ #page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex:0 0 auto;white-space:nowrap}
+ #page-coach .chatbox .chathead{padding-bottom:8px}
+ #page-coach .chatbox .messages{padding:10px 0}
+ #page-coach .chatinput textarea{font-size:16px}/* stops iPhone zooming in */
+}
+/* ---- every page: comfortable on phones ---- */
+@media (max-width:760px){
+ input,select,textarea{font-size:16px}
+ .page img,.page video{max-width:100%}
+}
+/* very small phones */
+@media (max-width:370px){
+ .pagehead h1{font-size:24px}
+}
+/* "Hint first" tick box: normal size, next to its words */
+#page-coach .sfm-row label{display:inline-flex!important;align-items:center;gap:7px;width:auto!important;margin:0 6px 0 0}
+#page-coach .sfm-row label input[type=checkbox]{width:18px!important;height:18px!important;min-height:0!important;min-width:0!important;flex:0 0 18px!important;margin:0;padding:0}
+/* laptops with short screens: keep the quick buttons on one swipeable line so the chat has room */
+@media (min-width:1001px) and (max-height:900px){
+ #page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;padding-bottom:4px}
+ #page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex:0 0 auto;white-space:nowrap}
+}
+#page-coach .chatbox .messages{min-height:150px}
+/* button rows above the typing box never get squashed: only the messages area shrinks */
+#page-coach .chatbox>*:not(.messages){flex-shrink:0!important}
+#page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row{min-height:max-content;overflow-y:visible!important;align-items:center;padding-top:2px;padding-bottom:6px}
+#page-coach .chatbox .suggestions>*,#page-coach .chatbox .sfm-row>*{flex-shrink:0}
+/* Chat only: no quick-button rows, bigger message area */
+#page-coach .chatbox .suggestions,#page-coach .chatbox .sfm-row,#page-coach #coachVoiceStatus{display:none!important}
+#page-coach .chatbox .speak-row{margin-top:6px}
+#page-coach .chatbox .speak-row .btn,#page-coach .chatbox .speak-row button{padding:5px 12px;font-size:13px}
+@media (min-width:1001px){#page-coach .pagehead{display:none}}
+.sf-hintset{display:flex;align-items:center;gap:8px;margin:12px 0 4px;font-size:14px;cursor:pointer}
+.sf-hintset input{width:18px;height:18px;margin:0;flex:0 0 18px}
+/* Quiz game top bar: always fits on phones, ✕ never pushed off screen */
+#kqGame .kq-top{gap:6px;flex-wrap:nowrap;max-width:100%;box-sizing:border-box;padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right))}
+#kqGame .kq-top>*{flex-shrink:0}
+#kqGame #kqTitle{flex:0 1 auto;min-width:0;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#kqGame .kq-top .sp{flex:1 1 0;min-width:0}
+#kqGame #kqScore,#kqGame #kqProg{white-space:nowrap}
+@media (max-width:480px){#kqGame .kq-pill{padding-left:10px!important;padding-right:10px!important;font-size:14px!important}#kqGame .kq-ic{width:40px!important;height:40px!important;min-width:40px}#kqGame #kqTitle{max-width:38%}}
+
+</style><script id="sf-fit-js">
+/* ===== Screen fit: Coach chat fills the screen; settings tidy; cards in a sensible order ===== */
+(function(){
+function $(s,r){return(r||document).querySelector(s)}
+function coach(){var pg=$('#page-coach');if(!pg)return;var lay=$('.chatlayout',pg);if(!lay)return;
+ var set=null;[].slice.call(lay.children).forEach(function(c){if(c.querySelector&&c.querySelector('#coachLevel'))set=c});
+ if(set&&!set.classList.contains('sf-cset')){set.classList.add('sf-cset');
+  var b=document.createElement('button');b.type='button';b.className='sf-cset-sum';b.innerHTML='<span>⚙️</span><span id="sfCsetTxt"></span><b>Change</b>';b.firstChild.style.flex='0 0 auto';set.insertBefore(b,set.firstChild);
+  if(innerWidth<=1000)set.classList.add('sf-closed');
+  b.onclick=function(){set.classList.toggle('sf-closed');b.lastChild.textContent=set.classList.contains('sf-closed')?'Change':'Done';size()};
+  set.addEventListener('change',sum);sum()}
+ // the 'Hint first' switch lives in the coach settings now (the button rows are hidden)
+ var hb=document.getElementById('sfHint'),setc=document.querySelector('#page-coach .sf-cset');
+ if(hb&&setc&&!setc.contains(hb)){var lab=document.createElement('label');lab.className='sf-hintset';lab.appendChild(hb);lab.appendChild(document.createTextNode(' Give hints first, full answer when I ask'));var note=setc.querySelector('.notice');setc.insertBefore(lab,note||null)}
+ size()}
+function sum(){var t=$('#sfCsetTxt');if(!t)return;var v=function(id){var e=$('#'+id);return e&&e.selectedIndex>=0&&e.options[e.selectedIndex]?e.options[e.selectedIndex].text:(e&&e.value)||''};t.textContent=[v('coachLevel'),v('coachSubject'),v('coachStyle')].filter(Boolean).join(' · ')}
+// Make the chat box exactly fill the free space on the screen, so the typing box is always visible.
+function size(){var pg=$('#page-coach');if(!pg||!pg.classList.contains('active'))return;var box=$('.chatbox',pg);if(!box)return;
+ var nav=document.getElementById('sfTabs'),bottom=innerHeight;if(nav&&nav.getClientRects().length){var nr=nav.getBoundingClientRect();if(nr.top>innerHeight/2)bottom=nr.top}
+ var top=box.getBoundingClientRect().top+scrollY;// where the chat starts when the page is scrolled to the top
+ var h=Math.round(bottom-top-12);
+ var min=innerWidth<=1000?470:520;box.style.height=Math.max(min,Math.min(h,1100))+'px'}
+var t0=0;function tick(){coach();settings()}
+function settings(){var pg=$('#page-settings');if(!pg)return;var ph=$('.pagehead',pg);if(!ph)return;['sfLangCard','sqAutoCard'].forEach(function(id){var c=document.getElementById(id);if(c&&c.parentNode===pg&&(ph.compareDocumentPosition(c)&Node.DOCUMENT_POSITION_PRECEDING)){var after=document.getElementById('sfAppearance');pg.insertBefore(c,after&&after.parentNode===pg?after.nextSibling:ph.nextSibling)}})}
+setInterval(tick,1200);setTimeout(tick,300);
+addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
+// re-size when the Coach page is opened
+var _go=window.go;if(typeof _go==='function'){window.go=function(){var r=_go.apply(this,arguments);setTimeout(function(){coach();size()},60);return r}}
+document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='chatText')setTimeout(size,350)});
+if(window.visualViewport)visualViewport.addEventListener('resize',function(){clearTimeout(t0);t0=setTimeout(size,120)});
+})();
+
+</script><style id="sf-st2-css">
+.st2-ov{position:fixed;inset:0;z-index:9990;background:rgba(10,8,30,.72);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px}
+.st2-c{background:#fff;color:#0f172a;border-radius:24px;max-width:480px;width:100%;max-height:90vh;overflow:auto;padding:28px 24px;box-shadow:0 30px 80px rgba(0,0,0,.35);text-align:center}
+.st2-orb{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#7c3aed,#ec4899);animation:st2p 1.6s ease-in-out infinite}
+@keyframes st2p{50%{transform:scale(1.08)}}
+.st2-c h2{margin:6px 0 4px;font-size:22px}
+.st2-s{color:#64748b;margin:0 0 14px;font-size:14px}
+.st2-tasks{list-style:none;margin:0 0 16px;padding:0;text-align:left;display:grid;gap:8px}
+.st2-tasks li{display:flex;gap:10px;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;font-size:14px}
+.st2-tasks .s{width:18px;height:18px;flex:none;border-radius:50%;border:2.5px solid #c4b5fd;border-top-color:#7c3aed;animation:st2s .8s linear infinite}
+.st2-tasks li.ok .s{animation:none;border:none;background:#22c55e;position:relative}
+.st2-tasks li.ok .s:after{content:"✓";color:#fff;font-size:12px;font-weight:900;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.st2-tasks li.no .s{animation:none;border:none;background:#f59e0b}
+@keyframes st2s{to{transform:rotate(360deg)}}
+.st2-go{width:100%;border:0;border-radius:14px;padding:14px;font-weight:800;font-size:16px;color:#fff;background:linear-gradient(135deg,#7c3aed,#4f46e5);cursor:pointer}
+.st2-go[hidden]{display:none}
+
+</style><script id="sf-st2-js">
+/* ===== Starter pack: after the survey, 10 quizzes + flashcard sets made for the student's grade, board and subjects.
+   They go into Quiz Studio ("Your quizzes") and Flashcards. StudyQuest keeps its own hidden bank separately. ===== */
+(function(){
+function P(){try{return data.profile||{}}catch(e){return{}}}
+function D(){try{return data}catch(e){return{}}}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function emo(s){s=String(s).toLowerCase();return/math/.test(s)?'🧮':/phys/.test(s)?'⚡':/chem/.test(s)?'🧪':/bio/.test(s)?'🧬':/scien/.test(s)?'🔬':/english|lit/.test(s)?'✍️':/hist/.test(s)?'🏛️':/geog/.test(s)?'🌍':/econ/.test(s)?'📈':/busin|commerce/.test(s)?'💼':/account/.test(s)?'📒':/comput|ict|data|program/.test(s)?'💻':/french|spanish|hindi|language/.test(s)?'🗣️':/social/.test(s)?'🗺️':'📘'}
+function ctx(){var p=P();return{grade:p.grade||p.level||'',syll:p.syllabus||p.board||p.curriculum||'',hard:p.hardest||'',aim:p.aim||'grades',role:p.role||'student',child:p.child||''}}
+function addCards(set,list,e){var d=D();if(!Array.isArray(d.flashcards))d.flashcards=[];list.forEach(function(x){d.flashcards.push({id:uid(),front:x.f,back:x.b,learned:false,lv:0,set:set})});if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};var m=d.fcmeta[set]||(d.fcmeta[set]={color:['#7c3aed','#0d9488','#e8475f','#d97706','#2563eb'][Object.keys(d.fcmeta).length%5],created:Date.now()});m.emoji=e;m.last=Date.now();m.keep=true;m.starter=true}
+function addQuiz(q){try{if(typeof customQuizzes==='undefined')return false;customQuizzes.push(q);saveCustomQuizzes();return true}catch(e){return false}}
+function hasStarter(sub){try{return(customQuizzes||[]).some(function(q){return q.starter&&q.subject===sub})}catch(e){return false}}
+function fallback(sub,k){
+ var bank=(window.QB_START&&QB_START[qbKind(sub)])||[];if(!bank.length)return{quizzes:0,cards:0,ai:false};
+ var qs=bank.map(function(q){return{text:q[0],options:q[1].slice(),correct:q[2],explain:q[3]||'',time:20}});
+ var made=0,per=Math.max(5,Math.min(8,Math.floor(qs.length/Math.max(1,k))));
+ for(var i=0;i<k;i++){var part=[];for(var z=0;z<per;z++)part.push(qs[(i*per+z)%qs.length]);addQuiz({id:'st'+uid(),title:sub+' warm-up '+(i+1),subject:sub,topic:'Starter',emoji:emo(sub),theme:'sunrise',questions:part,created:Date.now(),starter:true,general:true});made++}
+ var cards=bank.slice(0,12).map(function(q){return{f:q[0],b:q[1][q[2]]+(q[3]?' — '+q[3]:'')}});addCards(sub+' · Starter',cards,emo(sub));
+ return{quizzes:made,cards:cards.length,ai:false}}
+function aiCall(body){return fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(!r.ok){var e=new Error(j.error||('HTTP '+r.status));e.status=r.status;throw e}return j})})}
+function firstDay(){try{var t=(data.profile||{}).starterBuilt;return !t||Date.now()-t<20*3600e3}catch(e){return true}}
+function parseObj(t){t=String(t||'');var a=t.indexOf('{'),b=t.lastIndexOf('}');if(a<0||b<a)throw new Error('no JSON');return JSON.parse(t.slice(a,b+1))}
+function who(c,sub){return 'Subject: '+sub+'\nGrade/class/year: '+(c.grade||'not given')+'\nSyllabus/board/course: '+(c.syll||'not given')+(c.hard===sub?'\nThe student finds this subject hardest — start from the basics.':'')+(c.role==='teacher'?'\nThis is for a TEACHER: make lesson-starter class quizzes and revision cards for their students.':c.role==='parent'?'\nThis is set up by a parent for their child'+(c.child?' ('+c.child+')':'')+'.':'')+'\nGoal: '+c.aim+'\nIf the subject name is short or unusual (an abbreviation like EVS/EVM, a local subject name), work out the real school subject it means for this grade and syllabus and write about THAT subject only. Never write general-knowledge or study-skills questions.'}
+// one request per quiz, so each reply is small and fast (big replies were timing out and fell back to general questions)
+function oneQuiz(sub,c,used,i,k){var body={purpose:'setup',first:firstDay(),temperature:0.4,search:false,maxTokens:4000,
+  system:'You write accurate, syllabus-aligned study material: a school quiz. Return ONLY JSON: {"title":"short quiz title","topic":"topic","questions":[{"q":"question","options":["A","B","C","D"],"correct":0,"why":"one sentence"}]}. Exactly 8 questions, exactly 4 options each, all on ONE important topic of the subject. Check each answer carefully before choosing "correct", and vary the correct position. Match the grade and syllabus exactly and use its terminology. Plain text, no LaTeX. Only facts that are certainly true.',
+  user:who(c,sub)+'\nThis is quiz '+(i+1)+' of '+k+'.'+(used.length?' Pick a DIFFERENT topic from these already used: '+used.join('; ')+'.':'')};
+ return aiCall(body).then(function(j){var z=parseObj(j.text);var qs=(z.questions||[]).map(function(q){var op=(q.options||[]).map(function(x){return String(x).slice(0,160)});return{text:String(q.q||q.question||'').slice(0,300),options:op,correct:+(q.correct!=null?q.correct:q.correctIndex),explain:String(q.why||q.explanation||'').slice(0,300),time:20}}).filter(function(q){return q.text&&q.options.length===4&&q.correct>=0&&q.correct<4});
+  if(qs.length<4)throw new Error('too few questions');return{title:String(z.title||sub+' quiz '+(i+1)).slice(0,80),topic:String(z.topic||'Starter').slice(0,60),qs:qs}})}
+function someCards(sub,c){var body={purpose:'setup',first:firstDay(),temperature:0.4,search:false,maxTokens:3000,
+  system:'You write accurate, syllabus-aligned study material: revision flashcards. Return ONLY JSON: {"cards":[{"front":"term or question (max 80 chars)","back":"short answer (max 160 chars)"}]}. Exactly 12 cards on the most important topics of the subject for this grade and syllabus. Plain text, no LaTeX. Only facts that are certainly true.',
+  user:who(c,sub)};
+ return aiCall(body).then(function(j){var o=parseObj(j.text);return(o.cards||[]).map(function(x){return{f:String(x.front||'').slice(0,200),b:String(x.back||'').slice(0,400)}}).filter(function(x){return x.f&&x.b}).slice(0,15)})}
+function retry(fn,n){return fn().catch(function(e){if(n<=0||e.status===429||/limit/i.test(e.message||''))throw e;return new Promise(function(ok){setTimeout(ok,1800)}).then(function(){return retry(fn,n-1)})})}
+function pend(sub,k,on){try{var p=data.profile;p.starterPending=p.starterPending||{};if(on)p.starterPending[sub]=k;else delete p.starterPending[sub];persist()}catch(e){}}
+function subject(sub,k,c){
+ c=c||ctx();k=Math.max(1,Math.min(4,k||2));var used=[],made=0,cards=0,i=0;
+ function next(){if(i>=k)return Promise.resolve();var n=i++;return retry(function(){return oneQuiz(sub,c,used,n,k)},2).then(function(z){used.push(z.topic);addQuiz({id:'st'+uid(),title:z.title,subject:sub,topic:z.topic,emoji:emo(sub),theme:'sunrise',questions:z.qs,created:Date.now(),starter:true});made++;try{persist()}catch(e){}return next()}).catch(function(e){try{console.warn('Starter quiz failed for '+sub,e)}catch(_){}if(/limit|busy|429/i.test(e.message||'')||e.status===429)return;return next()})}
+ return next().then(function(){return retry(function(){return someCards(sub,c)},1).then(function(l){if(l.length){addCards(sub+' · Starter',l,emo(sub));cards=l.length}}).catch(function(){})}).then(function(){
+  // never fill in with general questions: if nothing was made, try again later by itself
+  pend(sub,k,!made);return{quizzes:made,cards:cards,ai:true}})}
+// Old builds put general (not-your-subject) warm-up quizzes in when the AI was slow. Remove them and remake real ones.
+function purgeGeneral(){try{var d=D(),p=P();if(!p.onboarded||typeof customQuizzes==='undefined')return;var gone={};
+ for(var i=customQuizzes.length-1;i>=0;i--){var q=customQuizzes[i];if(q&&q.starter&&q.general){gone[q.subject]=(gone[q.subject]||0)+1;customQuizzes.splice(i,1)}}
+ var subs=Object.keys(gone);if(!subs.length)return;saveCustomQuizzes();
+ var bank={};try{Object.keys(window.QB_START||{}).forEach(function(k){(QB_START[k]||[]).forEach(function(q){bank[q[0]]=1})})}catch(e){}
+ if(Array.isArray(d.flashcards))d.flashcards=d.flashcards.filter(function(c){return!bank[c.front]});
+ subs.forEach(function(s){if(!customQuizzes.some(function(q){return q.starter&&q.subject===s}))pend(s,Math.min(4,gone[s]),true)});try{persist()}catch(e){}}catch(e){}}
+var pendBusy=false;function retryPending(){try{var p=P(),pp=p.starterPending||{},subs=Object.keys(pp);if(pendBusy||!subs.length||!p.onboarded||document.getElementById('st2Ov'))return;var last=+localStorage.getItem('sf-pend-try')||0;if(Date.now()-last<10*60e3)return;localStorage.setItem('sf-pend-try',Date.now());pendBusy=true;
+ var j=0;(function nx(){if(j>=subs.length){pendBusy=false;try{if(typeof renderAll==='function')renderAll();if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}return}var s=subs[j++];if(customQuizzes.some(function(q){return q.starter&&q.subject===s})){pend(s,0,false);return nx()}subject(s,pp[s]||2).then(nx)})()}catch(e){pendBusy=false}}
+setTimeout(function(){purgeGeneral();retryPending()},4000);setInterval(retryPending,5*60e3);
+function split(n){var subs=n;var base=Math.floor(10/subs),extra=10%subs;return function(i){return Math.min(4,base+(i<extra?1:0))||1}}
+function all(onStep){
+ var p=P(),subs=(p.subjects||[]).filter(Boolean).slice(0,10);if(!subs.length)return Promise.resolve({quizzes:0,cards:0});
+ var q=split(subs.length),i=0,tot={quizzes:0,cards:0,ai:0};
+ return new Promise(function(res){(function next(){if(i>=subs.length){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}try{if(typeof renderAll==='function')renderAll()}catch(e){}return res(tot)}
+  var s=subs[i],k=q(i);i++;if(hasStarter(s))return next();subject(s,k).then(function(r){tot.quizzes+=r.quizzes;tot.cards+=r.cards;if(r.ai)tot.ai++;try{persist()}catch(e){}if(onStep)onStep(s,r);next()})})()})}
+function quest(subs,taskFn){
+ if(!window.SFQuestBank)return Promise.resolve();
+ // About 60 StudyQuest questions on the first day, shared by ALL subjects. Up to 3 subjects share one AI request
+ // (max 25 questions per request), so 1 subject = 3 requests and 8 subjects = 3 requests.
+ var list=subs.slice(0,12),groups=[];for(var g=0;g<list.length;g+=3)groups.push(list.slice(g,g+3));
+ var each=Math.max(5,Math.ceil(60/Math.max(1,list.length)));var t=taskFn('Making about 60 StudyQuest questions for '+list.join(', '));
+ function count(){return list.reduce(function(a,x){return a+SFQuestBank.aiCount(x)},0)}
+ function one(grp,n,tries){return SFQuestBank.topUpMulti(grp,n).then(function(r){if(r)return r;if(tries>0&&SFQuestBank.lastErr&&SFQuestBank.lastErr()!=='limit')return new Promise(function(ok){setTimeout(ok,1500)}).then(function(){return one(grp,n,tries-1)});return 0})}
+ function runGroup(grp){var need=each*grp.length,jobs=[];while(need>0){jobs.push(Math.max(8,Math.min(25,need)));need-=25}
+  return jobs.reduce(function(pr,n){return pr.then(function(){return one(grp,n,1)})},Promise.resolve())}
+ // two groups at a time, so it is quicker
+ var gi=0;function worker(){if(gi>=groups.length)return Promise.resolve();var grp=groups[gi++];return runGroup(grp).then(worker)}
+ return Promise.all([worker(),worker()]).then(function(){var tot=count();
+  if(tot)t.ok('StudyQuest: '+tot+' quiz questions ready for your syllabus');
+  else t.no(SFQuestBank.lastErr&&SFQuestBank.lastErr()==='limit'?'StudyQuest: today\'s AI limit is used up — questions will be made tomorrow':'StudyQuest: questions will be made when you open it')})}
+var autoRan=false;
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function auto(){
+ if(autoRan)return;var p=P();if(!p.onboarded||p.starterBuilt||!(p.subjects||[]).length)return;
+ if(document.getElementById('sfOb2')||document.getElementById('sfOnb'))return setTimeout(auto,3000);
+ autoRan=true;var subs=(p.subjects||[]).filter(Boolean).slice(0,10);
+ var o=document.createElement('div');o.className='st2-ov';o.id='st2Ov';
+ o.innerHTML='<div class="st2-c" role="dialog" aria-modal="true"><div class="st2-orb">✨</div><h2 id="st2T">Getting your study space ready…</h2><p class="st2-s">Making everything for '+esc([p.grade||p.level,p.syllabus||p.board].filter(Boolean).join(' · '))+'. This takes about a minute.</p><ul class="st2-tasks" id="st2L"></ul><button type="button" class="st2-go" id="st2Go" hidden>Continue</button></div>';
+ document.body.appendChild(o);document.body.style.overflow='hidden';
+ function task(t){var li=document.createElement('li');li.innerHTML='<span class="s"></span><b>'+esc(t)+'</b>';document.getElementById('st2L').appendChild(li);li.scrollIntoView({block:'nearest'});return{ok:function(x){li.classList.add('ok');if(x)li.querySelector('b').textContent=x},no:function(x){li.classList.add('no');if(x)li.querySelector('b').textContent=x}}}
+ var q=split(subs.length),i=0;
+ (function next(){if(i>=subs.length){return quest(subs,task).then(fin)}
+  var s=subs[i],k=q(i);i++;if(hasStarter(s))return next();var t=task('Making '+s+' quizzes & flashcards');
+  subject(s,k).then(function(r){try{persist()}catch(e){}if(r.quizzes)t.ok(s+': '+r.quizzes+' quiz'+(r.quizzes>1?'zes':'')+' + '+r.cards+' flashcards'+' ✓');else t.no(s+': the AI is busy — your quizzes will appear by themselves in a few minutes');next()})})();
+ function fin(){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}try{if(typeof renderAll==='function')renderAll()}catch(e){}try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}
+  document.getElementById('st2T').textContent='Your study space is ready!';var ss=document.querySelector('#st2Ov .st2-s');if(ss)ss.textContent='Everything below was made for your grade and subjects.';var b=document.getElementById('st2Go');b.hidden=false;b.onclick=function(){o.remove();document.body.style.overflow='';try{go('dashboard')}catch(e){}}}
+}
+setTimeout(auto,1500);
+window.SFStarter={subject:subject,all:all,auto:auto,split:split,emo:emo,quest:quest};
 })();
 
 </script></body></html>

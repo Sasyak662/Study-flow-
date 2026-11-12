@@ -116,7 +116,7 @@ module.exports = async function handler(req, res) {
         const fk = 'sf:first:' + who + ':' + S.today();
         const fn = Number(await S.cmd('INCR', fk)) || 0;
         if (fn === 1) await S.cmd('EXPIRE', fk, 172800);
-        firstOk = fn <= 24;
+        firstOk = fn <= 45;
       }
       if (used > limit && !firstOk) {
         if (setup || quest) return send(res, 429, { limit: true, quest: true, plan, error: 'You have used today\'s AI allowance, so no new quiz questions can be made until tomorrow.' });
