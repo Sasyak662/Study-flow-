@@ -18,13 +18,17 @@ public class BlockService extends AccessibilityService {
         if (!Lock.active(this)) return;
         if (!Lock.isBlocked(this, pkg)) return;
         long now = System.currentTimeMillis();
-        if (now - lastBlock < 800) return;
+        if (now - lastBlock < 300) return;
         lastBlock = now;
+        // cover it at once with the focus screen, then send it away
+        boolean shown = WatchService.blockNow(pkg);
         performGlobalAction(GLOBAL_ACTION_HOME);
-        Intent i = new Intent(this, BlockedActivity.class)
-                .putExtra("pkg", pkg)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        try { startActivity(i); } catch (Exception ignored) {}
+        if (!shown) {
+            Intent i = new Intent(this, BlockedActivity.class)
+                    .putExtra("pkg", pkg)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            try { startActivity(i); } catch (Exception ignored) {}
+        }
     }
 
     @Override
