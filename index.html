@@ -11627,6 +11627,8 @@ body.fz-web #page-focuslock .pagehead .pl-chips{display:none}
 .fz-warn{background:#fef2f2;border:1.5px solid #fca5a5;color:#7f1d1d;border-radius:18px;padding:14px 16px;margin-bottom:12px}.fz-warn p{margin:6px 0 10px;font-size:13.5px}.fz-warn .fz-allow{margin:0 6px 6px 0}
 .fz-okb{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-weight:600;font-size:14px;text-align:center}
 
+.fz-skip{display:block;margin:6px auto 0;border:0;background:none;color:var(--muted,#6b7280);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
+
 </style><script id="sf-fz-js">
 /* StudyStarx Focus Lock — clean phone screen (Regain-style): set up once, tap apps, pick a time, start.
    In the browser it only tidies the page (extra options folded away). */
@@ -11653,15 +11655,16 @@ function durLabel(m){return m<60?m+' min':m%60?Math.floor(m/60)+'h '+m%60+'m':m/
 function root(){var pg=$('#page-focuslock');if(!pg)return null;var r=$('#fzRoot');if(!r){r=document.createElement('div');r.id='fzRoot';pg.insertBefore(r,pg.firstChild);r.addEventListener('click',onClick);document.body.classList.add('fz-app')}return r}
 function steps(p){var L=[['usage','📊','Allow usage access','Find StudyStarx in the list and switch it on. This lets StudyStarx notice when a blocked app opens.',p.usage],['overlay','🪟','Allow display over other apps','Switch it on, so the “Stay focused” screen can cover a blocked app.',p.overlay]];
  if(p.xiaomi)L.push(['popup','📱','Allow pop-up windows','On Xiaomi / Redmi / POCO: tap “Other permissions”, then allow “Display pop-up windows while running in the background”.',st.popup]);
+ L.push(['acc','⚡','Instant blocking','Optional. In Accessibility, open “StudyStarx Focus Lock” and switch it on — blocked apps then close with no delay at all. If it is greyed out, open StudyStarx in App info, tap ⋮ and choose “Allow restricted settings” first.',p.acc,1]);
  L.push(['battery','🔋','Keep blocking switched on','Choose “Allow” so the phone doesn’t stop StudyStarx in the background.',p.battery,1]);return L}
 function draw(){var r=root();if(!r)return;var n=N(),p=perms(),li=info(),now=Date.now();
  if(li.until>now){drawRun(r,li,p);return}
  var html='<div class="fz-hero"><div class="fz-ht"><h1>Focus Lock</h1><p>Block distracting apps while you study.</p></div><div class="fz-hi">🔒</div></div>';
  if(!p||!(p.v>=6)){html+='<div class="fz-card fz-upd"><b>Update the StudyStarx app</b><p>The new version blocks apps much more reliably. Download it and install it over this one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';r.innerHTML=html+mainCard(false);return}
  var S=steps(p),need=S.filter(function(x){return!x[5]}),done=need.filter(function(x){return x[4]}).length,ready=p.usage&&p.overlay&&(!p.xiaomi||st.popup);
- if(!ready||!p.battery){html+='<div class="fz-card fz-setup'+(ready?' fz-mini':'')+'" id="fzSetup"><div class="fz-sh"><b>'+(ready?'One more tip':'Set up blocking')+'</b><span>'+(ready?'optional':done+' of '+need.length+' done')+'</span></div>'+(ready?'':'<div class="fz-prog"><i style="width:'+Math.round(done/need.length*100)+'%"></i></div>')+
+ if(!ready||!p.battery||(!p.acc&&ls('fz-acc-skip')!=='1')){html+='<div class="fz-card fz-setup'+(ready?' fz-mini':'')+'" id="fzSetup"><div class="fz-sh"><b>'+(ready?'Make blocking stronger':'Set up blocking')+'</b><span>'+(ready?'optional':done+' of '+need.length+' done')+'</span></div>'+(ready?'':'<div class="fz-prog"><i style="width:'+Math.round(done/need.length*100)+'%"></i></div>')+
   S.filter(function(x){return!ready||!x[4]}).map(function(x,i){return'<div class="fz-step'+(x[4]?' ok':'')+'"><span class="fz-si">'+(x[4]?'✓':x[1])+'</span><div><b>'+esc(x[2])+(x[5]?' <em>recommended</em>':'')+'</b><small>'+esc(x[3])+'</small></div>'+(x[4]?'<span class="fz-done">Done</span>':'<button type="button" class="fz-allow" data-fz="perm" data-k="'+x[0]+'">Allow</button>')+'</div>'}).join('')+
-  (ready?'':'<p class="fz-fine">🔐 StudyStarx only sees which app is open — never what’s on your screen.</p>')+'</div>'}
+  (ready&&!p.acc?'<button type="button" class="fz-skip" data-fz="skipacc">Hide these tips</button>':'')+(ready?'':'<p class="fz-fine">🔐 StudyStarx only sees which app is open — never what’s on your screen.</p>')+'</div>'}
  r.innerHTML=html+mainCard(ready)}
 function mainCard(ready){var inst=installed(),s=sel(),li=info();
  var list=APPS.filter(function(a){return!inst||inst[a[0]]||s.has(a[0])});var extra=li.chosen||0;
@@ -11682,6 +11685,7 @@ function drawRun(r,li,p){var n=N();if(p&&p.v>=6&&p.usage&&p.overlay&&!p.watch&&n
  '<h2>Stay focused 🌱</h2><p>'+(apps.length?'These apps are blocked:':'Your chosen apps are blocked.')+'</p><div class="fz-tags">'+apps.map(function(a){return'<span>'+esc(a)+'</span>'}).join('')+'</div>'+
  (li.strict?'<p class="fz-strict">🔐 Strict mode — the lock ends by itself at '+esc(end)+'.</p>':'<button type="button" class="fz-stop" data-fz="stop">Stop the lock</button>')+'</div>'}
 function onClick(e){var b=e.target.closest('[data-fz]');if(!b)return;var k=b.dataset.fz,n=N();
+ if(k==='skipacc'){ls('fz-acc-skip','1');draw();return}
  if(k==='perm'){if(b.dataset.k==='popup'){st.popup=true;ls('fz-popup','1')}try{n.openPerm(b.dataset.k)}catch(_){}return}
  if(k==='app'){var s=sel();s.has(b.dataset.k)?s.delete(b.dataset.k):s.add(b.dataset.k);saveSel();draw();return}
  if(k==='pick'){try{n.openBlocker()}catch(_){}return}
