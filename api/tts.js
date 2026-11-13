@@ -3,7 +3,7 @@
 const S = require('./_store.js');
 
 const VOICES = { warm: 'Sulafat', friendly: 'Achird', calm: 'Vindemiatrix', clear: 'Iapetus', bright: 'Autonoe', deep: 'Charon' };
-const STYLE = 'a warm, friendly and encouraging teacher explaining to a school student; clear, natural pace, gentle Indian English';
+const STYLE = 'a warm, friendly and encouraging teacher explaining to a school student; lively, upbeat and brisk — speak at a quick natural conversational pace, never slow or drawn out, with short pauses only; gentle Indian English';
 // newest first; each is tried until one answers
 const MODELS = [
   { id: 'gemini-3.8-flash-lite-tts', shape: 'new' },
