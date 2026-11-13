@@ -11931,4 +11931,87 @@ window.StudyFlowTimetable={parse:parseText,hw:parseHW,generate:generate,render:r
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,130)});else setTimeout(init,130);
 })();
 
+</script><style id="sf-sx-css">
+/* Settings — clean list */
+#page-settings>.pagehead{display:none!important}
+.sx-hide{display:none!important}
+#sxSet{max-width:720px;margin:0 auto;display:grid;gap:10px;font-family:Inter,system-ui,sans-serif}
+.sx-head{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#312e81,#4f46e5 55%,#7c3aed);color:#fff;border-radius:22px;padding:18px;margin-bottom:6px;box-shadow:0 12px 28px rgba(79,70,229,.22)}
+.sx-av{width:56px;height:56px;border-radius:50%;background:#fff;color:#4f46e5;display:grid;place-items:center;font-size:24px;font-weight:800;flex:none}
+.sx-who{flex:1;min-width:0}.sx-who b{display:block;font-size:19px;font-weight:800}.sx-who small{display:block;opacity:.8;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sx-plan{background:rgba(255,255,255,.18);border-radius:99px;padding:4px 11px;font-size:12px;font-weight:800}.sx-plan.plus{background:linear-gradient(90deg,#fbbf24,#f472b6)}
+.sx-up{border:0;background:#fff;color:#4338ca;border-radius:12px;padding:9px 13px;font:800 13px Inter,system-ui,sans-serif;cursor:pointer}
+@media(max-width:420px){.sx-plan{display:none}}
+.sx-sec{background:var(--card,#fff);border:1px solid #e8eaf2;border-radius:18px;box-shadow:0 2px 8px rgba(15,23,42,.04);overflow:hidden}
+.sx-sec>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
+.sx-sec>summary::-webkit-details-marker{display:none}
+.sx-ic{width:40px;height:40px;border-radius:12px;background:#eef2ff;display:grid;place-items:center;font-size:19px;flex:none}
+.sx-sec[data-k="look"] .sx-ic{background:#fdf2f8}.sx-sec[data-k="lang"] .sx-ic{background:#ecfeff}.sx-sec[data-k="quest"] .sx-ic{background:#ecfdf5}.sx-sec[data-k="data"] .sx-ic{background:#fff7ed}.sx-sec[data-k="help"] .sx-ic{background:#f5f3ff}.sx-sec[data-k="dev"] .sx-ic{background:#f1f5f9}
+.sx-tt{flex:1;min-width:0}.sx-tt b{display:block;font-size:15.5px;font-weight:700;color:var(--ink,#1f2937)}.sx-sum{display:block;font-size:12.5px;color:var(--muted,#6b7280);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sx-ch{font-size:22px;color:#c0c6d4;transition:transform .2s;flex:none}.sx-sec[open] .sx-ch{transform:rotate(90deg)}
+.sx-body{padding:0 16px 16px;border-top:1px solid #f0f2f7}
+.sx-body .sx-card{background:none!important;border:0!important;box-shadow:none!important;padding:12px 0 0!important;margin:0!important;min-height:0!important}
+.sx-body .sx-card .head{display:none}
+.sx-body p.muted,.sx-body p.tiny,.sx-body .tiny{font-size:13px;line-height:1.5;color:var(--muted,#6b7280)}
+.sx-body .field{margin-bottom:12px}.sx-body label{font-size:13px;font-weight:600}
+.sx-body input:not([type=checkbox]):not([type=color]):not([type=radio]),.sx-body select,.sx-body textarea{border-radius:12px!important;border:1.5px solid #e2e6ef!important;padding:11px 12px!important;font-size:15px!important;width:100%;box-sizing:border-box}
+.sx-body textarea{min-height:90px}
+.sx-body .btn{border-radius:12px!important;font-weight:700!important;padding:10px 16px!important}
+.sx-body .btn:not(.line):not(.alt):not(.ghost):not(.link){background:linear-gradient(135deg,#4f46e5,#7c3aed)!important;color:#fff!important;border:0!important}
+.sx-body .btn.line,.sx-body .btn.alt,.sx-body .btn.ghost{background:#f1f3f9!important;color:#334155!important;border:0!important}
+.sx-body .sx-danger{background:#fef2f2!important;color:#b91c1c!important;border:0!important}
+.sx-body .notice{display:none}
+[data-theme="dark"] .sx-sec{border-color:#2c3150}[data-theme="dark"] .sx-body{border-color:#2c3150}[data-theme="dark"] .sx-ic{background:#232842!important}
+.sx-body .sf-themes{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px!important}
+.sx-body .sf-theme{padding:6px!important;border-radius:14px!important;min-width:0!important}
+.sx-body .sf-theme i{height:30px!important;border-radius:9px!important;overflow:hidden}
+.sx-body .sf-theme span{font-size:12px!important;margin-top:4px!important}
+
+</style><script id="sf-sx-js">
+/* StudyStarx Settings — clean list: profile card on top, sections you tap to open. Same controls inside. */
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)};
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function D(){try{return data||{}}catch(e){return window.data||{}}}
+function dev(){try{return /[?&]dev=1/.test(location.search)||localStorage.getItem('sx-dev')==='1'}catch(e){return false}}
+var ORDER=[['acct','👤','Account & sync',/Account and sync/],['prof','🎓','Your profile',/Your profile/],['look','🎨','Appearance',/Appearance/],['lang','🌐','Language',/Language/],['quest','🏝️','StudyQuest quizzes',/StudyQuest quizzes/],['data','💾','Your data',/Your data/],['help','💬','Help us improve',/Help us improve/],['dev','🛠️','Server & AI (owner only)',/Secure StudyStarx/]];
+var SHORT={quest:'StudyQuest makes new quiz questions for your subjects when you run low. Each batch uses 1 of your daily AI questions.',look:'',data:'Your tasks, notes, flashcards and results are saved on this device.',acct:'Sign in to back up your work and use it on your phone and laptop.',lang:'StudyStarx, the AI Coach, quizzes and flashcards will use this language.',help:'Tell us what helped and what didn’t. Every message is read.'};
+function sum(k){var p=D().profile||{};try{
+ if(k==='acct'){var em=window.sfAccount&&sfAccount.email&&sfAccount.email();if(!em){var t=$('#sfAcct .tag');return t&&/signed in/i.test(t.textContent)&&!/not/i.test(t.textContent)?'Signed in':'Not signed in — tap to sign in'}return em}
+ if(k==='prof')return[p.name,p.level||($('#profileLevel')||{}).value,(p.goal||($('#studyGoal')||{}).value)?((p.goal||$('#studyGoal').value)+' min a day'):''].filter(Boolean).join(' · ');
+ if(k==='look'){var on=$('#sfAppearance .sf-theme.on span')||$('#sfAppearance [aria-pressed="true"]');var dark=$('#sfAppearance input[type=checkbox]');return(on?on.textContent.trim():'Colours')+(dark&&dark.checked?' · dark at night':'')}
+ if(k==='lang'){var i=$('#sfLangCard input,#sfLangCard select');return i&&i.value||'English'}
+ if(k==='quest'){var c=$('#sqAutoCard input[type=checkbox]');return c?(c.checked?'On — makes new quizzes automatically':'Off'):''}
+ if(k==='data')return'Export, import or reset';
+ if(k==='help')return'Rate StudyStarx and send feedback';
+ if(k==='dev')return'AI model and connection test'}catch(e){}return''}
+function mk(o,card){var d=document.createElement('details');d.className='sx-sec';d.dataset.k=o[0];d.innerHTML='<summary><span class="sx-ic">'+o[1]+'</span><span class="sx-tt"><b>'+esc(o[2])+'</b><small class="sx-sum"></small></span><span class="sx-ch">›</span></summary><div class="sx-body"></div>';
+ card.classList.add('sx-card');var h=card.querySelector('h2');if(h)h.classList.add('sx-hide');
+ var firstP=card.querySelector('p.muted, p.tiny, p');if(firstP&&SHORT[o[0]]!==undefined){if(SHORT[o[0]])firstP.textContent=SHORT[o[0]];else firstP.classList.add('sx-hide')}
+ d.querySelector('.sx-body').appendChild(card);
+ if(o[0]==='data')card.querySelectorAll('button').forEach(function(b){if(/Reset all/.test(b.textContent))b.classList.add('sx-danger')});
+ return d}
+function build(){var pg=$('#page-settings');if(!pg)return;var box=$('#sxSet');
+ var cards=[].slice.call(pg.querySelectorAll('.card')).filter(function(c){return!c.closest('#sxSet')&&c.style.display!=='none'});
+ if(!box){if(cards.length<4)return;box=document.createElement('div');box.id='sxSet';var head=document.createElement('div');head.className='sx-head';box.appendChild(head);var ph=pg.querySelector('.pagehead');pg.insertBefore(box,ph?ph.nextSibling:pg.firstChild);
+  box.addEventListener('toggle',function(e){var d=e.target;if(d.open){box.querySelectorAll('.sx-sec[open]').forEach(function(x){if(x!==d)x.open=false})}refresh()},true);
+  box.addEventListener('change',function(){setTimeout(refresh,50)});box.addEventListener('click',function(){setTimeout(refresh,300)})}
+ if(!cards.length)return;
+ cards.forEach(function(card){var h=card.querySelector('h2');var o=ORDER.filter(function(x){return h&&x[3].test(h.textContent)})[0]||['x'+Math.random().toString(36).slice(2,6),'⚙️',h?h.textContent.replace(/^[^\w]+/,''):'More',/x/];
+  if(o[0]==='dev'&&!dev()){card.style.display='none';return}
+  var d=mk(o,card);var rank=ORDER.indexOf(o);if(rank<0)rank=99;d.dataset.r=rank;
+  var after=null;box.querySelectorAll('.sx-sec').forEach(function(x){if(+x.dataset.r<=rank)after=x});
+  if(after)after.after(d);else box.querySelector('.sx-head').after(d)});
+ pg.querySelectorAll('.grid').forEach(function(g){if(!g.querySelector('.card'))g.classList.add('sx-hide')});
+ refresh()}
+function refresh(){var box=$('#sxSet');if(!box)return;var p=D().profile||{};var nm=p.name||'Student';var plus=false;try{plus=window.sfAccount&&sfAccount.isPlus&&sfAccount.isPlus()}catch(e){}
+ var em='';try{em=window.sfAccount&&sfAccount.email&&sfAccount.email()||''}catch(e){}
+ box.querySelector('.sx-head').innerHTML='<div class="sx-av">'+esc(nm.trim().charAt(0).toUpperCase()||'S')+'</div><div class="sx-who"><b>'+esc(nm)+'</b><small>'+esc(em||'Not signed in')+'</small></div><span class="sx-plan'+(plus?' plus':'')+'">'+(plus?'✨ Plus':'Free')+'</span>'+(plus?'':'<button type="button" class="sx-up" onclick="go(\'premium\')">Get Plus</button>');
+ box.querySelectorAll('.sx-sec').forEach(function(d){var s=d.querySelector('.sx-sum');var v=sum(d.dataset.k);if(s&&s.textContent!==v)s.textContent=v})}
+function boot(){build();refresh()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,600)});else setTimeout(boot,600);
+setTimeout(boot,2500);setTimeout(boot,6000);
+setInterval(function(){var pg=$('#page-settings');if(pg){build();if(pg.offsetParent)refresh()}},1500);
+})();
+
 </script></body></html>
