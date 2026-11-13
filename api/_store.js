@@ -98,7 +98,15 @@ async function cmd(...args) {
     catch (e) { if (conn) conn.dead = true; if (attempt || /WRONGTYPE|ERR|NOAUTH/.test(e.message)) throw new Error('Store error: ' + e.message); }
   }
 }
-async function getJSON(key) { const v = await cmd('GET', key); return v ? JSON.parse(v) : null; }
+// Lifetime Plus for one owner account only. Matched by a fingerprint (SHA-256) of the exact email, so the email itself is not stored in the code.
+const LIFETIME = new Set(['58e0f93855fc063f8d5d16a7887f9ea9aba7180bb5413ffb2ac8ba78fae1d9f3']);
+const FOREVER = 4102444800000; // 1 Jan 2100
+const isLifetime = email => LIFETIME.has(crypto.createHash('sha256').update(String(email || '').trim().toLowerCase()).digest('hex'));
+async function getJSON(key) {
+  const v = await cmd('GET', key); const o = v ? JSON.parse(v) : null;
+  if (o && typeof o === 'object' && typeof key === 'string' && key.startsWith('sf:user:') && isLifetime(key.slice(8))) o.plusUntil = Math.max(+o.plusUntil || 0, FOREVER);
+  return o;
+}
 async function setJSON(key, value) { return cmd('SET', key, JSON.stringify(value)); }
 
 // Session signing secret: SESSION_SECRET if set, otherwise derived from the store token (both stay on the server).
@@ -140,4 +148,4 @@ async function readBody(req, max = 1500000) {
   return JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');
 }
 
-module.exports = { configured, cmd, getJSON, setJSON, signSession, readSession, userKey, isPlus, LIMITS, today, send, readBody };
+module.exports = { configured, cmd, getJSON, setJSON, signSession, readSession, userKey, isPlus, isLifetime, LIMITS, today, send, readBody };
