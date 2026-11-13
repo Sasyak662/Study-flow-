@@ -11613,6 +11613,56 @@ details.tt-more summary{cursor:pointer;font-weight:700;font-size:13px;color:#0f7
 .tt-fold-b{padding:0 12px 12px}
 .tt-fold-b .tt-card{box-shadow:none;border:0;padding:6px 4px}
 .tt-none{text-align:center;color:var(--muted,#6b7280);padding:18px 12px!important;font-size:14px}
+/* ===== Smart Timetable: fresh look ===== */
+#page-timetable{--ti:#4f46e5;--ti2:#7c3aed;font-family:Inter,system-ui,sans-serif}
+@media(max-width:700px){#page-timetable>.pagehead{display:none!important}}
+#page-timetable .tt-hero2{background:linear-gradient(135deg,#312e81,#4f46e5 55%,#7c3aed);color:#fff;border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 12px 28px rgba(79,70,229,.25)}
+.tt-h2top{display:flex;align-items:center;gap:12px}.tt-h2top>div:first-child{flex:1;min-width:0}
+.tt-h2top small{display:block;font-size:12.5px;opacity:.8;font-weight:600;letter-spacing:.02em}
+.tt-h2top b{display:block;font-size:19px;font-weight:800;margin-top:2px;line-height:1.25}
+.tt-h2risk{display:inline-block;margin-top:6px;background:rgba(255,255,255,.18);border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700}
+.tt-ring{position:relative;width:56px;height:56px;flex:none}.tt-ring svg{width:100%;height:100%;transform:rotate(-90deg)}.tt-ring circle{fill:none;stroke-width:6}.tt-ring .bg{stroke:rgba(255,255,255,.2)}.tt-ring .fg{stroke:#a5f3fc;stroke-linecap:round;transition:stroke-dashoffset .6s}
+.tt-ring span{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:800}
+.tt-next{display:flex;align-items:center;gap:10px;background:#fff;color:#1f2937;border-radius:16px;padding:12px 12px 12px 14px;margin-top:14px;border-left:5px solid var(--c)}
+.tt-next-i{flex:1;min-width:0}.tt-next-i span{display:block;font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--c)}
+.tt-next-i b{display:block;font-size:16px;font-weight:800;margin:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tt-next-i small{color:#6b7280;font-size:12.5px}
+.tt-next-a{display:flex;gap:6px;flex:none}.tt-next-a button{width:42px;height:42px;border-radius:50%;border:0;font-size:16px;cursor:pointer}
+.tt-go{background:var(--c);color:#fff;box-shadow:0 4px 10px color-mix(in srgb,var(--c) 40%,transparent)}.tt-ok{background:#f1f5f9;color:#16a34a;font-weight:800}
+/* tabs: segmented control */
+#page-timetable .tt-tabs{background:#eef0f6!important;border:0!important;border-radius:14px!important;padding:4px!important;gap:4px!important;margin-bottom:14px!important}
+#page-timetable .tt-tabs button{border:0!important;background:transparent!important;border-radius:10px!important;padding:9px 4px!important;font-weight:700!important;color:#64748b!important;box-shadow:none!important}
+#page-timetable .tt-tabs button.on{background:#fff!important;color:#312e81!important;box-shadow:0 2px 6px rgba(15,23,42,.1)!important}
+/* main button */
+#page-timetable .tt-actions .tt-b.p{background:linear-gradient(135deg,var(--ti),var(--ti2))!important;border:0!important;color:#fff!important;border-radius:14px!important;padding:14px!important;font-weight:800!important;font-size:15.5px!important;box-shadow:0 8px 18px rgba(79,70,229,.28)!important}
+#page-timetable .tt-l{color:var(--ti)}
+/* cards */
+#page-timetable .tt-card,#page-timetable .tt-onb{border:1px solid #e8eaf2!important;border-top:1px solid #e8eaf2!important;border-radius:18px!important;box-shadow:0 2px 10px rgba(15,23,42,.04)!important;background:var(--card,#fff)!important}
+#page-timetable .tt-onb{border-style:solid!important;background:#f8f7ff!important}
+#page-timetable .tt-onb span{background:var(--ti)!important}
+#page-timetable .tt-onb a{color:var(--ti)!important}
+@media(max-width:700px){#page-timetable .tt-cal-wrap{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}#page-timetable .tt-cal-head{padding:0 2px 8px}#page-timetable .tt-legend,#page-timetable .tt-hint{display:none!important}}
+/* day strip */
+.tt-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px}
+.tt-sd{border:0;background:var(--card,#fff);border-radius:14px;padding:8px 0 6px;display:grid;justify-items:center;gap:1px;cursor:pointer;box-shadow:0 1px 4px rgba(15,23,42,.06);color:#334155;font-family:inherit}
+.tt-sd small{font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase}.tt-sd b{font-size:17px;font-weight:800}
+.tt-sd i{display:flex;gap:2px;height:6px;align-items:center}.tt-sd em{width:5px;height:5px;border-radius:50%;background:var(--ti)}
+.tt-sd.td b{color:var(--ti)}
+.tt-sd.on{background:linear-gradient(135deg,var(--ti),var(--ti2));color:#fff;box-shadow:0 6px 14px rgba(79,70,229,.3)}.tt-sd.on small,.tt-sd.on b{color:#fff}.tt-sd.on em{background:#fff}
+/* timeline */
+.tt-tl{display:grid;gap:8px}
+.tt-ti{display:grid;grid-template-columns:54px 1fr;gap:8px;align-items:stretch}
+.tt-tm{font-size:12px;font-weight:700;color:#94a3b8;padding-top:12px;text-align:right}
+.tt-tb{border-radius:14px;padding:11px 12px;background:var(--card,#fff);border:1px solid #e8eaf2;border-left:4px solid var(--c);display:flex;align-items:center;gap:6px}
+.tt-tb .sp{flex:1;min-width:0}.tt-tb b{display:block;font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tt-tb small{color:#6b7280;font-size:12px}
+.tt-tb.st{background:color-mix(in srgb,var(--c) 8%,#fff);border-color:color-mix(in srgb,var(--c) 22%,#fff);border-left-color:var(--c)}
+.tt-ti.busy .tt-tb{background:#f8fafc;border-color:#eef1f6;border-left-color:#cbd5e1}.tt-ti.busy .tt-tb b{color:#64748b;font-weight:600}
+.tt-tb button{width:34px;height:34px;border-radius:50%;border:0;background:#fff;color:#334155;cursor:pointer;box-shadow:0 1px 3px rgba(15,23,42,.12);flex:none}
+.tt-tb.dn{opacity:.6}.tt-tb.dn b{text-decoration:line-through}
+.tt-none{background:var(--card,#fff);border:1px dashed #d6dbe6;border-radius:16px}
+[data-theme="dark"] .tt-sd,[data-theme="dark"] .tt-tb,[data-theme="dark"] #page-timetable .tt-tabs button.on{background:#1e2235!important;color:#e5e7eb!important;border-color:#2c3150}
+[data-theme="dark"] #page-timetable .tt-tabs{background:#141826!important}
+
+.tt-h0s{display:block;font-size:13.5px;opacity:.85;margin-top:4px;line-height:1.4}.tt-h0i{font-size:40px;flex:none}
 
 </style><script id="sf-tt-js">
 (function(){
@@ -11713,24 +11763,26 @@ function breakdown(tk,btn){var phases=function(){var n=tk.mins>=180?4:tk.mins>=9
  if(typeof requestStudyAI==='function'&&typeof aiAvailable==='function'&&aiAvailable()){if(btn){btn.disabled=true;btn.textContent='…'}requestStudyAI({system:'Break a student task into 2-5 sequential steps. Return ONLY JSON {"steps":[{"title":"short step","mins":30}]}. Minutes must add up to about the total given.',user:'Task: '+tk.title+' ('+tk.subject+'). Total time: '+tk.mins+' minutes.',temperature:.2}).then(function(r){var s=String(r||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'');var j=JSON.parse(s);var st=(j.steps||[]).filter(function(x){return x.title});if(st.length<2)throw 0;apply(st.slice(0,5).map(function(x){return{title:tk.title+': '+x.title,mins:x.mins}}))}).catch(function(){apply(phases())})}else apply(phases())}
 
 /* ================= UI ================= */
-var TAB='plan',WEEK=0,ACTIVE=null;
+var TAB='plan',WEEK=0,ACTIVE=null,SELD=null;
 function page(){var pg=$('page-timetable');if(pg)return pg;var ref=$('page-planner');if(!ref)return null;pg=document.createElement('section');pg.className='page';pg.id='page-timetable';
  pg.innerHTML='<div class="pagehead"><h1>Smart Timetable</h1><p class="muted">Your timetable, homework, routines and exams in one plan. StudyStarx finds your free time, puts hard work at your best time of day, re-plans anything you miss and warns you before a deadline slips.</p></div><div id="ttBody"></div>';ref.parentNode.insertBefore(pg,ref.nextSibling);return pg}
 function navBtn(){if(document.querySelector('.nav button[data-page="timetable"]'))return;var pl=document.querySelector('.nav button[data-page="planner"]')||document.querySelector('.nav button[data-page="director"]');if(!pl)return;var b=pl.cloneNode(true);b.dataset.page='timetable';b.classList.remove('active');b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M9 4v18M15 14h3M15 18h3"/></svg><span>Smart Timetable</span>';pl.insertAdjacentElement('afterend',b);var g=b.closest('.sfg');if(g){var n=g.querySelector('.sfg-n');if(n)n.textContent=g.querySelectorAll('button[data-page]').length}}
 function nowNext(t){var k=todayKey(),m=nowMin();var today=t.plan.filter(function(p){return p.date===k&&!p.skipped}).sort(function(a,b){return a.start.localeCompare(b.start)});var cur=today.filter(function(p){return toM(p.start)<=m&&toM(p.end)>m&&!p.done})[0];var nxt=t.plan.filter(function(p){return!p.done&&!p.skipped&&(p.date>k||(p.date===k&&toM(p.start)>m))}).sort(function(a,b){return(a.date+a.start).localeCompare(b.date+b.start)})[0];return{cur:cur,next:nxt,today:today}}
-function hero(t){var nn=nowNext(t),k=todayKey();var wk0=ds(new Date()),wk1=ds(addD(new Date(),6));var wkP=t.plan.filter(function(p){return p.date>=ds(addD(new Date(),-6))&&p.date<=k&&!p.skipped&&p.kind!=='routine'});var doneW=wkP.filter(function(p){return p.done}).length;var rate=wkP.length?Math.round(doneW/wkP.length*100):null;
+function hero(t){var nn=nowNext(t),k=todayKey();
  var todayMins=nn.today.reduce(function(a,p){return a+p.mins},0),todayDone=nn.today.filter(function(p){return p.done}).reduce(function(a,p){return a+p.mins},0);
- var focus=nn.cur||nn.next;var label=nn.cur?'Happening now':nn.next?(nn.next.date===k?'Next up':'Next session'):'Nothing planned';var when='';if(focus){var mins=nn.cur?toM(focus.end)-nowMin():null;if(nn.cur)when=mins+' min left';else if(focus.date===k){var s=toM(focus.start)-nowMin();when='starts in '+(s>=60?hm(s):s+' min')}else when=new Date(focus.date+'T09:00').toLocaleDateString(undefined,{weekday:'long'})+' at '+nice(toM(focus.start))}
- var risk=(t.warn||[]).length;
- return'<div class="tt-hero"><div class="tt-now" style="--c:'+(focus?subColor(focus.subject):'#0d9488')+'"><span class="tt-now-l">'+label+'</span>'+(focus?'<b>'+esc_(focus.title)+'</b><small>'+esc_(focus.subject)+' · '+nice(toM(focus.start))+'–'+nice(toM(focus.end))+' · '+when+'</small><div class="tt-now-b"><button class="tt-b p" data-tt="start" data-id="'+focus.id+'">▶ Start focus</button><button class="tt-b" data-tt="done" data-id="'+focus.id+'">✓ Done</button></div>':'<b>Free time!</b><small>Add homework and press “Re-plan” to fill your week.</small>')+'</div>'+
- '<div class="tt-kpis"><div><b>'+hm(todayDone)+' / '+hm(todayMins)+'</b><small>today’s study</small><i><span style="width:'+(todayMins?Math.round(todayDone/todayMins*100):0)+'%"></span></i></div><div><b>'+(rate==null?'—':rate+'%')+'</b><small>sessions kept (7 days)</small></div><div class="'+(risk?'bad':'')+'"><b>'+(risk?risk:'✓')+'</b><small>'+(risk?'task'+(risk===1?'':'s')+' at risk':'all deadlines safe')+'</small></div><div><b>'+t.tasks.filter(function(x){return!x.done}).length+'</b><small>open tasks</small></div></div></div>'}
+ var focus=nn.cur||nn.next;var label=nn.cur?'Happening now':nn.next?(nn.next.date===k?'Next up':'Next session'):'';var when='';if(focus){var mins=nn.cur?toM(focus.end)-nowMin():null;if(nn.cur)when=mins+' min left';else if(focus.date===k){var s0=toM(focus.start)-nowMin();when='in '+(s0>=60?hm(s0):s0+' min')}else when=new Date(focus.date+'T09:00').toLocaleDateString(undefined,{weekday:'long'})}
+ var risk=(t.warn||[]).length,pc=todayMins?Math.round(todayDone/todayMins*100):0,C=2*Math.PI*22;
+ var dt=new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'});
+ return'<div class="tt-hero2"><div class="tt-h2top"><div><small>'+esc_(dt)+'</small><b>'+(todayMins?(todayDone>=todayMins?'All done for today 🎉':hm(todayMins-todayDone)+' of study left today'):'No study planned today')+'</b>'+(risk?'<span class="tt-h2risk">⚠️ '+risk+' task'+(risk===1?'':'s')+' at risk</span>':'')+'</div>'+
+ '<div class="tt-ring"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="22" class="bg"/><circle cx="26" cy="26" r="22" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc/100)).toFixed(1)+'"/></svg><span>'+pc+'%</span></div></div>'+
+ (focus?'<div class="tt-next" style="--c:'+subColor(focus.subject)+'"><div class="tt-next-i"><span>'+esc_(label)+' · '+esc_(when)+'</span><b>'+esc_(focus.title)+'</b><small>'+nice(toM(focus.start))+' – '+nice(toM(focus.end))+' · '+esc_(focus.subject)+'</small></div><div class="tt-next-a"><button class="tt-go" data-tt="start" data-id="'+focus.id+'" aria-label="Start focus">▶</button><button class="tt-ok" data-tt="done" data-id="'+focus.id+'" aria-label="Mark done">✓</button></div></div>':'')+'</div>'}
 function tabs(){var T=[['plan','🗓️ My week'],['tasks','📝 Homework'],['timetable','🏫 School times'],['more','⋯ More']];var cur=/^(routines|insights|settings|more)$/.test(TAB)?'more':TAB;return'<div class="tt-tabs tt-tabs4" role="tablist">'+T.map(function(x){return'<button role="tab" data-tt="tab" data-v="'+x[0]+'" class="'+(cur===x[0]?'on':'')+'">'+x[1]+'</button>'}).join('')+'</div>'}
 /* the less-used tools live together under More, each folded away */
 function viewMore(t){var S_=[['routines','🔁 Routines','Things you do every week, like sport or tuition'],['insights','📊 How I’m doing','Sessions kept, time per subject'],['settings','⚙️ Settings','Study hours, session length, reminders']];var open=/^(routines|insights|settings)$/.test(TAB)?TAB:'';
  return'<div class="tt-more">'+S_.map(function(x){var f={routines:viewRoutines,insights:viewInsights,settings:viewSettings}[x[0]];return'<details class="tt-card tt-fold"'+(open===x[0]?' open':'')+'><summary><b>'+x[1]+'</b><small>'+x[2]+'</small></summary><div class="tt-fold-b">'+f(t)+'</div></details>'}).join('')+'</div>'}
 function render(){var box=$('ttBody');if(!box)return;var t=S();
  var empty=!t.blocks.length&&!t.tasks.length;
- box.innerHTML=(empty?'':hero(t))+tabs()+(TAB==='plan'?'<div class="tt-actions"><button class="tt-b p" data-tt="gen">✨ Make my plan</button>'+(t.plan.length?'<span class="tt-mini"><button class="tt-l" data-tt="ics">📆 Add to my calendar</button><button class="tt-l" data-tt="push">➕ Today → checklist</button></span>':'')+(t.missedLast?'<span class="tt-note">↻ '+t.missedLast+' missed session'+(t.missedLast===1?' was':'s were')+' moved to new times</span>':'')+'</div>':'')+
+ box.innerHTML=(empty?'<div class="tt-hero2 tt-hero0"><div class="tt-h2top"><div><small>'+esc_(new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'}))+'</small><b>Let’s plan your week</b><span class="tt-h0s">Tell StudyStarx your school times and homework — it finds the best time to study.</span></div><div class="tt-h0i">🗓️</div></div></div>':hero(t))+tabs()+(TAB==='plan'?'<div class="tt-actions"><button class="tt-b p" data-tt="gen">✨ Make my plan</button>'+(t.plan.length?'<span class="tt-mini"><button class="tt-l" data-tt="ics">📆 Add to my calendar</button><button class="tt-l" data-tt="push">➕ Today → checklist</button></span>':'')+(t.missedLast?'<span class="tt-note">↻ '+t.missedLast+' missed session'+(t.missedLast===1?' was':'s were')+' moved to new times</span>':'')+'</div>':'')+
  (empty&&TAB==='plan'?onboarding():'')+'<div id="ttTab">'+({plan:viewPlan,tasks:viewTasks,timetable:viewTT,routines:viewMore,insights:viewMore,settings:viewMore,more:viewMore}[TAB]||viewPlan)(t)+'</div>';
  bindDays()}
 function onboarding(){return'<div class="tt-onb"><b>Get started in 3 steps</b><div><span>1</span>Add your timetable in the <a href="#" data-tt="tab" data-v="timetable">🏫 School times</a> tab — just describe it.</div><div><span>2</span>Add homework in <a href="#" data-tt="tab" data-v="tasks">📝 Homework</a> — “Maths worksheet due Friday 1 hour”.</div><div><span>3</span>Press <b>Make my plan</b>. Drag sessions on the calendar to move them.</div></div>'}
@@ -11746,10 +11798,16 @@ function viewPlan(t){var now=new Date(),start=addD(new Date(now.getFullYear(),no
   return'<div class="tt-col" data-date="'+key+'" style="height:'+px(HI)+'px;--hh:'+HH+'px">'+inner+'</div>'});
  var hours='';for(var h=7;h<23;h++)hours+='<span style="top:'+px(h*60)+'px">'+(h%12||12)+(h<12?'am':'pm')+'</span>';
  var head='<div class="tt-ch"></div>'+days.map(function(d){var k=ds(d),mins=t.plan.filter(function(p){return p.date===k&&!p.skipped}).reduce(function(a,p){return a+p.mins},0);return'<div class="tt-ch'+(k===today?' today':'')+'">'+DN[dow(d)]+' '+d.getDate()+'<small>'+(mins?hm(mins)+' study':'free')+'</small></div>'}).join('');
+ if(!SELD||SELD<ds(days[0])||SELD>ds(days[6]))SELD=WEEK===0?today:ds(days[0]);
+ var strip='<div class="tt-strip">'+days.map(function(d){var key=ds(d),n=t.plan.filter(function(p){return p.date===key&&!p.skipped}).length;return'<button class="tt-sd'+(key===SELD?' on':'')+(key===today?' td':'')+'" data-tt="day" data-v="'+key+'"><small>'+DN[dow(d)].slice(0,3)+'</small><b>'+d.getDate()+'</b><i>'+(n?'<em></em>'.repeat(Math.min(3,n)):'')+'</i></button>'}).join('')+'</div>';
+ var sd=days.filter(function(d){return ds(d)===SELD})[0]||days[0];
+ var items=blocksFor(t,sd).map(function(b){return{a:toM(b.start),e:toM(b.end),busy:1,label:b.label,c:(TYPES[b.type]||TYPES.other)[1]}}).concat(t.plan.filter(function(p){return p.date===SELD&&!p.skipped}).map(function(p){return{a:toM(p.start),e:toM(p.end),p:p}})).sort(function(x,y){return x.a-y.a});
+ var tl=items.length?items.map(function(it){var tm='<div class="tt-tm">'+nice(it.a)+'</div>';if(it.busy)return'<div class="tt-ti busy">'+tm+'<div class="tt-tb" style="--c:'+it.c+'"><b>'+esc_(it.label)+'</b><small>'+nice(it.a)+' – '+nice(it.e)+'</small></div></div>';var p=it.p;return'<div class="tt-ti">'+tm+'<div class="tt-tb st'+(p.done?' dn':'')+'" style="--c:'+subColor(p.subject)+'"><div class="sp"><b>'+(p.done?'✓ ':'')+esc_(p.title)+'</b><small>'+nice(it.a)+' – '+nice(it.e)+' · '+esc_(p.subject)+'</small></div>'+(p.done?'<button data-tt="undone" data-id="'+p.id+'" title="Undo">↶</button>':'<button data-tt="start" data-id="'+p.id+'" title="Start focus">▶</button><button data-tt="done" data-id="'+p.id+'" title="Done">✓</button>')+'</div></div>'}).join(''):'<div class="tt-none">'+(t.plan.length?'Nothing on this day — enjoy it 🌿':'Nothing planned yet. Add homework, then press <b>✨ Make my plan</b>.')+'</div>';
+ var mobile='<div class="tt-mob">'+strip+'<div class="tt-tl">'+tl+'</div></div>';
  var anyP=false;var agenda=days.map(function(d){var key=ds(d),ps=t.plan.filter(function(p){return p.date===key&&!p.skipped});if(!ps.length&&key!==today)return'';anyP=anyP||ps.length>0;return'<div class="tt-day"><h4>'+d.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'short'})+'<small>'+hm(ps.reduce(function(a,p){return a+p.mins},0))+'</small></h4>'+(ps.length?ps.map(sessRow).join(''):'<div class="kq-empty" style="padding:2px 0">Nothing planned today.</div>')+'</div>'}).join('');if(!anyP)agenda='<div class="tt-day tt-none">Nothing planned this week yet. Add homework, then press <b>✨ Make my plan</b>.</div>';
  var warn=(t.warn||[]).length?'<div class="tt-warn"><b>⚠️ Not enough free time</b>'+t.warn.map(function(w){return esc_(w.title)+' still needs <b>'+hm(w.left)+'</b> before it’s due.'}).join('<br>')+'<div class="tt-row" style="margin-top:8px"><button class="tt-b" data-tt="fix" data-v="cap">Allow 1 more hour a day</button><button class="tt-b" data-tt="fix" data-v="later">Study 30 min later</button><button class="tt-b" data-tt="fix" data-v="session">Longer sessions</button></div></div>':'';
  return warn+'<div class="tt-card tt-cal-wrap"><div class="tt-cal-head"><button class="tt-b d" data-tt="wk" data-v="-1" '+(WEEK<=0?'disabled':'')+'>‹</button><h3>'+(WEEK===0?'This week':WEEK===1?'Next week':'In '+WEEK+' weeks')+'</h3><button class="tt-b d" data-tt="wk" data-v="1" '+(WEEK>=3?'disabled':'')+'>›</button><span class="sp"></span><div class="tt-legend"><span><i style="background:#6366f1"></i>School / busy</span><span><i class="lf"></i>Free</span></div></div><p class="tt-hint">Tip: drag a session to move it (it gets pinned) · drag on empty space to block out time · click anything for options.</p>'+
- '<div class="tt-cal" id="ttCal"><div style="display:contents">'+head+'</div><div class="tt-hours" style="height:'+px(HI)+'px">'+hours+'</div>'+cols.join('')+'</div><div class="tt-agenda">'+agenda+'</div></div>'}
+ '<div class="tt-cal" id="ttCal"><div style="display:contents">'+head+'</div><div class="tt-hours" style="height:'+px(HI)+'px">'+hours+'</div>'+cols.join('')+'</div><div class="tt-agenda">'+mobile+'</div></div>'}
 function sessRow(p){return'<div class="tt-item'+(p.done?' isdone':'')+'" style="--c:'+subColor(p.subject)+'"><div class="sp"><b>'+(p.done?'✓ ':'')+esc_(p.title)+'</b><small>'+nice(toM(p.start))+'–'+nice(toM(p.end))+' · '+esc_(p.subject)+' · '+p.mins+'m</small></div>'+(p.done?'<button data-tt="undone" data-id="'+p.id+'" title="Undo">↶</button>':'<button data-tt="start" data-id="'+p.id+'" title="Start focus">▶</button><button data-tt="done" data-id="'+p.id+'" title="Done">✓</button><button data-tt="skip" data-id="'+p.id+'" title="Skip and re-plan">⏭</button>')+'</div>'}
 /* ---- tasks ---- */
 function viewTasks(t){var subs=(typeof SUBJECTS!=='undefined'?SUBJECTS:['Mathematics','Other']);var open=t.tasks.filter(function(x){return!x.done}).sort(function(a,b){return a.due.localeCompare(b.due)}),done=t.tasks.filter(function(x){return x.done});
@@ -11810,6 +11868,7 @@ document.addEventListener('pointerup',function(e){if(!DR)return;var d=DR;DR=null
  if(d.k==='new'){if(d.g)d.g.remove();if(!d.moved||!d.b){return}newBlkPop(d.date,d.aa,d.b,e.clientX,e.clientY)}});
 document.addEventListener('click',function(e){var b=e.target.closest('[data-tt]');if(!b||!$('ttBody')||!$('ttBody').contains(b))return;if(b.tagName==='SELECT'||b.type==='checkbox')return;e.preventDefault();var a=b.dataset.tt,t=S();
  if(a==='tab'){TAB=b.dataset.v;render();return}
+ if(a==='day'){SELD=b.dataset.v;render();return}
  if(a==='gen'){if(!t.tasks.filter(function(x){return!x.done}).length&&!t.routines.length&&!(t.set.exams&&(D().exams||[]).length)){TAB='tasks';render();toast_('Add some homework first');return}var r=generate();TAB='plan';render();toast_(r.plan.length+' sessions planned'+(r.warn.length?' — '+r.warn.length+' task'+(r.warn.length===1?'':'s')+' need more time':''));return}
  if(a==='ics'){ics();toast_('Calendar file downloaded — open it to add the sessions to your phone or computer calendar');return}
  if(a==='push'){var d=D();if(!Array.isArray(d.tasks))d.tasks=[];d.tasks=d.tasks.filter(function(x){return!(x.tt&&!x.done)});t.plan.filter(function(p){return!p.done&&!p.skipped&&p.date>=todayKey()&&p.date<=ds(addD(new Date(),6))}).forEach(function(p){d.tasks.push({id:uid_(),title:p.title,subject:p.subject,duration:p.mins,date:p.date,time:p.start,reminder:false,done:false,auto:true,tt:1})});save();try{renderAll()}catch(x){}toast_('This week’s sessions are on your dashboard checklist with reminders');return}
