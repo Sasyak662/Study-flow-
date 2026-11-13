@@ -7192,6 +7192,17 @@ function dStatue(){var g=new T.Group();var gold={roughness:.3,metalness:.7};put(
 var DEC={tree:dTree,pine:dPine,palm:dPalm,flowers:dFlowers,rock:dRock,fountain:dFountain,windmill:dWindmill,lamp:dLamp,tent:dTent,statue:dStatue};
 
 /* ---------- characters ---------- */
+/* Blender-made models: loaded after the world is up; the code-drawn versions stay as the fallback */
+var MDL={},MDLS=0,MDLMAT=null,MDLGLOW=null;
+function mdlPrep(sc){if(!MDLMAT){MDLMAT=new T.MeshStandardMaterial({vertexColors:true,roughness:.86,metalness:0});MDLGLOW=new T.MeshBasicMaterial({vertexColors:true})}sc.traverse(function(o){if(o.isMesh){if(/glow/.test(o.name)){o.material=MDLGLOW;o.castShadow=false;o.receiveShadow=false}else{o.material=MDLMAT;o.castShadow=true;o.receiveShadow=true}}});return sc}
+function mdlWrap(k,old){return function(b){var g=old(b),u=g.userData,keep=[];['beam','rings','lamp'].forEach(function(n){if(u[n]&&u[n].isObject3D)keep.push(u[n])});(u.flags||[]).forEach(function(f){keep.push(f)});g.children.slice().forEach(function(c){if(keep.indexOf(c)>=0)return;if(c.isSprite&&!c.userData.glow)return;g.remove(c)});GLOWS=GLOWS.filter(function(o){return o.parent});g.add(MDL[k].clone());return g}}
+function heroize(g,col){try{var h=MDL.hero,rg=g&&g.userData.rig;if(!h||!rg||g.userData.hero)return;var hd=h.getObjectByName('head'),tr=h.getObjectByName('torso');if(!hd||!tr)return;g.userData.hero=1;rg.head.children.slice().forEach(function(c){rg.head.remove(c)});var hm=hd.clone();hm.position.set(0,0,0);rg.head.add(hm);rg.torso.children.slice().forEach(function(c){if(c.isMesh)rg.torso.remove(c)});var tm=tr.clone();tm.position.set(0,0,0);tm.material=MDLMAT.clone();tm.material.color.set(col);rg.torso.add(tm);rg.head.scale.setScalar(1.12)}catch(e){}}
+function mdlApply(){try{['home','library','arena','market','tower','lab','obs','castle'].forEach(function(k){if(MDL[k]&&BUILD[k]&&!BUILD[k].mdl){BUILD[k]=mdlWrap(k,BUILD[k]);BUILD[k].mdl=1}});
+ if(MDL.tree&&!DEC.tree.mdl){DEC.tree=dTree=function(seed){var g=new T.Group(),m=MDL.tree.clone();m.rotation.y=(seed||0)*6;g.add(m);return g};DEC.tree.mdl=1}
+ if(MDL.lamp&&!DEC.lamp.mdl){var oldL=dLamp;DEC.lamp=dLamp=function(){var g=oldL();g.children.slice().forEach(function(c){if(!c.userData.glow)g.remove(c)});g.add(MDL.lamp.clone());return g};DEC.lamp.mdl=1}
+ if(WG){buildWorld();sync(true)}}catch(e){try{console.warn('models',e)}catch(_){}}}
+function mdlLoad(){if(MDLS)return;MDLS=1;var go=function(){if(!T.GLTFLoader)return;var L=new T.GLTFLoader(),names=['home','library','arena','market','tower','lab','obs','castle','tree','lamp','hero'],left=names.length,done=function(){if(--left===0)mdlApply()};names.forEach(function(n){L.load('/models/'+n+'.glb?v=1',function(r){try{MDL[n]=mdlPrep(r.scene)}catch(e){}done()},undefined,done)})};
+ if(T.GLTFLoader){go();return}var sc=document.createElement('script');sc.src='/gltf-loader-r128.js?v=1';sc.onload=go;document.head.appendChild(sc)}
 function mkPlayer(col){var g=new T.Group(),body=new T.Group();g.add(body);var c=new T.Color(col).getHex(),dk=new T.Color(col).multiplyScalar(.6).getHex(),skin=0xffd2ad,pants=0x2b2f4a,shoe=0xf3f4f6,hair=0x221f2b;
  var cap=function(r,l,cc){return H(capG(r,l),cc)};
  var hips=new T.Group();hips.position.y=.485;body.add(hips);put(hips,H(BX(.25,.11,.16),pants),0,0,0);
@@ -7213,7 +7224,7 @@ function mkPlayer(col){var g=new T.Group(),body=new T.Group();g.add(body);var c=
  var eb=new T.MeshBasicMaterial({color:0x1f2937}),ew=new T.MeshBasicMaterial({color:0xffffff});
  for(var e=0;e<2;e++){var ey=put(head,new T.Mesh(SP(.027,10,8),eb),-.062+e*.124,-.012,.148);ey.scale.set(1,1.35,.5);put(head,new T.Mesh(SP(.009,6,5),ew),-.055+e*.124,.0,.162)}
  var bl=new T.MeshBasicMaterial({color:0xff8f8f,transparent:true,opacity:.5});for(var b=0;b<2;b++)put(head,new T.Mesh(SP(.03,8,6),bl),-.11+b*.22,-.055,.125).scale.set(1,.6,.4);
- g.userData={body:body,rig:{hips:hips,torso:torso,head:head,L:L,R:Rg,AL:AL,AR:AR}};return g}
+ g.userData={body:body,rig:{hips:hips,torso:torso,head:head,L:L,R:Rg,AL:AL,AR:AR}};heroize(g,col);return g}
 /* natural idle / walk / run: the step cycle is driven by distance travelled, so feet never slide */
 var PA={ph:0,w:0,run:0,lx:null,lz:null,v:0};
 function animP(dt,t,p){var rg=player&&player.userData.rig;if(!rg)return;
@@ -7286,7 +7297,7 @@ var WG=null;function setup(){T=THREE;I=SI._I;G=SI._G;tgt=new T.Vector3();CC=I.C(
 }
 function TH(){try{return I.theme?I.theme():null}catch(e){return null}}
 function skin(){var t=TH();R.float=!t;if(water){water.material.color.setHex(t?t.water:0xa9a6f4);water.material.roughness=t?.2:1;water.material.metalness=t?.12:0;water.material.opacity=t?.88:.93;water.position.y=t?-.32:-2.1;water.material.emissive&&water.material.emissive.setHex(t&&t.lava?0x7a1800:0x000000)}if(deepM){deepM.material.color.setHex(t?t.deep:0x4a4fc4);deepM.position.y=t?-2.2:-4}G.wrap.classList.toggle('iq3-th',!!t);G.wrap.style.setProperty('--sky',t?'linear-gradient(180deg,'+t.sky.join(','):'');if(t)G.wrap.style.setProperty('--sky','linear-gradient(180deg,'+t.sky[0]+' 0%,'+t.sky[1]+' 55%,'+t.sky[2]+' 100%)');G.wrap.dataset.wid=I.wid?I.wid():''}
-function buildWorld(){skin();if(WG){scene.remove(WG)}WG=new T.Group();scene.add(WG);CC=I.C();grp={};sig='';for(var k in LB){LB[k].remove()}LB={};cars=[];decorLamps=[];GLOWS=[];
+function buildWorld(){skin();try{mdlLoad()}catch(e){}if(WG){scene.remove(WG)}WG=new T.Group();scene.add(WG);CC=I.C();grp={};sig='';for(var k in LB){LB[k].remove()}LB={};cars=[];decorLamps=[];GLOWS=[];
  var sea0=WG;terrain();seaLocal();
  decorG=new T.Group();WG.add(decorG);wildG=new T.Group();WG.add(wildG);
  I.WILD().forEach(function(d,i){var f=DEC[d.k];if(!f)return;var m=f(d.x*7+d.y);m.position.copy(W(d.x,d.y));m.position.y=tileY(d.x,d.y);var sc=.85+rnd(d.x*3+d.y)*.35;m.scale.set(sc,sc,sc);shadowsOn(m);wildG.add(m)});
