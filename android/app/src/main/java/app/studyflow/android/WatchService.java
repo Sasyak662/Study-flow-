@@ -55,7 +55,7 @@ public class WatchService extends Service {
             lastPoll = System.currentTimeMillis();
             try { check(); } catch (Exception ignored) {}
             if (lastPoll - lastTick > 900) { lastTick = lastPoll; ui.post(() -> { try { tickShield(); } catch (Exception ignored) {} }); }
-            h.postDelayed(this, screenOn() ? 100 : 3000);
+            h.postDelayed(this, screenOn() ? 60 : 3000);
         }
     };
 
@@ -112,7 +112,7 @@ public class WatchService extends Service {
         since = Math.max(since, newest);
         boolean bad = !front.isEmpty() && !front.equals(getPackageName()) && Lock.isBlocked(this, front);
         // once the blocked app is gone, the focus screen clears itself after a few seconds
-        if (!bad) { if (shieldUp && !front.isEmpty() && now - lastShow > 3500) ui.post(() -> hideShield()); return; }
+        if (!bad) { if (shieldUp && !front.isEmpty() && now - lastShow > 6000) ui.post(() -> hideShield()); return; }
         if (now < graceUntil) return;
         if (now - lastShow < 1200) return;
         lastShow = now; if (!shieldUp) blocks++;
@@ -130,7 +130,7 @@ public class WatchService extends Service {
     private long lastNudge = 0, lastTick = 0;
     private void nudge() {
         if (Build.VERSION.SDK_INT < 25) return;
-        long n = System.currentTimeMillis(); if (n - lastNudge < 90) return; lastNudge = n;
+        long n = System.currentTimeMillis(); if (n - lastNudge < 60) return; lastNudge = n;
         try {
             android.content.pm.ShortcutManager sm = getSystemService(android.content.pm.ShortcutManager.class);
             if (sm == null) return;
@@ -204,9 +204,8 @@ public class WatchService extends Service {
         final android.view.View v = shield;
         shield = null; shieldTimer = null; shieldMsg = null;
         final Runnable gone = () -> { try { ((android.view.WindowManager) getSystemService(WINDOW_SERVICE)).removeView(v); } catch (Exception ignored) {} };
-        if (!running) { gone.run(); return; }
-        // fade away softly instead of vanishing
-        try { v.animate().alpha(0f).setDuration(220).withEndAction(gone).start(); ui.postDelayed(gone, 400); } catch (Exception e) { gone.run(); }
+        // removed at once: a fade would let the blocked app show through the focus screen
+        gone.run();
     }
 
     @Override public void onDestroy() { running = false; me = null; if (h != null) h.removeCallbacks(loop); if (th != null) th.quitSafely(); hideShield(); super.onDestroy(); }
