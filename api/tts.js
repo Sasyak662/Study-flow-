@@ -11,7 +11,7 @@ const MODELS = [
   { id: 'gemini-3.1-flash-tts-preview', shape: 'old' },
   { id: 'gemini-2.5-flash-preview-tts', shape: 'old' }
 ];
-const DAILY = { free: 40, plus: 400 }; // pieces per day (one answer is usually 1–4 pieces)
+const DAILY = { free: 90, plus: 600 }; // pieces per day (one answer is usually 1–4 pieces)
 const hits = new Map();
 
 function wav(pcm, rate) {
