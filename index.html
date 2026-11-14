@@ -12650,9 +12650,13 @@ setInterval(function(){var b=document.getElementById('mmBtn');if(b)b.remove()},1
 (function(){
 var SRC={
  revq:{cap:150,n:'Review round',e:'🔁',how:'Answer 8 questions you have seen before · +6 per correct answer',act:'review'},
+ speed:{cap:100,n:'Speed round',e:'⚡',how:'10 quick questions, 8 seconds each · +5 per correct, +25 if you get all right',act:'speed'},
+ maths:{cap:100,n:'Mental maths',e:'🧮',how:'10 sums made for your level · +5 per correct',act:'maths'},
+ lib:{cap:80,n:'Topic challenge',e:'📚',how:'A ready-made quiz on a school topic · +4 per correct',act:'lib'},
  learn:{cap:100,n:'Fix your mistakes',e:'🛠️',how:'Get old mistakes right · +2 each, +15 per round',go:'mistakes'},
  review:{cap:60,n:'Flashcard review',e:'🃏',how:'+10 per review round',go:'flashcards'},
- checkin:{cap:20,n:'Daily check-in',e:'🎁',how:'+20 for opening StudyStarx each day',go:null}
+ checkin:{cap:20,n:'Daily check-in',e:'🎁',how:'+20 for opening StudyStarx each day',go:null},
+ streak:{cap:150,n:'Streak bonus',e:'🔥',how:'+50 on day 3, +150 on day 7 of studying in a row',go:null}
 };
 function D(){try{return typeof data!=='undefined'?data:null}catch(e){return null}}
 function I(){return window.StudyFlowIsland}
@@ -12668,8 +12672,36 @@ function paint(){var pg=document.getElementById('page-quest');if(!pg)return;var 
  var html='<div class="ne-hd"><h2>🪙 Earn coins without quizzes</h2><p>Real practice that earns coins and XP — no new AI needed.</p></div><div class="ne-list">'+Object.keys(SRC).map(function(k){var s=SRC[k],u=Math.min(e.s[k]||0,s.cap),pc=Math.round(u/s.cap*100);return'<button type="button" class="ne-it'+(u>=s.cap?' full':'')+'"'+(s.go?' data-nego="'+s.go+'"':'')+(s.act?' data-neact="'+s.act+'"':'')+'><span class="ne-e">'+s.e+'</span><span class="ne-t"><b>'+s.n+'</b><small>'+s.how+'</small><span class="ne-bar"><i style="width:'+pc+'%"></i></span></span><span class="ne-n">'+(u>=s.cap?'✓ Max today':u+' / '+s.cap)+'</span></button>'}).join('')+'</div>';
  if(!c){c=document.createElement('div');c.id='neCard';c.className='card ne-card';var after=document.getElementById('sqAutoCard')||document.querySelector('#page-quest .card');if(after&&after.parentNode===pg)after.insertAdjacentElement('afterend',c);else pg.appendChild(c)}
  if(c.dataset.h!==html){c.innerHTML=html;c.dataset.h=html}}
-document.addEventListener('click',function(ev){var r=ev.target.closest&&ev.target.closest('[data-neact="review"]');if(r){reviewRound();return}var b=ev.target.closest&&ev.target.closest('[data-nego]');if(!b)return;try{go(b.dataset.nego)}catch(e){}});
+document.addEventListener('click',function(ev){var r=ev.target.closest&&ev.target.closest('[data-neact]');if(r){var a=r.dataset.neact;if(a==='review')reviewRound();else if(a==='speed')speedRound();else if(a==='maths')mathsRound();else if(a==='lib')libRound();return}var b=ev.target.closest&&ev.target.closest('[data-nego]');if(!b)return;try{go(b.dataset.nego)}catch(e){}});
 /* Review round: 8 questions the student has already met (StudyQuest bank), no AI used */
+function seenPool(){var B=window.SFQuestBank,pool=[];try{B.subjects().forEach(function(sub){var e=B.entry(sub);e.qs.forEach(function(q){if(e.seen[q.id]&&q.options&&q.options.length>=2)pool.push({q:q,sub:sub,n:e.seen[q.id]})})})}catch(e){}for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=pool[i];pool[i]=pool[j];pool[j]=t}return pool}
+function endNote(txt){setTimeout(function(){var h=document.querySelector('.kq-full h1');if(h)h.insertAdjacentHTML('afterend','<p style="font-weight:800;margin:4px 0 0">'+txt+'</p>')},300)}
+function paid(g,c,unit){return g>0?'🪙 +'+g+' coins for '+c+' correct '+(unit||'answers'):'You have earned today’s coins for this — great practice anyway!'}
+function speedRound(){var Q=window.StudyFlowQuiz;var pool=seenPool();if(!Q||pool.length<6){try{toast('Play a few StudyQuest quizzes first — Speed round uses questions you have already met.')}catch(e){}return}
+ var qs=pool.slice(0,10).map(function(x){return{text:x.q.text,options:x.q.options.slice(),correct:+x.q.correct,explain:x.q.explain||'',time:8,subject:x.sub}});
+ Q.play({id:'ne-speed',title:'⚡ Speed round',subject:'Review',topic:'Speed',emoji:'⚡',color:'#b45309',questions:qs},{mode:'solo',shuffleAnswers:true,onEnd:function(res){var c=Math.max(0,+res.correct||0),all=c>=qs.length,g=window.sfEarn(c*5+(all?25:0),'speed');endNote(paid(g,c)+(all&&g>0?' (perfect! +25)':''))}})}
+/* mental maths, made on the phone: harder as the student's level goes up */
+function lvl(){try{return +StudyFlowIsland._I.level()||1}catch(e){return 1}}
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function mathQ(L){var t=rnd(0,L<4?2:L<10?4:5),q,a;
+ if(t===0){var x=rnd(12,L<4?60:140),y=rnd(11,L<4?50:99);q=x+' + '+y;a=x+y}
+ else if(t===1){var x1=rnd(30,L<4?99:400),y1=rnd(11,x1-5);q=x1+' − '+y1;a=x1-y1}
+ else if(t===2){var x2=rnd(3,L<4?9:15),y2=rnd(4,L<4?9:25);q=x2+' × '+y2;a=x2*y2}
+ else if(t===3){var p=[10,20,25,50,5,15][rnd(0,5)],n=rnd(2,20)*20;q=p+'% of '+n;a=p*n/100}
+ else if(t===4){var k=rnd(2,9),xs=rnd(2,15),b=rnd(1,30);q='Solve: '+k+'x + '+b+' = '+(k*xs+b)+'  →  x = ?';a=xs}
+ else {var s2=rnd(4,20);q='√'+(s2*s2)+' + '+s2+'²';a=s2+s2*s2}
+ var opts=[a],tries=0;while(opts.length<4&&tries<50){tries++;var d=a+[-1,1][rnd(0,1)]*rnd(1,Math.max(3,Math.round(Math.abs(a)*.15)));if(d!==a&&opts.indexOf(d)<0&&d>=0)opts.push(d)}
+ while(opts.length<4)opts.push(a+opts.length*7);for(var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),tt=opts[i];opts[i]=opts[j];opts[j]=tt}
+ return{text:q+(t===4?'':' = ?'),options:opts.map(String),correct:opts.indexOf(a),explain:'The answer is '+a+'.',time:t>=3?25:15,subject:'Maths'}}
+function mathsRound(){var Q=window.StudyFlowQuiz;if(!Q)return;var L=lvl(),qs=[];for(var i=0;i<10;i++)qs.push(mathQ(L));
+ Q.play({id:'ne-maths',title:'🧮 Mental maths',subject:'Maths',topic:'Mental maths',emoji:'🧮',color:'#0369a1',questions:qs},{mode:'solo',onEnd:function(res){var c=Math.max(0,+res.correct||0),g=window.sfEarn(c*5,'maths');endNote(paid(g,c))}})}
+/* ready-made school topic quizzes that come with the app (no AI) */
+function libRound(){var Q=window.StudyFlowQuiz;if(!Q||!Q.lib)return;var L=Q.lib();if(!L.length)return;var d=D()||{};var last=d.neLib||'';var pickL=L.filter(function(x){return x.id!==last});var z=pickL[Math.floor(Math.random()*pickL.length)]||L[0];if(d)d.neLib=z.id;save();
+ var qz=Object.assign({},z,{questions:z.questions.slice().sort(function(){return Math.random()-.5}).slice(0,8)});
+ Q.play(qz,{mode:'solo',shuffleAnswers:true,onEnd:function(res){var c=Math.max(0,+res.correct||0),g=window.sfEarn(c*4,'lib');endNote(paid(g,c))}})}
+/* streak bonus: paid once when the streak reaches 3 and 7 days */
+function tickStreak(){try{var st=+StudyFlowIsland._I.streak()||0,d=D();if(!d)return;d.neStreak=d.neStreak||{};var k=today();if(d.neStreak.last3&&st<d.neStreak.last3)delete d.neStreak.last3;if(d.neStreak.last7&&st<d.neStreak.last7)delete d.neStreak.last7;if(st>=7&&d.neStreak.s7!==k&&!(d.neStreak.last7&&st-d.neStreak.last7<7)){d.neStreak.s7=k;d.neStreak.last7=st;save();window.sfEarn(150,'streak')}else if(st>=3&&st<7&&d.neStreak.s3!==k&&!(d.neStreak.last3&&st-d.neStreak.last3<3&&st>=d.neStreak.last3)){d.neStreak.s3=k;d.neStreak.last3=st;save();window.sfEarn(50,'streak')}}catch(e){}}
+setInterval(tickStreak,20000);setTimeout(tickStreak,8000);
 function reviewRound(){var B=window.SFQuestBank,Q=window.StudyFlowQuiz;if(!B||!Q){try{toast('Open StudyQuest once first.')}catch(e){}return}var pool=[];try{B.subjects().forEach(function(sub){var e=B.entry(sub);e.qs.forEach(function(q){if(e.seen[q.id]&&q.options&&q.options.length>=2)pool.push({q:q,sub:sub,n:e.seen[q.id]})})})}catch(e){}
  if(pool.length<4){try{toast('Play a few StudyQuest quizzes first — then you can review those questions here.')}catch(e){}return}
  for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=pool[i];pool[i]=pool[j];pool[j]=t}pool.sort(function(a,b){return a.n-b.n});
