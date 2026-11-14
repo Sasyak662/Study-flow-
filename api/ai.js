@@ -189,7 +189,9 @@ module.exports = async function handler(req, res) {
   else if (body.codeExecution) payload.tools = [{ code_execution: {} }];
 
   // Try the main model with light "thinking" (fast), then a fast fallback model if it is slow, busy or unavailable.
-  const thinkFor = m => /gemini-(3|4)/.test(m) ? { thinkingLevel: 'low' } : /2\.5/.test(m) ? { thinkingBudget: /pro/.test(m) ? 512 : 0 } : null;
+  // exam-paper questions are written in many small parallel pieces: the lightest thinking keeps each piece fast
+  const quick = paper && body.stage && body.stage !== 'plan';
+  const thinkFor = m => /gemini-(3|4)/.test(m) ? { thinkingLevel: quick ? 'minimal' : 'low' } : /2\.5/.test(m) ? { thinkingBudget: /pro/.test(m) ? 512 : 0 } : null;
   async function callModel(model, ms, useThinking) {
     const p = JSON.parse(JSON.stringify(payload));
     const tc = useThinking ? thinkFor(model) : null;
@@ -209,7 +211,7 @@ module.exports = async function handler(req, res) {
   try {
     let out = null, firstErr = null;
     const primary = paper ? PAPER_MODEL : MODEL;
-    try { out = await callModel(primary, paper ? 34000 : 26000, true); } catch (e) { firstErr = e; }
+    try { out = await callModel(primary, paper ? (quick ? 24000 : 30000) : 26000, true); } catch (e) { firstErr = e; }
     // If the stronger exam-paper model fails, the normal model takes over before the backup.
     if (paper && primary !== MODEL && (!out || !out.r.ok)) { try { const o2 = await callModel(MODEL, 22000, true); if (o2.r.ok) { out = o2; firstErr = null; } else if (!out) out = o2; } catch (e) {} }
     const emptyOk = o => o && o.r.ok && !((o.json?.candidates?.[0]?.content?.parts || []).some(p => typeof p.text === 'string' && p.text.trim()));
