@@ -14,6 +14,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
+import android.speech.tts.Voice;
+import java.util.Locale;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
@@ -31,6 +35,7 @@ public class MainActivity extends Activity {
     static final String SITE = "https://study-flow-app-ecru.vercel.app";
     private static final int FILE_REQ = 41;
     private WebView web;
+    private TextToSpeech tts; private boolean ttsOk = false;
     private ProgressBar bar;
     private ValueCallback<Uri[]> fileCb;
 
@@ -70,6 +75,22 @@ public class MainActivity extends Activity {
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(web, true);
         web.addJavascriptInterface(new Bridge(), "SFNative");
+        // the phone's own Google voice for read-aloud (free, instant, works offline)
+        try {
+            tts = new TextToSpeech(this, st -> {
+                if (st == TextToSpeech.SUCCESS) {
+                    int r = tts.setLanguage(new Locale("en", "IN"));
+                    if (r == TextToSpeech.LANG_MISSING_DATA || r == TextToSpeech.LANG_NOT_SUPPORTED) tts.setLanguage(Locale.US);
+                    ttsOk = true;
+                    tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                        @Override public void onStart(String id) {}
+                        @Override public void onDone(String id) { jsTts("done", id); }
+                        @Override public void onError(String id) { jsTts("error", id); }
+                        @Override public void onError(String id, int code) { jsTts("error", id); }
+                    });
+                }
+            });
+        } catch (Exception ignored) {}
 
         web.setWebViewClient(new WebViewClient() {
             @Override
@@ -214,8 +235,37 @@ public class MainActivity extends Activity {
             pendingMedia = null; pendingWant = null;
         }
     }
+    private void jsTts(String what, String id) {
+        runOnUiThread(() -> { try { web.evaluateJavascript("window.sfTtsEvent&&sfTtsEvent('" + what + "','" + (id == null ? "" : id.replaceAll("[^A-Za-z0-9_]", "")) + "')", null); } catch (Exception ignored) {} });
+    }
+    @Override protected void onDestroy() { try { if (tts != null) { tts.stop(); tts.shutdown(); } } catch (Exception ignored) {} super.onDestroy(); }
     class Bridge {
         @JavascriptInterface public boolean isApp() { return true; }
+        @JavascriptInterface public boolean ttsReady() { return ttsOk; }
+        /** Speak one piece of text. gender "boy"/"girl" picks a matching voice when the phone has one. Ends with sfTtsEvent('done', id). */
+        @JavascriptInterface public boolean ttsSpeak(String text, String id, float rate, String gender) {
+            if (!ttsOk || tts == null) return false;
+            try {
+                tts.setSpeechRate(Math.max(0.5f, Math.min(2f, rate)));
+                try {
+                    Voice best = null; int bestScore = -1;
+                    for (Voice v : tts.getVoices()) {
+                        Locale l = v.getLocale(); if (l == null || !"en".equals(l.getLanguage())) continue;
+                        if (v.isNetworkConnectionRequired() && v.getQuality() < Voice.QUALITY_VERY_HIGH) continue;
+                        String n = v.getName().toLowerCase(Locale.ROOT); int sc = v.getQuality() / 100;
+                        if ("IN".equals(l.getCountry())) sc += 30; else if ("US".equals(l.getCountry()) || "GB".equals(l.getCountry())) sc += 10;
+                        boolean male = n.contains("male") && !n.contains("female") || n.matches(".*-(iod|iol|iom|rjs|ene|end|enf|mal)-.*");
+                        if ("boy".equals(gender) == male) sc += 20;
+                        if (v.getFeatures() != null && v.getFeatures().contains("notInstalled")) sc -= 100;
+                        if (sc > bestScore) { bestScore = sc; best = v; }
+                    }
+                    if (best != null) tts.setVoice(best);
+                } catch (Exception ignored) {}
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, id);
+                return true;
+            } catch (Exception e) { return false; }
+        }
+        @JavascriptInterface public void ttsStop() { try { if (tts != null) tts.stop(); } catch (Exception ignored) {} }
         @JavascriptInterface public boolean canGoogle() { return true; }
         @JavascriptInterface public void googleSignIn() { runOnUiThread(() -> openOutside(Uri.parse(SITE + "/?appgoogle=1"))); }
         @JavascriptInterface public boolean blockerReady() { return Lock.ready(MainActivity.this); }
@@ -226,7 +276,7 @@ public class MainActivity extends Activity {
                 org.json.JSONObject o = new org.json.JSONObject();
                 o.put("usage", Lock.hasUsage(a)); o.put("overlay", Lock.hasOverlay(a)); o.put("acc", Lock.serviceEnabled(a));
                 o.put("battery", Lock.batteryOk(a)); o.put("xiaomi", Lock.isXiaomi()); o.put("ready", Lock.ready(a));
-                o.put("sdk", Build.VERSION.SDK_INT); o.put("v", 7);
+                o.put("sdk", Build.VERSION.SDK_INT); o.put("v", 8);
                 o.put("watch", WatchService.running && System.currentTimeMillis() - WatchService.lastPoll < 8000);
                 o.put("events", WatchService.events); o.put("blocks", WatchService.blocks);
                 return o.toString();
