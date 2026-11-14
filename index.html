@@ -12154,232 +12154,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('#epBox')
 })();
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('#epBox [data-goto]');if(a){e.preventDefault();var b=document.getElementById('epBox');if(b)b.hidden=true;document.body.classList.remove('ep-open');try{go(a.dataset.goto)}catch(_){}}},true);
 
-</script><style id="sf-cx-css">
-#chatForm{position:relative}
-.cx-clip{flex:0 0 auto;width:40px;height:40px;border-radius:12px;border:1px solid var(--line,#e4e7ee);background:var(--card,#fff);color:var(--p,#4338ca);display:grid;place-items:center;cursor:pointer;align-self:flex-end;transition:transform .15s,background .15s}
-.cx-clip:hover{background:var(--pale,#eef0ff);transform:translateY(-1px)}
-.cx-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
-.cx-chips:empty{display:none}
-.cx-chip{display:inline-flex;align-items:center;gap:6px;background:var(--pale,#eef0ff);color:var(--ink,#25243b);border-radius:999px;padding:4px 6px 4px 10px;font-size:12.5px;max-width:100%;animation:cxIn .25s ease}
-.cx-chip button{border:0;background:rgba(0,0,0,.08);width:20px;height:20px;border-radius:50%;cursor:pointer;line-height:1;color:inherit}
-.cx-left{font-size:12px;color:var(--muted,#777891);align-self:center}
-.chatbox.cx-drop{outline:2px dashed var(--p,#4338ca);outline-offset:-6px}
-.cx-body{white-space:pre-wrap}
-.cx-fig{margin:10px 0;background:#fff;border:1px solid var(--line,#e4e7ee);border-radius:14px;padding:10px;max-width:440px}
-.cx-fig img{display:block;width:100%;height:auto}
-.cx-fig figcaption{font-size:12px;color:#777891;margin-top:6px;white-space:normal}
-.cx-file{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0;padding:12px;border:1px solid var(--line,#e4e7ee);border-radius:14px;background:var(--card,#fff);white-space:normal;max-width:480px}
-.cx-fi{font-size:24px}.cx-fm{flex:1;min-width:140px}.cx-fm b{display:block;font-size:14px;word-break:break-all}.cx-fm small{color:var(--muted,#777891)}
-.cx-dl,.cx-pv{border:1px solid var(--line,#e4e7ee);background:var(--card,#fff);color:var(--p,#4338ca);border-radius:10px;padding:6px 10px;font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
-.cx-file .cx-dl{background:var(--p,#4338ca);color:#fff;border-color:transparent}
-.cx-fig .cx-dl{padding:2px 8px}
-.cx-pre{flex-basis:100%;max-height:260px;overflow:auto;background:var(--bg,#f7f7fc);border-radius:10px;padding:10px;font:12.5px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;margin:0}
-.cx-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#25243b;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:99999;transition:.25s}
-.cx-toast.in{opacity:1;transform:translate(-50%,0)}
-@keyframes cxIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
-.mm-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line,#e5e7eb);background:var(--card,#fff);font-size:20px;cursor:pointer;flex:none;margin-right:6px}
-.mm-ov{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center}.mm-ov[hidden]{display:none}
-.mm-box{background:var(--card,#fff);color:var(--ink,#1f2937);width:100%;max-width:520px;max-height:85vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));box-sizing:border-box}
-@media(min-width:701px){.mm-ov{align-items:center}.mm-box{border-radius:22px}}
-.mm-hd{display:flex;justify-content:space-between;align-items:center}.mm-hd b{font-size:17px}
-.mm-x{border:0;background:#6d28d9;color:#fff;border-radius:99px;padding:8px 18px;font:700 14px Inter,system-ui,sans-serif;cursor:pointer}
-.mm-sub,.mm-empty{color:var(--muted,#6b7280);font-size:13.5px;margin:8px 0 12px}
-.mm-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}.mm-list li{display:flex;gap:10px;align-items:center;border:1px solid var(--line,#e7e8ef);border-radius:14px;padding:10px 12px;font-size:14px}.mm-list li span{flex:1}
-.mm-list li button{border:0;background:#fef2f2;color:#b91c1c;border-radius:10px;width:30px;height:30px;cursor:pointer}
-.mm-add{display:flex;gap:8px;margin-top:12px}.mm-add input{flex:1;min-width:0;border:1.5px solid var(--line,#e5e7eb);border-radius:12px;padding:10px 12px;font:15px Inter,system-ui,sans-serif;background:var(--card,#fff);color:inherit}.mm-add button{border:0;border-radius:12px;padding:0 16px;font-weight:700;background:#4f46e5;color:#fff;cursor:pointer}
-/* coach header: everything fits on a phone */
-@media(max-width:700px){
- #page-coach .chathead{flex-wrap:wrap!important;row-gap:10px;column-gap:8px}
- #page-coach .chathead>.logo{flex:none}
- #page-coach .chathead>.logo+div{flex:1 1 calc(100% - 70px)!important;min-width:0}
- #page-coach .chathead .ep-hb{margin-left:auto!important}
- #page-coach .chathead .ep-hb{margin-left:0!important;margin-right:0!important}
- #page-coach .chathead #mmBtn{width:40px;height:40px;margin-right:0}
- #page-coach .chathead #clearChat{margin-left:auto!important;white-space:nowrap;flex:none}
-}
-/* file card: stack name over buttons on phones so nothing gets squashed */
-.cx-file{display:grid;grid-template-columns:auto 1fr;gap:6px 10px}
-.cx-file .cx-fm{min-width:0}
-.cx-file .cx-fm b{word-break:normal;overflow-wrap:anywhere}
-.cx-file .cx-dl,.cx-file .cx-pv{grid-column:1/-1;width:100%;padding:10px;font-size:14px}
-.cx-file .cx-pre{grid-column:1/-1}
-.cx-tt{background:linear-gradient(135deg,#ecfdf5,#eef2ff)}
-
-</style><script id="sf-cx-js">
-/* ===== AI Coach v3: attach files, AI-made files, diagrams, syllabus reminder, clearer answers ===== */
-(function(){
-function $(s,r){return(r||document).querySelector(s)}
-function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-var LIM={free:{att:3,make:2},plus:{att:40,make:40}};
-function lim(){return LIM[plus()?'plus':'free']}
-function day(){return new Date().toLocaleDateString('en-CA')}
-function use(){var u;try{u=JSON.parse(localStorage.getItem('sfCoachUse')||'{}')}catch(e){u={}}if(u.d!==day())u={d:day(),att:0,make:0};return u}
-function setUse(u){try{localStorage.setItem('sfCoachUse',JSON.stringify(u))}catch(e){}}
-function gate(t,w){if(window.sfPlusGate)sfPlusGate(t,w);else try{go('premium')}catch(e){}}
-
-/* ---------- attach files ---------- */
-var pending=[];
-function install(){
- var form=$('#chatForm');if(!form||form.dataset.cx)return;form.dataset.cx='1';
- var inp=document.createElement('input');inp.type='file';inp.id='cxFile';inp.multiple=true;inp.hidden=true;
- inp.accept='application/pdf,image/png,image/jpeg,image/webp,.txt,.md,text/plain';
- var btn=document.createElement('button');btn.type='button';btn.className='cx-clip';btn.title='Attach a file (PDF, photo or text)';btn.setAttribute('aria-label','Attach a file');
- btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5 12.6 21a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.7 3.7 0 0 1 5.2 5.2l-8.5 8.5a1.8 1.8 0 0 1-2.6-2.6l7.8-7.8"/></svg>';
- var chips=document.createElement('div');chips.className='cx-chips';chips.id='cxChips';
- form.insertBefore(btn,form.firstChild);form.appendChild(inp);form.after(chips);
- btn.onclick=function(){var u=use(),L=lim();if(u.att+pending.length>=L.att){gate('Attach more files','Free accounts can attach '+LIM.free.att+' files a day. StudyStarx Plus lets you attach up to '+LIM.plus.att+' files a day.');return}inp.click()};
- inp.onchange=function(){[].slice.call(inp.files||[]).forEach(add);inp.value=''};
- chips.addEventListener('click',function(e){var x=e.target.closest('[data-cxrm]');if(!x)return;pending.splice(+x.dataset.cxrm,1);drawChips()});
- // drag and drop onto the chat
- var box=form.closest('.chatbox')||form;
- box.addEventListener('dragover',function(e){if(e.dataTransfer&&[].slice.call(e.dataTransfer.types||[]).indexOf('Files')>-1){e.preventDefault();box.classList.add('cx-drop')}});
- box.addEventListener('dragleave',function(){box.classList.remove('cx-drop')});
- box.addEventListener('drop',function(e){if(!e.dataTransfer||!e.dataTransfer.files.length)return;e.preventDefault();box.classList.remove('cx-drop');[].slice.call(e.dataTransfer.files).forEach(function(f){var u=use();if(u.att+pending.length>=lim().att){gate('Attach more files','Free accounts can attach '+LIM.free.att+' files a day. Plus lets you attach up to '+LIM.plus.att+'.');return}add(f)})});
-}
-function add(f){
- if(pending.length>=4){toast('You can attach up to 4 files at once.');return}
- var okType=/^(application\/pdf|image\/(png|jpe?g|webp)|text\/plain)$/.test(f.type)||/\.(txt|md)$/i.test(f.name);
- if(!okType){toast('Use a PDF, a photo (PNG/JPG) or a text file.');return}
- if(f.size>2200000){toast(f.name+' is too big. Use a file under 2 MB.');return}
- var r=new FileReader();r.onload=function(){var d=String(r.result||'');var b64=d.slice(d.indexOf(',')+1);pending.push({name:f.name,mimeType:/\.(txt|md)$/i.test(f.name)||!f.type?'text/plain':f.type,data:b64});drawChips()};r.readAsDataURL(f);
-}
-function drawChips(){var c=$('#cxChips');if(!c)return;c.innerHTML=pending.map(function(p,i){return'<span class="cx-chip">'+(/pdf/.test(p.mimeType)?'📄':/image/.test(p.mimeType)?'🖼️':'📝')+' '+esc(p.name)+'<button type="button" data-cxrm="'+i+'" aria-label="Remove">×</button></span>'}).join('');var u=use(),L=lim();if(pending.length)c.insertAdjacentHTML('beforeend','<span class="cx-left">'+Math.max(0,L.att-u.att-pending.length)+' attachments left today</span>')}
-function toast(t){var d=document.createElement('div');d.className='cx-toast';d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.classList.add('in')},10);setTimeout(function(){d.remove()},3200)}
-window.sfCoachAttNames=function(){return pending.length?'\n📎 '+pending.map(function(p){return p.name}).join(', '):''};
-
-/* ---------- system prompt ---------- */
-function profileLine(){
- var p={};try{p=data.profile||{}}catch(e){}
- var bits=[];if(p.role&&p.role!=='student')bits.push('The user is a '+p.role+(p.child?' (child: '+p.child+')':'')+'.');
- if(p.grade)bits.push('Grade/level: '+p.grade+'.');if(p.board||p.syllabus)bits.push('Syllabus/board: '+(p.board||p.syllabus)+'.');
- if(p.subjects&&p.subjects.length)bits.push('Subjects they study: '+p.subjects.join(', ')+'.');
- if(p.hardest)bits.push('Finds hardest: '+p.hardest+'.');
- return bits.join(' ');
-}
-function syl(){var p={};try{p=data.profile||{}}catch(e){}var b=[p.board||p.syllabus,p.grade].filter(Boolean).join(' ');var sub=(p.subjects||[]).join(', ');return b?b+' course':''}
-/* ---------- long-term memory: the coach remembers what the student tells it ---------- */
-function memList(){try{if(!Array.isArray(data.memory))data.memory=[];return data.memory}catch(e){return[]}}
-function memAdd(t){t=String(t||'').replace(/\s+/g,' ').trim().replace(/^[-•*]\s*/,'').slice(0,160);if(t.length<3)return;var L=memList(),k=t.toLowerCase().replace(/[^a-z0-9 ]/g,'');for(var i=0;i<L.length;i++){var o=String(L[i].t||'').toLowerCase().replace(/[^a-z0-9 ]/g,'');if(o===k||(k.length>12&&(o.indexOf(k)>=0||k.indexOf(o)>=0))){L[i]={t:t.length>=String(L[i].t).length?t:L[i].t,d:Date.now()};return}}L.push({t:t,d:Date.now()});while(L.length>80)L.shift()}
-function memArchive(){try{var c=data.chat||[];if(!c.length)return;if(!Array.isArray(data.chatArchive))data.chatArchive=[];c.forEach(function(m){if(m&&m.role==='user')data.chatArchive.push({t:String(m.content||'').slice(0,240),d:Date.now()})});while(data.chatArchive.length>200)data.chatArchive.shift();if(typeof persist==='function')persist()}catch(e){}}
-document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#clearChat'))memArchive()},true);
-window.sfCoachMemory={list:memList,add:function(t){memAdd(t);try{persist()}catch(e){}},forget:function(i){var L=memList();L.splice(i,1);try{persist()}catch(e){}}};
-function memBlock(){var L=memList(),A=[];try{A=(data.chatArchive||[]).slice(-25)}catch(e){}
- var out='MEMORY (very important): you remember this student across all chats, like a real tutor who knows them.';
- out+=L.length?'\nThings the student has told you before:\n'+L.map(function(m){return'- '+m.t}).join('\n'):'\nYou do not know anything extra about them yet.';
- if(A.length)out+='\nThings they asked about in earlier chats (oldest first):\n'+A.map(function(m){return'- '+String(m.t).replace(/\s+/g,' ').slice(0,140)}).join('\n');
- out+='\nUse these naturally when they help (e.g. their exam dates, weak topics, goals, likes, how they like things explained). Never say you cannot remember earlier chats. If they ask what you remember, tell them.\nSAVING NEW MEMORIES: whenever the student tells you something lasting about themselves or their studies (name, class, school, exam dates, goals, weak or strong topics, what they find hard, how they like answers, their timetable, or anything they ask you to remember), add it at the very END of your reply on its own line exactly like: [[remember: short fact in third person]] — one line per fact, max 3. Do not mention these lines in your answer. Do not save one-off questions or things already listed above.\nFORGETTING: if the student asks you to forget something, or says a remembered fact is wrong or changed, add at the END a line exactly like [[forget: a few words from the old fact]] (and a new [[remember: ...]] line if there is a corrected fact), and tell them you have forgotten/updated it.';
- return out}
-function memForget(q){q=String(q||'').toLowerCase().trim();if(q.length<2)return;var L=memList(),words=q.split(/\W+/).filter(function(w){return w.length>2});for(var i=L.length-1;i>=0;i--){var t=String(L[i].t||L[i].text||L[i]).toLowerCase();var hit=t.indexOf(q)>=0||(words.length&&words.filter(function(w){return t.indexOf(w)>=0}).length>=Math.max(1,Math.ceil(words.length*.6)));if(hit)L.splice(i,1)}}
-function memStrip(reply){return String(reply||'').replace(/\[\[\s*forget\s*:\s*([^\]]{1,220})\]\]\s*/gi,function(_,f){memForget(f);return''}).replace(/\[\[\s*remember\s*:\s*([^\]]{2,220})\]\]\s*/gi,function(_,f){memAdd(f);return''}).replace(/\n{3,}/g,'\n\n').trim()}
-function ttRule(){var now=new Date(),dn=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],info=null;try{info=window.sfTTInfo&&sfTTInfo()}catch(e){}
- return 'TIMETABLE: Today is '+dn[now.getDay()]+' '+day()+'. You CAN add study sessions to the student\'s StudyStarx timetable. When they ask you to plan, schedule or add sessions to their timetable/planner/calendar, put ALL the sessions at the END of your reply in ONE fenced block that starts with ```timetable and ends with ```, containing only a JSON array like [{"date":"YYYY-MM-DD","start":"HH:MM","end":"HH:MM","subject":"Biology","title":"Biology – cell structure revision"}]. Use real dates starting from today, 24-hour times, 30–60 minute sessions with breaks, at most 3 sessions a day and at most 90 sessions. '+(info?'Their usual study time: weekdays '+info.wdStart+'–'+info.wdEnd+', weekends '+info.weStart+'–'+info.weEnd+'.'+(info.blocks&&info.blocks.length?' Busy times to avoid: '+info.blocks.join('; ')+'.':''):'Use 16:30–21:30 on weekdays and 09:30–20:00 at weekends.')+' Outside the block give only a short summary (a few lines, e.g. which subjects on which days) — do not repeat every session. Do not make a file for a timetable unless they ask for a file. Never say you cannot add things to their timetable.'}
-function system(){
- var lv=($('#coachLevel')||{}).value||'',sub=($('#coachSubject')||{}).value||'';
- var brief='';try{brief=window.sfCoachBrief?sfCoachBrief():''}catch(e){}
- var u=use(),L=lim(),canMake=u.make<L.make;
- return [
- 'You are StudyStarx Coach, a kind, patient school tutor (IGCSE, Cambridge AS/A Level, IB Diploma, CBSE/ICSE and similar).',
- memBlock(),
- 'STUDENT: '+(profileLine()||'No survey yet.')+(lv?' Coach setting level: '+lv+'.':'')+(sub&&sub!=='General'?' Current subject: '+sub+'.':''),
- 'CONVERSATION (very important): this is an ongoing chat. Read the earlier messages before answering. If the student says things like "why?", "I don\'t get it", "explain step 2", "give another example", "what about the second one", "and in real life?" or uses words like "this/that/it", they mean the topic of your previous answer — continue from it, do not start a new topic and do not ask what they mean if it is clear from the chat. If they say they don\'t understand, explain the same idea again in a simpler, different way (new analogy, smaller steps).',
- 'GREETINGS AND SMALL TALK: if the student just says hi, hello, thanks, ok, bye or chats casually, reply in 1–2 friendly sentences like a real person (use their name), and ask what they want to study today. Do NOT use steps, "Final answer", "Quick check" or a syllabus note for these.\nUNDERSTAND THE REAL NEED: before answering, silently work out what the student actually wants (a definition, a step-by-step solution, a check of their own answer, exam technique, motivation, or reassurance). If they sound stressed or stuck, start with one short encouraging sentence. If the question is genuinely unclear even with the chat history, ask ONE short clarifying question instead of guessing.',
- 'MAKE IT EASY TO UNDERSTAND:',
- '- Start with a 1–2 sentence direct answer in plain words, like you are talking to a friend.',
- '- Then explain in short numbered steps. One idea per step. Short sentences. No long paragraphs.',
- '- Explain every technical word the first time you use it, in brackets.',
- '- Give one everyday example or comparison that makes the idea click.',
- '- For maths/science: show every step of working on its own line, say WHY each step is done, and box the final answer as "Final answer: ...".',
- '- Use plain text. Do NOT use LaTeX, $ signs or markdown tables. Write maths like: x^2 + 3x = 10, √16 = 4, 3/4.',
- '- End with "Quick check:" and one short question so the student can test themselves.',
- '- Match the student\'s level. If they say they don\'t understand, explain again more simply in a different way.',
- 'SYLLABUS CHECK (do this for every new question): compare the question with the STUDENT details above (their syllabus/board, grade and subjects). If the topic is clearly outside them — a subject they do not take, a topic from a different syllabus, or work well above their grade (e.g. university level) — start your reply with exactly one line: "📌 Heads up: this isn\'t part of your '+(syl()||'syllabus')+' — I\'ll still explain it." Then answer normally, at their level. Do not add this line for follow-up questions on a topic you already flagged, for general study skills, or when it is part of their course or you are not sure.',
- 'DIAGRAMS: When a diagram, graph, number line, triangle, circuit, cell, force diagram or table-like picture would really help (especially in maths and science), draw it as a simple SVG inside a fenced block that starts with ```svg and ends with ```. Rules: one <svg> with viewBox (about 0 0 360 240) and xmlns="http://www.w3.org/2000/svg", white background rect, clear labels with font-size 13+, simple lines and shapes only, no scripts, no images, no external links. Keep it small and correct. Then explain the diagram in words.',
- canMake?'FILES: If the user asks you to make a file (notes, a worksheet, a summary sheet, a revision plan, flashcards list, a CSV table), put the whole file content inside a fenced block that starts with ```file:NAME.EXT (EXT is md, txt or csv) and ends with ```. Make only one file unless asked for more. Outside the block, say in one line what the file contains.':
- 'FILES: The user has used today\'s file-making allowance. If they ask you to make a file, answer in the chat instead and say: "You have used today\'s free file creations — StudyStarx Plus lets you make more files."',
- ttRule(),
- 'If files are attached, read them carefully and answer about them. Be honest when unsure; never invent official mark schemes.',
- brief
- ].filter(Boolean).join('\n');
-}
-window.sfCoachPrep=function(question){
- var hist=[];try{var all_=(data.chat||[]).slice(-24),n_=all_.length;hist=all_.map(function(m,k){var c=String(m.content||'').replace(/```(svg|file:[^\n]*|timetable|ttadded:\d+)[\s\S]*?```/g,'[$1 shown]').replace(/\n{3,}/g,'\n\n');/* recent turns in full, older turns shortened: keeps the conversation but uses far fewer tokens */var cap=k>=n_-4?2000:500;return{role:m.role,content:c.length>cap?c.slice(0,cap)+'…':c}})}catch(e){}
- var files=pending.map(function(p){return{mimeType:p.mimeType,data:p.data}});
- if(files.length){var u=use();u.att+=files.length;setUse(u)}
- pending=[];drawChips();
- return{system:system(),messages:hist,user:question,files:files,allowSearchFallback:!files.length,maxTokens:/time ?table|schedul|planner|calendar|plan (my|the|a)|study plan/i.test(question||'')?9000:4000};
-};
-window.sfCoachAfter=function(reply){
- reply=memStrip(reply);try{persist()}catch(e){}var u=use(),L=lim(),n=0;
- reply=reply.replace(/```file:[^\n]*\n[\s\S]*?```/g,function(m){if(u.make<L.make){u.make++;n++;return m}return'[File not created — you have used today\'s '+L.make+' free file creations. StudyStarx Plus lets you make up to '+LIM.plus.make+' files a day.]'});
- setUse(u);
- reply=reply.replace(/```timetable\s*\n?([\s\S]*?)```/g,function(m,js){var list=null;try{var a=js.indexOf('['),b=js.lastIndexOf(']');list=JSON.parse(js.slice(a,b+1))}catch(e){}var added=0;if(Array.isArray(list)&&window.sfTTAdd)added=sfTTAdd(list);return added?'```ttadded:'+added+'\n```':'(I could not add these sessions automatically — please try asking again.)'});
- return reply;
-};
-/* save a file: inside the Android app use the app's own saver (normal web downloads don't work there) */
-function saveBlob(name,blob,mime){var N=window.SFNative;if(N&&typeof N.saveFile==='function'){var r=new FileReader();r.onload=function(){try{var b64=String(r.result).split(',')[1];var res=N.saveFile(name,mime,b64);toast(res==='ok'?'Saved in Downloads › StudyStarx ✓':res==='open'?'Opening your file…':'Could not save the file. Please try again.')}catch(e){toast('Could not save the file. Please try again.')}};r.readAsDataURL(blob);return}
- var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},800);toast('Downloading '+name+'…')}
-window.sfSaveBlob=saveBlob;
-
-/* ---------- render diagrams and files inside answers ---------- */
-function cleanSvg(src){
- var s=String(src||'').trim();var a=s.indexOf('<svg'),b=s.lastIndexOf('</svg>');if(a<0||b<0)return'';s=s.slice(a,b+6);
- s=s.replace(/<(script|foreignObject|iframe|image|use)[\s\S]*?(<\/\1>|\/>)/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,'').replace(/(href|xlink:href)\s*=\s*("[^"]*"|'[^']*')/gi,'');
- if(!/xmlns=/.test(s))s=s.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');
- return s;
-}
-var RX=/```(svg|file:([^\n`]*)|ttadded:(\d+))\n?([\s\S]*?)```/g;
-function decorate(){
- var m=$('#messages');if(!m)return;
- [].slice.call(m.querySelectorAll('.bubble:not(.user)')).forEach(function(b){
-  if(b.dataset.cx==='1')return;
-  var host=b.querySelector(':scope > div')||b;var t=host===b?[].slice.call(b.childNodes).filter(function(n){return n.nodeType===3}).map(function(n){return n.textContent}).join(''):host.textContent;
-  if(t.indexOf('```svg')<0&&t.indexOf('```file:')<0&&t.indexOf('```ttadded:')<0){b.dataset.cx='1';return}
-  b.dataset.cx='1';
-  var out=document.createElement('div');out.className='cx-body';var last=0,mm;RX.lastIndex=0;
-  while((mm=RX.exec(t))){
-   if(mm.index>last)out.appendChild(document.createTextNode(t.slice(last,mm.index).replace(/^\n+/,'').replace(/\n+$/,'\n')));
-   if(mm[3]){var tc=document.createElement('div');tc.className='cx-file cx-tt';tc.innerHTML='<div class="cx-fi">📅</div><div class="cx-fm"><b>Added '+mm[3]+' sessions to your timetable ✓</b><small>They are pinned, so re-planning won\'t move them.</small></div><button type="button" class="cx-dl" data-kind="tt">Open timetable</button>';out.appendChild(tc)}
-   else if(mm[1]==='svg'){var sv=cleanSvg(mm[4]);if(sv){var fig=document.createElement('figure');fig.className='cx-fig';var img=new Image();img.alt='Diagram';img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sv);fig.appendChild(img);var cap=document.createElement('figcaption');cap.innerHTML='Diagram · <button type="button" class="cx-dl" data-kind="svg">Download</button>';fig.appendChild(cap);fig.dataset.src=sv;out.appendChild(fig)}}
-   else{var name=(mm[2]||'notes.md').trim().replace(/[^\w.\- ]/g,'').slice(0,60)||'notes.md';if(!/\.(md|txt|csv)$/i.test(name))name+='.md';var body=mm[4].replace(/\s+$/,'');
-    var card=document.createElement('div');card.className='cx-file';card.dataset.name=name;card.dataset.body=body;
-    card.innerHTML='<div class="cx-fi">'+(/csv$/i.test(name)?'📊':'📄')+'</div><div class="cx-fm"><b>'+esc(name)+'</b><small>'+body.split('\n').length+' lines · made by StudyStarx Coach</small></div><button type="button" class="cx-dl" data-kind="file">⬇ Download</button><button type="button" class="cx-pv">Preview</button><pre class="cx-pre" hidden>'+esc(body)+'</pre>';out.appendChild(card)}
-   last=RX.lastIndex;
-  }
-  if(last<t.length)out.appendChild(document.createTextNode(t.slice(last).replace(/^\n+/,'')));
-  if(host===b){[].slice.call(b.childNodes).forEach(function(n){if(n.nodeType===3)n.remove()});var sm=b.querySelector('small');if(sm)sm.after(out);else b.prepend(out)}
-  else{host.textContent='';host.appendChild(out)}
- });
-}
-document.addEventListener('click',function(e){
- var d=e.target.closest('.cx-dl');
- if(d&&d.dataset.kind==='tt'){try{go('timetable')}catch(e){}return}
- if(d){var blob,name;if(d.dataset.kind==='svg'){var f=d.closest('.cx-fig');blob=new Blob([f.dataset.src],{type:'image/svg+xml'});name='diagram.svg'}else{var c=d.closest('.cx-file');name=c.dataset.name;blob=new Blob([c.dataset.body],{type:/csv$/i.test(name)?'text/csv':'text/plain'})}
-  saveBlob(name,blob,blob.type||'text/plain');return}
- var p=e.target.closest('.cx-pv');if(p){var pre=p.parentNode.querySelector('.cx-pre');pre.hidden=!pre.hidden;p.textContent=pre.hidden?'Preview':'Hide'}
-});
-
-function start(){
- install();
- var m=$('#messages');if(m&&!m.dataset.cxo){m.dataset.cxo='1';new MutationObserver(function(){decorate()}).observe(m,{childList:true,subtree:false});decorate()}
- // the old Math Solver page now opens the AI Coach
- try{if(typeof go==='function'&&!go.__cx){var g=go;var w=function(p){return g.apply(this,[p==='math'?'coach':p].concat([].slice.call(arguments,1)))};w.__cx=true;window.go=w;try{go=w}catch(e){}}}catch(e){}
- var sugg=document.querySelector('#page-coach .suggestions');if(sugg&&!sugg.dataset.cx){sugg.dataset.cx='1';sugg.insertAdjacentHTML('beforeend','<button data-prompt="Solve this maths problem step by step and draw a diagram if it helps: ">Maths with diagram</button><button data-prompt="Make me a one-page revision notes file on ">Make a notes file</button>');
-  [].slice.call(sugg.querySelectorAll('button[data-prompt]')).slice(-2).forEach(function(b){b.addEventListener('click',function(){var t=$('#chatText');if(t){t.value=b.dataset.prompt;t.focus()}})})}
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
-setTimeout(start,1200);
-})();
-/* memory viewer: 🧠 button in the coach header */
-(function(){function esc2(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function paint(ov){var L=window.sfCoachMemory?sfCoachMemory.list():[];ov.innerHTML='<div class="mm-box" role="dialog" aria-label="What the coach remembers"><div class="mm-hd"><b>🧠 What your coach remembers</b><button type="button" class="mm-x" data-mm="close">Done</button></div><p class="mm-sub">The coach saves things you tell it — like your exams, goals and weak topics — and uses them in every chat.</p>'+(L.length?'<ul class="mm-list">'+L.map(function(m,i){return'<li><span>'+esc2(m.t)+'</span><button type="button" data-mmdel="'+i+'" aria-label="Forget">✕</button></li>'}).join('')+'</ul>':'<p class="mm-empty">Nothing yet. Tell the coach about yourself — e.g. “My maths exam is on 12 March” or “Remember I find algebra hard”.</p>')+'<form class="mm-add" id="mmAdd"><input id="mmIn" maxlength="160" placeholder="Add something to remember…"><button type="submit">Add</button></form></div>'}
-function open(){var ov=document.getElementById('mmOv');if(!ov){ov=document.createElement('div');ov.id='mmOv';ov.className='mm-ov';document.body.appendChild(ov)}paint(ov);ov.hidden=false}
-document.addEventListener('click',function(e){var b=e.target.closest('#mmBtn');if(b){e.preventDefault();open();return}var ov=document.getElementById('mmOv');if(!ov||ov.hidden||!ov.contains(e.target))return;if(e.target===ov||e.target.closest('[data-mm="close"]')){ov.hidden=true;return}var d=e.target.closest('[data-mmdel]');if(d){sfCoachMemory.forget(+d.dataset.mmdel);paint(ov)}});
-document.addEventListener('submit',function(e){if(e.target&&e.target.id==='mmAdd'){e.preventDefault();var i=document.getElementById('mmIn');if(i&&i.value.trim()){sfCoachMemory.add(i.value.trim());paint(document.getElementById('mmOv'))}}});
-function btn(){var h=document.querySelector('#page-coach .chathead');if(!h||document.getElementById('mmBtn'))return;var c=document.getElementById('clearChat');var b=document.createElement('button');b.type='button';b.id='mmBtn';b.className='mm-btn';b.title='What the coach remembers';b.setAttribute('aria-label','What the coach remembers');b.textContent='🧠';if(c&&c.parentNode)c.parentNode.insertBefore(b,c);else h.appendChild(b)}
-/* memory works by just talking to the coach — no separate button */
-setInterval(function(){var b=document.getElementById('mmBtn');if(b)b.remove()},1500)})();
-
 </script><style id="sf-cq-css">
 /* ===== StudyStarx Coach look ===== */
 #page-coach .pagehead{display:none!important}
@@ -12629,5 +12403,234 @@ function picker(){var box=$('#page-coach .sf-cset');if(!box||$('#sxVoicePick'))r
 function boot(){composer();header();watchBadge();watchCaption();picker()}
 setInterval(boot,1500);setTimeout(boot,200);
 })();
+
+</script><style id="sf-cx-css">
+#chatForm{position:relative}
+.cx-clip{flex:0 0 auto;width:40px;height:40px;border-radius:12px;border:1px solid var(--line,#e4e7ee);background:var(--card,#fff);color:var(--p,#4338ca);display:grid;place-items:center;cursor:pointer;align-self:flex-end;transition:transform .15s,background .15s}
+.cx-clip:hover{background:var(--pale,#eef0ff);transform:translateY(-1px)}
+.cx-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
+.cx-chips:empty{display:none}
+.cx-chip{display:inline-flex;align-items:center;gap:6px;background:var(--pale,#eef0ff);color:var(--ink,#25243b);border-radius:999px;padding:4px 6px 4px 10px;font-size:12.5px;max-width:100%;animation:cxIn .25s ease}
+.cx-chip button{border:0;background:rgba(0,0,0,.08);width:20px;height:20px;border-radius:50%;cursor:pointer;line-height:1;color:inherit}
+.cx-left{font-size:12px;color:var(--muted,#777891);align-self:center}
+.chatbox.cx-drop{outline:2px dashed var(--p,#4338ca);outline-offset:-6px}
+.cx-body{white-space:pre-wrap}
+.cx-fig{margin:10px 0;background:#fff;border:1px solid var(--line,#e4e7ee);border-radius:14px;padding:10px;max-width:440px}
+.cx-fig img{display:block;width:100%;height:auto}
+.cx-fig figcaption{font-size:12px;color:#777891;margin-top:6px;white-space:normal}
+.cx-file{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0;padding:12px;border:1px solid var(--line,#e4e7ee);border-radius:14px;background:var(--card,#fff);white-space:normal;max-width:480px}
+.cx-fi{font-size:24px}.cx-fm{flex:1;min-width:140px}.cx-fm b{display:block;font-size:14px;word-break:break-all}.cx-fm small{color:var(--muted,#777891)}
+.cx-dl,.cx-pv{border:1px solid var(--line,#e4e7ee);background:var(--card,#fff);color:var(--p,#4338ca);border-radius:10px;padding:6px 10px;font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
+.cx-file .cx-dl{background:var(--p,#4338ca);color:#fff;border-color:transparent}
+.cx-fig .cx-dl{padding:2px 8px}
+.cx-pre{flex-basis:100%;max-height:260px;overflow:auto;background:var(--bg,#f7f7fc);border-radius:10px;padding:10px;font:12.5px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;margin:0}
+.cx-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#25243b;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:99999;transition:.25s}
+.cx-toast.in{opacity:1;transform:translate(-50%,0)}
+@keyframes cxIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.mm-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line,#e5e7eb);background:var(--card,#fff);font-size:20px;cursor:pointer;flex:none;margin-right:6px}
+.mm-ov{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center}.mm-ov[hidden]{display:none}
+.mm-box{background:var(--card,#fff);color:var(--ink,#1f2937);width:100%;max-width:520px;max-height:85vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));box-sizing:border-box}
+@media(min-width:701px){.mm-ov{align-items:center}.mm-box{border-radius:22px}}
+.mm-hd{display:flex;justify-content:space-between;align-items:center}.mm-hd b{font-size:17px}
+.mm-x{border:0;background:#6d28d9;color:#fff;border-radius:99px;padding:8px 18px;font:700 14px Inter,system-ui,sans-serif;cursor:pointer}
+.mm-sub,.mm-empty{color:var(--muted,#6b7280);font-size:13.5px;margin:8px 0 12px}
+.mm-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}.mm-list li{display:flex;gap:10px;align-items:center;border:1px solid var(--line,#e7e8ef);border-radius:14px;padding:10px 12px;font-size:14px}.mm-list li span{flex:1}
+.mm-list li button{border:0;background:#fef2f2;color:#b91c1c;border-radius:10px;width:30px;height:30px;cursor:pointer}
+.mm-add{display:flex;gap:8px;margin-top:12px}.mm-add input{flex:1;min-width:0;border:1.5px solid var(--line,#e5e7eb);border-radius:12px;padding:10px 12px;font:15px Inter,system-ui,sans-serif;background:var(--card,#fff);color:inherit}.mm-add button{border:0;border-radius:12px;padding:0 16px;font-weight:700;background:#4f46e5;color:#fff;cursor:pointer}
+/* coach header: everything fits on a phone */
+@media(max-width:700px){
+ #page-coach .chathead{flex-wrap:wrap!important;row-gap:10px;column-gap:8px}
+ #page-coach .chathead>.logo{flex:none}
+ #page-coach .chathead>.logo+div{flex:1 1 calc(100% - 70px)!important;min-width:0}
+ #page-coach .chathead .ep-hb{margin-left:auto!important}
+ #page-coach .chathead .ep-hb{margin-left:0!important;margin-right:0!important}
+ #page-coach .chathead #mmBtn{width:40px;height:40px;margin-right:0}
+ #page-coach .chathead #clearChat{margin-left:auto!important;white-space:nowrap;flex:none}
+}
+/* file card: stack name over buttons on phones so nothing gets squashed */
+.cx-file{display:grid;grid-template-columns:auto 1fr;gap:6px 10px}
+.cx-file .cx-fm{min-width:0}
+.cx-file .cx-fm b{word-break:normal;overflow-wrap:anywhere}
+.cx-file .cx-dl,.cx-file .cx-pv{grid-column:1/-1;width:100%;padding:10px;font-size:14px}
+.cx-file .cx-pre{grid-column:1/-1}
+.cx-tt{background:linear-gradient(135deg,#ecfdf5,#eef2ff)}
+
+</style><script id="sf-cx-js">
+/* ===== AI Coach v3: attach files, AI-made files, diagrams, syllabus reminder, clearer answers ===== */
+(function(){
+function $(s,r){return(r||document).querySelector(s)}
+function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var LIM={free:{att:3,make:2},plus:{att:40,make:40}};
+function lim(){return LIM[plus()?'plus':'free']}
+function day(){return new Date().toLocaleDateString('en-CA')}
+function use(){var u;try{u=JSON.parse(localStorage.getItem('sfCoachUse')||'{}')}catch(e){u={}}if(u.d!==day())u={d:day(),att:0,make:0};return u}
+function setUse(u){try{localStorage.setItem('sfCoachUse',JSON.stringify(u))}catch(e){}}
+function gate(t,w){if(window.sfPlusGate)sfPlusGate(t,w);else try{go('premium')}catch(e){}}
+
+/* ---------- attach files ---------- */
+var pending=[];
+function install(){
+ var form=$('#chatForm');if(!form||form.dataset.cx)return;form.dataset.cx='1';
+ var inp=document.createElement('input');inp.type='file';inp.id='cxFile';inp.multiple=true;inp.hidden=true;
+ inp.accept='application/pdf,image/png,image/jpeg,image/webp,.txt,.md,text/plain';
+ var btn=document.createElement('button');btn.type='button';btn.className='cx-clip';btn.title='Attach a file (PDF, photo or text)';btn.setAttribute('aria-label','Attach a file');
+ btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5 12.6 21a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.7 3.7 0 0 1 5.2 5.2l-8.5 8.5a1.8 1.8 0 0 1-2.6-2.6l7.8-7.8"/></svg>';
+ var chips=document.createElement('div');chips.className='cx-chips';chips.id='cxChips';
+ form.insertBefore(btn,form.firstChild);form.appendChild(inp);form.after(chips);
+ btn.onclick=function(){var u=use(),L=lim();if(u.att+pending.length>=L.att){gate('Attach more files','Free accounts can attach '+LIM.free.att+' files a day. StudyStarx Plus lets you attach up to '+LIM.plus.att+' files a day.');return}inp.click()};
+ inp.onchange=function(){[].slice.call(inp.files||[]).forEach(add);inp.value=''};
+ chips.addEventListener('click',function(e){var x=e.target.closest('[data-cxrm]');if(!x)return;pending.splice(+x.dataset.cxrm,1);drawChips()});
+ // drag and drop onto the chat
+ var box=form.closest('.chatbox')||form;
+ box.addEventListener('dragover',function(e){if(e.dataTransfer&&[].slice.call(e.dataTransfer.types||[]).indexOf('Files')>-1){e.preventDefault();box.classList.add('cx-drop')}});
+ box.addEventListener('dragleave',function(){box.classList.remove('cx-drop')});
+ box.addEventListener('drop',function(e){if(!e.dataTransfer||!e.dataTransfer.files.length)return;e.preventDefault();box.classList.remove('cx-drop');[].slice.call(e.dataTransfer.files).forEach(function(f){var u=use();if(u.att+pending.length>=lim().att){gate('Attach more files','Free accounts can attach '+LIM.free.att+' files a day. Plus lets you attach up to '+LIM.plus.att+'.');return}add(f)})});
+}
+function add(f){
+ if(pending.length>=4){toast('You can attach up to 4 files at once.');return}
+ var okType=/^(application\/pdf|image\/(png|jpe?g|webp)|text\/plain)$/.test(f.type)||/\.(txt|md)$/i.test(f.name);
+ if(!okType){toast('Use a PDF, a photo (PNG/JPG) or a text file.');return}
+ if(f.size>2200000){toast(f.name+' is too big. Use a file under 2 MB.');return}
+ var r=new FileReader();r.onload=function(){var d=String(r.result||'');var b64=d.slice(d.indexOf(',')+1);pending.push({name:f.name,mimeType:/\.(txt|md)$/i.test(f.name)||!f.type?'text/plain':f.type,data:b64});drawChips()};r.readAsDataURL(f);
+}
+function drawChips(){var c=$('#cxChips');if(!c)return;c.innerHTML=pending.map(function(p,i){return'<span class="cx-chip">'+(/pdf/.test(p.mimeType)?'📄':/image/.test(p.mimeType)?'🖼️':'📝')+' '+esc(p.name)+'<button type="button" data-cxrm="'+i+'" aria-label="Remove">×</button></span>'}).join('');var u=use(),L=lim();if(pending.length)c.insertAdjacentHTML('beforeend','<span class="cx-left">'+Math.max(0,L.att-u.att-pending.length)+' attachments left today</span>')}
+function toast(t){var d=document.createElement('div');d.className='cx-toast';d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.classList.add('in')},10);setTimeout(function(){d.remove()},3200)}
+window.sfCoachAttNames=function(){return pending.length?'\n📎 '+pending.map(function(p){return p.name}).join(', '):''};
+
+/* ---------- system prompt ---------- */
+function profileLine(){
+ var p={};try{p=data.profile||{}}catch(e){}
+ var bits=[];if(p.role&&p.role!=='student')bits.push('The user is a '+p.role+(p.child?' (child: '+p.child+')':'')+'.');
+ if(p.grade)bits.push('Grade/level: '+p.grade+'.');if(p.board||p.syllabus)bits.push('Syllabus/board: '+(p.board||p.syllabus)+'.');
+ if(p.subjects&&p.subjects.length)bits.push('Subjects they study: '+p.subjects.join(', ')+'.');
+ if(p.hardest)bits.push('Finds hardest: '+p.hardest+'.');
+ return bits.join(' ');
+}
+function syl(){var p={};try{p=data.profile||{}}catch(e){}var b=[p.board||p.syllabus,p.grade].filter(Boolean).join(' ');var sub=(p.subjects||[]).join(', ');return b?b+' course':''}
+/* ---------- long-term memory: the coach remembers what the student tells it ---------- */
+function memList(){try{if(!Array.isArray(data.memory))data.memory=[];return data.memory}catch(e){return[]}}
+function memAdd(t){t=String(t||'').replace(/\s+/g,' ').trim().replace(/^[-•*]\s*/,'').slice(0,160);if(t.length<3)return;var L=memList(),k=t.toLowerCase().replace(/[^a-z0-9 ]/g,'');for(var i=0;i<L.length;i++){var o=String(L[i].t||'').toLowerCase().replace(/[^a-z0-9 ]/g,'');if(o===k||(k.length>12&&(o.indexOf(k)>=0||k.indexOf(o)>=0))){L[i]={t:t.length>=String(L[i].t).length?t:L[i].t,d:Date.now()};return}}L.push({t:t,d:Date.now()});while(L.length>80)L.shift()}
+function memArchive(){try{var c=data.chat||[];if(!c.length)return;if(!Array.isArray(data.chatArchive))data.chatArchive=[];c.forEach(function(m){if(m&&m.role==='user')data.chatArchive.push({t:String(m.content||'').slice(0,240),d:Date.now()})});while(data.chatArchive.length>200)data.chatArchive.shift();if(typeof persist==='function')persist()}catch(e){}}
+document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#clearChat'))memArchive()},true);
+window.sfCoachMemory={list:memList,add:function(t){memAdd(t);try{persist()}catch(e){}},forget:function(i){var L=memList();L.splice(i,1);try{persist()}catch(e){}}};
+function memBlock(){var L=memList(),A=[];try{A=(data.chatArchive||[]).slice(-25)}catch(e){}
+ var out='MEMORY (very important): you remember this student across all chats, like a real tutor who knows them.';
+ out+=L.length?'\nThings the student has told you before:\n'+L.map(function(m){return'- '+m.t}).join('\n'):'\nYou do not know anything extra about them yet.';
+ if(A.length)out+='\nThings they asked about in earlier chats (oldest first):\n'+A.map(function(m){return'- '+String(m.t).replace(/\s+/g,' ').slice(0,140)}).join('\n');
+ out+='\nUse these naturally when they help (e.g. their exam dates, weak topics, goals, likes, how they like things explained). Never say you cannot remember earlier chats. If they ask what you remember, tell them.\nSAVING NEW MEMORIES: whenever the student tells you something lasting about themselves or their studies (name, class, school, exam dates, goals, weak or strong topics, what they find hard, how they like answers, their timetable, or anything they ask you to remember), add it at the very END of your reply on its own line exactly like: [[remember: short fact in third person]] — one line per fact, max 3. Do not mention these lines in your answer. Do not save one-off questions or things already listed above.\nFORGETTING: if the student asks you to forget something, or says a remembered fact is wrong or changed, add at the END a line exactly like [[forget: a few words from the old fact]] (and a new [[remember: ...]] line if there is a corrected fact), and tell them you have forgotten/updated it.';
+ return out}
+function memForget(q){q=String(q||'').toLowerCase().trim();if(q.length<2)return;var L=memList(),words=q.split(/\W+/).filter(function(w){return w.length>2});for(var i=L.length-1;i>=0;i--){var t=String(L[i].t||L[i].text||L[i]).toLowerCase();var hit=t.indexOf(q)>=0||(words.length&&words.filter(function(w){return t.indexOf(w)>=0}).length>=Math.max(1,Math.ceil(words.length*.6)));if(hit)L.splice(i,1)}}
+function memStrip(reply){return String(reply||'').replace(/\[\[\s*forget\s*:\s*([^\]]{1,220})\]\]\s*/gi,function(_,f){memForget(f);return''}).replace(/\[\[\s*remember\s*:\s*([^\]]{2,220})\]\]\s*/gi,function(_,f){memAdd(f);return''}).replace(/\n{3,}/g,'\n\n').trim()}
+function ttRule(){if(!plus())return 'TIMETABLE: Making a study timetable and adding it into their StudyStarx Smart Timetable is a StudyStarx Plus feature. If they ask for that, say in 2–3 short lines that with Plus you build the whole plan and put it straight into their Smart Timetable, and give one quick study tip instead. Do not write a timetable and never output a ```timetable block.';var now=new Date(),dn=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],info=null;try{info=window.sfTTInfo&&sfTTInfo()}catch(e){}
+ return 'TIMETABLE: Today is '+dn[now.getDay()]+' '+day()+'. You CAN add study sessions to the student\'s StudyStarx timetable. When they ask you to plan, schedule or add sessions to their timetable/planner/calendar, put ALL the sessions at the END of your reply in ONE fenced block that starts with ```timetable and ends with ```, containing only a JSON array like [{"date":"YYYY-MM-DD","start":"HH:MM","end":"HH:MM","subject":"Biology","title":"Biology – cell structure revision"}]. Use real dates starting from today, 24-hour times, 30–60 minute sessions with breaks, at most 3 sessions a day and at most 90 sessions. '+(info?'Their usual study time: weekdays '+info.wdStart+'–'+info.wdEnd+', weekends '+info.weStart+'–'+info.weEnd+'.'+(info.blocks&&info.blocks.length?' Busy times to avoid: '+info.blocks.join('; ')+'.':''):'Use 16:30–21:30 on weekdays and 09:30–20:00 at weekends.')+' Outside the block give only a short summary (a few lines, e.g. which subjects on which days) — do not repeat every session. Do not make a file for a timetable unless they ask for a file. Never say you cannot add things to their timetable.'}
+function system(){
+ var lv=($('#coachLevel')||{}).value||'',sub=($('#coachSubject')||{}).value||'';
+ var brief='';try{brief=window.sfCoachBrief?sfCoachBrief():''}catch(e){}
+ var u=use(),L=lim(),canMake=u.make<L.make;
+ return [
+ 'You are StudyStarx Coach, a kind, patient school tutor (IGCSE, Cambridge AS/A Level, IB Diploma, CBSE/ICSE and similar).',
+ memBlock(),
+ 'STUDENT: '+(profileLine()||'No survey yet.')+(lv?' Coach setting level: '+lv+'.':'')+(sub&&sub!=='General'?' Current subject: '+sub+'.':''),
+ 'CONVERSATION (very important): this is an ongoing chat. Read the earlier messages before answering. If the student says things like "why?", "I don\'t get it", "explain step 2", "give another example", "what about the second one", "and in real life?" or uses words like "this/that/it", they mean the topic of your previous answer — continue from it, do not start a new topic and do not ask what they mean if it is clear from the chat. If they say they don\'t understand, explain the same idea again in a simpler, different way (new analogy, smaller steps).',
+ 'GREETINGS AND SMALL TALK: if the student just says hi, hello, thanks, ok, bye or chats casually, reply in 1–2 friendly sentences like a real person (use their name), and ask what they want to study today. Do NOT use steps, "Final answer", "Quick check" or a syllabus note for these.\nUNDERSTAND THE REAL NEED: before answering, silently work out what the student actually wants (a definition, a step-by-step solution, a check of their own answer, exam technique, motivation, or reassurance). If they sound stressed or stuck, start with one short encouraging sentence. If the question is genuinely unclear even with the chat history, ask ONE short clarifying question instead of guessing.',
+ 'MAKE IT EASY TO UNDERSTAND:',
+ '- Start with a 1–2 sentence direct answer in plain words, like you are talking to a friend.',
+ '- Then explain in short numbered steps. One idea per step. Short sentences. No long paragraphs.',
+ '- Explain every technical word the first time you use it, in brackets.',
+ '- Give one everyday example or comparison that makes the idea click.',
+ '- For maths/science: show every step of working on its own line, say WHY each step is done, and box the final answer as "Final answer: ...".',
+ '- Use plain text. Do NOT use LaTeX, $ signs or markdown tables. Write maths like: x^2 + 3x = 10, √16 = 4, 3/4.',
+ '- End with "Quick check:" and one short question so the student can test themselves.',
+ '- Match the student\'s level. If they say they don\'t understand, explain again more simply in a different way.',
+ 'SYLLABUS CHECK (do this for every new question): compare the question with the STUDENT details above (their syllabus/board, grade and subjects). If the topic is clearly outside them — a subject they do not take, a topic from a different syllabus, or work well above their grade (e.g. university level) — start your reply with exactly one line: "📌 Heads up: this isn\'t part of your '+(syl()||'syllabus')+' — I\'ll still explain it." Then answer normally, at their level. Do not add this line for follow-up questions on a topic you already flagged, for general study skills, or when it is part of their course or you are not sure.',
+ 'DIAGRAMS: When a diagram, graph, number line, triangle, circuit, cell, force diagram or table-like picture would really help (especially in maths and science), draw it as a simple SVG inside a fenced block that starts with ```svg and ends with ```. Rules: one <svg> with viewBox (about 0 0 360 240) and xmlns="http://www.w3.org/2000/svg", white background rect, clear labels with font-size 13+, simple lines and shapes only, no scripts, no images, no external links. Keep it small and correct. Then explain the diagram in words.',
+ canMake?'FILES: If the user asks you to make a file (notes, a worksheet, a summary sheet, a revision plan, flashcards list, a CSV table), put the whole file content inside a fenced block that starts with ```file:NAME.EXT (EXT is md, txt or csv) and ends with ```. Make only one file unless asked for more. Outside the block, say in one line what the file contains.':
+ 'FILES: The user has used today\'s file-making allowance. If they ask you to make a file, answer in the chat instead and say: "You have used today\'s free file creations — StudyStarx Plus lets you make more files."',
+ ttRule(),
+ 'If files are attached, read them carefully and answer about them. Be honest when unsure; never invent official mark schemes.',
+ brief
+ ].filter(Boolean).join('\n');
+}
+window.sfCoachPrep=function(question){
+ var hist=[];try{var all_=(data.chat||[]).slice(-24),n_=all_.length;hist=all_.map(function(m,k){var c=String(m.content||'').replace(/```(svg|file:[^\n]*|timetable|ttadded:\d+)[\s\S]*?```/g,'[$1 shown]').replace(/\n{3,}/g,'\n\n');/* recent turns in full, older turns shortened: keeps the conversation but uses far fewer tokens */var cap=k>=n_-4?2000:500;return{role:m.role,content:c.length>cap?c.slice(0,cap)+'…':c}})}catch(e){}
+ var files=pending.map(function(p){return{mimeType:p.mimeType,data:p.data}});
+ if(files.length){var u=use();u.att+=files.length;setUse(u)}
+ pending=[];drawChips();
+ return{system:system(),messages:hist,user:question,files:files,allowSearchFallback:!files.length,maxTokens:plus()&&/time ?table|schedul|planner|calendar|plan (my|the|a)|study plan/i.test(question||'')?9000:4000};
+};
+window.sfCoachAfter=function(reply){
+ reply=memStrip(reply);try{persist()}catch(e){}var u=use(),L=lim(),n=0;
+ reply=reply.replace(/```file:[^\n]*\n[\s\S]*?```/g,function(m){if(u.make<L.make){u.make++;n++;return m}return'[File not created — you have used today\'s '+L.make+' free file creations. StudyStarx Plus lets you make up to '+LIM.plus.make+' files a day.]'});
+ setUse(u);
+ reply=reply.replace(/```timetable\s*\n?([\s\S]*?)```/g,function(m,js){var list=null;try{var a=js.indexOf('['),b=js.lastIndexOf(']');list=JSON.parse(js.slice(a,b+1))}catch(e){}var added=0;if(!plus())return 'With StudyStarx Plus I can put this plan straight into your Smart Timetable.';if(Array.isArray(list)&&window.sfTTAdd)added=sfTTAdd(list);return added?'```ttadded:'+added+'\n```':'(I could not add these sessions automatically — please try asking again.)'});
+ return reply;
+};
+/* save a file: inside the Android app use the app's own saver (normal web downloads don't work there) */
+function saveBlob(name,blob,mime){var N=window.SFNative;if(N&&typeof N.saveFile==='function'){var r=new FileReader();r.onload=function(){try{var b64=String(r.result).split(',')[1];var res=N.saveFile(name,mime,b64);toast(res==='ok'?'Saved in Downloads › StudyStarx ✓':res==='open'?'Opening your file…':'Could not save the file. Please try again.')}catch(e){toast('Could not save the file. Please try again.')}};r.readAsDataURL(blob);return}
+ var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},800);toast('Downloading '+name+'…')}
+window.sfSaveBlob=saveBlob;
+/* "plan my timetable / add it to my timetable" is Plus: free students see the Plus screen and no AI is used */
+var TTRX=/\b(plan|make|create|build|prepare|set ?up|organi[sz]e|schedule|design|generate|give me)\b[^.?!\n]{0,50}\b(time ?-?table|schedule|study plan|revision plan|planner|study routine)\b|\badd\b[^.?!\n]{0,50}\b(to|in|into)\b[^.?!\n]{0,12}\b(time ?-?table|planner|calendar|schedule)\b/i;
+document.addEventListener('submit',function(e){if(!e.target||e.target.id!=='chatForm'||plus())return;var t=document.getElementById('chatText'),v=t&&t.value.trim();if(!v||!TTRX.test(v))return;e.preventDefault();e.stopImmediatePropagation();try{if(window.sfPlusGate)sfPlusGate('Timetable planning is a Plus feature','With StudyStarx Plus, the coach plans your whole week or month around your exams and free time, and adds every session straight into your Smart Timetable.');else toast('Timetable planning is a Plus feature.')}catch(_){}},true);
+
+/* ---------- render diagrams and files inside answers ---------- */
+function cleanSvg(src){
+ var s=String(src||'').trim();var a=s.indexOf('<svg'),b=s.lastIndexOf('</svg>');if(a<0||b<0)return'';s=s.slice(a,b+6);
+ s=s.replace(/<(script|foreignObject|iframe|image|use)[\s\S]*?(<\/\1>|\/>)/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,'').replace(/(href|xlink:href)\s*=\s*("[^"]*"|'[^']*')/gi,'');
+ if(!/xmlns=/.test(s))s=s.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');
+ return s;
+}
+var RX=/```(svg|file:([^\n`]*)|ttadded:(\d+))\n?([\s\S]*?)```/g;
+function decorate(){
+ var m=$('#messages');if(!m)return;
+ [].slice.call(m.querySelectorAll('.bubble:not(.user)')).forEach(function(b){
+  if(b.dataset.cx==='1')return;
+  var host=b.querySelector(':scope > div')||b;var t=host===b?[].slice.call(b.childNodes).filter(function(n){return n.nodeType===3}).map(function(n){return n.textContent}).join(''):host.textContent;
+  if(t.indexOf('```svg')<0&&t.indexOf('```file:')<0&&t.indexOf('```ttadded:')<0){b.dataset.cx='1';return}
+  b.dataset.cx='1';
+  var out=document.createElement('div');out.className='cx-body';var last=0,mm;RX.lastIndex=0;
+  while((mm=RX.exec(t))){
+   if(mm.index>last)out.appendChild(document.createTextNode(t.slice(last,mm.index).replace(/^\n+/,'').replace(/\n+$/,'\n')));
+   if(mm[3]){var tc=document.createElement('div');tc.className='cx-file cx-tt';tc.innerHTML='<div class="cx-fi">📅</div><div class="cx-fm"><b>Added '+mm[3]+' sessions to your timetable ✓</b><small>They are pinned, so re-planning won\'t move them.</small></div><button type="button" class="cx-dl" data-kind="tt">Open timetable</button>';out.appendChild(tc)}
+   else if(mm[1]==='svg'){var sv=cleanSvg(mm[4]);if(sv){var fig=document.createElement('figure');fig.className='cx-fig';var img=new Image();img.alt='Diagram';img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sv);fig.appendChild(img);var cap=document.createElement('figcaption');cap.innerHTML='Diagram · <button type="button" class="cx-dl" data-kind="svg">Download</button>';fig.appendChild(cap);fig.dataset.src=sv;out.appendChild(fig)}}
+   else{var name=(mm[2]||'notes.md').trim().replace(/[^\w.\- ]/g,'').slice(0,60)||'notes.md';if(!/\.(md|txt|csv)$/i.test(name))name+='.md';var body=mm[4].replace(/\s+$/,'');
+    var card=document.createElement('div');card.className='cx-file';card.dataset.name=name;card.dataset.body=body;
+    card.innerHTML='<div class="cx-fi">'+(/csv$/i.test(name)?'📊':'📄')+'</div><div class="cx-fm"><b>'+esc(name)+'</b><small>'+body.split('\n').length+' lines · made by StudyStarx Coach</small></div><button type="button" class="cx-dl" data-kind="file">⬇ Download</button><button type="button" class="cx-pv">Preview</button><pre class="cx-pre" hidden>'+esc(body)+'</pre>';out.appendChild(card)}
+   last=RX.lastIndex;
+  }
+  if(last<t.length)out.appendChild(document.createTextNode(t.slice(last).replace(/^\n+/,'')));
+  if(host===b){[].slice.call(b.childNodes).forEach(function(n){if(n.nodeType===3)n.remove()});var sm=b.querySelector('small');if(sm)sm.after(out);else b.prepend(out)}
+  else{host.textContent='';host.appendChild(out)}
+ });
+}
+document.addEventListener('click',function(e){
+ var d=e.target.closest('.cx-dl');
+ if(d&&d.dataset.kind==='tt'){try{go('timetable')}catch(e){}return}
+ if(d){var blob,name;if(d.dataset.kind==='svg'){var f=d.closest('.cx-fig');blob=new Blob([f.dataset.src],{type:'image/svg+xml'});name='diagram.svg'}else{var c=d.closest('.cx-file');name=c.dataset.name;blob=new Blob([c.dataset.body],{type:/csv$/i.test(name)?'text/csv':'text/plain'})}
+  saveBlob(name,blob,blob.type||'text/plain');return}
+ var p=e.target.closest('.cx-pv');if(p){var pre=p.parentNode.querySelector('.cx-pre');pre.hidden=!pre.hidden;p.textContent=pre.hidden?'Preview':'Hide'}
+});
+
+function start(){
+ install();
+ var m=$('#messages');if(m&&!m.dataset.cxo){m.dataset.cxo='1';new MutationObserver(function(){decorate()}).observe(m,{childList:true,subtree:false});decorate()}
+ // the old Math Solver page now opens the AI Coach
+ try{if(typeof go==='function'&&!go.__cx){var g=go;var w=function(p){return g.apply(this,[p==='math'?'coach':p].concat([].slice.call(arguments,1)))};w.__cx=true;window.go=w;try{go=w}catch(e){}}}catch(e){}
+ var sugg=document.querySelector('#page-coach .suggestions');if(sugg&&!sugg.dataset.cx){sugg.dataset.cx='1';sugg.insertAdjacentHTML('beforeend','<button data-prompt="Solve this maths problem step by step and draw a diagram if it helps: ">Maths with diagram</button><button data-prompt="Make me a one-page revision notes file on ">Make a notes file</button>');
+  [].slice.call(sugg.querySelectorAll('button[data-prompt]')).slice(-2).forEach(function(b){b.addEventListener('click',function(){var t=$('#chatText');if(t){t.value=b.dataset.prompt;t.focus()}})})}
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+setTimeout(start,1200);
+})();
+/* memory viewer: 🧠 button in the coach header */
+(function(){function esc2(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function paint(ov){var L=window.sfCoachMemory?sfCoachMemory.list():[];ov.innerHTML='<div class="mm-box" role="dialog" aria-label="What the coach remembers"><div class="mm-hd"><b>🧠 What your coach remembers</b><button type="button" class="mm-x" data-mm="close">Done</button></div><p class="mm-sub">The coach saves things you tell it — like your exams, goals and weak topics — and uses them in every chat.</p>'+(L.length?'<ul class="mm-list">'+L.map(function(m,i){return'<li><span>'+esc2(m.t)+'</span><button type="button" data-mmdel="'+i+'" aria-label="Forget">✕</button></li>'}).join('')+'</ul>':'<p class="mm-empty">Nothing yet. Tell the coach about yourself — e.g. “My maths exam is on 12 March” or “Remember I find algebra hard”.</p>')+'<form class="mm-add" id="mmAdd"><input id="mmIn" maxlength="160" placeholder="Add something to remember…"><button type="submit">Add</button></form></div>'}
+function open(){var ov=document.getElementById('mmOv');if(!ov){ov=document.createElement('div');ov.id='mmOv';ov.className='mm-ov';document.body.appendChild(ov)}paint(ov);ov.hidden=false}
+document.addEventListener('click',function(e){var b=e.target.closest('#mmBtn');if(b){e.preventDefault();open();return}var ov=document.getElementById('mmOv');if(!ov||ov.hidden||!ov.contains(e.target))return;if(e.target===ov||e.target.closest('[data-mm="close"]')){ov.hidden=true;return}var d=e.target.closest('[data-mmdel]');if(d){sfCoachMemory.forget(+d.dataset.mmdel);paint(ov)}});
+document.addEventListener('submit',function(e){if(e.target&&e.target.id==='mmAdd'){e.preventDefault();var i=document.getElementById('mmIn');if(i&&i.value.trim()){sfCoachMemory.add(i.value.trim());paint(document.getElementById('mmOv'))}}});
+function btn(){var h=document.querySelector('#page-coach .chathead');if(!h||document.getElementById('mmBtn'))return;var c=document.getElementById('clearChat');var b=document.createElement('button');b.type='button';b.id='mmBtn';b.className='mm-btn';b.title='What the coach remembers';b.setAttribute('aria-label','What the coach remembers');b.textContent='🧠';if(c&&c.parentNode)c.parentNode.insertBefore(b,c);else h.appendChild(b)}
+/* memory works by just talking to the coach — no separate button */
+setInterval(function(){var b=document.getElementById('mmBtn');if(b)b.remove()},1500)})();
 
 </script></body></html>
