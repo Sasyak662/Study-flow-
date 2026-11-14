@@ -905,7 +905,7 @@ $('#testAIConnection')?.addEventListener('click',async()=>{const status=$('#aiCo
 if(data.ai&&data.ai.disabled){data.ai={provider:'gemini',model:'gemini-3.5-flash-lite',server:true};}
 if(data.ai?.key){delete data.ai.key;delete data.ai.endpoint;data.ai={provider:'gemini',model:'gemini-3.5-flash-lite',server:true};try{localStorage.setItem('studyflow-data',JSON.stringify(data))}catch(_e){}}
 if(data.ai?.disabled!==true&&!data.ai?.server)data.ai={provider:'gemini',model:'gemini-3.5-flash-lite',server:true};syncAIProviderUI();updateArenaStats();
-$('#exportData').onclick=()=>{let u=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download='studyflow-backup-'+today()+'.json';a.click();URL.revokeObjectURL(u)};$('#importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let o=JSON.parse(await f.text());if(!o||typeof o!=='object'||!o.profile||!Array.isArray(o.tasks)||!Array.isArray(o.notes)||!Array.isArray(o.flashcards)||!Array.isArray(o.mistakes))throw Error('This file is not a valid StudyStarx backup.');if(o.tasks.some(t=>!t||typeof t.title!=='string'||typeof t.date!=='string'))throw Error('The backup contains an invalid task.');data={...clone(base),...o,profile:{...clone(base.profile),...(o.profile||{})},quiz:{...clone(base.quiz),...(o.quiz||{})},sessions:Array.isArray(o.sessions)?o.sessions:[],chat:Array.isArray(o.chat)?o.chat:[]};persist();scheduleReminders();toast('Backup imported')}catch(err){toast(err.message)}e.target.value=''};$('#resetData').onclick=()=>{if(confirm('Reset all StudyStarx data in this browser? Export a backup first if you want to keep it.')){data=clone(base);localStorage.removeItem('studyflow-data');persist();toast('App data reset')}};syncAIProviderUI();updateArenaStats();
+$('#exportData').onclick=()=>{let u=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download='studyflow-backup-'+today()+'.json';a.click();URL.revokeObjectURL(u)};$('#importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let o=JSON.parse(await f.text());if(!o||typeof o!=='object'||!o.profile||!Array.isArray(o.tasks)||!Array.isArray(o.notes)||!Array.isArray(o.flashcards)||!Array.isArray(o.mistakes))throw Error('This file is not a valid StudyStarx backup.');if(o.tasks.some(t=>!t||typeof t.title!=='string'||typeof t.date!=='string'))throw Error('The backup contains an invalid task.');data={...clone(base),...o,profile:{...clone(base.profile),...(o.profile||{})},quiz:{...clone(base.quiz),...(o.quiz||{})},sessions:Array.isArray(o.sessions)?o.sessions:[],chat:Array.isArray(o.chat)?o.chat:[]};persist();scheduleReminders();toast('Backup imported')}catch(err){toast(err.message)}e.target.value=''};if($('#resetData'))$('#resetData').onclick=()=>{if(confirm('Reset all StudyStarx data in this browser? Export a backup first if you want to keep it.')){data=clone(base);localStorage.removeItem('studyflow-data');persist();toast('App data reset')}};syncAIProviderUI();updateArenaStats();
 // Quiz Studio: editable, locally saved game-style creator and solo play mode.
 const blankCustomQuestion=()=>({id:uid(),text:'',options:['Answer A','Answer B','Answer C','Answer D'],correct:0,time:20});
 let customQuizzes=[];try{customQuizzes=JSON.parse(localStorage.getItem('studyflow-custom-quizzes')||'[]')}catch(e){customQuizzes=[]}
@@ -5958,7 +5958,7 @@ function worldDone(id){var L=BL[id]||B_ISLAND,bt=(id===WORLD)?S().built:((S().wo
 function rentNow(){var s=S();if(!B.some(function(b){return KF(b)==='bank'}))return 0;return B.filter(function(b){return s.built[b.k]&&b.inc}).reduce(function(a,b){return a+b.inc},0)}
 /* ---------- rewards from the rest of the app ---------- */
 function gain(c,xp,why){var s=S();if(c>0&&why!=='raw'){markStudy();c=Math.round(c*mult())}s.coins=(+s.coins||0)+c;if(xp)s.xp=(+s.xp||0)+xp;save();bump();if(G.wrap&&isOn()){floatText(c>0?'+'+c+' 🪙'+(why&&why!=='xp'?' '+why:''):'+'+(xp||0)+' XP')}}
-window.addEventListener('sf:reward',function(e){/* Coins, XP and gems come ONLY from StudyQuest quizzes (see SFQuestBank + Study Run). Other study still counts for the daily streak. */var d=e.detail||{};if((+d.coins||0)>0)try{markStudy()}catch(_){}});
+window.addEventListener('sf:reward',function(e){/* studying without AI also earns coins (capped per day, see sfEarn) */var d=e.detail||{};if((+d.coins||0)>0){try{markStudy()}catch(_){}try{if(window.sfEarn&&d.src!=='quiz'&&d.src!=='focus')sfEarn(+d.coins,d.src)}catch(_){}}});
 function focusCoins(){var s=S();var total=0;try{var f=JSON.parse(localStorage.getItem('studyflow-focus-center-v1')||'{}');(f.sessions||[]).forEach(function(x){total+=+x.minutes||0})}catch(e){}if(s.focusSeen<0){s.focusSeen=total;save();return}if(total>s.focusSeen){var add=Math.floor((total-s.focusSeen)/2);if(add>0){s.focusSeen+=add*2}if(total>0&&focusToday()>0)markStudy()}}
 
 /* ---------- canvas & loop ---------- */
@@ -8872,7 +8872,7 @@ function topUp(sub,force,count){count=Math.max(8,Math.min(25,+count||25));
  if(e.day!==today()){e.day=today();e.calls=0}
  if(!force&&(unseen(e)>=15||e.calls>=3))return Promise.resolve(false);
  if(!autoOn()&&!firstDay())return Promise.resolve(false);
- if(e.qs.length>=400)return Promise.resolve(false);
+ if(e.qs.length>=200)return Promise.resolve(false);
  busy[sub]=1;e.calls++;save();
  var p=P(),have=e.qs.slice(-40).map(function(q){return q.text});
  var body={purpose:'quest',first:firstDay(),temperature:0.5,search:false,system:'You write accurate multiple-choice quiz questions for a school revision game. Return ONLY JSON: {"questions":[{"q":"question (max 25 words)","options":["A","B","C","D"],"work":"short working or reason that proves the answer (max 30 words)","correct":0,"why":"one short sentence","topic":"short topic name","pic":"English Wikipedia article title of a real thing that illustrates the question (e.g. Mitochondrion, Mount Everest, Photosynthesis) — must NOT reveal the answer; empty string for pure maths/grammar"}]}. Exactly '+count+' questions. Exactly 4 options, only one correct. For every question, first solve it yourself in "work", then check that the option at index "correct" matches your working exactly. Vary the position of the correct option. Wrong options must be plausible. Plain text (no LaTeX). Only facts that are certainly true.',
@@ -8884,7 +8884,7 @@ function topUp(sub,force,count){count=Math.max(8,Math.min(25,+count||25));
   arr.forEach(function(q){if(q&&!q.q)q.q=q.question||q.text;if(q&&q.correct==null)q.correct=q.correctIndex!=null?q.correctIndex:q.answer;if(q&&!q.why)q.why=q.explanation||q.explain;if(!q||!q.q||!Array.isArray(q.options)||q.options.length!==4)return;var c=+q.correct;if(!(c>=0&&c<4))return;if(q.options.some(function(o){return!String(o||'').trim()}))return;var id=hash(q.q);if(ids[id])return;ids[id]=1;e.qs.push({id:id,text:sup(String(q.q)).slice(0,300),options:q.options.map(function(o){return sup(String(o)).slice(0,160)}),correct:c,explain:sup(String(q.why||'')).slice(0,300),topic:String(q.topic||'').slice(0,60),pic:String(q.pic||'').slice(0,80),src:'ai'});added++});
   if(added){e.ai=(e.ai||0)+added;save()}return added>0}).catch(function(){busy[sub]=0;return false})}
 // One AI request for several subjects at once (used on the first day, so many subjects still cost few requests)
-function topUpMulti(subs,count){count=Math.max(8,Math.min(25,+count||20));subs=subs.filter(function(x){return!busy[x]});if(!subs.length)return Promise.resolve(0);if(subs.length===1)return topUp(subs[0],true,count).then(function(ok){return ok?1:0});
+function topUpMulti(subs,count){count=Math.max(8,Math.min(25,+count||20));subs=subs.filter(function(x){return!busy[x]&&entry(x).qs.length<200});if(!subs.length)return Promise.resolve(0);if(subs.length===1)return topUp(subs[0],true,count).then(function(ok){return ok?1:0});
  subs.forEach(function(x){busy[x]=1;entry(x)});var p=P();
  var body={purpose:'quest',first:firstDay(),temperature:0.5,search:false,system:'You write accurate multiple-choice quiz questions for a school revision game. Return ONLY JSON: {"questions":[{"subject":"one of the subject names exactly as given","q":"question (max 25 words)","options":["A","B","C","D"],"work":"short working or reason that proves the answer (max 30 words)","correct":0,"why":"one short sentence","topic":"short topic name","pic":"English Wikipedia article title of a real thing that illustrates the question (e.g. Mitochondrion, Mount Everest, Photosynthesis) — must NOT reveal the answer; empty string for pure maths/grammar"}]}. Exactly '+count+' questions in total, shared evenly between the subjects. Exactly 4 options, only one correct. For every question, first solve it yourself in "work", then check that the option at index "correct" matches your working exactly. Vary the position of the correct option. Wrong options must be plausible. Plain text (no LaTeX). Only facts that are certainly true.',
   user:'Subjects: '+subs.join(' | ')+'\nStudent: '+level()+'\nFor each subject cover different core syllabus topics for exactly this course and level. Mix easy, medium and a few hard questions.'+(function(){var h=[];subs.forEach(function(x){entry(x).qs.slice(-12).forEach(function(q){h.push(q.text)})});return h.length?'\nDo not repeat these questions: '+h.join(' | ').slice(-1800):''})()};
@@ -12632,5 +12632,49 @@ document.addEventListener('submit',function(e){if(e.target&&e.target.id==='mmAdd
 function btn(){var h=document.querySelector('#page-coach .chathead');if(!h||document.getElementById('mmBtn'))return;var c=document.getElementById('clearChat');var b=document.createElement('button');b.type='button';b.id='mmBtn';b.className='mm-btn';b.title='What the coach remembers';b.setAttribute('aria-label','What the coach remembers');b.textContent='🧠';if(c&&c.parentNode)c.parentNode.insertBefore(b,c);else h.appendChild(b)}
 /* memory works by just talking to the coach — no separate button */
 setInterval(function(){var b=document.getElementById('mmBtn');if(b)b.remove()},1500)})();
+
+</script><style id="sf-ne-css">
+.ne-card{border-radius:22px!important}
+.ne-hd h2{margin:0 0 4px;font-size:18px}.ne-hd p{margin:0 0 12px;color:var(--muted,#6b7280);font-size:13.5px}
+.ne-list{display:grid;gap:8px}
+.ne-it{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1.5px solid var(--line,#e5e7eb);background:var(--card,#fff);color:inherit;border-radius:16px;padding:10px 12px;cursor:pointer;font:inherit}
+.ne-it.full{background:#f0fdf4;border-color:#bbf7d0}
+.ne-e{font-size:24px;width:40px;height:40px;display:grid;place-items:center;background:#eef2ff;border-radius:12px;flex:0 0 auto}
+.ne-t{flex:1;min-width:0;display:grid;gap:2px}.ne-t b{font-size:14.5px}.ne-t small{color:var(--muted,#6b7280);font-size:12.5px}
+.ne-bar{height:6px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:4px}.ne-bar i{display:block;height:100%;background:linear-gradient(90deg,#f59e0b,#eab308)}
+.ne-n{font-weight:800;font-size:12.5px;color:#b45309;white-space:nowrap}.ne-it.full .ne-n{color:#15803d}
+
+</style><script id="sf-ne-js">
+/* StudyQuest: earn coins and XP from studying that uses NO AI (focus, flashcards, timetable, mistakes, live classes, daily check-in).
+   Each kind has a daily cap so quizzes stay worthwhile. */
+(function(){
+var SRC={
+ focus:{cap:240,n:'Focus timer',e:'⏱️',how:'2 coins per minute',go:'focus'},
+ review:{cap:120,n:'Flashcard review',e:'🃏',how:'+10 per review round',go:'flashcards'},
+ plan:{cap:120,n:'Timetable sessions',e:'📅',how:'+3 to +12 per session done',go:'planner'},
+ learn:{cap:100,n:'Fix mistakes & learn',e:'🛠️',how:'+2 per fixed mistake, +15 per round',go:'mistakes'},
+ live:{cap:100,n:'Live classes',e:'🎥',how:'join, answer and take part',go:'classes'},
+ checkin:{cap:20,n:'Daily check-in',e:'🎁',how:'+20 just for opening StudyStarx',go:null}
+};
+function D(){try{return typeof data!=='undefined'?data:null}catch(e){return null}}
+function I(){return window.StudyFlowIsland}
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function E(){var d=D();if(!d)return null;if(!d.earn||d.earn.d!==today())d.earn={d:today(),s:{}};return d.earn}
+function save(){try{persist()}catch(e){}}
+window.sfEarn=function(c,src){c=Math.round(+c||0);var S0=SRC[src];if(c<=0||!S0)return 0;var e=E();if(!e)return 0;var used=e.s[src]||0,g=Math.min(c,Math.max(0,S0.cap-used));if(!g)return 0;
+ var I0=I();if(!I0||typeof I0.gain!=='function')return 0;e.s[src]=used+g;save();try{I0.gain(g,Math.max(1,Math.round(g/2)),S0.e)}catch(_){e.s[src]=used;save();return 0}try{paint()}catch(_){}return g};
+/* focus minutes: 2 coins a minute (only minutes done from now on count) */
+function focusMins(){var m=0;try{var f=JSON.parse(localStorage.getItem('studyflow-focus-center-v1')||'{}');(f.sessions||[]).forEach(function(x){m+=+x.minutes||0})}catch(e){}var m2=0;try{(D().sessions||[]).forEach(function(x){m2+=+x.minutes||0})}catch(e){}return Math.max(m,m2)}
+function tickFocus(){var d=D();if(!d||!I())return;var t=focusMins();if(d.earnFocus==null||d.earnFocus>t){d.earnFocus=t;save();return}var add=t-d.earnFocus;if(add>=1){d.earnFocus=t;save();window.sfEarn(add*2,'focus')}}
+function checkin(){var e=E();if(e&&!(e.s.checkin>0)&&I()&&I().gain)window.sfEarn(20,'checkin')}
+setInterval(function(){try{tickFocus();checkin()}catch(e){}},15000);setTimeout(function(){try{tickFocus();checkin()}catch(e){}},6000);
+/* card on the StudyQuest page */
+function paint(){var pg=document.getElementById('page-quest');if(!pg)return;var c=document.getElementById('neCard');var e=E()||{s:{}};
+ var html='<div class="ne-hd"><h2>🪙 Earn coins without quizzes</h2><p>Study your way — every one of these gives coins and XP to build your world.</p></div><div class="ne-list">'+Object.keys(SRC).map(function(k){var s=SRC[k],u=Math.min(e.s[k]||0,s.cap),pc=Math.round(u/s.cap*100);return'<button type="button" class="ne-it'+(u>=s.cap?' full':'')+'"'+(s.go?' data-nego="'+s.go+'"':'')+'><span class="ne-e">'+s.e+'</span><span class="ne-t"><b>'+s.n+'</b><small>'+s.how+'</small><span class="ne-bar"><i style="width:'+pc+'%"></i></span></span><span class="ne-n">'+(u>=s.cap?'✓ Max today':u+' / '+s.cap)+'</span></button>'}).join('')+'</div>';
+ if(!c){c=document.createElement('div');c.id='neCard';c.className='card ne-card';var after=document.getElementById('sqAutoCard')||document.querySelector('#page-quest .card');if(after&&after.parentNode===pg)after.insertAdjacentElement('afterend',c);else pg.appendChild(c)}
+ if(c.dataset.h!==html){c.innerHTML=html;c.dataset.h=html}}
+document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('[data-nego]');if(!b)return;try{go(b.dataset.nego)}catch(e){}});
+setInterval(function(){try{paint()}catch(e){}},2000);
+})();
 
 </script></body></html>
