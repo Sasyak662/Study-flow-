@@ -226,7 +226,7 @@ public class MainActivity extends Activity {
                 org.json.JSONObject o = new org.json.JSONObject();
                 o.put("usage", Lock.hasUsage(a)); o.put("overlay", Lock.hasOverlay(a)); o.put("acc", Lock.serviceEnabled(a));
                 o.put("battery", Lock.batteryOk(a)); o.put("xiaomi", Lock.isXiaomi()); o.put("ready", Lock.ready(a));
-                o.put("sdk", Build.VERSION.SDK_INT); o.put("v", 6);
+                o.put("sdk", Build.VERSION.SDK_INT); o.put("v", 7);
                 o.put("watch", WatchService.running && System.currentTimeMillis() - WatchService.lastPoll < 8000);
                 o.put("events", WatchService.events); o.put("blocks", WatchService.blocks);
                 return o.toString();
@@ -279,7 +279,7 @@ public class MainActivity extends Activity {
             Activity a = MainActivity.this;
             try {
                 org.json.JSONObject o = new org.json.JSONObject();
-                o.put("until", Lock.active(a) ? Lock.until(a) : 0); o.put("strict", Lock.strict(a));
+                o.put("until", Lock.active(a) ? Lock.until(a) : 0); o.put("strict", Lock.strict(a)); o.put("pause", Lock.pausedUntil(a));
                 org.json.JSONArray names = new org.json.JSONArray();
                 java.util.Set<String> all = Lock.session(a); all.addAll(Lock.blocked(a));
                 PackageManager pm = getPackageManager();
@@ -339,6 +339,13 @@ public class MainActivity extends Activity {
             });
         }
         @JavascriptInterface public boolean lockStrict() { return Lock.strict(MainActivity.this); }
+        @JavascriptInterface public void pauseBlock(int minutes) {
+            if (!trusted()) return;
+            Activity a = MainActivity.this;
+            if (!Lock.active(a)) return;
+            Lock.pause(a, minutes);
+        }
+        @JavascriptInterface public void endPause() { if (!trusted()) return; Lock.endPause(MainActivity.this); }
         @JavascriptInterface public boolean guardOn() {
             if (!trusted()) return false;
             try {

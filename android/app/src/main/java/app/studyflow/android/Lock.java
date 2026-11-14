@@ -47,7 +47,15 @@ public final class Lock {
 
     /** Apps blocked only for the current lock (picked by name on the website, e.g. "youtube"). */
     static Set<String> session(Context c) { return new HashSet<>(p(c).getStringSet("sess", new HashSet<String>())); }
-    static boolean isBlocked(Context c, String pkg) { return blocked(c).contains(pkg) || session(c).contains(pkg); }
+    /** an earned break: blocked apps open again until this time, then the lock carries on by itself */
+    static long pausedUntil(Context c) { long t = p(c).getLong("pause", 0L); return t > System.currentTimeMillis() && active(c) ? t : 0L; }
+    static void pause(Context c, int minutes) {
+        int m = Math.max(1, Math.min(60, minutes));
+        long end = Math.min(until(c), System.currentTimeMillis() + m * 60_000L);
+        p(c).edit().putLong("pause", end).apply();
+    }
+    static void endPause(Context c) { p(c).edit().putLong("pause", 0L).apply(); }
+    static boolean isBlocked(Context c, String pkg) { if (pausedUntil(c) > 0) return false; return blocked(c).contains(pkg) || session(c).contains(pkg); }
     static boolean strict(Context c) { return active(c) && p(c).getBoolean("strict", false); }
 
     /** Finds installed apps whose package name or app name contains one of the given words. */

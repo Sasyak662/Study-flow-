@@ -11943,234 +11943,6 @@ document.addEventListener('submit',function(e){if(e.target&&e.target.id==='mmAdd
 function btn(){var h=document.querySelector('#page-coach .chathead');if(!h||document.getElementById('mmBtn'))return;var c=document.getElementById('clearChat');var b=document.createElement('button');b.type='button';b.id='mmBtn';b.className='mm-btn';b.title='What the coach remembers';b.setAttribute('aria-label','What the coach remembers');b.textContent='🧠';if(c&&c.parentNode)c.parentNode.insertBefore(b,c);else h.appendChild(b)}
 setInterval(btn,1500);setTimeout(btn,400)})();
 
-</script><style id="sf-fz-css">
-/* Focus Lock — phone app screen */
-body.fz-app #page-focuslock>:not(#fzRoot){display:none!important}
-#fzRoot{max-width:560px;margin:0 auto;padding-bottom:24px;font-family:Inter,system-ui,sans-serif;color:var(--ink,#1f2937)}
-.fz-hero{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#312e81,#6d28d9 60%,#a21caf);color:#fff;border-radius:22px;padding:20px 20px;margin-bottom:14px;box-shadow:0 12px 30px rgba(76,29,149,.25)}
-.fz-ht{flex:1}.fz-hero h1{margin:0;font-size:24px;letter-spacing:-.01em;color:#fff}.fz-hero p{margin:4px 0 0;opacity:.85;font-size:14px}.fz-hi{font-size:40px}
-.fz-card{background:var(--card,#fff);border:1px solid var(--line,#e7e8ef);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
-.fz-sh{display:flex;justify-content:space-between;align-items:baseline}.fz-sh b{font-size:17px}.fz-sh span{font-size:12.5px;color:var(--muted,#6b7280);font-weight:600}
-.fz-prog{height:6px;background:#eef0f6;border-radius:99px;margin:10px 0 6px;overflow:hidden}.fz-prog i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:99px;transition:width .4s}
-.fz-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line,#eef0f4)}.fz-step:first-of-type{border-top:0}
-.fz-si{flex:0 0 40px;height:40px;border-radius:12px;background:#eef2ff;display:grid;place-items:center;font-size:20px}
-.fz-step.ok .fz-si{background:#dcfce7;color:#15803d;font-weight:800}
-.fz-step>div{flex:1;min-width:0}.fz-step b{display:block;font-size:14.5px}.fz-step b em{font-style:normal;font-size:10.5px;font-weight:700;color:#0369a1;background:#e0f2fe;border-radius:99px;padding:1px 7px;margin-left:4px;vertical-align:1px}.fz-step small{display:block;color:var(--muted,#6b7280);font-size:12.5px;line-height:1.4;margin-top:2px}
-.fz-allow{flex:none;border:0;border-radius:12px;padding:10px 16px;font:700 14px Inter,system-ui,sans-serif;background:#4f46e5;color:#fff;cursor:pointer}
-.fz-done{flex:none;font-size:12.5px;font-weight:700;color:#15803d}
-.fz-mini .fz-step{padding:8px 0}.fz-fine{font-size:12.5px;color:var(--muted,#6b7280);margin:10px 0 0;text-align:center}
-.fz-shake{animation:fzS .5s}@keyframes fzS{0%,100%{transform:none}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-.fz-lbl{display:flex;justify-content:space-between;font-weight:700;font-size:15px;margin:4px 0 10px}.fz-lbl span{font-size:12.5px;color:var(--muted,#6b7280)}
-.fz-lbl:not(:first-child){margin-top:18px}
-.fz-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.fz-app{position:relative;display:grid;justify-items:center;gap:4px;padding:10px 2px 8px;border:1.5px solid var(--line,#e7e8ef);border-radius:16px;background:var(--card,#fff);cursor:pointer;color:inherit;font:inherit}
-.fz-ai{font-size:24px;line-height:1.1}.fz-an{font-size:11.5px;font-weight:600;line-height:1.2;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
-.fz-app.on{border-color:#6d28d9;background:#f5f3ff;box-shadow:0 0 0 3px rgba(109,40,217,.12)}
-.fz-ck{position:absolute;top:4px;right:5px;width:17px;height:17px;border-radius:50%;background:#6d28d9;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center}
-.fz-more-apps{display:block;width:100%;margin-top:10px;border:1.5px dashed #c4b5fd;background:transparent;border-radius:14px;padding:11px;font:600 13.5px Inter,system-ui,sans-serif;color:#5b21b6;cursor:pointer}
-.fz-durs{display:flex;flex-wrap:wrap;gap:8px}.fz-dur{flex:1 0 auto;min-width:64px;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);border-radius:999px;padding:10px 12px;font:600 13.5px Inter,system-ui,sans-serif;color:inherit;cursor:pointer}
-.fz-dur.on{background:#6d28d9;border-color:#6d28d9;color:#fff}
-.fz-sw{display:flex;align-items:center;gap:12px;margin-top:16px;cursor:pointer}.fz-sw>span{flex:1}.fz-sw b{display:block;font-size:14.5px}.fz-sw small{color:var(--muted,#6b7280);font-size:12.5px}
-.fz-sw input{position:absolute;opacity:0;pointer-events:none}.fz-sw i{flex:none;width:46px;height:28px;border-radius:99px;background:#d1d5db;position:relative;transition:background .2s}
-.fz-sw i:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
-.fz-sw input:checked+i{background:#6d28d9}.fz-sw input:checked+i:after{transform:translateX(18px)}
-.fz-pl{font-style:normal;font-size:10px;font-weight:800;color:#b45309;background:#fef3c7;border-radius:99px;padding:1px 6px;margin-left:4px}
-.fz-opt{margin-top:14px;border-top:1px solid var(--line,#eef0f4);padding-top:10px}.fz-opt summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--muted,#6b7280);list-style:none}.fz-opt summary:before{content:"▸ "}.fz-opt[open] summary:before{content:"▾ "}.fz-opt summary::-webkit-details-marker{display:none}
-.fz-start{display:block;width:100%;margin-top:18px;border:0;border-radius:16px;padding:16px;font:700 16.5px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 10px 24px rgba(79,70,229,.3);cursor:pointer}
-.fz-start.off{background:#c7c9d9;box-shadow:none}
-.fz-upd{background:#fff7ed;border-color:#fed7aa}.fz-upd p{margin:6px 0 12px;font-size:13.5px;color:#7c2d12}
-.fz-btn{display:inline-block;background:#ea580c;color:#fff;border-radius:12px;padding:10px 16px;font-weight:700;text-decoration:none}
-.fz-run{text-align:center;background:linear-gradient(180deg,#1e1b4b,#312e81);color:#fff;border-radius:24px;padding:26px 18px 22px;box-shadow:0 14px 34px rgba(30,27,75,.35)}
-.fz-ring{position:relative;width:220px;height:220px;margin:0 auto}.fz-ring svg{width:100%;height:100%;transform:rotate(-90deg)}.fz-ring circle{fill:none;stroke-width:12}.fz-ring .bg{stroke:rgba(255,255,255,.12)}.fz-ring .fg{stroke:#a78bfa;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
-.fz-rt{position:absolute;inset:0;display:grid;place-content:center}.fz-rt b{font-size:44px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}.fz-rt span{font-size:13px;opacity:.75}
-.fz-run h2{margin:16px 0 4px;color:#fff;font-size:21px}.fz-run p{margin:0 0 10px;opacity:.8;font-size:14px}
-.fz-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.fz-tags span{background:rgba(255,255,255,.12);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:600}
-.fz-stop{margin-top:18px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:14px;padding:11px 22px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
-.fz-strict{margin-top:16px!important;font-size:13px!important}
-@media(max-width:360px){.fz-apps{grid-template-columns:repeat(3,1fr)}}
-/* Focus Lock — browser page tidy-up */
-body.fz-web #page-focuslock .pagehead .pl-chips{display:none}
-.fz-wmore{margin-top:8px}.fz-wmore summary,.fz-wsched summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--muted,#6b7280);padding:6px 2px;list-style:none}.fz-wmore summary::-webkit-details-marker,.fz-wsched summary::-webkit-details-marker{display:none}
-.fz-wmore summary:before,.fz-wsched summary:before{content:"▸ "}.fz-wmore[open] summary:before,.fz-wsched[open] summary:before{content:"▾ "}
-.fz-wmore .fl-opt{margin-top:8px}
-.fz-wsched{padding:14px 18px}.fz-wsched summary{color:var(--ink,#1f2937);font-size:15px}.fz-wsched summary span{display:block;font-weight:400;font-size:12.5px;color:var(--muted,#6b7280);margin:2px 0 0 14px}
-.fz-wsched .pp-sched{box-shadow:none;border:0;padding:8px 0 0;margin:0}
-
-.fz-warn{background:#fef2f2;border:1.5px solid #fca5a5;color:#7f1d1d;border-radius:18px;padding:14px 16px;margin-bottom:12px}.fz-warn p{margin:6px 0 10px;font-size:13.5px}.fz-warn .fz-allow{margin:0 6px 6px 0}
-.fz-okb{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-weight:600;font-size:14px;text-align:center}
-
-.fz-skip{display:block;margin:6px auto 0;border:0;background:none;color:var(--muted,#6b7280);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
-/* v3 — one bold card: dial + start, apps as chips */
-#fzRoot .fz-hero{position:relative;overflow:hidden;padding:22px 20px 20px;border-radius:26px;background:radial-gradient(120% 120% at 100% 0%,rgba(255,255,255,.18),rgba(255,255,255,0) 50%),linear-gradient(150deg,#1e1b4b 0%,#4c1d95 55%,#a21caf 100%);margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0;box-shadow:none}
-#fzRoot .fz-hero:after{content:"";position:absolute;right:-60px;bottom:-90px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.07)}
-#fzRoot .fz-hero h1{font-size:26px}
-#fzRoot .fz-hi span{display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:rgba(255,255,255,.14);font-size:30px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
-.fz-main{background:linear-gradient(180deg,#4c1d95,#3b1580);border-radius:0 0 26px 26px;padding:6px 18px 20px;margin-bottom:14px;box-shadow:0 18px 40px -20px rgba(76,29,149,.8);color:#fff}
-.fz-dial{display:flex;align-items:center;justify-content:center;gap:18px;margin:6px 0 14px}
-.fz-pm{width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font:700 28px/1 Inter,system-ui,sans-serif;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
-.fz-pm:active{transform:scale(.94)}
-.fz-dv{display:grid;place-items:center;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.18),rgba(255,255,255,.04) 70%);box-shadow:inset 0 0 0 6px rgba(255,255,255,.12),0 0 0 1px rgba(255,255,255,.18);text-align:center}
-.fz-dv{align-content:center;gap:4px}.fz-dv b{font-size:32px;letter-spacing:-.02em;line-height:1}.fz-dv span{font-size:12.5px;opacity:.75}
-.fz-qd{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
-.fz-qd .fz-dur{flex:1;min-width:0;padding:8px 4px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:13px}
-.fz-qd .fz-dur.on{background:#fff;color:#4c1d95;border-color:#fff}
-.fz-main .fz-start{margin-top:0;background:linear-gradient(135deg,#facc15,#f97316);color:#3b0764;box-shadow:0 12px 26px -10px rgba(249,115,22,.75);font-size:17px}
-.fz-main .fz-start span{margin-right:4px}.fz-main .fz-start.off{background:rgba(255,255,255,.25);color:rgba(255,255,255,.8);box-shadow:none}
-.fz-main .fz-fl{color:rgba(255,255,255,.8)}
-.fz-blk{padding:14px 16px}
-.fz-bh{display:flex;justify-content:space-between;align-items:center;gap:10px}.fz-bh b{font-size:16px;display:block}.fz-bh small{color:var(--muted,#6b7280);font-size:12.5px}
-.fz-edit{border:0;background:#f3e8ff;color:#6d28d9;border-radius:99px;padding:8px 16px;font:700 13.5px Inter,system-ui,sans-serif;cursor:pointer}
-.fz-chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
-.fz-chip{display:inline-flex;align-items:center;gap:6px;background:#f5f3ff;border:1px solid #e9d5ff;color:#4c1d95;border-radius:99px;padding:6px 11px;font-size:13px;font-weight:600}.fz-chip i{font-style:normal}
-.fz-blk .fz-apps{margin-top:12px}
-.fz-sw2{margin-top:12px;padding-top:12px;border-top:1px solid var(--line,#eef0f4)}
-#fzRoot .fz-setup{border:0;background:linear-gradient(180deg,#fff7ed,#fff);box-shadow:0 0 0 1.5px #fed7aa inset}
-#fzRoot .fz-run{border-radius:26px;background:radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.15),rgba(255,255,255,0) 50%),linear-gradient(160deg,#1e1b4b,#4c1d95 60%,#86198f)}
-#fzRoot .fz-ring .fg{stroke:url(#fzG);stroke:#facc15}
-html[data-dark] .fz-chip{background:#2e1065;border-color:#4c1d95;color:#e9d5ff}html[data-dark] .fz-edit{background:#2e1065;color:#e9d5ff}
-/* v4 — tappable dial, wheel picker, a little sparkle */
-.fz-main{position:relative;overflow:hidden}
-.fz-stars{position:absolute;inset:0;pointer-events:none}
-.fz-stars i{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;opacity:.0;animation:fzTw 3.6s ease-in-out infinite}
-.fz-stars i:nth-child(1){left:12%;top:18%}.fz-stars i:nth-child(2){left:84%;top:12%;animation-delay:.6s}.fz-stars i:nth-child(3){left:20%;top:52%;animation-delay:1.2s;width:3px;height:3px}.fz-stars i:nth-child(4){left:78%;top:46%;animation-delay:1.8s}.fz-stars i:nth-child(5){left:50%;top:6%;animation-delay:2.4s;width:3px;height:3px}.fz-stars i:nth-child(6){left:92%;top:66%;animation-delay:3s}
-@keyframes fzTw{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:.9;transform:scale(1.3)}}
-.fz-dial,.fz-qd,.fz-main .fz-start{position:relative}
-button.fz-dv{border:0;color:#fff;font:inherit;cursor:pointer;position:relative}
-button.fz-dv:before{content:"";position:absolute;inset:-8px;border-radius:50%;background:conic-gradient(from 0deg,#facc15,#f472b6,#a78bfa,#38bdf8,#facc15);-webkit-mask:radial-gradient(circle,transparent 69%,#000 70%);mask:radial-gradient(circle,transparent 69%,#000 70%);opacity:.85;animation:fzSpin 8s linear infinite}
-@keyframes fzSpin{to{transform:rotate(360deg)}}
-button.fz-dv span{background:rgba(255,255,255,.14);border-radius:99px;padding:3px 9px;opacity:1!important;font-size:11.5px;font-weight:600}
-.fz-qd .fz-dur{white-space:nowrap;font-size:12.5px!important;padding:8px 2px!important}
-.fz-wov{position:fixed;inset:0;z-index:10000;background:rgba(15,10,40,.55);display:flex;align-items:flex-end;justify-content:center;animation:fzFade .18s}
-@keyframes fzFade{from{opacity:0}}
-.fz-wbox{width:100%;max-width:460px;background:var(--card,#fff);color:var(--ink,#111827);border-radius:26px 26px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));box-sizing:border-box;animation:fzUp .22s ease-out}
-@keyframes fzUp{from{transform:translateY(40px)}}
-@media(min-width:701px){.fz-wov{align-items:center}.fz-wbox{border-radius:26px}}
-.fz-wt{display:block;text-align:center;font-size:17px;margin-bottom:8px}
-.fz-wwrap{position:relative;display:flex;align-items:flex-start;justify-content:center;gap:6px;height:212px}
-.fz-wband{position:absolute;left:8%;right:8%;top:72px;height:48px;border-radius:14px;background:#f3e8ff;pointer-events:none}
-.fz-wc{position:relative;width:96px;text-align:center}.fz-wc small{display:block;color:var(--muted,#6b7280);font-size:12px;font-weight:600;margin-top:2px}
-.fz-wl{height:192px;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-mask:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
-.fz-wl::-webkit-scrollbar{display:none}
-.fz-wpad{height:72px}
-.fz-wi{height:48px;line-height:48px;scroll-snap-align:center;font:600 30px/48px Inter,system-ui,sans-serif;color:#c4c4d4;cursor:pointer;font-variant-numeric:tabular-nums;transition:color .12s,transform .12s}
-.fz-wi.on{color:#4c1d95;font-weight:800;transform:scale(1.12)}
-.fz-wcolon{font:800 30px/48px Inter,system-ui,sans-serif;color:#4c1d95;margin-top:72px;position:relative}
-.fz-wnote{text-align:center;margin:4px 0 12px;font-weight:600;color:#6d28d9;font-size:14px}
-.fz-wbtns{display:grid;grid-template-columns:1fr 2fr;gap:10px}
-.fz-wcancel,.fz-wok{border:0;border-radius:14px;padding:14px;font:700 15px Inter,system-ui,sans-serif;cursor:pointer}
-.fz-wcancel{background:var(--card2,#f1f5f9);color:inherit}.fz-wok{background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff}
-html[data-dark] .fz-wband{background:#2e1065}html[data-dark] .fz-wi.on,html[data-dark] .fz-wcolon{color:#e9d5ff}
-
-</style><script id="sf-fz-js">
-/* StudyStarx Focus Lock — clean phone screen (Regain-style): set up once, tap apps, pick a time, start.
-   In the browser it only tidies the page (extra options folded away). */
-(function(){
-var $=function(s,r){return(r||document).querySelector(s)};
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function N(){return window.SFNative||null}
-function J(f,d){try{var v=f();return v?JSON.parse(v):d}catch(e){return d}}
-function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
-function tst(m){try{toast(m)}catch(e){}}
-function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
-var APPS=[['youtube','YouTube','▶️',['youtube']],['instagram','Instagram','📸',['instagram']],['tiktok','TikTok','🎵',['tiktok']],['snapchat','Snapchat','👻',['snapchat']],['whatsapp','WhatsApp','💬',['whatsapp']],['facebook','Facebook','📘',['facebook','katana']],['x','X / Twitter','✖️',['twitter','x']],['reddit','Reddit','👽',['reddit']],['netflix','Netflix','🎬',['netflix']],['hotstar','Hotstar','⭐',['hotstar']],['prime','Prime Video','📺',['primevideo','avod']],['discord','Discord','🎮',['discord']],['telegram','Telegram','✈️',['telegram']],['pinterest','Pinterest','📌',['pinterest']],['spotify','Spotify','🎧',['spotify']],['threads','Threads','🧵',['threads','barcelona']],['bgmi','BGMI','🔫',['pubg','bgmi','imobile']],['freefire','Free Fire','🔥',['freefire','dts.freefire']],['codm','Call of Duty','🎯',['callofduty']],['roblox','Roblox','🧱',['roblox']],['minecraft','Minecraft','⛏️',['minecraft']],['clash','Clash of Clans','🏰',['clashofclans']],['mxplayer','MX Player','🎞️',['mxtech']],['chrome','Chrome','🌐',['com.android.chrome']]];
-var DURS=[25,45,60,90,120];
-var st={sel:null,mins:+(ls('fz-mins')||60),strict:false,guard:false,inst:null,popup:ls('fz-popup')==='1'};
-function sel(){if(!st.sel){var s=J(function(){return ls('fz-sel')},null);st.sel=new Set(Array.isArray(s)?s:['youtube','instagram'])}return st.sel}
-function saveSel(){ls('fz-sel',JSON.stringify(Array.from(sel())))}
-function perms(){var n=N();if(!n||!n.permState)return null;return J(function(){return n.permState()},null)}
-function info(){var n=N();if(!n||!n.lockInfo)return{until:0};return J(function(){return n.lockInfo()},{until:0})}
-function installed(){if(st.inst)return st.inst;var n=N();if(!n||!n.installed)return null;var q={};APPS.forEach(function(a){q[a[0]]=a[3]});st.inst=J(function(){return n.installed(JSON.stringify(q))},null);return st.inst}
-function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0')}
-function durLabel(m){return m<60?m+' min':m%60?Math.floor(m/60)+'h '+m%60+'m':m/60+(m===60?' hour':' hours')}
-
-/* ---------- phone screen ---------- */
-function root(){var pg=$('#page-focuslock');if(!pg)return null;var r=$('#fzRoot');if(!r){r=document.createElement('div');r.id='fzRoot';pg.insertBefore(r,pg.firstChild);r.addEventListener('click',onClick);document.body.classList.add('fz-app')}return r}
-function steps(p){var L=[['usage','📊','Allow usage access','Find StudyStarx in the list and switch it on. This lets StudyStarx notice when a blocked app opens.',p.usage],['overlay','🪟','Allow display over other apps','Switch it on, so the “Stay focused” screen can cover a blocked app.',p.overlay]];
- if(p.xiaomi)L.push(['popup','📱','Allow pop-up windows','On Xiaomi / Redmi / POCO: tap “Other permissions”, then allow “Display pop-up windows while running in the background”.',st.popup]);
- L.push(['acc','⚡','Instant blocking','Best for no delay at all. In Accessibility, switch on “StudyStarx Focus Lock”. Greyed out? In App info tap ⋮ › “Allow restricted settings” first.',p.acc,1]);
- L.push(['battery','🔋','Keep blocking switched on','Tap Allow so your phone never switches the lock off.',p.battery,1]);return L}
-function draw(){var r=root();if(!r)return;var n=N(),p=perms(),li=info(),now=Date.now();
- if(li.until>now){drawRun(r,li,p);return}
- var html='<div class="fz-hero"><div class="fz-ht"><h1>Focus Lock</h1><p>Lock away distracting apps and get real work done.</p></div><div class="fz-hi"><span>🔒</span></div></div>';
- if(!p||!(p.v>=6)){html+='<div class="fz-card fz-upd"><b>Update the StudyStarx app</b><p>The new version blocks apps much more reliably. Download it and install it over this one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';r.innerHTML=html+mainCard(false);return}
- var S=steps(p),need=S.filter(function(x){return!x[5]}),done=need.filter(function(x){return x[4]}).length,ready=p.usage&&p.overlay&&(!p.xiaomi||st.popup);
- var setup='';if(!ready||!p.battery||(!p.acc&&ls('fz-acc-skip')!=='1')){setup+='<div class="fz-card fz-setup'+(ready?' fz-mini':'')+'" id="fzSetup"><div class="fz-sh"><b>'+(ready?'Make blocking stronger':'Set up blocking')+'</b><span>'+(ready?'optional':done+' of '+need.length+' done')+'</span></div>'+(ready?'':'<div class="fz-prog"><i style="width:'+Math.round(done/need.length*100)+'%"></i></div>')+
-  S.filter(function(x){return!ready||!x[4]}).map(function(x,i){return'<div class="fz-step'+(x[4]?' ok':'')+'"><span class="fz-si">'+(x[4]?'✓':x[1])+'</span><div><b>'+esc(x[2])+(x[5]?' <em>recommended</em>':'')+'</b><small>'+esc(x[3])+'</small></div>'+(x[4]?'<span class="fz-done">Done</span>':'<button type="button" class="fz-allow" data-fz="perm" data-k="'+x[0]+'">Allow</button>')+'</div>'}).join('')+
-  (ready&&!p.acc?'<button type="button" class="fz-skip" data-fz="skipacc">Hide these tips</button>':'')+(ready?'':'<p class="fz-fine">🔐 StudyStarx only sees which app is open — never what’s on your screen.</p>')+'</div>'}
- r.innerHTML=html+mainCard(ready)+setup}
-function mainCard(ready){var inst=installed(),s=sel(),li=info();
- var list=APPS.filter(function(a){return!inst||inst[a[0]]||s.has(a[0])});var extra=li.chosen||0;
- var chosen=APPS.filter(function(a){return s.has(a[0])});var open=ls('fz-edit')==='1'||!chosen.length;
- var ix=DURS.indexOf(st.mins);
- return'<div class="fz-main">'+
-  '<div class="fz-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fz-dial"><button type="button" class="fz-pm" data-fz="dmin" aria-label="Less time">−</button><button type="button" class="fz-dv" data-fz="wheel" aria-label="Set your own time"><b>'+durLabel(st.mins)+'</b><span>✎ tap to set time</span></button><button type="button" class="fz-pm" data-fz="dplus" aria-label="More time">+</button></div>'+
-  '<div class="fz-qd">'+DURS.map(function(m){return'<button type="button" class="fz-dur'+(m===st.mins?' on':'')+'" data-fz="dur" data-m="'+m+'">'+durLabel(m)+'</button>'}).join('')+'</div>'+
-  '<button type="button" class="fz-start'+(ready?'':' off')+'" data-fz="start"><span>🔒</span> Start Focus Lock</button>'+(ready?'':'<p class="fz-fine fz-fl">Finish the quick setup below to start.</p>')+
- '</div>'+
- '<div class="fz-card fz-blk"><div class="fz-bh"><div><b>Apps to block</b><small>'+(chosen.length||extra?(chosen.length+extra)+' app'+((chosen.length+extra)===1?'':'s')+' will be blocked':'Pick at least one app')+'</small></div><button type="button" class="fz-edit" data-fz="edit">'+(open?'Done':'Change')+'</button></div>'+
- (open?'<div class="fz-apps">'+list.map(function(a){var on=s.has(a[0]);return'<button type="button" class="fz-app'+(on?' on':'')+'" data-fz="app" data-k="'+a[0]+'" aria-pressed="'+on+'"><span class="fz-ai">'+a[2]+'</span><span class="fz-an">'+esc(a[1])+'</span>'+(on?'<span class="fz-ck">✓</span>':'')+'</button>'}).join('')+'</div><button type="button" class="fz-more-apps" data-fz="pick">＋ Other apps on my phone'+(extra?' <b>('+extra+')</b>':'')+'</button>':
-  '<div class="fz-chips">'+chosen.slice(0,8).map(function(a){return'<span class="fz-chip"><i>'+a[2]+'</i>'+esc(a[1])+'</span>'}).join('')+(chosen.length>8?'<span class="fz-chip">+'+(chosen.length-8)+'</span>':'')+(extra?'<span class="fz-chip">+'+extra+' more</span>':'')+'</div>')+
- '<label class="fz-sw fz-sw2"><span><b>Strict mode</b><small>No stopping early</small></span><input type="checkbox" id="fzStrict"'+(st.strict?' checked':'')+'><i></i></label>'+
- '</div>'}
-function drawRun(r,li,p){var n=N();if(p&&p.v>=6&&p.usage&&p.overlay&&!p.watch&&n.ensureWatch){try{n.ensureWatch()}catch(_){}}
- var warn='';if(!p||!(p.v>=6))warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked</b><p>This version of the app can’t block reliably. Install the new one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';
- else if(!p.usage||!p.overlay)warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked yet</b><p>Two permissions are needed. Tap each one, switch StudyStarx on, and come back.</p>'+(p.usage?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="usage">Allow usage access</button> ')+(p.overlay?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="overlay">Allow display over other apps</button>')+'</div>';
- else if(p.watch)warn='<div class="fz-okb">✅ Blocking is active'+(p.blocks?' · blocked '+p.blocks+' time'+(p.blocks>1?'s':''):'')+'</div>';
- else warn='<div class="fz-warn"><b>Starting the blocker…</b><p>If this stays for more than a few seconds, allow “Keep blocking switched on”.</p><button type="button" class="fz-allow" data-fz="perm" data-k="battery">Allow</button></div>';var left=li.until-Date.now(),tot=+(ls('fz-total')||0)||Math.max(left,1),pc=Math.max(0,Math.min(1,left/tot)),C=2*Math.PI*88;
- var end=new Date(li.until).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});var apps=(li.apps||[]).slice(0,12);
- r.innerHTML=warn+'<div class="fz-run"><div class="fz-ring"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="88" class="bg"/><circle cx="100" cy="100" r="88" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc)).toFixed(1)+'"/></svg><div class="fz-rt"><b id="fzLeft">'+fmt(left)+'</b><span>until '+esc(end)+'</span></div></div>'+
- '<h2>Stay focused 🌱</h2><p>'+(apps.length?'These apps are blocked:':'Your chosen apps are blocked.')+'</p><div class="fz-tags">'+apps.map(function(a){return'<span>'+esc(a)+'</span>'}).join('')+'</div>'+
- (li.strict?'<p class="fz-strict">🔐 Strict mode — the lock ends by itself at '+esc(end)+'.</p>':'<button type="button" class="fz-stop" data-fz="stop">Stop the lock</button>')+'</div>'}
-/* scroll-wheel time picker: hours : minutes */
-function wheel(){var ov=document.getElementById('fzWheel');if(ov)ov.remove();ov=document.createElement('div');ov.id='fzWheel';ov.className='fz-wov';var h0=Math.floor(st.mins/60),m0=st.mins%60;
- var col=function(id,n,step,sel,unit){var h='';for(var i=0;i<n;i+=step)h+='<div class="fz-wi" data-v="'+i+'">'+(i<10?'0'+i:i)+'</div>';return'<div class="fz-wc"><div class="fz-wl" id="'+id+'">'+'<div class="fz-wpad"></div>'+h+'<div class="fz-wpad"></div></div><small>'+unit+'</small></div>'};
- ov.innerHTML='<div class="fz-wbox" role="dialog" aria-label="Set focus time"><b class="fz-wt">Set your focus time</b><div class="fz-wwrap"><div class="fz-wband"></div>'+col('fzWH',9,1,h0,'hours')+'<div class="fz-wcolon">:</div>'+col('fzWM',60,1,m0,'minutes')+'</div><p class="fz-wnote" id="fzWNote"></p><div class="fz-wbtns"><button type="button" class="fz-wcancel">Cancel</button><button type="button" class="fz-wok">Set time</button></div></div>';
- document.body.appendChild(ov);var IH=48;
- var L=[document.getElementById('fzWH'),document.getElementById('fzWM')];
- function val(l){return Math.max(0,Math.round(l.scrollTop/IH))}
- function paint(){L.forEach(function(l){var v=val(l);l.querySelectorAll('.fz-wi').forEach(function(e,i){e.classList.toggle('on',i===v)})});var t=val(L[0])*60+val(L[1]);var n=document.getElementById('fzWNote');if(n)n.textContent=t<5?'Pick at least 5 minutes':'Focus for '+durLabel(t)}
- L[0].scrollTop=h0*IH;L[1].scrollTop=m0*IH;paint();
- L.forEach(function(l){var tm;l.addEventListener('scroll',function(){paint();clearTimeout(tm);tm=setTimeout(function(){l.scrollTo({top:val(l)*IH,behavior:'smooth'})},120)});l.addEventListener('click',function(e){var it=e.target.closest('.fz-wi');if(it){var i=Array.prototype.indexOf.call(l.querySelectorAll('.fz-wi'),it);l.scrollTo({top:i*IH,behavior:'smooth'})}})});
- ov.addEventListener('click',function(e){if(e.target===ov||e.target.closest('.fz-wcancel')){ov.remove();return}if(e.target.closest('.fz-wok')){var t=val(L[0])*60+val(L[1]);if(t<5)t=5;st.mins=Math.min(8*60+59,t);ls('fz-mins',st.mins);ov.remove();draw()}})}
-function onClick(e){var _b=e&&e.target&&e.target.closest?e.target.closest('[data-fz]'):null;if(_b){var _k=_b.dataset.fz;if(_k==='wheel'){readOpts();wheel();return}if(_k==='edit'){readOpts();ls('fz-edit',ls('fz-edit')==='1'?'0':'1');draw();return}if(_k==='dmin'||_k==='dplus'){var _L=[15,25,30,45,60,90,120,180],_i=_L.indexOf(st.mins);if(_i<0){_i=0;for(var _q=0;_q<_L.length;_q++)if(_L[_q]<=st.mins)_i=_q}_i=Math.max(0,Math.min(_L.length-1,_i+(_k==='dplus'?1:-1)));st.mins=_L[_i];ls('fz-mins',st.mins);readOpts();draw();return}if(_k==='edit')readOpts();}var b=e.target.closest('[data-fz]');if(!b)return;var k=b.dataset.fz,n=N();
- if(k==='skipacc'){ls('fz-acc-skip','1');draw();return}
- if(k==='perm'){if(b.dataset.k==='popup'){st.popup=true;ls('fz-popup','1')}try{n.openPerm(b.dataset.k)}catch(_){}return}
- if(k==='app'){var s=sel();s.has(b.dataset.k)?s.delete(b.dataset.k):s.add(b.dataset.k);saveSel();draw();return}
- if(k==='pick'){try{n.openBlocker()}catch(_){}return}
- if(k==='dur'){st.mins=+b.dataset.m;ls('fz-mins',st.mins);readOpts();draw();return}
- if(k==='custom'){var v=prompt('How many minutes? (5 – 720)',String(st.mins));v=Math.round(+v);if(v>=5&&v<=720){st.mins=v;ls('fz-mins',v);readOpts();draw()}return}
- if(k==='start'){readOpts();start(b);return}
- if(k==='stop'){if(!confirm('Stop the focus lock now?'))return;try{n.stopBlock()}catch(_){}setTimeout(draw,200);return}}
-function readOpts(){var a=$('#fzStrict'),g=$('#fzGuard');if(a)st.strict=a.checked;if(g)st.guard=g.checked}
-function start(b){var n=N(),p=perms();
- if(b.classList.contains('off')){var su=$('#fzSetup');if(su){su.classList.remove('fz-shake');void su.offsetWidth;su.classList.add('fz-shake');su.scrollIntoView({behavior:'smooth',block:'center'})}else tst('Update the app first.');return}
- var s=sel(),li=info();if(!s.size&&!(li.chosen>0)){tst('Tap at least one app to block.');return}
- if(st.guard&&!plus()){try{if(window.sfPlusGate)sfPlusGate('Uninstall protection','guard');else go('premium')}catch(_){}return}
- var words=[];APPS.forEach(function(a){if(s.has(a[0]))words=words.concat(a[3])});
- if(st.strict&&!confirm('Strict mode: you will NOT be able to stop this lock for '+durLabel(st.mins)+'. Start?'))return;
- try{if(n.startBlockNames)n.startBlockNames(st.mins,JSON.stringify(words),!!st.strict);else n.startBlock(st.mins)}catch(_){}
- if(st.guard&&n.guardOn&&!n.guardOn()&&n.askGuard)try{n.askGuard()}catch(_){}
- ls('fz-total',String(st.mins*60000));
- try{var F=data.flock||(data.flock={locks:[],extra:[]});F.locks=(F.locks||[]).filter(function(l){return l.until>Date.now()});APPS.forEach(function(a){if(s.has(a[0]))F.locks.push({key:a[0],label:a[1],until:Date.now()+st.mins*60000,strict:st.strict})});persist()}catch(_){}
- try{window.sfConfetti&&sfConfetti()}catch(_){}
- setTimeout(draw,250)}
-var tick=null;function loop(){clearInterval(tick);tick=setInterval(function(){var pg=$('#page-focuslock');if(!pg||!pg.classList.contains('active'))return;var li=info();var el=$('#fzLeft');if(li.until>Date.now()){if(el)el.textContent=fmt(li.until-Date.now());else draw();if(Date.now()%10000<1000)draw()}else if(el)draw()},1000)}
-
-/* ---------- browser page: fold the extras away ---------- */
-function tidyWeb(){var pg=$('#page-focuslock');if(!pg||pg.dataset.fzw)return;var opts=$('.fl-opts',pg);if(!opts)return;pg.dataset.fzw=1;document.body.classList.add('fz-web');
- var d=document.createElement('details');d.className='fz-wmore';d.innerHTML='<summary>More options</summary>';['flPomo','flEdu','flGuard'].forEach(function(id){var i=document.getElementById(id);var l=i&&i.closest('label');if(l)d.appendChild(l)});opts.appendChild(d);
- var h=opts.previousElementSibling;if(h&&h.classList.contains('fl-step')){var t=h.querySelector('h2');if(t)t.textContent='Strict lock?'}
- var moveSched=function(){var sc=$('#ppSched');if(!sc||sc.dataset.fzw)return;sc.dataset.fzw=1;var w=document.createElement('details');w.className='card fz-wsched';w.innerHTML='<summary>📅 Weekly schedules <span>Lock automatically at the same time each week</span></summary>';sc.parentNode.insertBefore(w,sc);w.appendChild(sc)};moveSched();setTimeout(moveSched,1500);setTimeout(moveSched,4000)}
-
-function boot(){if(N()){draw();loop()}else tidyWeb()}
-document.addEventListener('visibilitychange',function(){if(!document.hidden&&N()){st.inst=null;draw()}});
-window.addEventListener('focus',function(){if(N())draw()});
-if(typeof window.go==='function'&&!window.go.__fz){var og=window.go,w=function(p){var r=og.apply(this,arguments);if(p==='focuslock')setTimeout(boot,30);return r};w.__fz=1;for(var k in og)try{w[k]=og[k]}catch(e){}window.go=w}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,400)});else setTimeout(boot,400);
-setTimeout(boot,2000);
-window.sfFocusLockDraw=draw;
-})();
-
 </script><style id="sf-hm-css">
 /* ===== StudyStarx home ===== */
 body.sx-home-on #page-dashboard>:not(#sxHome){display:none!important}
@@ -12451,6 +12223,306 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.ge
 document.addEventListener('click',function(e){var a=e.target.closest('#avatar');if(a){e.preventDefault();try{go('settings')}catch(_){}}});
 window.StudyStarxHome={render:render,edit:openEdit};
 
+})();
+
+</script><style id="sf-fz-css">
+/* Focus Lock — phone app screen */
+body.fz-app #page-focuslock>:not(#fzRoot){display:none!important}
+#fzRoot{max-width:560px;margin:0 auto;padding-bottom:24px;font-family:Inter,system-ui,sans-serif;color:var(--ink,#1f2937)}
+.fz-hero{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#312e81,#6d28d9 60%,#a21caf);color:#fff;border-radius:22px;padding:20px 20px;margin-bottom:14px;box-shadow:0 12px 30px rgba(76,29,149,.25)}
+.fz-ht{flex:1}.fz-hero h1{margin:0;font-size:24px;letter-spacing:-.01em;color:#fff}.fz-hero p{margin:4px 0 0;opacity:.85;font-size:14px}.fz-hi{font-size:40px}
+.fz-card{background:var(--card,#fff);border:1px solid var(--line,#e7e8ef);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.fz-sh{display:flex;justify-content:space-between;align-items:baseline}.fz-sh b{font-size:17px}.fz-sh span{font-size:12.5px;color:var(--muted,#6b7280);font-weight:600}
+.fz-prog{height:6px;background:#eef0f6;border-radius:99px;margin:10px 0 6px;overflow:hidden}.fz-prog i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:99px;transition:width .4s}
+.fz-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line,#eef0f4)}.fz-step:first-of-type{border-top:0}
+.fz-si{flex:0 0 40px;height:40px;border-radius:12px;background:#eef2ff;display:grid;place-items:center;font-size:20px}
+.fz-step.ok .fz-si{background:#dcfce7;color:#15803d;font-weight:800}
+.fz-step>div{flex:1;min-width:0}.fz-step b{display:block;font-size:14.5px}.fz-step b em{font-style:normal;font-size:10.5px;font-weight:700;color:#0369a1;background:#e0f2fe;border-radius:99px;padding:1px 7px;margin-left:4px;vertical-align:1px}.fz-step small{display:block;color:var(--muted,#6b7280);font-size:12.5px;line-height:1.4;margin-top:2px}
+.fz-allow{flex:none;border:0;border-radius:12px;padding:10px 16px;font:700 14px Inter,system-ui,sans-serif;background:#4f46e5;color:#fff;cursor:pointer}
+.fz-done{flex:none;font-size:12.5px;font-weight:700;color:#15803d}
+.fz-mini .fz-step{padding:8px 0}.fz-fine{font-size:12.5px;color:var(--muted,#6b7280);margin:10px 0 0;text-align:center}
+.fz-shake{animation:fzS .5s}@keyframes fzS{0%,100%{transform:none}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.fz-lbl{display:flex;justify-content:space-between;font-weight:700;font-size:15px;margin:4px 0 10px}.fz-lbl span{font-size:12.5px;color:var(--muted,#6b7280)}
+.fz-lbl:not(:first-child){margin-top:18px}
+.fz-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fz-app{position:relative;display:grid;justify-items:center;gap:4px;padding:10px 2px 8px;border:1.5px solid var(--line,#e7e8ef);border-radius:16px;background:var(--card,#fff);cursor:pointer;color:inherit;font:inherit}
+.fz-ai{font-size:24px;line-height:1.1}.fz-an{font-size:11.5px;font-weight:600;line-height:1.2;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.fz-app.on{border-color:#6d28d9;background:#f5f3ff;box-shadow:0 0 0 3px rgba(109,40,217,.12)}
+.fz-ck{position:absolute;top:4px;right:5px;width:17px;height:17px;border-radius:50%;background:#6d28d9;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center}
+.fz-more-apps{display:block;width:100%;margin-top:10px;border:1.5px dashed #c4b5fd;background:transparent;border-radius:14px;padding:11px;font:600 13.5px Inter,system-ui,sans-serif;color:#5b21b6;cursor:pointer}
+.fz-durs{display:flex;flex-wrap:wrap;gap:8px}.fz-dur{flex:1 0 auto;min-width:64px;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);border-radius:999px;padding:10px 12px;font:600 13.5px Inter,system-ui,sans-serif;color:inherit;cursor:pointer}
+.fz-dur.on{background:#6d28d9;border-color:#6d28d9;color:#fff}
+.fz-sw{display:flex;align-items:center;gap:12px;margin-top:16px;cursor:pointer}.fz-sw>span{flex:1}.fz-sw b{display:block;font-size:14.5px}.fz-sw small{color:var(--muted,#6b7280);font-size:12.5px}
+.fz-sw input{position:absolute;opacity:0;pointer-events:none}.fz-sw i{flex:none;width:46px;height:28px;border-radius:99px;background:#d1d5db;position:relative;transition:background .2s}
+.fz-sw i:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.fz-sw input:checked+i{background:#6d28d9}.fz-sw input:checked+i:after{transform:translateX(18px)}
+.fz-pl{font-style:normal;font-size:10px;font-weight:800;color:#b45309;background:#fef3c7;border-radius:99px;padding:1px 6px;margin-left:4px}
+.fz-opt{margin-top:14px;border-top:1px solid var(--line,#eef0f4);padding-top:10px}.fz-opt summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--muted,#6b7280);list-style:none}.fz-opt summary:before{content:"▸ "}.fz-opt[open] summary:before{content:"▾ "}.fz-opt summary::-webkit-details-marker{display:none}
+.fz-start{display:block;width:100%;margin-top:18px;border:0;border-radius:16px;padding:16px;font:700 16.5px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 10px 24px rgba(79,70,229,.3);cursor:pointer}
+.fz-start.off{background:#c7c9d9;box-shadow:none}
+.fz-upd{background:#fff7ed;border-color:#fed7aa}.fz-upd p{margin:6px 0 12px;font-size:13.5px;color:#7c2d12}
+.fz-btn{display:inline-block;background:#ea580c;color:#fff;border-radius:12px;padding:10px 16px;font-weight:700;text-decoration:none}
+.fz-run{text-align:center;background:linear-gradient(180deg,#1e1b4b,#312e81);color:#fff;border-radius:24px;padding:26px 18px 22px;box-shadow:0 14px 34px rgba(30,27,75,.35)}
+.fz-ring{position:relative;width:220px;height:220px;margin:0 auto}.fz-ring svg{width:100%;height:100%;transform:rotate(-90deg)}.fz-ring circle{fill:none;stroke-width:12}.fz-ring .bg{stroke:rgba(255,255,255,.12)}.fz-ring .fg{stroke:#a78bfa;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.fz-rt{position:absolute;inset:0;display:grid;place-content:center}.fz-rt b{font-size:44px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}.fz-rt span{font-size:13px;opacity:.75}
+.fz-run h2{margin:16px 0 4px;color:#fff;font-size:21px}.fz-run p{margin:0 0 10px;opacity:.8;font-size:14px}
+.fz-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.fz-tags span{background:rgba(255,255,255,.12);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:600}
+.fz-stop{margin-top:18px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:14px;padding:11px 22px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
+.fz-strict{margin-top:16px!important;font-size:13px!important}
+@media(max-width:360px){.fz-apps{grid-template-columns:repeat(3,1fr)}}
+/* Focus Lock — browser page tidy-up */
+body.fz-web #page-focuslock .pagehead .pl-chips{display:none}
+.fz-wmore{margin-top:8px}.fz-wmore summary,.fz-wsched summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--muted,#6b7280);padding:6px 2px;list-style:none}.fz-wmore summary::-webkit-details-marker,.fz-wsched summary::-webkit-details-marker{display:none}
+.fz-wmore summary:before,.fz-wsched summary:before{content:"▸ "}.fz-wmore[open] summary:before,.fz-wsched[open] summary:before{content:"▾ "}
+.fz-wmore .fl-opt{margin-top:8px}
+.fz-wsched{padding:14px 18px}.fz-wsched summary{color:var(--ink,#1f2937);font-size:15px}.fz-wsched summary span{display:block;font-weight:400;font-size:12.5px;color:var(--muted,#6b7280);margin:2px 0 0 14px}
+.fz-wsched .pp-sched{box-shadow:none;border:0;padding:8px 0 0;margin:0}
+
+.fz-warn{background:#fef2f2;border:1.5px solid #fca5a5;color:#7f1d1d;border-radius:18px;padding:14px 16px;margin-bottom:12px}.fz-warn p{margin:6px 0 10px;font-size:13.5px}.fz-warn .fz-allow{margin:0 6px 6px 0}
+.fz-okb{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-weight:600;font-size:14px;text-align:center}
+
+.fz-skip{display:block;margin:6px auto 0;border:0;background:none;color:var(--muted,#6b7280);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
+/* v3 — one bold card: dial + start, apps as chips */
+#fzRoot .fz-hero{position:relative;overflow:hidden;padding:22px 20px 20px;border-radius:26px;background:radial-gradient(120% 120% at 100% 0%,rgba(255,255,255,.18),rgba(255,255,255,0) 50%),linear-gradient(150deg,#1e1b4b 0%,#4c1d95 55%,#a21caf 100%);margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0;box-shadow:none}
+#fzRoot .fz-hero:after{content:"";position:absolute;right:-60px;bottom:-90px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.07)}
+#fzRoot .fz-hero h1{font-size:26px}
+#fzRoot .fz-hi span{display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:rgba(255,255,255,.14);font-size:30px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.fz-main{background:linear-gradient(180deg,#4c1d95,#3b1580);border-radius:0 0 26px 26px;padding:6px 18px 20px;margin-bottom:14px;box-shadow:0 18px 40px -20px rgba(76,29,149,.8);color:#fff}
+.fz-dial{display:flex;align-items:center;justify-content:center;gap:18px;margin:6px 0 14px}
+.fz-pm{width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font:700 28px/1 Inter,system-ui,sans-serif;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.fz-pm:active{transform:scale(.94)}
+.fz-dv{display:grid;place-items:center;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.18),rgba(255,255,255,.04) 70%);box-shadow:inset 0 0 0 6px rgba(255,255,255,.12),0 0 0 1px rgba(255,255,255,.18);text-align:center}
+.fz-dv{align-content:center;gap:4px}.fz-dv b{font-size:32px;letter-spacing:-.02em;line-height:1}.fz-dv span{font-size:12.5px;opacity:.75}
+.fz-qd{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
+.fz-qd .fz-dur{flex:1;min-width:0;padding:8px 4px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:13px}
+.fz-qd .fz-dur.on{background:#fff;color:#4c1d95;border-color:#fff}
+.fz-main .fz-start{margin-top:0;background:linear-gradient(135deg,#facc15,#f97316);color:#3b0764;box-shadow:0 12px 26px -10px rgba(249,115,22,.75);font-size:17px}
+.fz-main .fz-start span{margin-right:4px}.fz-main .fz-start.off{background:rgba(255,255,255,.25);color:rgba(255,255,255,.8);box-shadow:none}
+.fz-main .fz-fl{color:rgba(255,255,255,.8)}
+.fz-blk{padding:14px 16px}
+.fz-bh{display:flex;justify-content:space-between;align-items:center;gap:10px}.fz-bh b{font-size:16px;display:block}.fz-bh small{color:var(--muted,#6b7280);font-size:12.5px}
+.fz-edit{border:0;background:#f3e8ff;color:#6d28d9;border-radius:99px;padding:8px 16px;font:700 13.5px Inter,system-ui,sans-serif;cursor:pointer}
+.fz-chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.fz-chip{display:inline-flex;align-items:center;gap:6px;background:#f5f3ff;border:1px solid #e9d5ff;color:#4c1d95;border-radius:99px;padding:6px 11px;font-size:13px;font-weight:600}.fz-chip i{font-style:normal}
+.fz-blk .fz-apps{margin-top:12px}
+.fz-sw2{margin-top:12px;padding-top:12px;border-top:1px solid var(--line,#eef0f4)}
+#fzRoot .fz-setup{border:0;background:linear-gradient(180deg,#fff7ed,#fff);box-shadow:0 0 0 1.5px #fed7aa inset}
+#fzRoot .fz-run{border-radius:26px;background:radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.15),rgba(255,255,255,0) 50%),linear-gradient(160deg,#1e1b4b,#4c1d95 60%,#86198f)}
+#fzRoot .fz-ring .fg{stroke:url(#fzG);stroke:#facc15}
+html[data-dark] .fz-chip{background:#2e1065;border-color:#4c1d95;color:#e9d5ff}html[data-dark] .fz-edit{background:#2e1065;color:#e9d5ff}
+/* v4 — tappable dial, wheel picker, a little sparkle */
+.fz-main{position:relative;overflow:hidden}
+.fz-stars{position:absolute;inset:0;pointer-events:none}
+.fz-stars i{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;opacity:.0;animation:fzTw 3.6s ease-in-out infinite}
+.fz-stars i:nth-child(1){left:12%;top:18%}.fz-stars i:nth-child(2){left:84%;top:12%;animation-delay:.6s}.fz-stars i:nth-child(3){left:20%;top:52%;animation-delay:1.2s;width:3px;height:3px}.fz-stars i:nth-child(4){left:78%;top:46%;animation-delay:1.8s}.fz-stars i:nth-child(5){left:50%;top:6%;animation-delay:2.4s;width:3px;height:3px}.fz-stars i:nth-child(6){left:92%;top:66%;animation-delay:3s}
+@keyframes fzTw{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:.9;transform:scale(1.3)}}
+.fz-dial,.fz-qd,.fz-main .fz-start{position:relative}
+button.fz-dv{border:0;color:#fff;font:inherit;cursor:pointer;position:relative}
+button.fz-dv:before{content:"";position:absolute;inset:-8px;border-radius:50%;background:conic-gradient(from 0deg,#facc15,#f472b6,#a78bfa,#38bdf8,#facc15);-webkit-mask:radial-gradient(circle,transparent 69%,#000 70%);mask:radial-gradient(circle,transparent 69%,#000 70%);opacity:.85;animation:fzSpin 8s linear infinite}
+@keyframes fzSpin{to{transform:rotate(360deg)}}
+button.fz-dv span{background:rgba(255,255,255,.14);border-radius:99px;padding:3px 9px;opacity:1!important;font-size:11.5px;font-weight:600}
+.fz-qd .fz-dur{white-space:nowrap;font-size:12.5px!important;padding:8px 2px!important}
+.fz-wov{position:fixed;inset:0;z-index:10000;background:rgba(15,10,40,.55);display:flex;align-items:flex-end;justify-content:center;animation:fzFade .18s}
+@keyframes fzFade{from{opacity:0}}
+.fz-wbox{width:100%;max-width:460px;background:var(--card,#fff);color:var(--ink,#111827);border-radius:26px 26px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));box-sizing:border-box;animation:fzUp .22s ease-out}
+@keyframes fzUp{from{transform:translateY(40px)}}
+@media(min-width:701px){.fz-wov{align-items:center}.fz-wbox{border-radius:26px}}
+.fz-wt{display:block;text-align:center;font-size:17px;margin-bottom:8px}
+.fz-wwrap{position:relative;display:flex;align-items:flex-start;justify-content:center;gap:6px;height:212px}
+.fz-wband{position:absolute;left:8%;right:8%;top:72px;height:48px;border-radius:14px;background:#f3e8ff;pointer-events:none}
+.fz-wc{position:relative;width:96px;text-align:center}.fz-wc small{display:block;color:var(--muted,#6b7280);font-size:12px;font-weight:600;margin-top:2px}
+.fz-wl{height:192px;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-mask:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.fz-wl::-webkit-scrollbar{display:none}
+.fz-wpad{height:72px}
+.fz-wi{height:48px;line-height:48px;scroll-snap-align:center;font:600 30px/48px Inter,system-ui,sans-serif;color:#c4c4d4;cursor:pointer;font-variant-numeric:tabular-nums;transition:color .12s,transform .12s}
+.fz-wi.on{color:#4c1d95;font-weight:800;transform:scale(1.12)}
+.fz-wcolon{font:800 30px/48px Inter,system-ui,sans-serif;color:#4c1d95;margin-top:72px;position:relative}
+.fz-wnote{text-align:center;margin:4px 0 12px;font-weight:600;color:#6d28d9;font-size:14px}
+.fz-wbtns{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.fz-wcancel,.fz-wok{border:0;border-radius:14px;padding:14px;font:700 15px Inter,system-ui,sans-serif;cursor:pointer}
+.fz-wcancel{background:var(--card2,#f1f5f9);color:inherit}.fz-wok{background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff}
+html[data-dark] .fz-wband{background:#2e1065}html[data-dark] .fz-wi.on,html[data-dark] .fz-wcolon{color:#e9d5ff}
+/* Earn a break */
+.fz-brk{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:20px;padding:14px 16px;margin-bottom:12px;color:#78350f;box-shadow:0 10px 24px -16px rgba(180,83,9,.6)}
+.fz-brk>div{flex:1;min-width:0}.fz-brk b{display:block;font-size:15.5px}.fz-brk small{display:block;font-size:12.5px;opacity:.85;margin-top:2px}
+.fz-brk.ready{background:linear-gradient(135deg,#fde047,#fb923c);animation:fzPulse 2.4s ease-in-out infinite}
+@keyframes fzPulse{50%{box-shadow:0 0 0 6px rgba(251,146,60,.25)}}
+.fz-brk.on{background:linear-gradient(135deg,#bbf7d0,#4ade80);color:#14532d}
+.fz-bt{font-size:22px!important;font-variant-numeric:tabular-nums}
+.fz-eb,.fz-be{flex:none;border:0;border-radius:12px;padding:10px 14px;font:700 13.5px Inter,system-ui,sans-serif;background:#78350f;color:#fff;cursor:pointer}.fz-be{background:#14532d}
+.fz-ebox{position:relative;max-height:88vh;overflow:auto}
+.fz-ex{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;border:0;background:var(--card2,#f1f5f9);cursor:pointer;font-size:15px;color:inherit}
+.fz-eh{display:flex;gap:12px;align-items:center;margin:4px 34px 14px 0}.fz-eh>span{font-size:30px;width:52px;height:52px;display:grid;place-items:center;border-radius:16px;background:#fef3c7;flex:none}
+.fz-eh b{display:block;font-size:17px}.fz-eh small{display:block;color:var(--muted,#6b7280);font-size:12.5px;margin-top:2px}
+.fz-echoice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fz-ec{display:grid;justify-items:center;gap:4px;text-align:center;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);color:inherit;border-radius:18px;padding:18px 10px;cursor:pointer;font:inherit}
+.fz-ec span{font-size:32px}.fz-ec b{font-size:14.5px}.fz-ec small{color:#b45309;font-weight:700;font-size:12px}
+.fz-ec:first-child{border-color:#f59e0b;background:#fffbeb}
+.fz-eta{width:100%;box-sizing:border-box;min-height:160px;border:1.5px solid var(--line,#e5e7eb);border-radius:14px;padding:12px;font:15px Inter,system-ui,sans-serif;background:var(--card,#fff);color:inherit;resize:vertical}
+.fz-eph{display:flex;align-items:center;gap:10px;margin:10px 0 12px}.fz-epb{border:1.5px dashed #f59e0b;color:#b45309;border-radius:12px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer}.fz-eph span{font-size:13px;color:var(--muted,#6b7280)}
+.fz-full{width:100%}.fz-eback{display:block;margin:10px auto 0;border:0;background:none;color:var(--muted,#6b7280);font:600 13.5px Inter,system-ui,sans-serif;cursor:pointer}
+.fz-enote{font-size:14.5px;line-height:1.5;margin:4px 0 10px}.fz-erules{margin:0 0 16px;padding-left:4px;list-style:none;display:grid;gap:8px;font-size:14px}
+.fz-ewait{display:grid;justify-items:center;gap:8px;padding:30px 0;text-align:center}.fz-ewait small{color:var(--muted,#6b7280)}
+.fz-spin{width:46px;height:46px;border-radius:50%;border:4px solid #fde68a;border-top-color:#f59e0b;animation:fzSpin .9s linear infinite}
+.fz-eres{text-align:center;padding:8px 0 14px}.fz-eres b{display:block;font-size:19px;margin-top:10px}.fz-eres p{color:var(--muted,#4b5563);font-size:14px;line-height:1.5;margin:8px 0 0}
+.fz-ersc{width:96px;height:96px;border-radius:50%;margin:6px auto 0;display:grid;place-items:center;font:800 34px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#22c55e,#15803d)}.fz-ersc small{font-size:14px;opacity:.8}
+.fz-eres.bad .fz-ersc{background:linear-gradient(135deg,#f87171,#b91c1c)}.fz-esz{font-weight:700;color:#b45309!important}
+.fz-qp{font-size:12.5px;font-weight:700;color:#b45309;margin:4px 34px 6px 0}.fz-qbar{height:6px;border-radius:99px;background:#fef3c7;overflow:hidden;margin-bottom:14px}.fz-qbar i{display:block;height:100%;background:#f59e0b}
+.fz-qq{display:block;font-size:17px;line-height:1.4;margin-bottom:14px}.fz-qo{display:grid;gap:8px}
+.fz-qo button{text-align:left;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);color:inherit;border-radius:14px;padding:13px 14px;font:600 14.5px Inter,system-ui,sans-serif;cursor:pointer}
+.fz-qo button.ok{border-color:#22c55e;background:#dcfce7}.fz-qo button.no{border-color:#ef4444;background:#fee2e2}
+
+</style><script id="sf-fz-js">
+/* StudyStarx Focus Lock — clean phone screen (Regain-style): set up once, tap apps, pick a time, start.
+   In the browser it only tidies the page (extra options folded away). */
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)};
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function N(){return window.SFNative||null}
+function J(f,d){try{var v=f();return v?JSON.parse(v):d}catch(e){return d}}
+function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
+function tst(m){try{toast(m)}catch(e){}}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+var APPS=[['youtube','YouTube','▶️',['youtube']],['instagram','Instagram','📸',['instagram']],['tiktok','TikTok','🎵',['tiktok']],['snapchat','Snapchat','👻',['snapchat']],['whatsapp','WhatsApp','💬',['whatsapp']],['facebook','Facebook','📘',['facebook','katana']],['x','X / Twitter','✖️',['twitter','x']],['reddit','Reddit','👽',['reddit']],['netflix','Netflix','🎬',['netflix']],['hotstar','Hotstar','⭐',['hotstar']],['prime','Prime Video','📺',['primevideo','avod']],['discord','Discord','🎮',['discord']],['telegram','Telegram','✈️',['telegram']],['pinterest','Pinterest','📌',['pinterest']],['spotify','Spotify','🎧',['spotify']],['threads','Threads','🧵',['threads','barcelona']],['bgmi','BGMI','🔫',['pubg','bgmi','imobile']],['freefire','Free Fire','🔥',['freefire','dts.freefire']],['codm','Call of Duty','🎯',['callofduty']],['roblox','Roblox','🧱',['roblox']],['minecraft','Minecraft','⛏️',['minecraft']],['clash','Clash of Clans','🏰',['clashofclans']],['mxplayer','MX Player','🎞️',['mxtech']],['chrome','Chrome','🌐',['com.android.chrome']]];
+var DURS=[25,45,60,90,120];
+var st={sel:null,mins:+(ls('fz-mins')||60),strict:false,guard:false,earn:ls('fz-earn')==='1',inst:null,popup:ls('fz-popup')==='1'};
+function sel(){if(!st.sel){var s=J(function(){return ls('fz-sel')},null);st.sel=new Set(Array.isArray(s)?s:['youtube','instagram'])}return st.sel}
+function saveSel(){ls('fz-sel',JSON.stringify(Array.from(sel())))}
+function perms(){var n=N();if(!n||!n.permState)return null;return J(function(){return n.permState()},null)}
+function info(){var n=N();if(!n||!n.lockInfo)return{until:0};return J(function(){return n.lockInfo()},{until:0})}
+function installed(){if(st.inst)return st.inst;var n=N();if(!n||!n.installed)return null;var q={};APPS.forEach(function(a){q[a[0]]=a[3]});st.inst=J(function(){return n.installed(JSON.stringify(q))},null);return st.inst}
+function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0')}
+function durLabel(m){return m<60?m+' min':m%60?Math.floor(m/60)+'h '+m%60+'m':m/60+(m===60?' hour':' hours')}
+
+/* ---------- phone screen ---------- */
+function root(){var pg=$('#page-focuslock');if(!pg)return null;var r=$('#fzRoot');if(!r){r=document.createElement('div');r.id='fzRoot';pg.insertBefore(r,pg.firstChild);r.addEventListener('click',onClick);document.body.classList.add('fz-app')}return r}
+function steps(p){var L=[['usage','📊','Allow usage access','Find StudyStarx in the list and switch it on. This lets StudyStarx notice when a blocked app opens.',p.usage],['overlay','🪟','Allow display over other apps','Switch it on, so the “Stay focused” screen can cover a blocked app.',p.overlay]];
+ if(p.xiaomi)L.push(['popup','📱','Allow pop-up windows','On Xiaomi / Redmi / POCO: tap “Other permissions”, then allow “Display pop-up windows while running in the background”.',st.popup]);
+ L.push(['acc','⚡','Instant blocking','Best for no delay at all. In Accessibility, switch on “StudyStarx Focus Lock”. Greyed out? In App info tap ⋮ › “Allow restricted settings” first.',p.acc,1]);
+ L.push(['battery','🔋','Keep blocking switched on','Tap Allow so your phone never switches the lock off.',p.battery,1]);return L}
+function draw(){var r=root();if(!r)return;var n=N(),p=perms(),li=info(),now=Date.now();
+ if(li.until>now){drawRun(r,li,p);return}
+ var html='<div class="fz-hero"><div class="fz-ht"><h1>Focus Lock</h1><p>Lock away distracting apps and get real work done.</p></div><div class="fz-hi"><span>🔒</span></div></div>';
+ if(!p||!(p.v>=6)){html+='<div class="fz-card fz-upd"><b>Update the StudyStarx app</b><p>The new version blocks apps much more reliably. Download it and install it over this one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';r.innerHTML=html+mainCard(false);return}
+ var S=steps(p),need=S.filter(function(x){return!x[5]}),done=need.filter(function(x){return x[4]}).length,ready=p.usage&&p.overlay&&(!p.xiaomi||st.popup);
+ var setup='';if(!ready||!p.battery||(!p.acc&&ls('fz-acc-skip')!=='1')){setup+='<div class="fz-card fz-setup'+(ready?' fz-mini':'')+'" id="fzSetup"><div class="fz-sh"><b>'+(ready?'Make blocking stronger':'Set up blocking')+'</b><span>'+(ready?'optional':done+' of '+need.length+' done')+'</span></div>'+(ready?'':'<div class="fz-prog"><i style="width:'+Math.round(done/need.length*100)+'%"></i></div>')+
+  S.filter(function(x){return!ready||!x[4]}).map(function(x,i){return'<div class="fz-step'+(x[4]?' ok':'')+'"><span class="fz-si">'+(x[4]?'✓':x[1])+'</span><div><b>'+esc(x[2])+(x[5]?' <em>recommended</em>':'')+'</b><small>'+esc(x[3])+'</small></div>'+(x[4]?'<span class="fz-done">Done</span>':'<button type="button" class="fz-allow" data-fz="perm" data-k="'+x[0]+'">Allow</button>')+'</div>'}).join('')+
+  (ready&&!p.acc?'<button type="button" class="fz-skip" data-fz="skipacc">Hide these tips</button>':'')+(ready?'':'<p class="fz-fine">🔐 StudyStarx only sees which app is open — never what’s on your screen.</p>')+'</div>'}
+ r.innerHTML=html+mainCard(ready)+setup}
+function mainCard(ready){var inst=installed(),s=sel(),li=info();
+ var list=APPS.filter(function(a){return!inst||inst[a[0]]||s.has(a[0])});var extra=li.chosen||0;
+ var chosen=APPS.filter(function(a){return s.has(a[0])});var open=ls('fz-edit')==='1'||!chosen.length;
+ var ix=DURS.indexOf(st.mins);
+ return'<div class="fz-main">'+
+  '<div class="fz-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fz-dial"><button type="button" class="fz-pm" data-fz="dmin" aria-label="Less time">−</button><button type="button" class="fz-dv" data-fz="wheel" aria-label="Set your own time"><b>'+durLabel(st.mins)+'</b><span>✎ tap to set time</span></button><button type="button" class="fz-pm" data-fz="dplus" aria-label="More time">+</button></div>'+
+  '<div class="fz-qd">'+DURS.map(function(m){return'<button type="button" class="fz-dur'+(m===st.mins?' on':'')+'" data-fz="dur" data-m="'+m+'">'+durLabel(m)+'</button>'}).join('')+'</div>'+
+  '<button type="button" class="fz-start'+(ready?'':' off')+'" data-fz="start"><span>🔒</span> Start Focus Lock</button>'+(ready?'':'<p class="fz-fine fz-fl">Finish the quick setup below to start.</p>')+
+ '</div>'+
+ '<div class="fz-card fz-blk"><div class="fz-bh"><div><b>Apps to block</b><small>'+(chosen.length||extra?(chosen.length+extra)+' app'+((chosen.length+extra)===1?'':'s')+' will be blocked':'Pick at least one app')+'</small></div><button type="button" class="fz-edit" data-fz="edit">'+(open?'Done':'Change')+'</button></div>'+
+ (open?'<div class="fz-apps">'+list.map(function(a){var on=s.has(a[0]);return'<button type="button" class="fz-app'+(on?' on':'')+'" data-fz="app" data-k="'+a[0]+'" aria-pressed="'+on+'"><span class="fz-ai">'+a[2]+'</span><span class="fz-an">'+esc(a[1])+'</span>'+(on?'<span class="fz-ck">✓</span>':'')+'</button>'}).join('')+'</div><button type="button" class="fz-more-apps" data-fz="pick">＋ Other apps on my phone'+(extra?' <b>('+extra+')</b>':'')+'</button>':
+  '<div class="fz-chips">'+chosen.slice(0,8).map(function(a){return'<span class="fz-chip"><i>'+a[2]+'</i>'+esc(a[1])+'</span>'}).join('')+(chosen.length>8?'<span class="fz-chip">+'+(chosen.length-8)+'</span>':'')+(extra?'<span class="fz-chip">+'+extra+' more</span>':'')+'</div>')+
+ '<label class="fz-sw fz-sw2"><span><b>Strict mode</b><small>No stopping early</small></span><input type="checkbox" id="fzStrict"'+(st.strict?' checked':'')+'><i></i></label>'+'<label class="fz-sw fz-sw2"><span><b>Can’t delete StudyStarx <em class="fz-pl">PLUS</em></b><small>The app can’t be uninstalled until the timer ends</small></span><input type="checkbox" id="fzGuard"'+(st.guard?' checked':'')+'><i></i></label>'+'<label class="fz-sw fz-sw2"><span><b>Earn a break <em class="fz-pl">PLUS</em></b><small>Finish homework or a quiz to open your apps for up to 45 min — the AI decides how long</small></span><input type="checkbox" id="fzEarn"'+(st.earn?' checked':'')+'><i></i></label>'+
+ '</div>'}
+function drawRun(r,li,p){var n=N();if(p&&p.v>=6&&p.usage&&p.overlay&&!p.watch&&n.ensureWatch){try{n.ensureWatch()}catch(_){}}
+ var warn='';if(!p||!(p.v>=6))warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked</b><p>This version of the app can’t block reliably. Install the new one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';
+ else if(!p.usage||!p.overlay)warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked yet</b><p>Two permissions are needed. Tap each one, switch StudyStarx on, and come back.</p>'+(p.usage?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="usage">Allow usage access</button> ')+(p.overlay?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="overlay">Allow display over other apps</button>')+'</div>';
+ else if(p.watch)warn='<div class="fz-okb">✅ Blocking is active'+(p.blocks?' · blocked '+p.blocks+' time'+(p.blocks>1?'s':''):'')+'</div>';
+ else warn='<div class="fz-warn"><b>Starting the blocker…</b><p>If this stays for more than a few seconds, allow “Keep blocking switched on”.</p><button type="button" class="fz-allow" data-fz="perm" data-k="battery">Allow</button></div>';var left=li.until-Date.now(),tot=+(ls('fz-total')||0)||Math.max(left,1),pc=Math.max(0,Math.min(1,left/tot)),C=2*Math.PI*88;
+ var end=new Date(li.until).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});var apps=(li.apps||[]).slice(0,12);
+ r.innerHTML=warn+earnCard(li)+'<div class="fz-run"><div class="fz-ring"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="88" class="bg"/><circle cx="100" cy="100" r="88" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc)).toFixed(1)+'"/></svg><div class="fz-rt"><b id="fzLeft">'+fmt(left)+'</b><span>until '+esc(end)+'</span></div></div>'+
+ '<h2>Stay focused 🌱</h2><p>'+(apps.length?'These apps are blocked:':'Your chosen apps are blocked.')+'</p><div class="fz-tags">'+apps.map(function(a){return'<span>'+esc(a)+'</span>'}).join('')+'</div>'+
+ (li.strict?'<p class="fz-strict">🔐 Strict mode — the lock ends by itself at '+esc(end)+'.</p>':'<button type="button" class="fz-stop" data-fz="stop">Stop the lock</button>')+'</div>'}
+/* scroll-wheel time picker: hours : minutes */
+function wheel(){var ov=document.getElementById('fzWheel');if(ov)ov.remove();ov=document.createElement('div');ov.id='fzWheel';ov.className='fz-wov';var h0=Math.floor(st.mins/60),m0=st.mins%60;
+ var col=function(id,n,step,sel,unit){var h='';for(var i=0;i<n;i+=step)h+='<div class="fz-wi" data-v="'+i+'">'+(i<10?'0'+i:i)+'</div>';return'<div class="fz-wc"><div class="fz-wl" id="'+id+'">'+'<div class="fz-wpad"></div>'+h+'<div class="fz-wpad"></div></div><small>'+unit+'</small></div>'};
+ ov.innerHTML='<div class="fz-wbox" role="dialog" aria-label="Set focus time"><b class="fz-wt">Set your focus time</b><div class="fz-wwrap"><div class="fz-wband"></div>'+col('fzWH',9,1,h0,'hours')+'<div class="fz-wcolon">:</div>'+col('fzWM',60,1,m0,'minutes')+'</div><p class="fz-wnote" id="fzWNote"></p><div class="fz-wbtns"><button type="button" class="fz-wcancel">Cancel</button><button type="button" class="fz-wok">Set time</button></div></div>';
+ document.body.appendChild(ov);var IH=48;
+ var L=[document.getElementById('fzWH'),document.getElementById('fzWM')];
+ function val(l){return Math.max(0,Math.round(l.scrollTop/IH))}
+ function paint(){L.forEach(function(l){var v=val(l);l.querySelectorAll('.fz-wi').forEach(function(e,i){e.classList.toggle('on',i===v)})});var t=val(L[0])*60+val(L[1]);var n=document.getElementById('fzWNote');if(n)n.textContent=t<5?'Pick at least 5 minutes':'Focus for '+durLabel(t)}
+ L[0].scrollTop=h0*IH;L[1].scrollTop=m0*IH;paint();
+ L.forEach(function(l){var tm;l.addEventListener('scroll',function(){paint();clearTimeout(tm);tm=setTimeout(function(){l.scrollTo({top:val(l)*IH,behavior:'smooth'})},120)});l.addEventListener('click',function(e){var it=e.target.closest('.fz-wi');if(it){var i=Array.prototype.indexOf.call(l.querySelectorAll('.fz-wi'),it);l.scrollTo({top:i*IH,behavior:'smooth'})}})});
+ ov.addEventListener('click',function(e){if(e.target===ov||e.target.closest('.fz-wcancel')){ov.remove();return}if(e.target.closest('.fz-wok')){var t=val(L[0])*60+val(L[1]);if(t<5)t=5;st.mins=Math.min(8*60+59,t);ls('fz-mins',st.mins);ov.remove();draw()}})}
+/* ---------- Earn a break (Plus): homework checked by the AI examiner, or a quiz ---------- */
+function brk(){try{return JSON.parse(ls('fz-brk')||'{}')||{}}catch(e){return{}}}
+function brkSave(b){ls('fz-brk',JSON.stringify(b))}
+var GAP=20*60000,MAXN=3;
+function earnCard(li){if(ls('fz-earnlock')!=='1')return'';var now=Date.now(),b=brk();
+ if(li.pause&&li.pause>now)return'<div class="fz-brk on"><div><b>🎉 Break time</b><small>Your apps are open — the lock comes back by itself.</small></div><b class="fz-bt" id="fzBrkLeft">'+fmt(li.pause-now)+'</b><button type="button" class="fz-be" data-fz="endbrk">End break</button></div>';
+ if((b.n||0)>=MAXN)return'<div class="fz-brk"><div><b>🎁 Breaks used up</b><small>You’ve earned '+MAXN+' breaks this session. Great work — keep going!</small></div></div>';
+ var from=Math.max(b.start||0,b.last||0),wait=from+GAP-now;
+ if(wait>0)return'<div class="fz-brk"><div><b>🎁 Earn a break</b><small>Study for <span id="fzBrkWait">'+Math.ceil(wait/60000)+'</span> more min, then finish homework or a quiz to open your apps.</small></div><button type="button" class="fz-eb" data-fz="earn">How it works</button></div>';
+ return'<div class="fz-brk ready"><div><b>🎁 Earn a break</b><small>Show your homework to the AI examiner — or take a quick quiz. Good work opens your apps for up to 45 min.</small></div><button type="button" class="fz-eb" data-fz="earn">Earn it</button></div>'}
+function prof(){try{var p=data.profile||{};return[p.grade&&('Grade '+p.grade),p.board||p.syllabus,(p.subjects||[]).join(', ')].filter(Boolean).join(' · ')||'secondary school'}catch(e){return'secondary school'}}
+function h32(t){var h=0;t=String(t).replace(/\s+/g,' ').trim().toLowerCase();for(var i=0;i<t.length;i++){h=(h*31+t.charCodeAt(i))|0}return String(h)}
+function ai(o){if(typeof callStudyAI!=='function')return Promise.reject(new Error('AI not available'));return callStudyAI(o)}
+function pj(t){t=String(t||'');var a=t.indexOf('{'),b=t.lastIndexOf('}');if(a<0||b<a)throw new Error('bad');return JSON.parse(t.slice(a,b+1))}
+var EQ=null,EF=[];
+function earnOpen(){var ov=document.getElementById('fzEarnOv');if(ov)ov.remove();ov=document.createElement('div');ov.id='fzEarnOv';ov.className='fz-wov';document.body.appendChild(ov);EF=[];EQ=null;earnHome()}
+function eBox(h){var ov=document.getElementById('fzEarnOv');if(ov)ov.innerHTML='<div class="fz-wbox fz-ebox" role="dialog" aria-label="Earn a break"><button type="button" class="fz-ex" data-fe="close" aria-label="Close">✕</button>'+h+'</div>'}
+function earnHome(){var b=brk(),now=Date.now(),from=Math.max(b.start||0,b.last||0),wait=from+GAP-now;
+ var head='<div class="fz-eh"><span>🎁</span><div><b>Earn a break</b><small>The AI examiner decides how long — bigger, better work earns more time (max 45 min).</small></div></div>';
+ if(wait>0){eBox(head+'<p class="fz-enote">Study for <b>'+Math.ceil(wait/60000)+' more minutes</b> first. Then come back with your homework — or take a quiz.</p><ul class="fz-erules"><li>📄 Paste or photograph your finished homework</li><li>✅ Good marks → apps open for 5–45 min</li><li>❌ Weak or unfinished work → no break, but you get tips</li><li>🎯 No homework? Score well on a quick quiz for a shorter break</li></ul><button type="button" class="fz-wok fz-full" data-fe="close">Got it</button>');return}
+ eBox(head+'<div class="fz-echoice"><button type="button" class="fz-ec" data-fe="hw"><span>📄</span><b>Check my homework</b><small>Up to 45 min</small></button><button type="button" class="fz-ec" data-fe="quiz"><span>🎯</span><b>No homework — quiz me</b><small>Up to 20 min</small></button></div>')}
+function earnHW(){eBox('<div class="fz-eh"><span>📄</span><div><b>Show the examiner your homework</b><small>Paste your answers, or add photos of your pages.</small></div></div><textarea id="fzHW" class="fz-eta" placeholder="Paste your questions and your answers here…"></textarea><div class="fz-eph"><label class="fz-epb">📷 Add photo<input type="file" id="fzHWF" accept="image/*" capture="environment" multiple hidden></label><span id="fzHWN">'+(EF.length?EF.length+' photo'+(EF.length>1?'s':'')+' added':'')+'</span></div><button type="button" class="fz-wok fz-full" data-fe="send">Check my work</button><button type="button" class="fz-eback" data-fe="home">← Back</button>')}
+function grant(mins,why){mins=Math.max(0,Math.min(45,Math.round(mins||0)));var n=N(),b=brk();if(mins<5||!n||!n.pauseBlock)return false;try{n.pauseBlock(mins)}catch(e){return false}b.n=(b.n||0)+1;b.last=Date.now()+mins*60000;brkSave(b);try{window.sfConfetti&&sfConfetti()}catch(e){}return true}
+function earnResult(ok,mins,score,fb,extra){eBox('<div class="fz-eres '+(ok?'good':'bad')+'"><div class="fz-ersc">'+(score!=null?score+'<small>/10</small>':(ok?'✓':'✕'))+'</div><b>'+(ok?'🎉 Break earned: '+mins+' min':'Not this time')+'</b><p>'+esc(fb||'')+'</p>'+(extra||'')+'</div><button type="button" class="fz-wok fz-full" data-fe="'+(ok?'close':'home')+'">'+(ok?'Enjoy your break':'Try again')+'</button>');setTimeout(draw,300)}
+function sendHW(){var t=($('#fzHW')&&$('#fzHW').value||'').trim();if(t.length<40&&!EF.length){tst('Paste your work or add a photo first.');return}var b=brk(),hk=h32(t+EF.map(function(f){return f.data.slice(0,200)}).join(''));if((b.used||[]).indexOf(hk)>=0){tst('You already used this work for a break.');return}
+ eBox('<div class="fz-ewait"><div class="fz-spin"></div><b>The examiner is checking your work…</b><small>Marking every answer</small></div>');
+ var sys='You are a strict but fair school examiner deciding whether a student has earned a phone break. Student: '+prof()+'. Read their homework (text and/or photos). Check: is it real school work for their level, is it actually finished, how many questions/tasks and how much effort, and how correct it is. Copied text, random text, blank pages, one tiny answer or off-topic content earn nothing.\nDecide break minutes from the AMOUNT and QUALITY of work: tiny (1–2 short answers) 0–5, small (3–5 questions) 10–15, medium (6–10 questions or a page of writing) 20–30, large (11+ questions, a full worksheet or essay) 35–45. Give 0 if score < 6. Never more than 45.\nReply ONLY with JSON: {"questions":number,"size":"tiny|small|medium|large","score":0-10,"good":true|false,"minutes":number,"feedback":"2 short friendly sentences: what was good and what to fix"}';
+ ai({system:sys,user:t?('HOMEWORK:\n'+t.slice(0,12000)):'HOMEWORK: see the photos.',files:EF.length?EF.slice(0,4):null,temperature:.1,maxTokens:600}).then(function(r){var j=pj(typeof r==='string'?r:(r&&(r.answer||r.text))||'');var sc=Math.max(0,Math.min(10,Math.round(+j.score||0))),m=(j.good&&sc>=6)?Math.max(5,Math.min(45,Math.round(+j.minutes||0))):0;
+  if(m>=5){var bb=brk();bb.used=(bb.used||[]).concat([hk]).slice(-20);brkSave(bb);if(!grant(m)){earnResult(false,0,sc,'Your work is good, but this app version can’t open apps for a break yet. Update the StudyStarx app.');return}earnResult(true,m,sc,j.feedback,'<p class="fz-esz">'+(j.questions?j.questions+' questions · ':'')+(j.size||'')+' task</p>')}
+  else earnResult(false,0,sc,j.feedback||'Finish more of your work, then try again.')}).catch(function(e){earnResult(false,0,null,'The examiner could not check it right now ('+(e&&e.message||'error')+'). Try again in a moment.')})}
+function startQuiz(){eBox('<div class="fz-ewait"><div class="fz-spin"></div><b>Making your quiz…</b><small>8 questions on your subjects</small></div>');
+ var wk='';try{wk=(data.mistakes||[]).slice(-6).map(function(m){return m.topic||m.q||''}).filter(Boolean).join('; ')}catch(e){}
+ ai({system:'You write short school quizzes. Student: '+prof()+'.'+(wk?' Recent weak spots: '+wk+'.':'')+' Write 8 multiple-choice questions at their level across their subjects, medium difficulty, each with 4 options and one correct answer. Reply ONLY with JSON: {"qs":[{"q":"...","o":["a","b","c","d"],"a":0}]}',user:'Make the quiz.',temperature:.7,maxTokens:2200}).then(function(r){var j=pj(typeof r==='string'?r:(r&&(r.answer||r.text))||'');var qs=(j.qs||[]).filter(function(x){return x&&x.q&&x.o&&x.o.length>=2}).slice(0,8);if(qs.length<5)throw new Error('quiz failed');EQ={qs:qs,i:0,right:0};quizQ()}).catch(function(e){eBox('<p class="fz-enote">Couldn’t make a quiz right now. Try again.</p><button type="button" class="fz-wok fz-full" data-fe="home">Back</button>')})}
+function quizQ(){var q=EQ.qs[EQ.i];eBox('<div class="fz-qp">Question '+(EQ.i+1)+' of '+EQ.qs.length+'</div><div class="fz-qbar"><i style="width:'+(EQ.i/EQ.qs.length*100)+'%"></i></div><b class="fz-qq">'+esc(q.q)+'</b><div class="fz-qo">'+q.o.map(function(o,i){return'<button type="button" data-fe="ans" data-i="'+i+'">'+esc(o)+'</button>'}).join('')+'</div>')}
+function quizEnd(){var r=EQ.right,n=EQ.qs.length,ok=r>=Math.ceil(n*.75),m=ok?Math.min(20,10+(r-Math.ceil(n*.75))*5):0;var sc=Math.round(r/n*10);
+ if(ok&&!grant(m)){earnResult(false,0,sc,'Great score, but this app version can’t open apps for a break yet. Update the StudyStarx app.');return}
+ earnResult(ok,m,sc,ok?'You got '+r+' of '+n+' right. Homework earns longer breaks!':'You got '+r+' of '+n+' — you need '+Math.ceil(n*.75)+' to earn a break. Revise and try again later.')}
+document.addEventListener('change',function(e){if(e.target&&e.target.id==='fzHWF'){var fs=[].slice.call(e.target.files||[],0,4-EF.length);fs.forEach(function(f){var rd=new FileReader();rd.onload=function(){var img=new Image();img.onload=function(){var k=Math.min(1,1600/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=img.width*k;c.height=img.height*k;c.getContext('2d').drawImage(img,0,0,c.width,c.height);EF.push({name:f.name,mimeType:'image/jpeg',data:c.toDataURL('image/jpeg',.72).split(',')[1]});var n=$('#fzHWN');if(n)n.textContent=EF.length+' photo'+(EF.length>1?'s':'')+' added'};img.src=rd.result};rd.readAsDataURL(f)})}});
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-fe]');if(!a)return;var k=a.dataset.fe,ov=document.getElementById('fzEarnOv');
+ if(k==='close'){if(ov)ov.remove();draw();return}if(k==='home'){earnHome();return}if(k==='hw'){earnHW();return}if(k==='send'){sendHW();return}if(k==='quiz'){startQuiz();return}
+ if(k==='ans'&&EQ){var q=EQ.qs[EQ.i],i=+a.dataset.i,good=i===+q.a;if(good)EQ.right++;a.classList.add(good?'ok':'no');if(!good){var c=a.parentNode.children[+q.a];if(c)c.classList.add('ok')}[].forEach.call(a.parentNode.children,function(x){x.disabled=true});setTimeout(function(){EQ.i++;if(EQ.i>=EQ.qs.length)quizEnd();else quizQ()},700)}});
+document.addEventListener('click',function(e){var o=document.getElementById('fzEarnOv');if(o&&e.target===o){o.remove();draw()}});
+function onClick(e){var _b=e&&e.target&&e.target.closest?e.target.closest('[data-fz]'):null;if(_b){var _k=_b.dataset.fz;if(_k==='wheel'){readOpts();wheel();return}if(_k==='earn'){earnOpen();return}if(_k==='endbrk'){try{N().endPause()}catch(_){}setTimeout(draw,200);return}if(_k==='edit'){readOpts();ls('fz-edit',ls('fz-edit')==='1'?'0':'1');draw();return}if(_k==='dmin'||_k==='dplus'){var _L=[15,25,30,45,60,90,120,180],_i=_L.indexOf(st.mins);if(_i<0){_i=0;for(var _q=0;_q<_L.length;_q++)if(_L[_q]<=st.mins)_i=_q}_i=Math.max(0,Math.min(_L.length-1,_i+(_k==='dplus'?1:-1)));st.mins=_L[_i];ls('fz-mins',st.mins);readOpts();draw();return}if(_k==='edit')readOpts();}var b=e.target.closest('[data-fz]');if(!b)return;var k=b.dataset.fz,n=N();
+ if(k==='skipacc'){ls('fz-acc-skip','1');draw();return}
+ if(k==='perm'){if(b.dataset.k==='popup'){st.popup=true;ls('fz-popup','1')}try{n.openPerm(b.dataset.k)}catch(_){}return}
+ if(k==='app'){var s=sel();s.has(b.dataset.k)?s.delete(b.dataset.k):s.add(b.dataset.k);saveSel();draw();return}
+ if(k==='pick'){try{n.openBlocker()}catch(_){}return}
+ if(k==='dur'){st.mins=+b.dataset.m;ls('fz-mins',st.mins);readOpts();draw();return}
+ if(k==='custom'){var v=prompt('How many minutes? (5 – 720)',String(st.mins));v=Math.round(+v);if(v>=5&&v<=720){st.mins=v;ls('fz-mins',v);readOpts();draw()}return}
+ if(k==='start'){readOpts();start(b);return}
+ if(k==='stop'){if(!confirm('Stop the focus lock now?'))return;try{n.stopBlock()}catch(_){}setTimeout(draw,200);return}}
+function readOpts(){var a=$('#fzStrict'),g=$('#fzGuard'),e=$('#fzEarn');if(a)st.strict=a.checked;if(g)st.guard=g.checked;if(e){st.earn=e.checked;ls('fz-earn',e.checked?'1':'0')}}
+function start(b){var n=N(),p=perms();
+ if(b.classList.contains('off')){var su=$('#fzSetup');if(su){su.classList.remove('fz-shake');void su.offsetWidth;su.classList.add('fz-shake');su.scrollIntoView({behavior:'smooth',block:'center'})}else tst('Update the app first.');return}
+ var s=sel(),li=info();if(!s.size&&!(li.chosen>0)){tst('Tap at least one app to block.');return}
+ if(st.guard&&!plus()){try{if(window.sfPlusGate)sfPlusGate('Uninstall protection','guard');else go('premium')}catch(_){}return}
+ if(st.earn&&!plus()){try{if(window.sfPlusGate)sfPlusGate('Earn a break','Earn break time by finishing homework is part of StudyStarx Plus.');else go('premium')}catch(_){}return}
+ var words=[];APPS.forEach(function(a){if(s.has(a[0]))words=words.concat(a[3])});
+ if(st.strict&&!confirm('Strict mode: you will NOT be able to stop this lock for '+durLabel(st.mins)+'. Start?'))return;
+ try{if(n.startBlockNames)n.startBlockNames(st.mins,JSON.stringify(words),!!st.strict);else n.startBlock(st.mins)}catch(_){}
+ if(st.guard&&n.guardOn&&!n.guardOn()&&n.askGuard)try{n.askGuard()}catch(_){}
+ ls('fz-total',String(st.mins*60000));ls('fz-earnlock',st.earn?'1':'0');ls('fz-brk',JSON.stringify({start:Date.now(),n:0,last:0,used:[]}));
+ try{var F=data.flock||(data.flock={locks:[],extra:[]});F.locks=(F.locks||[]).filter(function(l){return l.until>Date.now()});APPS.forEach(function(a){if(s.has(a[0]))F.locks.push({key:a[0],label:a[1],until:Date.now()+st.mins*60000,strict:st.strict})});persist()}catch(_){}
+ try{window.sfConfetti&&sfConfetti()}catch(_){}
+ setTimeout(draw,250)}
+var tick=null;function loop(){clearInterval(tick);tick=setInterval(function(){var pg=$('#page-focuslock');if(!pg||!pg.classList.contains('active'))return;var li=info();var el=$('#fzLeft');if(li.until>Date.now()){var bl=$('#fzBrkLeft');if(bl){if(li.pause>Date.now())bl.textContent=fmt(li.pause-Date.now());else draw()}if(el)el.textContent=fmt(li.until-Date.now());else draw();if(Date.now()%10000<1000)draw()}else if(el)draw()},1000)}
+
+/* ---------- browser page: fold the extras away ---------- */
+function tidyWeb(){var pg=$('#page-focuslock');if(!pg||pg.dataset.fzw)return;var opts=$('.fl-opts',pg);if(!opts)return;pg.dataset.fzw=1;document.body.classList.add('fz-web');
+ var d=document.createElement('details');d.className='fz-wmore';d.innerHTML='<summary>More options</summary>';['flPomo','flEdu','flGuard'].forEach(function(id){var i=document.getElementById(id);var l=i&&i.closest('label');if(l)d.appendChild(l)});opts.appendChild(d);
+ var h=opts.previousElementSibling;if(h&&h.classList.contains('fl-step')){var t=h.querySelector('h2');if(t)t.textContent='Strict lock?'}
+ var moveSched=function(){var sc=$('#ppSched');if(!sc||sc.dataset.fzw)return;sc.dataset.fzw=1;var w=document.createElement('details');w.className='card fz-wsched';w.innerHTML='<summary>📅 Weekly schedules <span>Lock automatically at the same time each week</span></summary>';sc.parentNode.insertBefore(w,sc);w.appendChild(sc)};moveSched();setTimeout(moveSched,1500);setTimeout(moveSched,4000)}
+
+function boot(){if(N()){draw();loop()}else tidyWeb()}
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&N()){st.inst=null;draw()}});
+window.addEventListener('focus',function(){if(N())draw()});
+if(typeof window.go==='function'&&!window.go.__fz){var og=window.go,w=function(p){var r=og.apply(this,arguments);if(p==='focuslock')setTimeout(boot,30);return r};w.__fz=1;for(var k in og)try{w[k]=og[k]}catch(e){}window.go=w}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,400)});else setTimeout(boot,400);
+setTimeout(boot,2000);
+window.sfFocusLockDraw=draw;
 })();
 
 </script></body></html>

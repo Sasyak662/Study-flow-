@@ -112,7 +112,7 @@ public class WatchService extends Service {
         since = Math.max(since, newest);
         boolean bad = !front.isEmpty() && !front.equals(getPackageName()) && Lock.isBlocked(this, front);
         // once the blocked app is gone, the focus screen clears itself after a few seconds
-        if (!bad) { if (shieldUp && !front.isEmpty() && now - lastShow > 6000) ui.post(() -> hideShield()); return; }
+        if (!bad) { if (shieldUp && (Lock.pausedUntil(this) > 0 || (!front.isEmpty() && now - lastShow > 6000))) ui.post(() -> hideShield()); return; }
         if (now < graceUntil) return;
         if (now - lastShow < 1200) return;
         lastShow = now; if (!shieldUp) blocks++;
