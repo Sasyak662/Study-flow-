@@ -142,9 +142,33 @@ module.exports = async function handler(req, res) {
     if (String(body.user || '').length > 4000) return send(res, 400, { error: 'Invalid request.' });
   }
 
+  // Syllabus outline: the official, latest topic list for one course (syllabus + grade + subject).
+  // Made ONCE for everyone (cached for 6 months) and used to keep every quiz inside the syllabus.
+  // It does not use the student's daily allowance; it is capped per user and counts towards the monthly budget.
+  const syl = body && body.purpose === 'syllabus';
+  let sylKey = null;
+  if (syl) {
+    const lv = String(body.pool && body.pool.lv || '').slice(0, 80), sub = String(body.pool && body.pool.sub || '').slice(0, 60);
+    if (!lv || !sub) return send(res, 400, { error: 'Invalid request.' });
+    if (S.configured()) {
+      sylKey = 'sf:syl:' + poolKey(lv, sub).slice(6);
+      try {
+        const hit = await S.cmd('GET', sylKey);
+        if (hit) return send(res, 200, { text: hit, cached: true });
+        const uk = 'sf:sylu:' + ip + ':' + S.today();
+        const n = Number(await S.cmd('INCR', uk)) || 0;
+        if (n === 1) await S.cmd('EXPIRE', uk, 172800);
+        if (n > 25) return send(res, 429, { error: 'Too many new syllabus look-ups today.' });
+      } catch (e) { console.error('syllabus cache failed', e.message); }
+    }
+    body.system = 'You are an expert on school syllabuses worldwide. Give the OFFICIAL, CURRENT (latest edition) syllabus content for exactly this subject, grade and board. Use web search to check the latest official syllabus or curriculum framework (and the textbook chapters used for it). Return ONLY JSON: {"subject":"full subject name (expand abbreviations using the board, e.g. GP in Cambridge Primary = Global Perspectives)","language":"language the questions must be written in (e.g. Hindi for a Hindi language subject, Spanish for Spanish, otherwise English)","topics":["15-30 short topic names actually taught in THIS grade, in teaching order"],"skills":"one sentence on what students do in this subject at this grade","avoid":"topics that belong to other grades and must not be asked"}. Only include topics that are really in this grade of this syllabus.';
+    body.user = 'Subject: ' + sub + '\nStudent: ' + lv;
+    body.search = true; body.codeExecution = false; body.json = false; body.maxTokens = 3000; body.files = []; body.messages = []; body.temperature = 0.1;
+  }
+
   // Daily AI limits by plan (only when the Redis/KV store is configured; otherwise just the per-minute limit applies).
   let usageKey = null, limit = null, planNow = 'free', who = 'ip:' + ip;
-  if (S.configured()) {
+  if (S.configured() && !syl) {
     try {
       const email = S.readSession(req);
       const u = email ? await S.getJSON(S.userKey(email)) : null;
@@ -175,7 +199,7 @@ module.exports = async function handler(req, res) {
           const fk = 'sf:first:' + who + ':' + S.today();
           const fn = Number(await S.cmd('INCR', fk)) || 0;
           if (fn === 1) await S.cmd('EXPIRE', fk, 172800);
-          firstOk = fn <= 10;
+          firstOk = fn <= 12;
         }
       }
       if (used > limit && !firstOk) {
@@ -228,8 +252,8 @@ module.exports = async function handler(req, res) {
   if (body.search) payload.tools = [{ google_search: {} }];
   else if (body.codeExecution) payload.tools = [{ code_execution: {} }];
 
-  // The Google-search double-check is a Plus extra (it is the most expensive add-on)
-  if (planNow !== 'plus') body.search = false;
+  // The Google-search double-check is a Plus extra (it is the most expensive add-on); the one-off syllabus look-up may search
+  if (planNow !== 'plus' && !syl) { body.search = false; if (payload.tools && payload.tools[0] && payload.tools[0].google_search) { if (body.codeExecution) payload.tools = [{ code_execution: {} }]; else delete payload.tools; } }
   // Monthly money cap for FREE users (Plus users pay, so they are not stopped). Spend is tracked in paise.
   const BUDGET_PAISE = Number(process.env.AI_FREE_MONTHLY_INR || 5000) * 100;
   const monthKey = 'sf:spend:' + (planNow === 'plus' ? 'plus' : 'free') + ':' + new Date(Date.now() + 19800000).toISOString().slice(0, 7);
@@ -313,6 +337,10 @@ module.exports = async function handler(req, res) {
         const tot = Number(await S.cmd('INCRBY', monthKey, paise)) || 0;
         if (tot === paise) await S.cmd('EXPIRE', monthKey, 3456000);
       } catch (e) { console.error('spend track failed', e.message); }
+    }
+    // keep the syllabus outline for everyone on this course (6 months)
+    if (syl && sylKey) {
+      try { const a = text.indexOf('{'), b = text.lastIndexOf('}'); const o = JSON.parse(text.slice(a, b + 1)); if (Array.isArray(o.topics) && o.topics.length >= 3) await S.cmd('SET', sylKey, JSON.stringify(o).slice(0, 6000), 'EX', 15552000); } catch (e) { console.error('syllabus save failed', e.message); }
     }
     // StudyQuest: add the new questions to the shared pool for this course, so other students get them without another AI request
     if (quest && body.pool && S.configured()) {
