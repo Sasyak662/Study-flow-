@@ -11,6 +11,11 @@
     },
     "api/tts.js": {
       "maxDuration": 60
+    },
+    "api/voice.js": {
+      "maxDuration": 30,
+      "memory": 2048,
+      "includeFiles": "{api/_voice/**,node_modules/sherpa-onnx-linux-x64/**}"
     }
   },
   "headers": [

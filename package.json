@@ -1,0 +1,7 @@
+{
+  "name": "studystarx",
+  "private": true,
+  "dependencies": {
+    "sherpa-onnx-node": "2.0.1"
+  }
+}
