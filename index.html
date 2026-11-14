@@ -3287,11 +3287,11 @@ html[data-dark] .sfv2-chip{background:rgba(225,29,72,.15)}
 (function(){
 var LS='sf-navgroups';
 var GROUPS=[
- ['learn','Learn','#6366f1',['coach','upload','library'],'<path d="M2 7l10-4 10 4-10 4z"/><path d="M6 9v5c0 1.7 2.7 3 6 3s6-1.3 6-3V9"/>'],
- ['practice','Practice','#ec4899',['quiz','flashcards','mistakes','mastery','examiner','quest'],'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>'],
- ['plan','Plan & Focus','#10b981',['director','planner','focuslock'],'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'],
+ ['learn','Learn','#6366f1',['coach','library'],'<path d="M2 7l10-4 10 4-10 4z"/><path d="M6 9v5c0 1.7 2.7 3 6 3s6-1.3 6-3V9"/>'],
+ ['practice','Practice','#ec4899',['quiz','flashcards','mistakes','mastery','quest'],'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>'],
+ ['plan','Plan & Focus','#10b981',['planner','focuslock'],'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'],
  ['progress','Progress','#f59e0b',['progress'],'<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>'],
- ['store','Books & Premium','#a855f7',['resources','cart','premium'],'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/>'],
+ ['store','Books & Premium','#a855f7',['resources','premium'],'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/>'],
  ['account','Account','#64748b',['settings'],'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>']
 ];
 var CHEV='<svg class="sfg-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
@@ -4383,7 +4383,7 @@ function phone(){return window.matchMedia('(max-width:900px)').matches}
 function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
 function P(){try{return data.profile||{}}catch(e){return{}}}
 function save(){try{persist()}catch(e){}}
-var INFO={learn:['Learn','Ask the AI, join classes, keep notes','🎓'],practice:['Practice','Quizzes, flashcards and StudyQuest','🎯'],plan:['Plan & Focus','Your timetable, focus timer and blocking','🗓️'],progress:['Progress','See how you are improving','📈'],store:['Books & Plus','Study books and premium','📚'],account:['Account','Profile and settings','👤']};
+var INFO={learn:['Learn','Ask the AI coach and keep your notes','🎓'],practice:['Practice','Quizzes, flashcards and StudyQuest','🎯'],plan:['Plan & Focus','Your timetable and Focus Lock','🗓️'],progress:['Progress','See how you are improving','📈'],store:['Books & Plus','Study books and premium','📚'],account:['Account','Profile and settings','👤']};
 var QUICK=['coach','timetable','quiz','flashcards','focuslock','quest'];
 function lock(on){document.documentElement.classList.toggle('pm-lock',on)}
 
@@ -10738,6 +10738,34 @@ function reviewRound(){var B=window.SFQuestBank,Q=window.StudyFlowQuiz;if(!B||!Q
  var qs=pool.slice(0,8).map(function(x){return{text:x.q.text,options:x.q.options.slice(),correct:+x.q.correct,explain:x.q.explain||'',time:20,subject:x.sub,topic:x.q.topic||x.sub,pic:x.q.pic||''}});
  Q.play({id:'ne-review',title:'🔁 Review round',subject:'Review',topic:'Review',emoji:'🔁',color:'#0f766e',questions:qs},{mode:'solo',shuffle:true,shuffleAnswers:true,onEnd:function(res){var c=Math.max(0,+res.correct||0),g=window.sfEarn(c*6,'revq');setTimeout(function(){var h=document.querySelector('.kq-full h1');if(h)h.insertAdjacentHTML('afterend','<p style="font-weight:800;margin:4px 0 0">'+(g>0?'🪙 +'+g+' coins for '+c+' correct answers':'You have earned today\\u2019s review coins — great practice anyway!')+'</p>')},300)}})}
 setInterval(function(){try{paint()}catch(e){}},2000);
+})();
+
+</script><style id="sf-mg-css">
+.sfm-tabs{display:flex;gap:6px;margin:0 0 14px;padding:5px;background:var(--panel,#eef0f8);border-radius:14px;width:max-content;max-width:100%;overflow-x:auto}
+.sfm-tabs button{border:0;background:transparent;border-radius:10px;padding:9px 14px;font:inherit;font-weight:700;color:var(--muted,#5b6180);cursor:pointer;white-space:nowrap}
+.sfm-tabs button.on{background:#fff;color:var(--ink,#111827);box-shadow:0 2px 8px rgba(15,23,42,.1)}
+
+</style><script id="sf-mg-js">
+/* ===== Fewer pages: related pages share one menu item and switch with tabs at the top ===== */
+(function(){
+var M={coach:[['coach','💬 Chat'],['examiner','✍️ Mark my answer']],
+ timetable:[['timetable','🗓️ Timetable'],['director','✅ Today’s plan']],
+ library:[['library','📒 My notes'],['upload','📤 Upload & study']],
+ resources:[['resources','📚 Book store'],['cart','🛒 My cart & books']]};
+var NAME={library:'My Notes',resources:'Books',mastery:'Fix Mistakes'};
+var HOST={};Object.keys(M).forEach(function(h){M[h].forEach(function(t){HOST[t[0]]=h})});
+function tabs(page){var h=HOST[page];if(!h)return;var pg=document.getElementById('page-'+page);if(!pg||pg.querySelector('.sfm-tabs'))return;
+ var d=document.createElement('div');d.className='sfm-tabs';d.setAttribute('role','tablist');
+ d.innerHTML=M[h].map(function(t){return'<button type="button" role="tab" data-sfm="'+t[0]+'"'+(t[0]===page?' class="on" aria-selected="true"':'')+'>'+t[1]+'</button>'}).join('');
+ pg.insertBefore(d,pg.firstChild);d.addEventListener('click',function(e){var b=e.target.closest('[data-sfm]');if(b&&b.dataset.sfm!==page)go(b.dataset.sfm)})}
+function nav(){document.querySelectorAll('.nav button[data-page]').forEach(function(b){var p=b.dataset.page;
+  if(HOST[p]&&HOST[p]!==p){b.hidden=true;b.style.display='none'}
+  if(NAME[p]){var sp=b.querySelector('span');if(sp&&sp.textContent!==NAME[p])sp.textContent=NAME[p]}})}
+function mark(p){var h=HOST[p];if(!h||h===p)return;document.querySelectorAll('.nav button[data-page]').forEach(function(b){if(b.dataset.page===h)b.classList.add('active')})}
+function boot(){Object.keys(HOST).forEach(tabs);nav();
+ if(typeof window.go==='function'&&!window.go.__sfm){var o=window.go;window.go=function(p){var r=o.apply(this,arguments);try{tabs(p);mark(p)}catch(e){}return r};window.go.__sfm=1}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,600)});else setTimeout(boot,600);
+setTimeout(boot,2500);setInterval(function(){try{nav();Object.keys(HOST).forEach(tabs)}catch(e){}},3000);
 })();
 
 </script></body></html>
