@@ -74,10 +74,38 @@ function buildContents(messages, user) {
   return merged;
 }
 
+// Shared StudyQuest question pools: one pool per course + subject, so the AI writes each question once for everyone.
+const POOL_MAX = 400;
+function poolKey(lv, sub) {
+  const t = String(lv || '').trim().toLowerCase().slice(0, 80) + '|' + String(sub || '').trim().toLowerCase().slice(0, 60);
+  return 'sf:qp:' + require('crypto').createHash('sha1').update(t).digest('hex').slice(0, 24);
+}
+function poolItem(q) {
+  if (!q || typeof q !== 'object') return null;
+  const text = String(q.q || q.question || q.text || '').trim();
+  const opts = Array.isArray(q.options) ? q.options.map(o => String(o || '').trim()) : [];
+  const c = Number(q.correct != null ? q.correct : q.correctIndex);
+  if (!text || opts.length !== 4 || opts.some(o => !o) || !(c >= 0 && c < 4)) return null;
+  return { q: text.slice(0, 300), options: opts.map(o => o.slice(0, 160)), correct: c, why: String(q.why || q.explanation || '').slice(0, 300), topic: String(q.topic || '').slice(0, 60), pic: String(q.pic || '').slice(0, 80) };
+}
+async function poolGet(req, res) {
+  const u = new URL(req.url, 'http://x');
+  const lv = u.searchParams.get('lv'), sub = u.searchParams.get('s');
+  if (!lv || !sub || !S.configured()) return send(res, 200, { qs: [], total: 0 });
+  const from = Math.max(0, Math.min(POOL_MAX, Number(u.searchParams.get('from')) || 0)), n = Math.max(1, Math.min(30, Number(u.searchParams.get('n')) || 25));
+  try {
+    const k = poolKey(lv, sub);
+    const [rows, total] = await Promise.all([S.cmd('LRANGE', k, from, from + n - 1), S.cmd('LLEN', k)]);
+    const qs = (rows || []).map(r => { try { return JSON.parse(r) } catch (e) { return null } }).filter(Boolean);
+    return send(res, 200, { qs, total: Number(total) || 0 });
+  } catch (e) { return send(res, 200, { qs: [], total: 0 }); }
+}
+
 module.exports = async function handler(req, res) {
   const key = process.env.GEMINI_API_KEY;
 
   // Handy health check: open /api/ai in a browser to see if the key is configured (never reveals it).
+  if (req.method === 'GET' && /[?&]pool=1/.test(req.url || '')) return poolGet(req, res);
   if (req.method === 'GET') return send(res, 200, { ok: true, configured: Boolean(key), model: MODEL });
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return send(res, 405, { error: 'Method not allowed.' }); }
 
@@ -143,7 +171,7 @@ module.exports = async function handler(req, res) {
           const fk = 'sf:first:' + who + ':' + S.today();
           const fn = Number(await S.cmd('INCR', fk)) || 0;
           if (fn === 1) await S.cmd('EXPIRE', fk, 172800);
-          firstOk = fn <= 45;
+          firstOk = fn <= 10;
         }
       }
       if (used > limit && !firstOk) {
@@ -279,6 +307,22 @@ module.exports = async function handler(req, res) {
         const tot = Number(await S.cmd('INCRBY', monthKey, paise)) || 0;
         if (tot === paise) await S.cmd('EXPIRE', monthKey, 3456000);
       } catch (e) { console.error('spend track failed', e.message); }
+    }
+    // StudyQuest: add the new questions to the shared pool for this course, so other students get them without another AI request
+    if (quest && body.pool && S.configured()) {
+      try {
+        const lv = String(body.pool.lv || ''), subs = (Array.isArray(body.pool.subs) ? body.pool.subs : []).map(String).slice(0, 4);
+        const a = text.indexOf('{'), b = text.lastIndexOf('}');
+        const arr = a >= 0 ? (JSON.parse(text.slice(a, b + 1)).questions || []) : [];
+        const low = {}; subs.forEach(x => { low[x.toLowerCase().trim()] = x });
+        const by = {};
+        arr.forEach((q, i) => { const it = poolItem(q); if (!it) return; const sb = subs.length === 1 ? subs[0] : (low[String(q.subject || '').toLowerCase().trim()] || subs[i % subs.length]); if (!sb) return; (by[sb] = by[sb] || []).push(JSON.stringify(it)) });
+        for (const sb of Object.keys(by)) {
+          const k = poolKey(lv, sb);
+          const len = Number(await S.cmd('LLEN', k)) || 0;
+          if (len < POOL_MAX) await S.cmd('RPUSH', k, ...by[sb].slice(0, POOL_MAX - len));
+        }
+      } catch (e) { console.error('pool add failed', e.message); }
     }
     return send(res, 200, { text, sources: sources.slice(0, 6), usedSearch, codeRan });
   } catch (e) {
