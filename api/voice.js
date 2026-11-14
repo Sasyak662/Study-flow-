@@ -12,6 +12,16 @@ function engine() {
   });
   return tts;
 }
+let lame = null;
+async function mp3(samples, rate) {
+  if (!lame) lame = await import('@breezystack/lamejs');
+  const n = Math.floor(samples.length / 2), pcm = new Int16Array(n);
+  for (let i = 0; i < n; i++) { const v = Math.max(-1, Math.min(1, (samples[2 * i] + samples[2 * i + 1]) / 2)); pcm[i] = v < 0 ? v * 32768 : v * 32767; }
+  const enc = new lame.Mp3Encoder(1, rate / 2, 56), out = [];
+  for (let i = 0; i < n; i += 1152) { const m = enc.encodeBuffer(pcm.subarray(i, i + 1152)); if (m.length) out.push(Buffer.from(m)); }
+  out.push(Buffer.from(enc.flush()));
+  return Buffer.concat(out);
+}
 function wav(samples, rate) {
   // 44.1 kHz -> 22.05 kHz (average pairs) to halve the download; speech stays clear
   const n = Math.floor(samples.length / 2), b = Buffer.alloc(44 + n * 2), r = rate / 2;
@@ -27,9 +37,10 @@ module.exports = async (req, res) => {
     const sid = u.searchParams.get('v') === 'boy' ? 6 : 1;
     if (!text) { res.statusCode = 400; res.setHeader('Content-Type', 'application/json'); return res.end('{"error":"no text"}'); }
     const a = engine().generate({ text, sid, speed: 1, generationConfig: { sid, speed: 1, numSteps: Math.max(3, Math.min(8, Number(u.searchParams.get('s')) || 8)), extra: { lang: 'en' } } });
-    const out = wav(a.samples, a.sampleRate);
+    let out, type = 'audio/mpeg';
+    try { out = await mp3(a.samples, a.sampleRate); } catch (e) { out = wav(a.samples, a.sampleRate); type = 'audio/wav'; }
     res.statusCode = 200;
-    res.setHeader('Content-Type', 'audio/wav');
+    res.setHeader('Content-Type', type);
     res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=31536000, immutable');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.end(out);

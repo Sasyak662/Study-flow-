@@ -2,6 +2,7 @@
   "name": "studystarx",
   "private": true,
   "dependencies": {
-    "sherpa-onnx-node": "2.0.1"
+    "sherpa-onnx-node": "2.0.1",
+    "@breezystack/lamejs": "1.2.7"
   }
 }
