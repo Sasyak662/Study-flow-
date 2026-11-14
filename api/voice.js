@@ -7,7 +7,7 @@ function engine() {
   const sherpa = require('sherpa-onnx-node');
   const M = path.join(__dirname, '_voice') + '/';
   tts = new sherpa.OfflineTts({
-    model: { supertonic: { durationPredictor: M + 'duration_predictor.onnx', textEncoder: M + 'text_encoder.onnx', vectorEstimator: M + 'vector_estimator.onnx', vocoder: M + 'vocoder.onnx', ttsJson: M + 'tts.json', unicodeIndexer: M + 'unicode_indexer.bin', voiceStyle: M + 'voice.bin' }, numThreads: 2, debug: false, provider: 'cpu' },
+    model: { supertonic: { durationPredictor: M + 'duration_predictor.onnx', textEncoder: M + 'text_encoder.onnx', vectorEstimator: M + 'vector_estimator.onnx', vocoder: M + 'vocoder.onnx', ttsJson: M + 'tts.json', unicodeIndexer: M + 'unicode_indexer.bin', voiceStyle: M + 'voice.bin' }, numThreads: Number(process.env.VOICE_THREADS || 1), debug: false, provider: 'cpu' },
     maxNumSentences: 1,
   });
   return tts;
@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
     let text = String(u.searchParams.get('t') || '').replace(/[\u0000-\u001f]/g, ' ').replace(/\s{2,}/g, ' ').trim().slice(0, 420);
     const sid = u.searchParams.get('v') === 'boy' ? 6 : 1;
     if (!text) { res.statusCode = 400; res.setHeader('Content-Type', 'application/json'); return res.end('{"error":"no text"}'); }
-    const a = engine().generate({ text, sid, speed: 1, generationConfig: { sid, speed: 1, numSteps: 8, extra: { lang: 'en' } } });
+    const a = engine().generate({ text, sid, speed: 1, generationConfig: { sid, speed: 1, numSteps: Math.max(3, Math.min(8, Number(u.searchParams.get('s')) || 8)), extra: { lang: 'en' } } });
     const out = wav(a.samples, a.sampleRate);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'audio/wav');
