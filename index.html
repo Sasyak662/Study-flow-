@@ -7380,7 +7380,9 @@ function credit(){var st=S();if(!st.ses||!st.ses.length)return;var now=Date.now(
  st.ses.forEach(function(x){if(x.ok||x.end>now)return;x.ok=1;ch=true;var mins=Math.round(Math.min(720,(x.end-x.s)/60000));if(mins<1)return;
   try{var k='studyflow-focus-center-v1',f=JSON.parse(localStorage.getItem(k)||'{}');f.sessions=f.sessions||[];var d=new Date(x.s);
    f.sessions.push({id:'lock-'+x.s,date:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),minutes:mins,subject:'Focus Lock',source:'lock',at:new Date(x.end).toISOString()});localStorage.setItem(k,JSON.stringify(f))}catch(e){}});
- if(ch)save()}
+ if(ch)save();
+ // keep the Android home-screen widget's "minutes today" up to date
+ try{if(window.SFNative&&SFNative.updateWidget){var f2=JSON.parse(localStorage.getItem('studyflow-focus-center-v1')||'{}'),d0=new Date(),td=d0.getFullYear()+'-'+String(d0.getMonth()+1).padStart(2,'0')+'-'+String(d0.getDate()).padStart(2,'0'),tm=0;(f2.sessions||[]).forEach(function(x){if(x.date===td)tm+=+x.minutes||0});SFNative.updateWidget(tm,activeList().length?'focusing':'idle')}}catch(e){}}
 setInterval(function(){try{credit()}catch(e){}},30000);setTimeout(function(){try{credit()}catch(e){}},3000);
 function cancel(key){
  var act=activeList(),list=key==='*'?act.filter(function(l){return!l.strict}):act.filter(function(l){return l.key===key});
