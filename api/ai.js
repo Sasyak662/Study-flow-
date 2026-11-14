@@ -224,6 +224,8 @@ module.exports = async function handler(req, res) {
   if (body.search) payload.tools = [{ google_search: {} }];
   else if (body.codeExecution) payload.tools = [{ code_execution: {} }];
 
+  // The Google-search double-check is a Plus extra (it is the most expensive add-on)
+  if (planNow !== 'plus') body.search = false;
   // Monthly money cap for FREE users (Plus users pay, so they are not stopped). Spend is tracked in paise.
   const BUDGET_PAISE = Number(process.env.AI_FREE_MONTHLY_INR || 5000) * 100;
   const monthKey = 'sf:spend:' + (planNow === 'plus' ? 'plus' : 'free') + ':' + new Date(Date.now() + 19800000).toISOString().slice(0, 7);
