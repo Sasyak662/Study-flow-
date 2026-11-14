@@ -117,6 +117,7 @@ module.exports = async function handler(req, res) {
       const email = S.readSession(req);
       const u = email ? await S.getJSON(S.userKey(email)) : null;
       const plan = S.isPlus(u) ? 'plus' : 'free';planNow = plan;if (u) who = email;
+      if (paper && process.env.PAPERS_ON !== '1') return send(res, 410, { error: 'The exam paper maker has been removed. Ask the coach for practice questions instead.' });
       if (paper && plan !== 'plus') return send(res, 403, { plus: true, error: 'The Exam Paper Maker is part of StudyStarx Plus.' });
       if (paper && body.stage === 'plan') {
         const pk = 'sf:paper:' + who + ':' + S.today();

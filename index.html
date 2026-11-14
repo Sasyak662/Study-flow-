@@ -10609,357 +10609,6 @@ function init(){var pg=$('#page-focus');if(!pg||pg.dataset.fo)return;var main=$(
 document.addEventListener('DOMContentLoaded',function(){setTimeout(init,600)});setTimeout(init,900);setInterval(init,2000);
 })();
 
-</script><style id="sf-ep-css">
-/* StudyStarx Exam Paper Maker */
-.ep-hb{margin-left:auto;margin-right:8px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:inherit;border-radius:999px;padding:6px 12px;font:600 13px Inter,system-ui,sans-serif;cursor:pointer;white-space:nowrap}
-.ep-hb:hover{background:rgba(255,255,255,.24)}
-.ep-hb+#clearChat{margin-left:0!important}
-@media(max-width:520px){.ep-hb span{display:none}.ep-hb{padding:6px 10px}}
-.ep-wc{display:flex;align-items:center;gap:12px;width:100%;max-width:640px;margin:14px auto 0;text-align:left;border:1px solid #c7d2fe;background:linear-gradient(135deg,#eef2ff,#faf5ff);border-radius:16px;padding:14px 16px;cursor:pointer;color:#1e1b4b;font:inherit;transition:transform .15s,box-shadow .15s}
-.ep-wc:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(79,70,229,.15)}
-.ep-wci{font-size:26px;width:44px;height:44px;display:grid;place-items:center;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(79,70,229,.15);flex:none}
-.ep-wc b{display:block;font-size:15px}.ep-wc b em{font-style:normal;font-size:10.5px;letter-spacing:.06em;background:linear-gradient(90deg,#f59e0b,#ec4899);color:#fff;border-radius:999px;padding:2px 7px;margin-left:6px;vertical-align:2px}
-.ep-wc small{display:block;color:#4b5563;font-size:12.5px;margin-top:2px}.ep-wca{margin-left:auto;font-size:20px;color:#4f46e5}
-[data-theme="dark"] .ep-wc,.dark .ep-wc{background:linear-gradient(135deg,#1e1b4b,#2e1065);border-color:#4338ca;color:#e0e7ff}[data-theme="dark"] .ep-wc small,.dark .ep-wc small{color:#c7d2fe}
-body.ep-open{overflow:hidden}
-.ep-ov{position:fixed;inset:0;z-index:9000;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
-.ep-ov[hidden]{display:none}
-.ep-sheet{background:#fff;color:#111827;width:min(720px,100%);max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,.3);display:flex;flex-direction:column;overflow:hidden;font-family:Inter,system-ui,sans-serif}
-.ep-top{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #eef0f4;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
-.ep-ttl{display:flex;align-items:center;gap:10px}.ep-ic{font-size:22px}.ep-ttl b{display:block;font-size:16px}.ep-ttl small{display:block;opacity:.85;font-size:12px}
-.ep-plus{margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.08em;background:linear-gradient(90deg,#fbbf24,#f472b6);color:#fff;border-radius:999px;padding:3px 9px}
-.ep-x{border:0;background:rgba(255,255,255,.18);color:#fff;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer}
-.ep-body{padding:16px 18px 20px;overflow:auto;-webkit-overflow-scrolling:touch}
-.ep-l{display:block;font-weight:700;font-size:13.5px;margin:14px 0 6px}.ep-l span{font-weight:400;color:#6b7280}
-.ep-body textarea,.ep-body input:not([type=checkbox]),.ep-body select{width:100%;box-sizing:border-box;border:1.5px solid #e2e5ec;border-radius:12px;padding:10px 12px;font:15px Inter,system-ui,sans-serif;background:#fff;color:#111827;outline:none}
-.ep-body textarea{resize:vertical;min-height:78px}
-.ep-body textarea:focus,.ep-body input:focus,.ep-body select:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.15)}
-.ep-ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ep-ex button{border:1px dashed #c7d2fe;background:#f5f7ff;color:#3730a3;border-radius:10px;padding:6px 10px;font:12.5px Inter,system-ui,sans-serif;cursor:pointer;text-align:left}
-.ep-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:6px}.ep-grid label{display:block;font-weight:600;font-size:12.5px;color:#374151;margin:8px 0 5px}.ep-wide{grid-column:1/-1}
-.ep-chips{display:flex;flex-wrap:wrap;gap:8px}.ep-chips button{border:1.5px solid #e2e5ec;background:#fff;border-radius:999px;padding:8px 14px;font:600 13.5px Inter,system-ui,sans-serif;cursor:pointer;color:#374151}.ep-chips button.on{border-color:#6366f1;background:#eef2ff;color:#3730a3}
-.ep-tg{display:grid;gap:8px;margin-top:14px}.ep-tg label{display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer}.ep-tg input{width:18px;height:18px;accent-color:#4f46e5}
-.ep-go{display:block;width:100%;margin-top:18px;border:0;border-radius:14px;padding:14px;font:700 16px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#4f46e5,#7c3aed);cursor:pointer;box-shadow:0 8px 20px rgba(79,70,229,.3)}
-.ep-go:active{transform:scale(.99)}
-.ep-fine{font-size:12.5px;color:#6b7280;text-align:center;margin:10px 0 0}
-.ep-link{display:block;margin:12px auto 0;border:0;background:none;color:#4f46e5;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
-.ep-lock{display:flex;flex-direction:column;gap:2px;background:linear-gradient(135deg,#fff7ed,#fdf2f8);border:1px solid #fed7aa;border-radius:12px;padding:10px 12px;font-size:13px;color:#7c2d12}
-.ep-change{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:10px 12px}.ep-change label{display:block;font-weight:700;font-size:13px;margin-bottom:6px;color:#166534}
-.ep-up{border:1.5px solid #f9a8d4;background:linear-gradient(135deg,#fff7ed,#fdf2f8);border-radius:16px;padding:16px;margin-bottom:12px;text-align:center}.ep-upi{font-size:34px}.ep-up h3{margin:6px 0 8px;font-size:18px}.ep-up ul{text-align:left;margin:0 auto;padding-left:20px;max-width:440px;font-size:14px;line-height:1.7}.ep-up .ep-go{margin-top:12px}
-.ep-work{text-align:center;padding:16px 4px}.ep-work h3{margin:12px 0;font-size:17px}
-.ep-spin{width:46px;height:46px;margin:6px auto 0;border-radius:50%;border:4px solid #e0e7ff;border-top-color:#4f46e5;animation:epS 1s linear infinite}@keyframes epS{to{transform:rotate(360deg)}}
-.ep-bar{height:8px;background:#eef0f4;border-radius:99px;overflow:hidden;margin:0 auto;max-width:420px}.ep-bar i{display:block;height:100%;background:linear-gradient(90deg,#4f46e5,#a855f7);border-radius:99px;transition:width .5s}
-.ep-steps{list-style:none;padding:0;margin:14px auto 0;max-width:420px;text-align:left;font-size:13.5px;line-height:1.9;color:#6b7280}.ep-steps li.done{color:#15803d}.ep-steps li.run{color:#3730a3;font-weight:600}.ep-steps li.err{color:#b91c1c;font-weight:600}
-.ep-err{margin-top:12px;text-align:center}.ep-err p{color:#b91c1c;font-weight:600}
-.ep-done{display:flex;align-items:center;gap:12px}.ep-ok{width:42px;height:42px;border-radius:50%;background:#dcfce7;color:#15803d;display:grid;place-items:center;font-weight:800;font-size:20px;flex:none}.ep-done b{display:block;font-size:16px}.ep-done small{color:#6b7280;font-size:12.5px}
-.ep-note{font-size:13px;color:#4b5563;background:#f9fafb;border-radius:10px;padding:8px 10px;margin:10px 0 0}
-.ep-acts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px}.ep-acts .ep-go{grid-column:1/-1;margin-top:12px}
-.ep-b2{border:1.5px solid #e2e5ec;background:#fff;border-radius:12px;padding:10px 6px;font:600 13px Inter,system-ui,sans-serif;cursor:pointer;color:#374151}
-@media(max-width:480px){.ep-acts{grid-template-columns:1fr 1fr}.ep-acts .ep-b2:last-child{grid-column:1/-1}.ep-grid{grid-template-columns:1fr}.ep-ov{padding:0;align-items:flex-end}.ep-sheet{border-radius:20px 20px 0 0;max-height:94vh;max-height:94dvh}}
-.ep-prev{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:16px;background:#f3f4f6;border-radius:14px;padding:14px}
-.ep-prev figure{margin:0}.ep-prev img{width:100%;display:block;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.15);background:#fff}.ep-prev figcaption{text-align:center;font-size:12px;color:#6b7280;margin-top:4px}
-.ep-h3{margin:8px 0 10px}.ep-item{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;width:100%;text-align:left;border:1.5px solid #e2e5ec;background:#fff;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;font:inherit;color:inherit}.ep-item span{grid-row:1/3;font-size:22px;align-self:center}.ep-item small{color:#6b7280}
-/* ---- the paper itself (A4 at 96 dpi; rendered off-screen, then captured) ---- */
-#epStage{position:fixed;left:-12000px;top:0;width:794px;pointer-events:none}
-.pq-page{width:794px;height:1123px;box-sizing:border-box;padding:52px 60px 70px;background:#fff;color:#111;position:relative;font-family:"Noto Serif",Georgia,"Times New Roman",serif;font-size:13.6px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased}
-.pq-in{width:674px;height:1001px;overflow:hidden}
-.pq-foot{position:absolute;left:60px;right:60px;bottom:30px;display:flex;justify-content:space-between;border-top:1px solid #999;padding-top:6px;font:11px "Noto Sans",Arial,sans-serif;color:#555}
-.pq-head{text-align:center;padding-bottom:4px;margin-bottom:10px}
-.pq-roll{display:flex;justify-content:flex-end;align-items:center;gap:0;font:600 12px "Noto Sans",Arial,sans-serif;margin-bottom:6px}.pq-roll span{margin-right:8px}.pq-roll i{display:inline-block;width:22px;height:24px;border:1.2px solid #222;margin-left:-1.2px}
-.pq-code{position:absolute;left:60px;top:56px;font:600 12px "Noto Sans",Arial,sans-serif}
-.pq-school{font-weight:700;font-size:18px;letter-spacing:.02em;text-transform:uppercase;margin-top:4px}
-.pq-title{font-weight:700;font-size:20px;letter-spacing:.04em;text-transform:uppercase;margin-top:6px}
-.pq-sub{font-weight:600;font-size:15.5px;margin-top:3px}.pq-sub span{font-weight:400}
-.pq-tm{display:flex;justify-content:space-between;font-weight:700;font-size:13.6px;border-top:1.6px solid #111;border-bottom:1.6px solid #111;padding:6px 2px;margin-top:12px}
-.pq-name{display:flex;gap:18px;font-size:13px;margin-top:10px;text-align:left}.pq-name span{flex:1;display:flex;align-items:flex-end;white-space:nowrap}.pq-name span:first-child{flex:1.6}.pq-name i{flex:1;border-bottom:1px solid #444;margin-left:6px;height:14px}
-.pq-gi{border:1px solid #333;border-radius:2px;padding:9px 14px 6px;margin:4px 0 14px;font-size:12.8px}.pq-gil{margin-top:4px}.pq-gil div{display:flex;gap:6px;margin-bottom:2px}.pq-gil span:first-child{flex:0 0 20px;text-align:right}
-.pq-sec{margin:14px 0 8px}
-.pq-sech{display:flex;align-items:center;gap:12px;font-weight:700;font-size:14.5px;letter-spacing:.12em}.pq-sech:before,.pq-sech:after{content:"";flex:1;border-top:1.3px solid #111}
-.pq-sech.small{font-size:13px;margin:12px 0 6px}
-.pq-seci{text-align:center;font-style:italic;font-size:12.8px;margin-top:4px;color:#222}
-.pq-q,.pa{display:grid;grid-template-columns:34px 1fr 30px;column-gap:6px;margin:0 0 11px;break-inside:avoid}
-.pq-n{font-weight:700}.pq-m{text-align:right;font-weight:700}.pq-m:not(:empty):before{content:"["}.pq-m:not(:empty):after{content:"]"}
-.pq-t{white-space:normal}
-.pq-pass{border:1px solid #888;background:#fafafa;padding:8px 11px;margin-bottom:7px;font-size:13px;text-align:justify}
-.pq-opts{display:grid;grid-template-columns:1fr;gap:3px 18px;margin-top:5px}.pq-opts.two{grid-template-columns:1fr 1fr}.pq-opts span{font-weight:600;margin-right:2px}
-.pq-parts{margin-top:5px}.pq-part{display:grid;grid-template-columns:34px 1fr auto;column-gap:4px;margin-top:3px}.pq-pl{font-weight:600}.pq-pm{font-size:12px;color:#333}.pq-pm:before{content:"("}.pq-pm:after{content:")"}
-.pq-tab{border-collapse:collapse;margin:7px 0 2px;font-size:12.8px;min-width:60%}.pq-tab th,.pq-tab td{border:1px solid #444;padding:4px 9px;text-align:left;vertical-align:top}.pq-tab th{background:#f0f0f0;font-weight:700}
-.pq-fig{margin:7px 0 3px;text-align:center}.pq-fig img{max-width:330px;max-height:220px}
-.pq-or{text-align:center;font-weight:700;font-size:13px;letter-spacing:.2em;margin:-3px 0 8px}
-.pq-end{text-align:center;font-size:12px;font-weight:700;letter-spacing:.1em;margin-top:18px;color:#333}
-.pq-akh{text-align:center;border-bottom:1.6px solid #111;padding-bottom:8px;margin-bottom:10px}.pq-akh div{font-weight:700;font-size:18px;letter-spacing:.06em}.pq-akh small{font-size:12px;color:#444}
-.pa{font-size:12.8px;margin-bottom:9px;padding-bottom:7px;border-bottom:1px dotted #bbb}
-.pa-k{font-weight:700}.pa-t{margin-top:1px}.pa-parts div{margin-top:2px}.pa-parts em{font-style:normal;font-size:11.5px;color:#444}
-.pa-mk{margin:4px 0 0;color:#333;font-size:12.2px}.pa-mk div{display:flex;gap:6px;margin:1px 0}.pa-mk span:first-child{color:#15803d;flex:none}
-
-@media(max-width:520px){#page-coach .chathead #clearChat{white-space:nowrap;padding:6px 10px}}
-#page-coach .chathead{container-type:inline-size}
-#page-coach .chathead #clearChat{white-space:nowrap}
-@container (max-width:440px){#page-coach .ep-hb span{display:none}#page-coach .ep-hb{padding:6px 10px}}
-.ep-saved{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#ecfdf5;color:#065f46;font-weight:600;font-size:13.5px}.ep-saved a{color:#047857}
-/* v3: always-visible PLUS labels + paper card in chat */
-#page-coach .ep-hb{display:inline-flex;align-items:center;gap:5px;border:0;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:7px 10px;box-shadow:0 6px 14px -8px rgba(79,70,229,.7)}
-#page-coach .ep-hb span{display:none}
-#page-coach .ep-hb em,.ep-chip em{font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.06em;background:linear-gradient(90deg,#f59e0b,#ec4899);color:#fff;border-radius:99px;padding:2px 6px}
-@media(min-width:700px){#page-coach .ep-hb span{display:inline}}
-.ep-chip{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 24px);margin:8px 12px 0;border:1.5px dashed #c4b5fd;background:#faf5ff;color:#5b21b6;border-radius:14px;padding:9px 12px;font:600 13.5px Inter,system-ui,sans-serif;cursor:pointer}
-.ep-cc{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
-.ep-ccd,.ep-cco{border:0;border-radius:12px;padding:10px 14px;font:700 14px Inter,system-ui,sans-serif;cursor:pointer}
-.ep-ccd{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;box-shadow:0 8px 18px -10px rgba(79,70,229,.8)}.ep-cco{background:#f3e8ff;color:#5b21b6}
-
-</style><script id="sf-ep-js">
-/* StudyStarx Exam Paper Maker (Plus): the coach plans a full exam paper the way a board examiner would,
-   writes every question with an answer key and marking scheme, lays it out on A4 pages and saves a PDF. */
-(function(){
-var $=function(s,r){return(r||document).querySelector(s)};
-function D(){try{return data||{}}catch(e){return window.data||{}}}
-function P(){return D().profile||{}}
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function plus(){try{return!!(window.sfAccount&&sfAccount.isPlus&&sfAccount.isPlus())}catch(e){return false}}
-function tst(m){try{toast(m)}catch(e){}}
-var SUBS={'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','n':'ₙ','r':'ᵣ','k':'ₖ','m':'ₘ'};
-function cs(x){x=String(x==null?'':x).replace(/([A-Za-z\)])_\{?(?:([0-9]{1,3})|([nrkm])(?![A-Za-z0-9]))\}?/g,function(_,a,d,l){var b=d||l;return a+b.split('').map(function(c){return SUBS[c]||c}).join('')}).replace(/(\d|\))\s\*\s(?=[\d(\[])/g,'$1 × ');try{if(window.sfCleanStr)x=sfCleanStr(x)}catch(e){}return x.replace(/\*\*([^*]+)\*\*/g,'$1').replace(/^#+\s*/gm,'').trim()}
-var LS='sx-papers';
-function saved(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch(e){return[]}}
-function keep(p){try{var l=saved().filter(function(x){return x.id!==p.id});l.unshift(p);while(l.length>6)l.pop();var s=JSON.stringify(l);while(s.length>1500000&&l.length>1){l.pop();s=JSON.stringify(l)}localStorage.setItem(LS,s)}catch(e){}}
-
-/* ---------- libraries (loaded only when a PDF is made) ---------- */
-var LIBS={h2c:'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',pdf:'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'};
-function lib(src,test){if(test())return Promise.resolve();return new Promise(function(ok,no){var s=document.createElement('script');s.src=src;s.onload=function(){test()?ok():no(new Error('lib'))};s.onerror=function(){no(new Error('Could not load the PDF maker. Check your internet and try again.'))};document.head.appendChild(s)})}
-function libs(){return Promise.all([lib(LIBS.h2c,function(){return!!window.html2canvas}),lib(LIBS.pdf,function(){return!!(window.jspdf&&jspdf.jsPDF)})])}
-function fonts(){if(!$('#epFonts')){var l=document.createElement('link');l.id='epFonts';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans:wght@400;600;700&display=swap';document.head.appendChild(l)}
- return Promise.race([document.fonts&&document.fonts.load?Promise.all([document.fonts.load('400 14px "Noto Serif"'),document.fonts.load('700 14px "Noto Serif"'),document.fonts.load('italic 400 14px "Noto Serif"')]):Promise.resolve(),new Promise(function(r){setTimeout(r,3500)})]).catch(function(){})}
-
-/* ---------- AI ---------- */
-var SYS='You are a senior board examiner and paper setter with 20 years of experience writing official question papers, sample papers and marking schemes for school and competitive exams worldwide (CBSE, ICSE/ISC, Indian state boards, Cambridge IGCSE/A Level, IB, AP, SAT, JEE, NEET and others). ';
-function parse(t){t=String(t||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim();try{return JSON.parse(t)}catch(e){}var a=t.indexOf('{'),b=t.lastIndexOf('}');if(a>=0&&b>a){var s=t.slice(a,b+1);try{return JSON.parse(s)}catch(e){}s=s.replace(/,\s*([}\]])/g,'$1');try{return JSON.parse(s)}catch(e){}}throw new Error('The AI reply could not be read. Please try again.')}
-function ai(system,user,stage,max){return fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:system,user:user,json:true,temperature:stage==='plan'?.35:.5,maxTokens:max||12000,purpose:'paper',stage:stage})}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(!r.ok){var e=new Error(j.error||'The AI had a problem (HTTP '+r.status+').');e.plus=!!j.plus;e.limit=!!j.limit;e.status=r.status;throw e}return parse(j.text)})})}
-function retry(fn,n){return fn().catch(function(e){if(n>0&&!e.plus&&!e.limit&&e.status!==400)return new Promise(function(r){setTimeout(r,1500)}).then(function(){return retry(fn,n-1)});throw e})}
-
-function planPrompt(f){
- var who=[];if(P().name)who.push('Student: '+P().name);
- return SYS+'Plan ONE complete exam paper as a precise blueprint, exactly the way the official paper setter for that exam would. Reply with JSON only.\n\n'+
- 'RULES\n'+
- '1. The student\'s own words in REQUEST are the most important instruction. Follow every specific thing they ask for (marks, time, chapters, question types, number of questions, difficulty, sections, language, style). The form fields fill in only what the request does not say.\n'+
- '2. For everything not specified, follow the LATEST official pattern for that board/exam, class and subject: the same sections, question types (e.g. MCQ, assertion–reason, very short, short, long, case/source-based, map/diagram, competency-based), marks per question, number of questions, internal choices and general instructions. If marks are given but not the pattern, scale the official pattern to those marks.\n'+
- '3. The question marks must add up EXACTLY to maxMarks (count each question with an internal choice once).\n'+
- '4. Use only the requested chapters/topics. Spread questions across them in proportion to their syllabus weightage. Give every question a DIFFERENT specific sub-topic, so nothing repeats.\n'+
- '5. Difficulty mix: easy ≈ 30% easy / 50% medium / 20% hard is "Easy"; board level ≈ 20/55/25 is "Balanced"; "Hard" ≈ 10/45/45 with more application and higher-order questions; "Mixed" varies freely. Include application, analysis and real-life competency questions as the latest board papers do.\n'+
- '6. When the board pattern has internal choice and choices are wanted, mark about one third of the longer questions with "choice": true.\n'+
- '7. Number questions continuously from 1 across sections.\n\n'+
- 'JSON SHAPE\n{"title":"e.g. Sample Question Paper / Half-Yearly Examination","exam":"board or exam name","className":"e.g. Class X","subject":"subject name","code":"official subject code if known, else empty","duration":"e.g. 3 Hours","maxMarks":80,"language":"language the paper is written in","generalInstructions":["5–9 short official-style instructions describing THIS paper\'s sections, marks and choices"],"sections":[{"id":"A","title":"Section A","instructions":"one line, e.g. Questions 1 to 20 are multiple choice questions of 1 mark each.","questions":[{"n":1,"type":"mcq | assertion | fill | truefalse | match | vsa | sa | la | case | source | map | diagram | numerical | proof | essay | letter | comprehension | grammar | other","marks":1,"topic":"chapter — exact sub-topic","skill":"remember | understand | apply | analyse | evaluate | create","level":"easy | medium | hard","choice":false,"brief":"one line describing what this question should test"}]}],"note":"one short sentence for the student on how you followed their request"}\n\n'+
- 'REQUEST (student\'s words): '+(f.req||'(none — use the form)')+'\n'+
- 'FORM: board/exam: '+(f.board||'not given')+'; class/grade: '+(f.cls||'not given')+'; subject: '+(f.subject||'not given')+'; chapters/topics: '+(f.chapters||'all chapters of the current syllabus')+'; total marks: '+(f.marks||'official pattern')+'; time: '+(f.time||'official pattern')+'; difficulty: '+f.level+'; language: '+f.lang+'; internal choice (OR questions): '+(f.choice?'yes, as the board does':'no')+'.\n'+(who.length?who.join('; ')+'\n':'')+
- 'Today is '+new Date().toDateString()+'; use the current syllabus and pattern.';
-}
-function writePrompt(meta,sec,qs,all){
- return SYS+'Now WRITE the questions below for this paper, exactly following the blueprint. Reply with JSON only.\n\n'+
- 'PAPER: '+meta.exam+' · '+meta.className+' · '+meta.subject+' · '+meta.maxMarks+' marks · '+meta.duration+' · written in '+(meta.language||'English')+'.\n'+
- 'SECTION '+sec.id+': '+(sec.instructions||'')+'\n'+
- 'Whole paper\'s topics (do not repeat a question already covered by another number): '+all+'\n\n'+
- 'WRITE THESE QUESTIONS\n'+JSON.stringify(qs)+'\n\n'+
- 'QUALITY RULES\n'+
- '- Write like a real board paper: original, accurate, unambiguous, exam-standard wording and command words that fit the marks (1 mark: state/identify/choose; 2–3 marks: explain/give reasons/calculate; 4–6 marks: describe in detail/derive/analyse/evaluate). Questions must be answerable in the time and space the marks allow.\n'+
- '- Stay inside the syllabus of that board and class: use only concepts, formulas and methods taught up to that class (no methods from higher classes). Prefer competency-based, real-life and application questions where the board does.\n'+
- '- mcq: exactly 4 options, exactly ONE correct, distractors plausible (common mistakes). Do not write "(a)" in options. Vary the position of the correct option.\n'+
- '- assertion: give "Assertion (A): …" and "Reason (R): …" in text, and the 4 standard options (Both A and R are true and R is the correct explanation of A / Both A and R are true but R is not the correct explanation of A / A is true but R is false / A is false but R is true).\n'+
- '- case / source / comprehension: put a realistic 90–180 word passage, data set or situation in "passage", then 3–4 sub-questions in "parts" whose marks add up to the question\'s marks.\n'+
- '- la / longer questions may use "parts" (e.g. (a), (b)) with marks adding up to the total.\n'+
- '- numerical: realistic values that give clean answers; give all data needed.\n'+
- '- match / data questions: use "table": {"head":["Column A","Column B"],"rows":[["…","…"]]}.\n'+
- '- diagram / map / geometry / circuits: add "figure" only when the question truly needs a picture: a small clean SVG (viewBox about 0 0 320 200, black lines, stroke-width 1.5–2, white or no fill, short text labels, font-size 12–14, no scripts, no images). Otherwise describe in words.\n'+
- '- choice: true → also write a different question of the same type, marks and difficulty in "or" (same fields as a question) and its answer.\n'+
- '- Plain text only. Use Unicode for maths and science: x², a³, H₂O, CO₂, √, π, θ, °, ×, ÷, ±, ≤, ≥, ≠, →, ⇌, ∆, ∠, ⊥, ½. No LaTeX, no markdown, no **, no question numbers or marks inside "text".\n'+
- '- Answers: a model answer a top student would write, plus "marking": value points with the marks for each, adding up to the question\'s marks. For mcq/assertion give the correct option letter in "key" (a, b, c or d).\n\n'+
- 'JSON SHAPE\n{"questions":[{"n":1,"text":"question","passage":"","options":["","","",""],"table":null,"figure":"","parts":[{"label":"(i)","text":"","marks":1,"answer":""}],"key":"b","answer":"model answer","marking":["value point — 1"],"or":null}]}\n'+
- 'Leave out any field you do not need. Return every question number listed above, in order.';
-}
-
-/* ---------- builder UI ---------- */
-var ST={view:'form',busy:false,paper:null,imgs:[],form:null};
-var BOARDS=['CBSE','ICSE','ISC','State Board','Cambridge IGCSE','Cambridge A Level','IB MYP','IB DP','AP','SAT','JEE Main','JEE Advanced','NEET','CUET'];
-var LANGS=['English','Hindi','Telugu','Tamil','Kannada','Malayalam','Marathi','Bengali','Gujarati','Urdu','French','Spanish','German'];
-function defForm(){var p=P(),sb=Array.isArray(p.subjects)?p.subjects:[];return{req:'',board:p.curriculum||'',cls:p.level||p.grade||'',subject:sb[0]||'',chapters:'',marks:'',time:'',level:'Balanced',lang:'English',key:true,choice:true,student:true,school:''}}
-function box(){var b=$('#epBox');if(b)return b;b=document.createElement('div');b.id='epBox';b.className='ep-ov';b.hidden=true;b.innerHTML='<div class="ep-sheet" role="dialog" aria-label="Exam Paper Maker"><div class="ep-top"><div class="ep-ttl"><span class="ep-ic">📝</span><div><b>Exam Paper Maker</b><small>Full papers with answer key · PDF</small></div></div><span class="ep-plus">PLUS</span><button type="button" class="ep-x" data-ep="close" aria-label="Close">✕</button></div><div class="ep-body" id="epBody"></div></div>';document.body.appendChild(b);
- b.addEventListener('click',function(e){if(e.target===b){if(!ST.busy)close();return}var a=e.target.closest('[data-ep]');if(!a)return;var k=a.dataset.ep;
-  if(k==='close'){if(!ST.busy||confirmLeave())close()}
-  else if(k==='make')make();
-  else if(k==='plans'){close();try{go('premium')}catch(e2){}}
-  else if(k==='lvl'){ST.form=read();ST.form.level=a.dataset.v;draw()}
-  else if(k==='ex'){var t=$('#epReq');t.value=a.dataset.v;t.focus()}
-  else if(k==='dl')download();
-  else if(k==='again'){ST.form=ST.paper.form||ST.form;make()}
-  else if(k==='edit'){ST.view='form';ST.form=ST.paper.form||ST.form;draw();setTimeout(function(){var t=$('#epChange');if(t)t.focus()},50)}
-  else if(k==='new'){ST.view='form';ST.form=defForm();draw()}
-  else if(k==='list'){ST.view='list';draw()}
-  else if(k==='open'){var p=saved().filter(function(x){return x.id===a.dataset.id})[0];if(p)show(p)}
-  else if(k==='back'){ST.view=ST.paper?'result':'form';draw()}
-  else if(k==='key'){ST.showKey=!ST.showKey;draw()}
- });return b}
-function confirmLeave(){return window.confirm?confirm('Your paper is still being made. Stop and close?'):true}
-function open(prefill){var b=box();ST.form=Object.assign(defForm(),ST.form&&!prefill?ST.form:{});if(prefill)ST.form.req=prefill;if(!ST.busy){ST.view=(prefill||!ST.paper||['form','result','list'].indexOf(ST.view)<0)?(ST.paper&&!prefill?'result':'form'):ST.view}b.hidden=false;document.body.classList.add('ep-open');draw();if(prefill&&!plus()){}}
-function close(){var b=$('#epBox');if(b)b.hidden=true;document.body.classList.remove('ep-open')}
-window.sxExamPaper=open;open.prompts={plan:planPrompt,write:writePrompt};
-function read(){var f=Object.assign({},ST.form||defForm());function v(id){var e=$('#'+id);return e?e.value.trim():''}function c(id){var e=$('#'+id);return e?e.checked:false}
- if($('#epReq')){f.req=v('epReq');f.board=v('epBoard');f.cls=v('epCls');f.subject=v('epSub');f.chapters=v('epCh');f.marks=v('epMarks');f.time=v('epTime');f.lang=v('epLang')||'English';f.school=v('epSchool');f.key=c('epKey');f.choice=c('epChoice');f.student=c('epStu');f.change=v('epChange')}return f}
-function opts(list,val,first){return(first?'<option value="">'+first+'</option>':'')+list.map(function(x){var k=Array.isArray(x)?x[0]:x,l=Array.isArray(x)?x[1]:x;return'<option value="'+esc(k)+'"'+(String(k)===String(val)?' selected':'')+'>'+esc(l)+'</option>'}).join('')}
-function draw(){var el=$('#epBody');if(!el)return;var f=ST.form||defForm();
- if(ST.view==='form'){var sb=Array.isArray(P().subjects)?P().subjects:[];var ex=[(f.board||'CBSE')+' '+(f.cls||'Class 10')+' '+(sb[0]||'Science')+' full sample paper, 80 marks, 3 hours, board pattern',(sb[1]||sb[0]||'Maths')+' unit test, 25 marks, 1 hour, only chapters I name, more application questions','Hard revision paper with case-based and assertion–reason questions, answer key with step marking'];
-  el.innerHTML=(plus()?'':'<div class="ep-lock"><b>✨ A Plus feature</b><span>Fill this in to see how it works. Making the paper needs StudyStarx Plus.</span></div>')+
-  (ST.paper&&ST.paper.form?'<div class="ep-change"><label for="epChange">What should I change in your last paper?</label><input id="epChange" placeholder="e.g. make Section C harder, add 2 more numericals" value="'+esc(f.change||'')+'"></div>':'')+
-  '<label class="ep-l" for="epReq">Describe the paper you want</label><textarea id="epReq" rows="3" placeholder="e.g. CBSE Class 10 Science, chapters 1–5, 80 marks, 3 hours, board pattern with case-based questions">'+esc(f.req)+'</textarea>'+
-  '<div class="ep-ex">'+ex.map(function(x){return'<button type="button" data-ep="ex" data-v="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>'+
-  '<div class="ep-grid"><div><label for="epBoard">Board / exam</label><input id="epBoard" list="epBoards" value="'+esc(f.board)+'" placeholder="CBSE"><datalist id="epBoards">'+BOARDS.map(function(x){return'<option value="'+esc(x)+'">'}).join('')+'</datalist></div>'+
-  '<div><label for="epCls">Class / grade</label><input id="epCls" value="'+esc(f.cls)+'" placeholder="Class 10"></div>'+
-  '<div><label for="epSub">Subject</label><input id="epSub" list="epSubs" value="'+esc(f.subject)+'" placeholder="Science"><datalist id="epSubs">'+sb.map(function(x){return'<option value="'+esc(x)+'">'}).join('')+'</datalist></div>'+
-  '<div><label for="epLang">Language</label><select id="epLang">'+opts(LANGS,f.lang)+'</select></div>'+
-  '<div class="ep-wide"><label for="epCh">Chapters / topics</label><input id="epCh" value="'+esc(f.chapters)+'" placeholder="All chapters (or e.g. Ch 1–5, Light, Electricity)"></div>'+
-  '<div><label for="epMarks">Total marks</label><select id="epMarks">'+opts(['20','25','30','40','50','60','70','80','90','100'],f.marks,'Board pattern')+'</select></div>'+
-  '<div><label for="epTime">Time</label><select id="epTime">'+opts(['30 minutes','45 minutes','1 hour','1½ hours','2 hours','2½ hours','3 hours'],f.time,'Board pattern')+'</select></div></div>'+
-  '<label class="ep-l">Difficulty</label><div class="ep-chips">'+[['Easy','🙂 Easy'],['Balanced','🎯 Board level'],['Hard','🔥 Hard'],['Mixed','🎲 Mixed']].map(function(x){return'<button type="button" data-ep="lvl" data-v="'+x[0]+'" class="'+(f.level===x[0]?'on':'')+'">'+x[1]+'</button>'}).join('')+'</div>'+
-  '<div class="ep-tg"><label><input type="checkbox" id="epKey"'+(f.key?' checked':'')+'> Answer key &amp; marking scheme</label><label><input type="checkbox" id="epChoice"'+(f.choice?' checked':'')+'> Internal choice (OR questions)</label><label><input type="checkbox" id="epStu"'+(f.student?' checked':'')+'> Name &amp; roll number boxes</label></div>'+
-  '<label class="ep-l" for="epSchool">School / test name on top <span>(optional)</span></label><input id="epSchool" value="'+esc(f.school)+'" placeholder="e.g. Delhi Public School · Half-Yearly Examination">'+
-  '<button type="button" class="ep-go" data-ep="make">'+(plus()?'✨ Make my exam paper':'🔒 Make my exam paper')+'</button>'+
-  '<p class="ep-fine">Takes about a minute. You get a print-ready A4 PDF'+(f.key?' with the answers and marking scheme at the end':'')+'.</p>'+
-  (saved().length?'<button type="button" class="ep-link" data-ep="list">📂 My papers ('+saved().length+')</button>':'');
-  return}
- if(ST.view==='work'){el.innerHTML='<div class="ep-work"><div class="ep-spin"></div><h3 id="epStep">Planning your paper…</h3><div class="ep-bar"><i id="epBar" style="width:4%"></i></div><ul class="ep-steps" id="epSteps"></ul><p class="ep-fine">Keep this open — your paper is being written question by question.</p></div>';stepsUI();return}
- if(ST.view==='list'){var l=saved();el.innerHTML='<button type="button" class="ep-link" data-ep="back">← Back</button><h3 class="ep-h3">My papers</h3>'+(l.length?l.map(function(p){var m=p.meta||{};return'<button type="button" class="ep-item" data-ep="open" data-id="'+esc(p.id)+'"><span>📄</span><b>'+esc((m.subject||'Exam paper')+' · '+(m.className||''))+'</b><small>'+esc((m.exam||'')+' · '+(m.maxMarks||'')+' marks · '+new Date(p.at).toLocaleDateString())+'</small></button>'}).join(''):'<p class="ep-fine">No papers yet.</p>');return}
- if(ST.view==='result'){var p=ST.paper,m=p.meta;el.innerHTML='<div class="ep-done"><div class="ep-ok">✓</div><div><b>'+esc(m.subject+' · '+m.className)+'</b><small>'+esc(m.exam+' · '+m.total+' marks · '+m.duration+' · '+p.count+' questions · '+ST.imgs.length+' pages')+'</small></div></div>'+(p.inLib?'<p class="ep-saved">✓ Downloaded as a PDF and saved in your <a href="#" data-goto="library">Study Library</a></p>':'')+(m.note?'<p class="ep-note">'+esc(m.note)+'</p>':'')+
-  '<div class="ep-acts"><button type="button" class="ep-go" data-ep="dl">⬇ Download PDF</button><button type="button" class="ep-b2" data-ep="edit">✏️ Change something</button><button type="button" class="ep-b2" data-ep="again">🔁 New version</button><button type="button" class="ep-b2" data-ep="new">＋ Different paper</button></div>'+
-  '<div class="ep-prev" id="epPrev">'+ST.imgs.map(function(u,i){return'<figure><img src="'+u+'" alt="Page '+(i+1)+'"><figcaption>Page '+(i+1)+'</figcaption></figure>'}).join('')+'</div>'+
-  (saved().length>1?'<button type="button" class="ep-link" data-ep="list">📂 My papers ('+saved().length+')</button>':'');return}
-}
-var STEPS=[];
-function stepsUI(){var u=$('#epSteps');if(!u)return;u.innerHTML=STEPS.map(function(s){return'<li class="'+s.st+'">'+(s.st==='done'?'✓':s.st==='err'?'!':'•')+' '+esc(s.t)+'</li>'}).join('');var d=STEPS.filter(function(s){return s.st==='done'}).length,b=$('#epBar');if(b)b.style.width=Math.max(4,Math.round(d/Math.max(1,STEPS.length)*100))+'%'}
-function step(t,st,ix){if(ix==null){STEPS.push({t:t,st:st||'run'});ix=STEPS.length-1}else{STEPS[ix].st=st;if(t)STEPS[ix].t=t}stepsUI();var h=$('#epStep');if(h&&st!=='done'&&t)h.textContent=t;return ix}
-
-/* ---------- make a paper ---------- */
-function chunks(sec){var out=[],cur=[],w=0;(sec.questions||[]).forEach(function(q){var m=+q.marks||1,qw=m+(q.choice?m*.8:0)+(/case|source|comprehension/.test(q.type)?3:0);if(cur.length&&(w+qw>11||cur.length>=4)){out.push(cur);cur=[];w=0}cur.push(q);w+=qw});if(cur.length)out.push(cur);return out}
-function pool(tasks,n){var i=0,res=new Array(tasks.length);return new Promise(function(ok,no){var live=0,done=0,fail=null;function next(){if(fail)return;if(done===tasks.length)return ok(res);while(live<n&&i<tasks.length){(function(k){live++;tasks[k]().then(function(v){res[k]=v;live--;done++;next()},function(e){fail=e;no(e)})})(i++)}}next()})}
-function make(){var f=read();ST.form=f;if(!f.req&&!f.subject){tst('Tell me the subject or describe the paper first.');var t=$('#epReq');if(t)t.focus();return}
- if(!plus()){upsell();return}
- if(ST.busy)return;ST.busy=true;ST.view='work';STEPS=[];draw();try{libs().catch(function(){});fonts()}catch(e){}
- var req=f.req;if(f.change&&ST.paper){req=(req?req+'\n':'')+'Change from the previous version: '+f.change}
- var ff=Object.assign({},f,{req:req});
- var s0=step('Planning the paper pattern for your board…');
- retry(function(){return ai(planPrompt(ff),'Make the blueprint now.','plan',8000)},1).then(function(bp){
-  var want=+bp.maxMarks||0,got=sumBp(bp);
-  if(want&&got>want)return trim(bp,want);
-  return bp}).then(function(bp){
-  var meta=normMeta(bp,f);var secs=(bp.sections||[]).filter(function(s){return s&&Array.isArray(s.questions)&&s.questions.length});if(!secs.length)throw new Error('The plan came back empty. Please try again.');
-  step('Planned '+meta.count+' questions · '+meta.maxMarks+' marks','done',s0);
-  var all=secs.map(function(s){return s.questions.map(function(q){return q.n+': '+q.topic}).join('; ')}).join('; ').slice(0,3500);
-  var tasks=[];secs.forEach(function(sec){chunks(sec).forEach(function(qs){var lbl='Writing '+sec.title+' (Q'+qs[0].n+(qs.length>1?'–'+qs[qs.length-1].n:'')+')';var ix=step(lbl,'wait');
-   tasks.push(function(){step(lbl+'…','run',ix);return retry(function(){return ai(writePrompt(meta,sec,qs,all),'Write these questions now.','write',Math.min(16000,3500+qs.reduce(function(n,q){return n+(+q.marks||1)*420+(q.choice?(+q.marks||1)*380:0)},0)))},1).then(function(r){step(lbl,'done',ix);return{sec:sec,qs:qs,out:r}})})})});
-  var fin=step('Laying out the pages','wait');
-  return pool(tasks,Math.min(14,tasks.length)).then(function(parts){step('Laying out the pages…','run',fin);var paper=assemble(meta,secs,parts,f);return render(paper).then(function(imgs){step('Your paper is ready','done',fin);ST.imgs=imgs;ST.paper=paper;keep(paper);ST.busy=false;ST.view='result';draw();try{toLib(paper)}catch(e){}try{download()}catch(e){}try{toChat(paper)}catch(e){}})})
- }).catch(function(e){ST.busy=false;if(e&&e.plus){ST.view='form';draw();upsell();return}step(e&&e.message||'Something went wrong','err');var el=$('#epBody');if(el){var d=document.createElement('div');d.className='ep-err';d.innerHTML='<p>'+esc(e&&e.message||'Something went wrong.')+'</p><button type="button" class="ep-go" data-ep="make">Try again</button><button type="button" class="ep-link" data-ep="back">← Back to the form</button>';el.appendChild(d)}ST.view='form-err'})}
-function upsell(){var el=$('#epBody');if(!el)return;var d=$('#epUp');if(d)d.remove();d=document.createElement('div');d.id='epUp';d.className='ep-up';d.innerHTML='<div class="ep-upi">🚀</div><h3>Exam Paper Maker is part of Plus</h3><ul><li>Full board-pattern papers for any subject, class and chapters</li><li>Answer key with step-by-step marking scheme</li><li>Print-ready A4 PDF in about a minute</li><li>Plus higher AI limits, premium quiz themes and more</li></ul><button type="button" class="ep-go" data-ep="plans">See Plus plans</button>';el.insertBefore(d,el.firstChild);d.scrollIntoView({block:'start',behavior:'smooth'})}
-function sumBp(bp){var t=0;((bp&&bp.sections)||[]).forEach(function(s){(s.questions||[]).forEach(function(q){t+=(+q.marks||0)})});return t}
-function trim(bp,want){var got=sumBp(bp);if(got<=want)return bp;var all=[];bp.sections.forEach(function(s){s.questions.forEach(function(q){all.push({s:s,q:q})})});
- var ex=all.filter(function(x){return(+x.q.marks||0)===got-want&&x.s.questions.length>1}).sort(function(a,b){return b.s.questions.length-a.s.questions.length})[0];if(ex){ex.s.questions.splice(ex.s.questions.indexOf(ex.q),1);all.splice(all.indexOf(ex),1);got=want}
- for(var m=1;m<=10&&got>want;m++){for(var i=all.length-1;i>=0&&got>want;i--){var x=all[i];if((+x.q.marks||0)===m&&got-m>=want&&x.s.questions.length>1){x.s.questions.splice(x.s.questions.indexOf(x.q),1);all.splice(i,1);got-=m}}}
- var n=1;bp.sections.forEach(function(s){s.questions.forEach(function(q){q.n=n++})});return bp}
-var TYPE={mcq:'multiple choice questions',assertion:'assertion–reason questions',fill:'fill in the blanks',truefalse:'true / false questions',match:'match the following questions',vsa:'very short answer questions',sa:'short answer questions',la:'long answer questions',case:'case-based questions',source:'source-based questions',map:'map-based questions',diagram:'diagram-based questions',numerical:'numerical problems',proof:'proofs',essay:'essay questions',letter:'letter / writing questions',comprehension:'reading comprehension questions',grammar:'grammar questions'};
-function secLine(s){var q=s.qs,a=q[0].n,b=q[q.length-1].n,ms=q.map(function(x){return x.marks}),same=ms.every(function(m){return m===ms[0]}),tys=q.map(function(x){return x.type}),ty=tys.every(function(t){return t===tys[0]})?TYPE[tys[0]]:'';var tot=ms.reduce(function(x,y){return x+y},0);
- if(q.length===1)return'Question '+a+' is '+(ty?'a '+ty.replace(/s(\b|$)/,'$1').replace(/ questions?/,' question'):'a question')+' of '+ms[0]+' mark'+(ms[0]>1?'s':'')+'.';
- return'Questions '+a+(q.length===2?' and ':' to ')+b+' are '+(ty||'questions')+(same?' of '+ms[0]+' mark'+(ms[0]>1?'s':'')+' each':' ('+tot+' marks in total)')+'.'}
-function instr(p){var m=p.meta,S=p.sections,n=p.count,ch=0;S.forEach(function(s){s.qs.forEach(function(q){if(q.or)ch++})});
- var g=['This question paper contains '+n+' questions'+(S.length>1?' divided into '+S.length+' sections: '+S.map(function(s){return s.id||s.title}).join(', '):'')+'. All questions are compulsory.'];
- S.forEach(function(s){g.push((S.length>1?s.title+': ':'')+secLine(s))});
- if(ch)g.push('Internal choice is given in '+ch+' question'+(ch>1?'s':'')+'. Attempt only one of the alternatives in such questions.');
- (m.gi||[]).forEach(function(x){if(!/\d|section|question paper (consists|contains|has)|compulsory|internal choice/i.test(x)&&g.length<10)g.push(x)});m.gi=g;
- S.forEach(function(s){s.instructions=secLine(s)})}
-function normMeta(bp,f){var cnt=0,tot=0;(bp.sections||[]).forEach(function(s){(s.questions||[]).forEach(function(q){cnt++;tot+=(+q.marks||0)})});
- return{title:cs(bp.title||'Question Paper'),exam:cs(bp.exam||f.board||''),className:cs(bp.className||f.cls||''),subject:cs(bp.subject||f.subject||''),code:cs(bp.code||''),duration:cs(bp.duration||f.time||''),maxMarks:+bp.maxMarks||tot,total:tot,language:cs(bp.language||f.lang||'English'),gi:(bp.generalInstructions||[]).map(cs).filter(Boolean).slice(0,10),note:cs(bp.note||''),count:cnt}}
-function cleanQ(q){if(!q||typeof q!=='object')return null;var o={text:cs(q.text),passage:cs(q.passage||''),key:String(q.key||'').toLowerCase().replace(/[^a-d]/g,'').slice(0,1),answer:cs(q.answer||''),marking:(Array.isArray(q.marking)?q.marking:q.marking?[q.marking]:[]).map(cs).filter(Boolean)};
- if(Array.isArray(q.options)&&q.options.filter(Boolean).length>=2)o.options=q.options.map(function(x){return cs(x).replace(/^\(?[a-dA-D1-4][\).:]\s+/,'')});
- if(Array.isArray(q.parts))o.parts=q.parts.filter(function(p){return p&&p.text}).map(function(p,i){return{label:cs(p.label||'('+['i','ii','iii','iv','v','vi'][i]+')'),text:cs(p.text),marks:+p.marks||0,answer:cs(p.answer||'')}});
- if(q.table&&Array.isArray(q.table.rows))o.table={head:(q.table.head||[]).map(cs),rows:q.table.rows.slice(0,14).map(function(r){return(Array.isArray(r)?r:[r]).map(cs)})};
- var sv=svg(q.figure);if(sv)o.figure=sv;return o}
-function svg(s){s=String(s||'').trim();if(!/^<svg[\s>]/i.test(s)||s.length>20000)return'';if(/<(script|foreignObject|iframe|image|use)\b|\bon\w+\s*=|javascript:|href\s*=/i.test(s))return'';if(!/xmlns=/.test(s))s=s.replace(/^<svg/i,'<svg xmlns="http://www.w3.org/2000/svg"');return s}
-function assemble(meta,secs,parts,f){var byN={};parts.forEach(function(p){var qs=Array.isArray(p.out)?p.out:(p.out&&(p.out.questions||p.out.items))||[];qs.forEach(function(q,i){var n=+q.n||(p.qs[i]&&p.qs[i].n);if(n)byN[n]=q})});var miss=0;
- var sections=secs.map(function(s){return{id:cs(s.id||''),title:cs(s.title||('Section '+s.id)),instructions:cs(s.instructions||''),qs:s.questions.map(function(b){var q=cleanQ(byN[b.n]);if(!q||!q.text){miss++;return null}q.n=b.n;q.marks=+b.marks||1;q.type=b.type;if(b.choice&&byN[b.n].or){var o=cleanQ(byN[b.n].or);if(o&&o.text)q.or=o}if(!/mcq|assertion/.test(b.type||'')&&q.options&&q.options.length!==4)delete q.options;return q}).filter(Boolean)}}).filter(function(s){return s.qs.length});
- if(miss>Math.max(2,meta.count*.15))throw new Error('Some questions could not be written. Please try again.');
- var tot=0,cnt=0;sections.forEach(function(s){s.qs.forEach(function(q){tot+=q.marks;cnt++})});meta.total=tot;
- var P_={sections:sections,meta:meta,count:cnt};instr(P_);
- return{id:'p'+Date.now().toString(36),at:Date.now(),meta:meta,sections:sections,count:cnt,form:{req:f.req,board:f.board,cls:f.cls,subject:f.subject,chapters:f.chapters,marks:f.marks,time:f.time,level:f.level,lang:f.lang,key:f.key,choice:f.choice,student:f.student,school:f.school},opt:{key:f.key,student:f.student,school:f.school}}}
-
-/* ---------- A4 layout ---------- */
-var W=794,H=1123,MX=60,MT=52,MB=70,CW=W-MX*2,CH=H-MT-MB;
-function tx(s){return esc(s).replace(/\n/g,'<br>')}
-function optsHTML(o){if(!o||!o.length)return'';var L='abcdefgh',short=o.every(function(x){return x.length<=34});return'<div class="pq-opts'+(short?' two':'')+'">'+o.map(function(x,i){return'<div><span>('+L[i]+')</span> '+tx(x)+'</div>'}).join('')+'</div>'}
-function tableHTML(t){if(!t)return'';return'<table class="pq-tab">'+(t.head&&t.head.length?'<tr>'+t.head.map(function(h){return'<th>'+tx(h)+'</th>'}).join('')+'</tr>':'')+t.rows.map(function(r){return'<tr>'+r.map(function(c){return'<td>'+tx(c)+'</td>'}).join('')+'</tr>'}).join('')+'</table>'}
-var FIG={};function figHTML(s){if(!s)return'';var u=FIG[s];return u?'<div class="pq-fig"><img alt="" src="'+u.src+'" style="width:'+u.w+'px;height:'+u.h+'px"></div>':''}
-function raster(s){if(FIG[s])return Promise.resolve();return new Promise(function(ok){var im=new Image();im.onload=function(){try{var w=im.naturalWidth||320,h=im.naturalHeight||200;var vb=(s.match(/viewBox="([\d.\s-]+)"/)||[])[1];if(vb){var a=vb.trim().split(/\s+/).map(Number);if(a[2]>0&&a[3]>0){w=a[2];h=a[3]}}var k=Math.min(330/w,220/h,1.6);w=Math.round(w*k);h=Math.round(h*k);var c=document.createElement('canvas');c.width=w*2;c.height=h*2;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);FIG[s]={src:c.toDataURL('image/png'),w:w,h:h}}catch(e){}ok()};im.onerror=function(){ok()};im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)})}
-function rasterAll(p){var l=[];p.sections.forEach(function(sc){sc.qs.forEach(function(q){if(q.figure)l.push(q.figure);if(q.or&&q.or.figure)l.push(q.or.figure)})});return Promise.all(l.map(raster))}
-function qBody(q){return(q.passage?'<div class="pq-pass">'+tx(q.passage)+'</div>':'')+'<div class="pq-t">'+tx(q.text)+'</div>'+figHTML(q.figure)+tableHTML(q.table)+optsHTML(q.options)+(q.parts&&q.parts.length?'<div class="pq-parts">'+q.parts.map(function(p){return'<div class="pq-part"><span class="pq-pl">'+esc(p.label)+'</span><span class="pq-pt">'+tx(p.text)+'</span>'+(p.marks?'<span class="pq-pm">'+p.marks+'</span>':'')+'</div>'}).join('')+'</div>':'')}
-function blocks(p){var m=p.meta,o=p.opt||{},B=[];
- var head='<div class="pq-head">'+(o.student?'<div class="pq-roll"><span>Roll No.</span>'+new Array(9).join('<i></i>')+'</div>':'')+(m.code?'<div class="pq-code">Subject Code: '+esc(m.code)+'</div>':'')+
- (o.school?'<div class="pq-school">'+esc(o.school)+'</div>':'')+'<div class="pq-title">'+esc(m.title)+'</div><div class="pq-sub">'+esc([m.className,m.subject].filter(Boolean).join(' · '))+(m.exam?' <span>('+esc(m.exam)+')</span>':'')+'</div>'+
- '<div class="pq-tm"><span>Time Allowed: '+esc(m.duration||'—')+'</span><span>Maximum Marks: '+m.total+'</span></div>'+(o.student?'<div class="pq-name"><span>Name: <i></i></span><span>Class &amp; Section: <i></i></span><span>Date: <i></i></span></div>':'')+'</div>';
- B.push({h:head});
- if(m.gi&&m.gi.length)B.push({h:'<div class="pq-gi"><b>General Instructions:</b><div class="pq-gil">'+m.gi.map(function(g,i){return'<div><span>'+(i+1)+'.</span><span>'+tx(g.replace(/^\d+[\).]\s*/,''))+'</span></div>'}).join('')+'</div></div>'});
- p.sections.forEach(function(s){B.push({h:'<div class="pq-sec"><div class="pq-sech"><span>'+esc(s.title.toUpperCase())+'</span></div>'+(s.instructions?'<div class="pq-seci">'+tx(s.instructions)+'</div>':'')+'</div>',kn:1});
-  s.qs.forEach(function(q){B.push({h:'<div class="pq-q"><div class="pq-n">'+q.n+'.</div><div class="pq-b">'+qBody(q)+'</div><div class="pq-m">'+q.marks+'</div></div>',kn:q.or?1:0});
-   if(q.or){B.push({h:'<div class="pq-or">OR</div>',kn:1});B.push({h:'<div class="pq-q"><div class="pq-n"></div><div class="pq-b">'+qBody(q.or)+'</div><div class="pq-m"></div></div>'})}})});
- B.push({h:'<div class="pq-end">✦ ✦ ✦ &nbsp; End of Question Paper &nbsp; ✦ ✦ ✦</div>'});
- if(o.key){B.push({h:'<div class="pq-akh"><div>ANSWER KEY &amp; MARKING SCHEME</div><small>'+esc([m.className,m.subject,m.exam].filter(Boolean).join(' · '))+' · For self-checking and teachers</small></div>',page:1,kn:1});
-  p.sections.forEach(function(s){B.push({h:'<div class="pq-sech small"><span>'+esc(s.title.toUpperCase())+'</span></div>',kn:1});s.qs.forEach(function(q){B.push({h:ansHTML(q,q.n+'.')});if(q.or)B.push({h:ansHTML(q.or,'OR')})})})}
- return B}
-function ansHTML(q,n){var k='';if(q.key&&q.options){var i='abcd'.indexOf(q.key);k='<div class="pa-k">('+q.key+') '+tx(q.options[i]||'')+'</div>'}
- var parts=q.parts&&q.parts.some(function(p){return p.answer})?'<div class="pa-parts">'+q.parts.map(function(p){return p.answer?'<div><b>'+esc(p.label)+'</b> '+tx(p.answer)+(p.marks?' <em>['+p.marks+']</em>':'')+'</div>':''}).join('')+'</div>':'';
- return'<div class="pa"><div class="pq-n">'+esc(n)+'</div><div class="pq-b">'+k+(q.answer&&!(k&&q.answer.length<4)?'<div class="pa-t">'+tx(q.answer)+'</div>':'')+parts+(q.marking&&q.marking.length?'<div class="pa-mk">'+q.marking.map(function(x){return'<div><span>✓</span><span>'+tx(x)+'</span></div>'}).join('')+'</div>':'')+'</div><div class="pq-m">'+(q.marks||'')+'</div></div>'}
-function stage(){var s=$('#epStage');if(!s){s=document.createElement('div');s.id='epStage';s.setAttribute('aria-hidden','true');document.body.appendChild(s)}s.innerHTML='';return s}
-function newPage(st){var d=document.createElement('div');d.className='pq-page';d.innerHTML='<div class="pq-in"></div>';st.appendChild(d);return d}
-function paginate(p){var st=stage(),B=blocks(p),groups=[],g=[];B.forEach(function(b){if(b.page&&g.length){groups.push(g);g=[]}g.push(b);if(!b.kn||g.length>=4){groups.push(g);g=[]}});if(g.length)groups.push(g);
- var pages=[newPage(st)];function cur(){return pages[pages.length-1].firstChild}function over(){return cur().scrollHeight>CH+1}
- function put(html){var t=document.createElement('div');t.innerHTML=html;var e=t.firstElementChild;cur().appendChild(e);return e}
- groups.forEach(function(gr){if(gr[0].page&&cur().children.length)pages.push(newPage(st));var added=gr.map(function(b){return put(b.h)});
-  if(over()&&cur().children.length>added.length){added.forEach(function(e){e.remove()});pages.push(newPage(st));added=gr.map(function(b){return put(b.h)})}
-  if(over()&&added.length>1){added.forEach(function(e){e.remove()});gr.forEach(function(b){var e=put(b.h);if(over()&&cur().children.length>1){e.remove();pages.push(newPage(st));put(b.h)}})}});
- pages=pages.filter(function(d){if(!d.firstChild.children.length){d.remove();return false}return true});
- var m=p.meta,N=pages.length;pages.forEach(function(d,ix){var f=document.createElement('div');f.className='pq-foot';f.innerHTML='<span>'+esc([m.subject,m.className].filter(Boolean).join(' · '))+'</span><span>Page '+(ix+1)+' of '+N+'</span><span>StudyStarx</span>';d.appendChild(f)});return pages}
-function waitImgs(root){var im=[].slice.call(root.querySelectorAll('img'));return Promise.all(im.map(function(i){return i.complete?0:new Promise(function(r){i.onload=i.onerror=r})}))}
-function render(p){return Promise.all([libs(),fonts(),rasterAll(p)]).then(function(){var els=paginate(p);return waitImgs($('#epStage')).then(function(){var out=[],k=0;function one(){if(k>=els.length){$('#epStage').innerHTML='';return out}return html2canvas(els[k],{scale:2,backgroundColor:'#ffffff',logging:false,useCORS:true,width:W,height:H,windowWidth:W}).then(function(c){out.push(c.toDataURL('image/jpeg',.9));k++;return one()})}return one()})})}
-function show(p){ST.paper=p;ST.view='work';STEPS=[];draw();var ix=step('Opening your paper…');render(p).then(function(imgs){ST.imgs=imgs;ST.view='result';draw()}).catch(function(e){step(e.message||'Could not open it','err',ix)})}
-
-/* save a finished paper in the Study Library as text (questions + answer key) */
-function ptext(p){var m=p.meta||{},o=[];o.push((m.title||'Exam Paper')+' — '+[m.subject,m.className,m.exam].filter(Boolean).join(' · '));o.push('Max marks: '+(m.maxMarks||m.total||'')+(m.duration?' · Time: '+m.duration:''));o.push('');var n=0,ans=[];
- (p.sections||[]).forEach(function(sc){o.push((sc.title||'Section').toUpperCase());(sc.qs||[]).forEach(function(q){n++;var t=(q.n||n)+'. '+(q.passage?q.passage+'\n':'')+(q.text||'')+(q.marks?' ['+q.marks+']':'');o.push(t);if(q.options&&q.options.length)o.push(q.options.map(function(x,i){return'   ('+'abcdefgh'[i]+') '+x}).join('\n'));if(q.parts&&q.parts.length)q.parts.forEach(function(pt,i){o.push('   '+(pt.label||'('+'abcdefgh'[i]+')')+' '+(pt.text||pt)+(pt.marks?' ['+pt.marks+']':''));if(pt.answer)ans.push((q.n||n)+' '+(pt.label||'')+' '+pt.answer)});if(q.or)o.push('   OR '+(q.or.text||''));var a=q.key?('('+q.key+') '+((q.options||[])['abcd'.indexOf(q.key)]||'')):(q.answer||'');if(a)ans.push((q.n||n)+'. '+a)});o.push('')});
- if(ans.length){o.push('ANSWER KEY');o=o.concat(ans)}return o.join('\n').slice(0,60000)}
-function toLib(p){if(!p||p.inLib)return;var d=D();if(!Array.isArray(d.notes))d.notes=[];var m=p.meta||{};var title=('📝 '+[m.subject,m.className,'Exam Paper'].filter(Boolean).join(' ')+' ('+(m.maxMarks||m.total||'')+' marks)').slice(0,90);
- d.notes.unshift({id:(typeof uid==='function'?uid():Date.now().toString(36)),title:title,subject:m.subject||'General',body:ptext(p),date:(typeof today==='function'?today():new Date().toISOString().slice(0,10)),paperId:p.id});p.inLib=1;try{persist()}catch(e){}try{renderNotes()}catch(e){}}
-/* the finished paper also appears in the coach chat, with Download and Open buttons */
-function toChat(p){var d=D();if(!Array.isArray(d.chat))d.chat=[];if(d.chat.some(function(m){return m.paperId===p.id}))return;var m=p.meta||{};
- d.chat.push({role:'assistant',paperId:p.id,content:'📝 Your exam paper is ready!\n\n'+[m.title||'Exam Paper',[m.subject,m.className,m.exam].filter(Boolean).join(' · '),(m.total||m.maxMarks||'')+' marks'+(m.duration?' · '+m.duration:'')+' · '+(p.count||'')+' questions'].filter(Boolean).join('\n')+'\n\nI downloaded the PDF to your phone and saved it in your Study Library. Tap Download PDF below if you need it again.'});
- try{persist()}catch(e){}try{renderChat()}catch(e){}paintCards()}
-function paintCards(){var el=$('#messages');if(!el)return;var c=D().chat||[];el.querySelectorAll('.bubble[data-ix]').forEach(function(b){var m=c[+b.dataset.ix];if(!m||!m.paperId||b.querySelector('.ep-cc'))return;var x=document.createElement('div');x.className='ep-cc';x.innerHTML='<button type="button" class="ep-ccd" data-epdl="'+esc(m.paperId)+'">⬇ Download PDF</button><button type="button" class="ep-cco" data-epop="'+esc(m.paperId)+'">👀 Open paper</button>';var acts=b.querySelector('.cq-acts');b.insertBefore(x,acts||null)})}
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-epdl],[data-epop]');if(!a)return;e.preventDefault();var id=a.dataset.epdl||a.dataset.epop,p=saved().filter(function(x){return x.id===id})[0];if(!p){tst('This paper is in your Study Library');try{go('library')}catch(_){}return}
- open();if(a.dataset.epdl){ST.paper=p;ST.view='work';STEPS=[];draw();var ix=step('Getting your PDF ready…');libs().then(function(){return render(p)}).then(function(imgs){ST.imgs=imgs;ST.view='result';draw();download()}).catch(function(err){step(err.message||'Could not open it','err',ix)})}else show(p)});
-(function(){var t=setInterval(function(){var el=$('#messages');if(!el)return;clearInterval(t);new MutationObserver(function(){paintCards()}).observe(el,{childList:true});paintCards()},800)})();
-/* ---------- PDF ---------- */
-function fname(){var m=ST.paper.meta;return('StudyStarx '+[m.subject,m.className,'Exam Paper'].filter(Boolean).join(' ')).replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-')+'.pdf'}
-function download(){if(!ST.imgs.length)return;var pdf=new jspdf.jsPDF({unit:'mm',format:'a4',compress:true});ST.imgs.forEach(function(u,i){if(i)pdf.addPage();pdf.addImage(u,'JPEG',0,0,210,297,undefined,'FAST')});var m=ST.paper.meta;pdf.setProperties({title:m.title+' — '+m.subject+' '+m.className,subject:m.exam,creator:'StudyStarx'});var name=fname();
- var N=window.SFNative;
- if(N&&N.saveFile){try{var b64=pdf.output('datauristring').split(',')[1];var r=N.saveFile(name,'application/pdf',b64);tst(r==='ok'?'Saved in Downloads › StudyStarx ✓':r==='open'?'Opening your paper…':'Could not save the PDF. Please try again.')}catch(e){tst('Could not save the PDF. Please try again.')}return}
- if(N&&N.isApp){tst('Please update the StudyStarx app to save PDFs. Opening it in your browser…');try{window.open(location.origin+'/?go=coach','_blank')}catch(e){}return}
- var blob=pdf.output('blob'),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},60000);tst('PDF downloaded ✓')}
-
-/* ---------- entry points in the coach ---------- */
-var RX=/\b(make|create|generate|prepare|set|build|give|write|need|want|design|frame)\b[^.?!]{0,60}\b((question|exam|test|sample|mock|model|practice|board|revision|pre-?board|final|annual|unit[- ]test|half[- ]yearly|term)\s*(question\s*)?paper)s?\b/i;
-var hooked=0;function hook(){if(!hooked){hooked=1;document.addEventListener('submit',function(e){if(!e.target||e.target.id!=='chatForm')return;var t=$('#chatText');var v=t&&t.value.trim();if(v&&(RX.test(v)||/\bpaper\b[^.]{0,30}\bpdf\b|\bpdf\b[^.]{0,30}\bpaper\b/i.test(v))){e.preventDefault();e.stopImmediatePropagation();t.value='';t.dispatchEvent(new Event('input',{bubbles:true}));open(v)}},true)}
- var h=$('#page-coach .chathead');if(h&&!$('#epHeadBtn')){var b=document.createElement('button');b.type='button';b.id='epHeadBtn';b.className='ep-hb';b.innerHTML='📝 <span>Exam paper</span> <em>PLUS</em>';b.onclick=function(){open()};var cl=$('#clearChat');h.insertBefore(b,cl||null)}
- var f=$('#chatForm');if(f&&!$('#epChip')){var ch=document.createElement('button');ch.type='button';ch.id='epChip';ch.className='ep-chip';ch.innerHTML='📝 Make a full exam paper with answer key <em>PLUS</em>';ch.onclick=function(){open()};f.parentNode.insertBefore(ch,f)}
- var w=$('#messages .cq-welcome');if(w&&!w.querySelector('.ep-wc')){var c=document.createElement('button');c.type='button';c.className='ep-wc';c.innerHTML='<span class="ep-wci">📝</span><span><b>Make a full exam paper <em>PLUS</em></b><small>Board-pattern paper for any chapters, with answer key and marking scheme · PDF</small></span><span class="ep-wca">→</span>';c.onclick=function(){open()};var ideas=w.querySelector('.cq-ideas');w.insertBefore(c,ideas?ideas.nextSibling:null)}}
-function boot(){hook();var m=$('#messages');if(m&&!m.dataset.epw){m.dataset.epw=1;new MutationObserver(function(){if(m.querySelector('.cq-welcome')&&!m.querySelector('.ep-wc'))hook()}).observe(m,{childList:true})}
- try{var q=new URLSearchParams(location.search);if(q.get('paper')!=null){setTimeout(function(){try{go('coach')}catch(e){}open(q.get('paper')||'')},600)}}catch(e){}}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,300)});else setTimeout(boot,300);
-setTimeout(boot,1500);setTimeout(boot,4000);
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('#epBox')&&!$('#epBox').hidden&&!ST.busy)close()});
-})();
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('#epBox [data-goto]');if(a){e.preventDefault();var b=document.getElementById('epBox');if(b)b.hidden=true;document.body.classList.remove('ep-open');try{go(a.dataset.goto)}catch(_){}}},true);
-
 </script><style id="sf-hm-css">
 /* ===== StudyStarx home ===== */
 body.sx-home-on #page-dashboard>:not(#sxHome){display:none!important}
@@ -12602,5 +12251,357 @@ window.StudyFlowQuiz={play:startGame,choose:choose,host:hostLive,join:joinScreen
  boss:function(opts){opts=opts||{};var pool=[];var subj=opts.subject;KQ_LIB.forEach(function(L){if(!subj||L.subject===subj)pool=pool.concat(fromLib(L).questions.map(function(q){return Object.assign({},q,{subject:L.subject,topic:L.topic})}))});if(pool.length<8)pool=pool.concat(genMaths('mental').questions);var qs=shuffle(pool).slice(0,opts.n||8);startGame({id:'boss',title:opts.title||'Boss battle',subject:subj||'',topic:'Boss battle',emoji:opts.bossEmoji||'🐉',color:'#7f1d1d',questions:qs},{mode:'boss',bossName:opts.bossName,bossEmoji:opts.bossEmoji,onEnd:opts.onEnd,shuffleAnswers:true})}};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,60)});else setTimeout(init,60);
 })();
+
+</script><style id="sf-ep-css">
+/* StudyStarx Exam Paper Maker */
+.ep-hb{margin-left:auto;margin-right:8px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:inherit;border-radius:999px;padding:6px 12px;font:600 13px Inter,system-ui,sans-serif;cursor:pointer;white-space:nowrap}
+.ep-hb:hover{background:rgba(255,255,255,.24)}
+.ep-hb+#clearChat{margin-left:0!important}
+@media(max-width:520px){.ep-hb span{display:none}.ep-hb{padding:6px 10px}}
+.ep-wc{display:flex;align-items:center;gap:12px;width:100%;max-width:640px;margin:14px auto 0;text-align:left;border:1px solid #c7d2fe;background:linear-gradient(135deg,#eef2ff,#faf5ff);border-radius:16px;padding:14px 16px;cursor:pointer;color:#1e1b4b;font:inherit;transition:transform .15s,box-shadow .15s}
+.ep-wc:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(79,70,229,.15)}
+.ep-wci{font-size:26px;width:44px;height:44px;display:grid;place-items:center;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(79,70,229,.15);flex:none}
+.ep-wc b{display:block;font-size:15px}.ep-wc b em{font-style:normal;font-size:10.5px;letter-spacing:.06em;background:linear-gradient(90deg,#f59e0b,#ec4899);color:#fff;border-radius:999px;padding:2px 7px;margin-left:6px;vertical-align:2px}
+.ep-wc small{display:block;color:#4b5563;font-size:12.5px;margin-top:2px}.ep-wca{margin-left:auto;font-size:20px;color:#4f46e5}
+[data-theme="dark"] .ep-wc,.dark .ep-wc{background:linear-gradient(135deg,#1e1b4b,#2e1065);border-color:#4338ca;color:#e0e7ff}[data-theme="dark"] .ep-wc small,.dark .ep-wc small{color:#c7d2fe}
+body.ep-open{overflow:hidden}
+.ep-ov{position:fixed;inset:0;z-index:9000;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
+.ep-ov[hidden]{display:none}
+.ep-sheet{background:#fff;color:#111827;width:min(720px,100%);max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,.3);display:flex;flex-direction:column;overflow:hidden;font-family:Inter,system-ui,sans-serif}
+.ep-top{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #eef0f4;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+.ep-ttl{display:flex;align-items:center;gap:10px}.ep-ic{font-size:22px}.ep-ttl b{display:block;font-size:16px}.ep-ttl small{display:block;opacity:.85;font-size:12px}
+.ep-plus{margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.08em;background:linear-gradient(90deg,#fbbf24,#f472b6);color:#fff;border-radius:999px;padding:3px 9px}
+.ep-x{border:0;background:rgba(255,255,255,.18);color:#fff;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer}
+.ep-body{padding:16px 18px 20px;overflow:auto;-webkit-overflow-scrolling:touch}
+.ep-l{display:block;font-weight:700;font-size:13.5px;margin:14px 0 6px}.ep-l span{font-weight:400;color:#6b7280}
+.ep-body textarea,.ep-body input:not([type=checkbox]),.ep-body select{width:100%;box-sizing:border-box;border:1.5px solid #e2e5ec;border-radius:12px;padding:10px 12px;font:15px Inter,system-ui,sans-serif;background:#fff;color:#111827;outline:none}
+.ep-body textarea{resize:vertical;min-height:78px}
+.ep-body textarea:focus,.ep-body input:focus,.ep-body select:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.ep-ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ep-ex button{border:1px dashed #c7d2fe;background:#f5f7ff;color:#3730a3;border-radius:10px;padding:6px 10px;font:12.5px Inter,system-ui,sans-serif;cursor:pointer;text-align:left}
+.ep-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:6px}.ep-grid label{display:block;font-weight:600;font-size:12.5px;color:#374151;margin:8px 0 5px}.ep-wide{grid-column:1/-1}
+.ep-chips{display:flex;flex-wrap:wrap;gap:8px}.ep-chips button{border:1.5px solid #e2e5ec;background:#fff;border-radius:999px;padding:8px 14px;font:600 13.5px Inter,system-ui,sans-serif;cursor:pointer;color:#374151}.ep-chips button.on{border-color:#6366f1;background:#eef2ff;color:#3730a3}
+.ep-tg{display:grid;gap:8px;margin-top:14px}.ep-tg label{display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer}.ep-tg input{width:18px;height:18px;accent-color:#4f46e5}
+.ep-go{display:block;width:100%;margin-top:18px;border:0;border-radius:14px;padding:14px;font:700 16px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#4f46e5,#7c3aed);cursor:pointer;box-shadow:0 8px 20px rgba(79,70,229,.3)}
+.ep-go:active{transform:scale(.99)}
+.ep-fine{font-size:12.5px;color:#6b7280;text-align:center;margin:10px 0 0}
+.ep-link{display:block;margin:12px auto 0;border:0;background:none;color:#4f46e5;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
+.ep-lock{display:flex;flex-direction:column;gap:2px;background:linear-gradient(135deg,#fff7ed,#fdf2f8);border:1px solid #fed7aa;border-radius:12px;padding:10px 12px;font-size:13px;color:#7c2d12}
+.ep-change{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:10px 12px}.ep-change label{display:block;font-weight:700;font-size:13px;margin-bottom:6px;color:#166534}
+.ep-up{border:1.5px solid #f9a8d4;background:linear-gradient(135deg,#fff7ed,#fdf2f8);border-radius:16px;padding:16px;margin-bottom:12px;text-align:center}.ep-upi{font-size:34px}.ep-up h3{margin:6px 0 8px;font-size:18px}.ep-up ul{text-align:left;margin:0 auto;padding-left:20px;max-width:440px;font-size:14px;line-height:1.7}.ep-up .ep-go{margin-top:12px}
+.ep-work{text-align:center;padding:16px 4px}.ep-work h3{margin:12px 0;font-size:17px}
+.ep-spin{width:46px;height:46px;margin:6px auto 0;border-radius:50%;border:4px solid #e0e7ff;border-top-color:#4f46e5;animation:epS 1s linear infinite}@keyframes epS{to{transform:rotate(360deg)}}
+.ep-bar{height:8px;background:#eef0f4;border-radius:99px;overflow:hidden;margin:0 auto;max-width:420px}.ep-bar i{display:block;height:100%;background:linear-gradient(90deg,#4f46e5,#a855f7);border-radius:99px;transition:width .5s}
+.ep-steps{list-style:none;padding:0;margin:14px auto 0;max-width:420px;text-align:left;font-size:13.5px;line-height:1.9;color:#6b7280}.ep-steps li.done{color:#15803d}.ep-steps li.run{color:#3730a3;font-weight:600}.ep-steps li.err{color:#b91c1c;font-weight:600}
+.ep-err{margin-top:12px;text-align:center}.ep-err p{color:#b91c1c;font-weight:600}
+.ep-done{display:flex;align-items:center;gap:12px}.ep-ok{width:42px;height:42px;border-radius:50%;background:#dcfce7;color:#15803d;display:grid;place-items:center;font-weight:800;font-size:20px;flex:none}.ep-done b{display:block;font-size:16px}.ep-done small{color:#6b7280;font-size:12.5px}
+.ep-note{font-size:13px;color:#4b5563;background:#f9fafb;border-radius:10px;padding:8px 10px;margin:10px 0 0}
+.ep-acts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px}.ep-acts .ep-go{grid-column:1/-1;margin-top:12px}
+.ep-b2{border:1.5px solid #e2e5ec;background:#fff;border-radius:12px;padding:10px 6px;font:600 13px Inter,system-ui,sans-serif;cursor:pointer;color:#374151}
+@media(max-width:480px){.ep-acts{grid-template-columns:1fr 1fr}.ep-acts .ep-b2:last-child{grid-column:1/-1}.ep-grid{grid-template-columns:1fr}.ep-ov{padding:0;align-items:flex-end}.ep-sheet{border-radius:20px 20px 0 0;max-height:94vh;max-height:94dvh}}
+.ep-prev{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:16px;background:#f3f4f6;border-radius:14px;padding:14px}
+.ep-prev figure{margin:0}.ep-prev img{width:100%;display:block;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.15);background:#fff}.ep-prev figcaption{text-align:center;font-size:12px;color:#6b7280;margin-top:4px}
+.ep-h3{margin:8px 0 10px}.ep-item{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;width:100%;text-align:left;border:1.5px solid #e2e5ec;background:#fff;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;font:inherit;color:inherit}.ep-item span{grid-row:1/3;font-size:22px;align-self:center}.ep-item small{color:#6b7280}
+/* ---- the paper itself (A4 at 96 dpi; rendered off-screen, then captured) ---- */
+#epStage{position:fixed;left:-12000px;top:0;width:794px;pointer-events:none}
+.pq-page{width:794px;height:1123px;box-sizing:border-box;padding:52px 60px 70px;background:#fff;color:#111;position:relative;font-family:"Noto Serif",Georgia,"Times New Roman",serif;font-size:13.6px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased}
+.pq-in{width:674px;height:1001px;overflow:hidden}
+.pq-foot{position:absolute;left:60px;right:60px;bottom:30px;display:flex;justify-content:space-between;border-top:1px solid #999;padding-top:6px;font:11px "Noto Sans",Arial,sans-serif;color:#555}
+.pq-head{text-align:center;padding-bottom:4px;margin-bottom:10px}
+.pq-roll{display:flex;justify-content:flex-end;align-items:center;gap:0;font:600 12px "Noto Sans",Arial,sans-serif;margin-bottom:6px}.pq-roll span{margin-right:8px}.pq-roll i{display:inline-block;width:22px;height:24px;border:1.2px solid #222;margin-left:-1.2px}
+.pq-code{position:absolute;left:60px;top:56px;font:600 12px "Noto Sans",Arial,sans-serif}
+.pq-school{font-weight:700;font-size:18px;letter-spacing:.02em;text-transform:uppercase;margin-top:4px}
+.pq-title{font-weight:700;font-size:20px;letter-spacing:.04em;text-transform:uppercase;margin-top:6px}
+.pq-sub{font-weight:600;font-size:15.5px;margin-top:3px}.pq-sub span{font-weight:400}
+.pq-tm{display:flex;justify-content:space-between;font-weight:700;font-size:13.6px;border-top:1.6px solid #111;border-bottom:1.6px solid #111;padding:6px 2px;margin-top:12px}
+.pq-name{display:flex;gap:18px;font-size:13px;margin-top:10px;text-align:left}.pq-name span{flex:1;display:flex;align-items:flex-end;white-space:nowrap}.pq-name span:first-child{flex:1.6}.pq-name i{flex:1;border-bottom:1px solid #444;margin-left:6px;height:14px}
+.pq-gi{border:1px solid #333;border-radius:2px;padding:9px 14px 6px;margin:4px 0 14px;font-size:12.8px}.pq-gil{margin-top:4px}.pq-gil div{display:flex;gap:6px;margin-bottom:2px}.pq-gil span:first-child{flex:0 0 20px;text-align:right}
+.pq-sec{margin:14px 0 8px}
+.pq-sech{display:flex;align-items:center;gap:12px;font-weight:700;font-size:14.5px;letter-spacing:.12em}.pq-sech:before,.pq-sech:after{content:"";flex:1;border-top:1.3px solid #111}
+.pq-sech.small{font-size:13px;margin:12px 0 6px}
+.pq-seci{text-align:center;font-style:italic;font-size:12.8px;margin-top:4px;color:#222}
+.pq-q,.pa{display:grid;grid-template-columns:34px 1fr 30px;column-gap:6px;margin:0 0 11px;break-inside:avoid}
+.pq-n{font-weight:700}.pq-m{text-align:right;font-weight:700}.pq-m:not(:empty):before{content:"["}.pq-m:not(:empty):after{content:"]"}
+.pq-t{white-space:normal}
+.pq-pass{border:1px solid #888;background:#fafafa;padding:8px 11px;margin-bottom:7px;font-size:13px;text-align:justify}
+.pq-opts{display:grid;grid-template-columns:1fr;gap:3px 18px;margin-top:5px}.pq-opts.two{grid-template-columns:1fr 1fr}.pq-opts span{font-weight:600;margin-right:2px}
+.pq-parts{margin-top:5px}.pq-part{display:grid;grid-template-columns:34px 1fr auto;column-gap:4px;margin-top:3px}.pq-pl{font-weight:600}.pq-pm{font-size:12px;color:#333}.pq-pm:before{content:"("}.pq-pm:after{content:")"}
+.pq-tab{border-collapse:collapse;margin:7px 0 2px;font-size:12.8px;min-width:60%}.pq-tab th,.pq-tab td{border:1px solid #444;padding:4px 9px;text-align:left;vertical-align:top}.pq-tab th{background:#f0f0f0;font-weight:700}
+.pq-fig{margin:7px 0 3px;text-align:center}.pq-fig img{max-width:330px;max-height:220px}
+.pq-or{text-align:center;font-weight:700;font-size:13px;letter-spacing:.2em;margin:-3px 0 8px}
+.pq-end{text-align:center;font-size:12px;font-weight:700;letter-spacing:.1em;margin-top:18px;color:#333}
+.pq-akh{text-align:center;border-bottom:1.6px solid #111;padding-bottom:8px;margin-bottom:10px}.pq-akh div{font-weight:700;font-size:18px;letter-spacing:.06em}.pq-akh small{font-size:12px;color:#444}
+.pa{font-size:12.8px;margin-bottom:9px;padding-bottom:7px;border-bottom:1px dotted #bbb}
+.pa-k{font-weight:700}.pa-t{margin-top:1px}.pa-parts div{margin-top:2px}.pa-parts em{font-style:normal;font-size:11.5px;color:#444}
+.pa-mk{margin:4px 0 0;color:#333;font-size:12.2px}.pa-mk div{display:flex;gap:6px;margin:1px 0}.pa-mk span:first-child{color:#15803d;flex:none}
+
+@media(max-width:520px){#page-coach .chathead #clearChat{white-space:nowrap;padding:6px 10px}}
+#page-coach .chathead{container-type:inline-size}
+#page-coach .chathead #clearChat{white-space:nowrap}
+@container (max-width:440px){#page-coach .ep-hb span{display:none}#page-coach .ep-hb{padding:6px 10px}}
+.ep-saved{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#ecfdf5;color:#065f46;font-weight:600;font-size:13.5px}.ep-saved a{color:#047857}
+/* v3: always-visible PLUS labels + paper card in chat */
+#page-coach .ep-hb{display:inline-flex;align-items:center;gap:5px;border:0;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:7px 10px;box-shadow:0 6px 14px -8px rgba(79,70,229,.7)}
+#page-coach .ep-hb span{display:none}
+#page-coach .ep-hb em,.ep-chip em{font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.06em;background:linear-gradient(90deg,#f59e0b,#ec4899);color:#fff;border-radius:99px;padding:2px 6px}
+@media(min-width:700px){#page-coach .ep-hb span{display:inline}}
+.ep-chip{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 24px);margin:8px 12px 0;border:1.5px dashed #c4b5fd;background:#faf5ff;color:#5b21b6;border-radius:14px;padding:9px 12px;font:600 13.5px Inter,system-ui,sans-serif;cursor:pointer}
+.ep-cc{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.ep-ccd,.ep-cco{border:0;border-radius:12px;padding:10px 14px;font:700 14px Inter,system-ui,sans-serif;cursor:pointer}
+.ep-ccd{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;box-shadow:0 8px 18px -10px rgba(79,70,229,.8)}.ep-cco{background:#f3e8ff;color:#5b21b6}
+
+</style><script id="sf-ep-js">
+/* StudyStarx Exam Paper Maker (Plus): the coach plans a full exam paper the way a board examiner would,
+   writes every question with an answer key and marking scheme, lays it out on A4 pages and saves a PDF. */
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)};
+function D(){try{return data||{}}catch(e){return window.data||{}}}
+function P(){return D().profile||{}}
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function plus(){try{return!!(window.sfAccount&&sfAccount.isPlus&&sfAccount.isPlus())}catch(e){return false}}
+function tst(m){try{toast(m)}catch(e){}}
+var SUBS={'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','n':'ₙ','r':'ᵣ','k':'ₖ','m':'ₘ'};
+function cs(x){x=String(x==null?'':x).replace(/([A-Za-z\)])_\{?(?:([0-9]{1,3})|([nrkm])(?![A-Za-z0-9]))\}?/g,function(_,a,d,l){var b=d||l;return a+b.split('').map(function(c){return SUBS[c]||c}).join('')}).replace(/(\d|\))\s\*\s(?=[\d(\[])/g,'$1 × ');try{if(window.sfCleanStr)x=sfCleanStr(x)}catch(e){}return x.replace(/\*\*([^*]+)\*\*/g,'$1').replace(/^#+\s*/gm,'').trim()}
+var LS='sx-papers';
+function saved(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch(e){return[]}}
+function keep(p){try{var l=saved().filter(function(x){return x.id!==p.id});l.unshift(p);while(l.length>6)l.pop();var s=JSON.stringify(l);while(s.length>1500000&&l.length>1){l.pop();s=JSON.stringify(l)}localStorage.setItem(LS,s)}catch(e){}}
+
+/* ---------- libraries (loaded only when a PDF is made) ---------- */
+var LIBS={h2c:'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',pdf:'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'};
+function lib(src,test){if(test())return Promise.resolve();return new Promise(function(ok,no){var s=document.createElement('script');s.src=src;s.onload=function(){test()?ok():no(new Error('lib'))};s.onerror=function(){no(new Error('Could not load the PDF maker. Check your internet and try again.'))};document.head.appendChild(s)})}
+function libs(){return Promise.all([lib(LIBS.h2c,function(){return!!window.html2canvas}),lib(LIBS.pdf,function(){return!!(window.jspdf&&jspdf.jsPDF)})])}
+function fonts(){if(!$('#epFonts')){var l=document.createElement('link');l.id='epFonts';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans:wght@400;600;700&display=swap';document.head.appendChild(l)}
+ return Promise.race([document.fonts&&document.fonts.load?Promise.all([document.fonts.load('400 14px "Noto Serif"'),document.fonts.load('700 14px "Noto Serif"'),document.fonts.load('italic 400 14px "Noto Serif"')]):Promise.resolve(),new Promise(function(r){setTimeout(r,3500)})]).catch(function(){})}
+
+/* ---------- AI ---------- */
+var SYS='You are a senior board examiner and paper setter with 20 years of experience writing official question papers, sample papers and marking schemes for school and competitive exams worldwide (CBSE, ICSE/ISC, Indian state boards, Cambridge IGCSE/A Level, IB, AP, SAT, JEE, NEET and others). ';
+function parse(t){t=String(t||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim();try{return JSON.parse(t)}catch(e){}var a=t.indexOf('{'),b=t.lastIndexOf('}');if(a>=0&&b>a){var s=t.slice(a,b+1);try{return JSON.parse(s)}catch(e){}s=s.replace(/,\s*([}\]])/g,'$1');try{return JSON.parse(s)}catch(e){}}throw new Error('The AI reply could not be read. Please try again.')}
+function ai(system,user,stage,max){return fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:system,user:user,json:true,temperature:stage==='plan'?.35:.5,maxTokens:max||12000,purpose:'paper',stage:stage})}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(!r.ok){var e=new Error(j.error||'The AI had a problem (HTTP '+r.status+').');e.plus=!!j.plus;e.limit=!!j.limit;e.status=r.status;throw e}return parse(j.text)})})}
+function retry(fn,n){return fn().catch(function(e){if(n>0&&!e.plus&&!e.limit&&e.status!==400)return new Promise(function(r){setTimeout(r,1500)}).then(function(){return retry(fn,n-1)});throw e})}
+
+function planPrompt(f){
+ var who=[];if(P().name)who.push('Student: '+P().name);
+ return SYS+'Plan ONE complete exam paper as a precise blueprint, exactly the way the official paper setter for that exam would. Reply with JSON only.\n\n'+
+ 'RULES\n'+
+ '1. The student\'s own words in REQUEST are the most important instruction. Follow every specific thing they ask for (marks, time, chapters, question types, number of questions, difficulty, sections, language, style). The form fields fill in only what the request does not say.\n'+
+ '2. For everything not specified, follow the LATEST official pattern for that board/exam, class and subject: the same sections, question types (e.g. MCQ, assertion–reason, very short, short, long, case/source-based, map/diagram, competency-based), marks per question, number of questions, internal choices and general instructions. If marks are given but not the pattern, scale the official pattern to those marks.\n'+
+ '3. The question marks must add up EXACTLY to maxMarks (count each question with an internal choice once).\n'+
+ '4. Use only the requested chapters/topics. Spread questions across them in proportion to their syllabus weightage. Give every question a DIFFERENT specific sub-topic, so nothing repeats.\n'+
+ '5. Difficulty mix: easy ≈ 30% easy / 50% medium / 20% hard is "Easy"; board level ≈ 20/55/25 is "Balanced"; "Hard" ≈ 10/45/45 with more application and higher-order questions; "Mixed" varies freely. Include application, analysis and real-life competency questions as the latest board papers do.\n'+
+ '6. When the board pattern has internal choice and choices are wanted, mark about one third of the longer questions with "choice": true.\n'+
+ '7. Number questions continuously from 1 across sections.\n\n'+
+ 'JSON SHAPE\n{"title":"e.g. Sample Question Paper / Half-Yearly Examination","exam":"board or exam name","className":"e.g. Class X","subject":"subject name","code":"official subject code if known, else empty","duration":"e.g. 3 Hours","maxMarks":80,"language":"language the paper is written in","generalInstructions":["5–9 short official-style instructions describing THIS paper\'s sections, marks and choices"],"sections":[{"id":"A","title":"Section A","instructions":"one line, e.g. Questions 1 to 20 are multiple choice questions of 1 mark each.","questions":[{"n":1,"type":"mcq | assertion | fill | truefalse | match | vsa | sa | la | case | source | map | diagram | numerical | proof | essay | letter | comprehension | grammar | other","marks":1,"topic":"chapter — exact sub-topic","skill":"remember | understand | apply | analyse | evaluate | create","level":"easy | medium | hard","choice":false,"brief":"one line describing what this question should test"}]}],"note":"one short sentence for the student on how you followed their request"}\n\n'+
+ 'REQUEST (student\'s words): '+(f.req||'(none — use the form)')+'\n'+
+ 'FORM: board/exam: '+(f.board||'not given')+'; class/grade: '+(f.cls||'not given')+'; subject: '+(f.subject||'not given')+'; chapters/topics: '+(f.chapters||'all chapters of the current syllabus')+'; total marks: '+(f.marks||'official pattern')+'; time: '+(f.time||'official pattern')+'; difficulty: '+f.level+'; language: '+f.lang+'; internal choice (OR questions): '+(f.choice?'yes, as the board does':'no')+'.\n'+(who.length?who.join('; ')+'\n':'')+
+ 'Today is '+new Date().toDateString()+'; use the current syllabus and pattern.';
+}
+function writePrompt(meta,sec,qs,all){
+ return SYS+'Now WRITE the questions below for this paper, exactly following the blueprint. Reply with JSON only.\n\n'+
+ 'PAPER: '+meta.exam+' · '+meta.className+' · '+meta.subject+' · '+meta.maxMarks+' marks · '+meta.duration+' · written in '+(meta.language||'English')+'.\n'+
+ 'SECTION '+sec.id+': '+(sec.instructions||'')+'\n'+
+ 'Whole paper\'s topics (do not repeat a question already covered by another number): '+all+'\n\n'+
+ 'WRITE THESE QUESTIONS\n'+JSON.stringify(qs)+'\n\n'+
+ 'QUALITY RULES\n'+
+ '- Write like a real board paper: original, accurate, unambiguous, exam-standard wording and command words that fit the marks (1 mark: state/identify/choose; 2–3 marks: explain/give reasons/calculate; 4–6 marks: describe in detail/derive/analyse/evaluate). Questions must be answerable in the time and space the marks allow.\n'+
+ '- Stay inside the syllabus of that board and class: use only concepts, formulas and methods taught up to that class (no methods from higher classes). Prefer competency-based, real-life and application questions where the board does.\n'+
+ '- mcq: exactly 4 options, exactly ONE correct, distractors plausible (common mistakes). Do not write "(a)" in options. Vary the position of the correct option.\n'+
+ '- assertion: give "Assertion (A): …" and "Reason (R): …" in text, and the 4 standard options (Both A and R are true and R is the correct explanation of A / Both A and R are true but R is not the correct explanation of A / A is true but R is false / A is false but R is true).\n'+
+ '- case / source / comprehension: put a realistic 90–180 word passage, data set or situation in "passage", then 3–4 sub-questions in "parts" whose marks add up to the question\'s marks.\n'+
+ '- la / longer questions may use "parts" (e.g. (a), (b)) with marks adding up to the total.\n'+
+ '- numerical: realistic values that give clean answers; give all data needed.\n'+
+ '- match / data questions: use "table": {"head":["Column A","Column B"],"rows":[["…","…"]]}.\n'+
+ '- diagram / map / geometry / circuits: add "figure" only when the question truly needs a picture: a small clean SVG (viewBox about 0 0 320 200, black lines, stroke-width 1.5–2, white or no fill, short text labels, font-size 12–14, no scripts, no images). Otherwise describe in words.\n'+
+ '- choice: true → also write a different question of the same type, marks and difficulty in "or" (same fields as a question) and its answer.\n'+
+ '- Plain text only. Use Unicode for maths and science: x², a³, H₂O, CO₂, √, π, θ, °, ×, ÷, ±, ≤, ≥, ≠, →, ⇌, ∆, ∠, ⊥, ½. No LaTeX, no markdown, no **, no question numbers or marks inside "text".\n'+
+ '- Answers: a model answer a top student would write, plus "marking": value points with the marks for each, adding up to the question\'s marks. For mcq/assertion give the correct option letter in "key" (a, b, c or d).\n\n'+
+ 'JSON SHAPE\n{"questions":[{"n":1,"text":"question","passage":"","options":["","","",""],"table":null,"figure":"","parts":[{"label":"(i)","text":"","marks":1,"answer":""}],"key":"b","answer":"model answer","marking":["value point — 1"],"or":null}]}\n'+
+ 'Leave out any field you do not need. Return every question number listed above, in order.';
+}
+
+/* ---------- builder UI ---------- */
+var ST={view:'form',busy:false,paper:null,imgs:[],form:null};
+var BOARDS=['CBSE','ICSE','ISC','State Board','Cambridge IGCSE','Cambridge A Level','IB MYP','IB DP','AP','SAT','JEE Main','JEE Advanced','NEET','CUET'];
+var LANGS=['English','Hindi','Telugu','Tamil','Kannada','Malayalam','Marathi','Bengali','Gujarati','Urdu','French','Spanish','German'];
+function defForm(){var p=P(),sb=Array.isArray(p.subjects)?p.subjects:[];return{req:'',board:p.curriculum||'',cls:p.level||p.grade||'',subject:sb[0]||'',chapters:'',marks:'',time:'',level:'Balanced',lang:'English',key:true,choice:true,student:true,school:''}}
+function box(){var b=$('#epBox');if(b)return b;b=document.createElement('div');b.id='epBox';b.className='ep-ov';b.hidden=true;b.innerHTML='<div class="ep-sheet" role="dialog" aria-label="Exam Paper Maker"><div class="ep-top"><div class="ep-ttl"><span class="ep-ic">📝</span><div><b>Exam Paper Maker</b><small>Full papers with answer key · PDF</small></div></div><span class="ep-plus">PLUS</span><button type="button" class="ep-x" data-ep="close" aria-label="Close">✕</button></div><div class="ep-body" id="epBody"></div></div>';document.body.appendChild(b);
+ b.addEventListener('click',function(e){if(e.target===b){if(!ST.busy)close();return}var a=e.target.closest('[data-ep]');if(!a)return;var k=a.dataset.ep;
+  if(k==='close'){if(!ST.busy||confirmLeave())close()}
+  else if(k==='make')make();
+  else if(k==='plans'){close();try{go('premium')}catch(e2){}}
+  else if(k==='lvl'){ST.form=read();ST.form.level=a.dataset.v;draw()}
+  else if(k==='ex'){var t=$('#epReq');t.value=a.dataset.v;t.focus()}
+  else if(k==='dl')download();
+  else if(k==='again'){ST.form=ST.paper.form||ST.form;make()}
+  else if(k==='edit'){ST.view='form';ST.form=ST.paper.form||ST.form;draw();setTimeout(function(){var t=$('#epChange');if(t)t.focus()},50)}
+  else if(k==='new'){ST.view='form';ST.form=defForm();draw()}
+  else if(k==='list'){ST.view='list';draw()}
+  else if(k==='open'){var p=saved().filter(function(x){return x.id===a.dataset.id})[0];if(p)show(p)}
+  else if(k==='back'){ST.view=ST.paper?'result':'form';draw()}
+  else if(k==='key'){ST.showKey=!ST.showKey;draw()}
+ });return b}
+function confirmLeave(){return window.confirm?confirm('Your paper is still being made. Stop and close?'):true}
+function open(prefill){var b=box();ST.form=Object.assign(defForm(),ST.form&&!prefill?ST.form:{});if(prefill)ST.form.req=prefill;if(!ST.busy){ST.view=(prefill||!ST.paper||['form','result','list'].indexOf(ST.view)<0)?(ST.paper&&!prefill?'result':'form'):ST.view}b.hidden=false;document.body.classList.add('ep-open');draw();if(prefill&&!plus()){}}
+function close(){var b=$('#epBox');if(b)b.hidden=true;document.body.classList.remove('ep-open')}
+window.sxExamPaper=open;open.prompts={plan:planPrompt,write:writePrompt};
+function read(){var f=Object.assign({},ST.form||defForm());function v(id){var e=$('#'+id);return e?e.value.trim():''}function c(id){var e=$('#'+id);return e?e.checked:false}
+ if($('#epReq')){f.req=v('epReq');f.board=v('epBoard');f.cls=v('epCls');f.subject=v('epSub');f.chapters=v('epCh');f.marks=v('epMarks');f.time=v('epTime');f.lang=v('epLang')||'English';f.school=v('epSchool');f.key=c('epKey');f.choice=c('epChoice');f.student=c('epStu');f.change=v('epChange')}return f}
+function opts(list,val,first){return(first?'<option value="">'+first+'</option>':'')+list.map(function(x){var k=Array.isArray(x)?x[0]:x,l=Array.isArray(x)?x[1]:x;return'<option value="'+esc(k)+'"'+(String(k)===String(val)?' selected':'')+'>'+esc(l)+'</option>'}).join('')}
+function draw(){var el=$('#epBody');if(!el)return;var f=ST.form||defForm();
+ if(ST.view==='form'){var sb=Array.isArray(P().subjects)?P().subjects:[];var ex=[(f.board||'CBSE')+' '+(f.cls||'Class 10')+' '+(sb[0]||'Science')+' full sample paper, 80 marks, 3 hours, board pattern',(sb[1]||sb[0]||'Maths')+' unit test, 25 marks, 1 hour, only chapters I name, more application questions','Hard revision paper with case-based and assertion–reason questions, answer key with step marking'];
+  el.innerHTML=(plus()?'':'<div class="ep-lock"><b>✨ A Plus feature</b><span>Fill this in to see how it works. Making the paper needs StudyStarx Plus.</span></div>')+
+  (ST.paper&&ST.paper.form?'<div class="ep-change"><label for="epChange">What should I change in your last paper?</label><input id="epChange" placeholder="e.g. make Section C harder, add 2 more numericals" value="'+esc(f.change||'')+'"></div>':'')+
+  '<label class="ep-l" for="epReq">Describe the paper you want</label><textarea id="epReq" rows="3" placeholder="e.g. CBSE Class 10 Science, chapters 1–5, 80 marks, 3 hours, board pattern with case-based questions">'+esc(f.req)+'</textarea>'+
+  '<div class="ep-ex">'+ex.map(function(x){return'<button type="button" data-ep="ex" data-v="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>'+
+  '<div class="ep-grid"><div><label for="epBoard">Board / exam</label><input id="epBoard" list="epBoards" value="'+esc(f.board)+'" placeholder="CBSE"><datalist id="epBoards">'+BOARDS.map(function(x){return'<option value="'+esc(x)+'">'}).join('')+'</datalist></div>'+
+  '<div><label for="epCls">Class / grade</label><input id="epCls" value="'+esc(f.cls)+'" placeholder="Class 10"></div>'+
+  '<div><label for="epSub">Subject</label><input id="epSub" list="epSubs" value="'+esc(f.subject)+'" placeholder="Science"><datalist id="epSubs">'+sb.map(function(x){return'<option value="'+esc(x)+'">'}).join('')+'</datalist></div>'+
+  '<div><label for="epLang">Language</label><select id="epLang">'+opts(LANGS,f.lang)+'</select></div>'+
+  '<div class="ep-wide"><label for="epCh">Chapters / topics</label><input id="epCh" value="'+esc(f.chapters)+'" placeholder="All chapters (or e.g. Ch 1–5, Light, Electricity)"></div>'+
+  '<div><label for="epMarks">Total marks</label><select id="epMarks">'+opts(['20','25','30','40','50','60','70','80','90','100'],f.marks,'Board pattern')+'</select></div>'+
+  '<div><label for="epTime">Time</label><select id="epTime">'+opts(['30 minutes','45 minutes','1 hour','1½ hours','2 hours','2½ hours','3 hours'],f.time,'Board pattern')+'</select></div></div>'+
+  '<label class="ep-l">Difficulty</label><div class="ep-chips">'+[['Easy','🙂 Easy'],['Balanced','🎯 Board level'],['Hard','🔥 Hard'],['Mixed','🎲 Mixed']].map(function(x){return'<button type="button" data-ep="lvl" data-v="'+x[0]+'" class="'+(f.level===x[0]?'on':'')+'">'+x[1]+'</button>'}).join('')+'</div>'+
+  '<div class="ep-tg"><label><input type="checkbox" id="epKey"'+(f.key?' checked':'')+'> Answer key &amp; marking scheme</label><label><input type="checkbox" id="epChoice"'+(f.choice?' checked':'')+'> Internal choice (OR questions)</label><label><input type="checkbox" id="epStu"'+(f.student?' checked':'')+'> Name &amp; roll number boxes</label></div>'+
+  '<label class="ep-l" for="epSchool">School / test name on top <span>(optional)</span></label><input id="epSchool" value="'+esc(f.school)+'" placeholder="e.g. Delhi Public School · Half-Yearly Examination">'+
+  '<button type="button" class="ep-go" data-ep="make">'+(plus()?'✨ Make my exam paper':'🔒 Make my exam paper')+'</button>'+
+  '<p class="ep-fine">Takes about a minute. You get a print-ready A4 PDF'+(f.key?' with the answers and marking scheme at the end':'')+'.</p>'+
+  (saved().length?'<button type="button" class="ep-link" data-ep="list">📂 My papers ('+saved().length+')</button>':'');
+  return}
+ if(ST.view==='work'){el.innerHTML='<div class="ep-work"><div class="ep-spin"></div><h3 id="epStep">Planning your paper…</h3><div class="ep-bar"><i id="epBar" style="width:4%"></i></div><ul class="ep-steps" id="epSteps"></ul><p class="ep-fine">Keep this open — your paper is being written question by question.</p></div>';stepsUI();return}
+ if(ST.view==='list'){var l=saved();el.innerHTML='<button type="button" class="ep-link" data-ep="back">← Back</button><h3 class="ep-h3">My papers</h3>'+(l.length?l.map(function(p){var m=p.meta||{};return'<button type="button" class="ep-item" data-ep="open" data-id="'+esc(p.id)+'"><span>📄</span><b>'+esc((m.subject||'Exam paper')+' · '+(m.className||''))+'</b><small>'+esc((m.exam||'')+' · '+(m.maxMarks||'')+' marks · '+new Date(p.at).toLocaleDateString())+'</small></button>'}).join(''):'<p class="ep-fine">No papers yet.</p>');return}
+ if(ST.view==='result'){var p=ST.paper,m=p.meta;el.innerHTML='<div class="ep-done"><div class="ep-ok">✓</div><div><b>'+esc(m.subject+' · '+m.className)+'</b><small>'+esc(m.exam+' · '+m.total+' marks · '+m.duration+' · '+p.count+' questions · '+ST.imgs.length+' pages')+'</small></div></div>'+(p.inLib?'<p class="ep-saved">✓ Downloaded as a PDF and saved in your <a href="#" data-goto="library">Study Library</a></p>':'')+(m.note?'<p class="ep-note">'+esc(m.note)+'</p>':'')+
+  '<div class="ep-acts"><button type="button" class="ep-go" data-ep="dl">⬇ Download PDF</button><button type="button" class="ep-b2" data-ep="edit">✏️ Change something</button><button type="button" class="ep-b2" data-ep="again">🔁 New version</button><button type="button" class="ep-b2" data-ep="new">＋ Different paper</button></div>'+
+  '<div class="ep-prev" id="epPrev">'+ST.imgs.map(function(u,i){return'<figure><img src="'+u+'" alt="Page '+(i+1)+'"><figcaption>Page '+(i+1)+'</figcaption></figure>'}).join('')+'</div>'+
+  (saved().length>1?'<button type="button" class="ep-link" data-ep="list">📂 My papers ('+saved().length+')</button>':'');return}
+}
+var STEPS=[];
+function stepsUI(){var u=$('#epSteps');if(!u)return;u.innerHTML=STEPS.map(function(s){return'<li class="'+s.st+'">'+(s.st==='done'?'✓':s.st==='err'?'!':'•')+' '+esc(s.t)+'</li>'}).join('');var d=STEPS.filter(function(s){return s.st==='done'}).length,b=$('#epBar');if(b)b.style.width=Math.max(4,Math.round(d/Math.max(1,STEPS.length)*100))+'%'}
+function step(t,st,ix){if(ix==null){STEPS.push({t:t,st:st||'run'});ix=STEPS.length-1}else{STEPS[ix].st=st;if(t)STEPS[ix].t=t}stepsUI();var h=$('#epStep');if(h&&st!=='done'&&t)h.textContent=t;return ix}
+
+/* ---------- make a paper ---------- */
+function chunks(sec){var out=[],cur=[],w=0;(sec.questions||[]).forEach(function(q){var m=+q.marks||1,qw=m+(q.choice?m*.8:0)+(/case|source|comprehension/.test(q.type)?3:0);if(cur.length&&(w+qw>11||cur.length>=4)){out.push(cur);cur=[];w=0}cur.push(q);w+=qw});if(cur.length)out.push(cur);return out}
+function pool(tasks,n){var i=0,res=new Array(tasks.length);return new Promise(function(ok,no){var live=0,done=0,fail=null;function next(){if(fail)return;if(done===tasks.length)return ok(res);while(live<n&&i<tasks.length){(function(k){live++;tasks[k]().then(function(v){res[k]=v;live--;done++;next()},function(e){fail=e;no(e)})})(i++)}}next()})}
+function make(){var f=read();ST.form=f;if(!f.req&&!f.subject){tst('Tell me the subject or describe the paper first.');var t=$('#epReq');if(t)t.focus();return}
+ if(!plus()){upsell();return}
+ if(ST.busy)return;ST.busy=true;ST.view='work';STEPS=[];draw();try{libs().catch(function(){});fonts()}catch(e){}
+ var req=f.req;if(f.change&&ST.paper){req=(req?req+'\n':'')+'Change from the previous version: '+f.change}
+ var ff=Object.assign({},f,{req:req});
+ var s0=step('Planning the paper pattern for your board…');
+ retry(function(){return ai(planPrompt(ff),'Make the blueprint now.','plan',8000)},1).then(function(bp){
+  var want=+bp.maxMarks||0,got=sumBp(bp);
+  if(want&&got>want)return trim(bp,want);
+  return bp}).then(function(bp){
+  var meta=normMeta(bp,f);var secs=(bp.sections||[]).filter(function(s){return s&&Array.isArray(s.questions)&&s.questions.length});if(!secs.length)throw new Error('The plan came back empty. Please try again.');
+  step('Planned '+meta.count+' questions · '+meta.maxMarks+' marks','done',s0);
+  var all=secs.map(function(s){return s.questions.map(function(q){return q.n+': '+q.topic}).join('; ')}).join('; ').slice(0,3500);
+  var tasks=[];secs.forEach(function(sec){chunks(sec).forEach(function(qs){var lbl='Writing '+sec.title+' (Q'+qs[0].n+(qs.length>1?'–'+qs[qs.length-1].n:'')+')';var ix=step(lbl,'wait');
+   tasks.push(function(){step(lbl+'…','run',ix);return retry(function(){return ai(writePrompt(meta,sec,qs,all),'Write these questions now.','write',Math.min(16000,3500+qs.reduce(function(n,q){return n+(+q.marks||1)*420+(q.choice?(+q.marks||1)*380:0)},0)))},1).then(function(r){step(lbl,'done',ix);return{sec:sec,qs:qs,out:r}})})})});
+  var fin=step('Laying out the pages','wait');
+  return pool(tasks,Math.min(14,tasks.length)).then(function(parts){step('Laying out the pages…','run',fin);var paper=assemble(meta,secs,parts,f);return render(paper).then(function(imgs){step('Your paper is ready','done',fin);ST.imgs=imgs;ST.paper=paper;keep(paper);ST.busy=false;ST.view='result';draw();try{toLib(paper)}catch(e){}try{download()}catch(e){}try{toChat(paper)}catch(e){}})})
+ }).catch(function(e){ST.busy=false;if(e&&e.plus){ST.view='form';draw();upsell();return}step(e&&e.message||'Something went wrong','err');var el=$('#epBody');if(el){var d=document.createElement('div');d.className='ep-err';d.innerHTML='<p>'+esc(e&&e.message||'Something went wrong.')+'</p><button type="button" class="ep-go" data-ep="make">Try again</button><button type="button" class="ep-link" data-ep="back">← Back to the form</button>';el.appendChild(d)}ST.view='form-err'})}
+function upsell(){var el=$('#epBody');if(!el)return;var d=$('#epUp');if(d)d.remove();d=document.createElement('div');d.id='epUp';d.className='ep-up';d.innerHTML='<div class="ep-upi">🚀</div><h3>Exam Paper Maker is part of Plus</h3><ul><li>Full board-pattern papers for any subject, class and chapters</li><li>Answer key with step-by-step marking scheme</li><li>Print-ready A4 PDF in about a minute</li><li>Plus higher AI limits, premium quiz themes and more</li></ul><button type="button" class="ep-go" data-ep="plans">See Plus plans</button>';el.insertBefore(d,el.firstChild);d.scrollIntoView({block:'start',behavior:'smooth'})}
+function sumBp(bp){var t=0;((bp&&bp.sections)||[]).forEach(function(s){(s.questions||[]).forEach(function(q){t+=(+q.marks||0)})});return t}
+function trim(bp,want){var got=sumBp(bp);if(got<=want)return bp;var all=[];bp.sections.forEach(function(s){s.questions.forEach(function(q){all.push({s:s,q:q})})});
+ var ex=all.filter(function(x){return(+x.q.marks||0)===got-want&&x.s.questions.length>1}).sort(function(a,b){return b.s.questions.length-a.s.questions.length})[0];if(ex){ex.s.questions.splice(ex.s.questions.indexOf(ex.q),1);all.splice(all.indexOf(ex),1);got=want}
+ for(var m=1;m<=10&&got>want;m++){for(var i=all.length-1;i>=0&&got>want;i--){var x=all[i];if((+x.q.marks||0)===m&&got-m>=want&&x.s.questions.length>1){x.s.questions.splice(x.s.questions.indexOf(x.q),1);all.splice(i,1);got-=m}}}
+ var n=1;bp.sections.forEach(function(s){s.questions.forEach(function(q){q.n=n++})});return bp}
+var TYPE={mcq:'multiple choice questions',assertion:'assertion–reason questions',fill:'fill in the blanks',truefalse:'true / false questions',match:'match the following questions',vsa:'very short answer questions',sa:'short answer questions',la:'long answer questions',case:'case-based questions',source:'source-based questions',map:'map-based questions',diagram:'diagram-based questions',numerical:'numerical problems',proof:'proofs',essay:'essay questions',letter:'letter / writing questions',comprehension:'reading comprehension questions',grammar:'grammar questions'};
+function secLine(s){var q=s.qs,a=q[0].n,b=q[q.length-1].n,ms=q.map(function(x){return x.marks}),same=ms.every(function(m){return m===ms[0]}),tys=q.map(function(x){return x.type}),ty=tys.every(function(t){return t===tys[0]})?TYPE[tys[0]]:'';var tot=ms.reduce(function(x,y){return x+y},0);
+ if(q.length===1)return'Question '+a+' is '+(ty?'a '+ty.replace(/s(\b|$)/,'$1').replace(/ questions?/,' question'):'a question')+' of '+ms[0]+' mark'+(ms[0]>1?'s':'')+'.';
+ return'Questions '+a+(q.length===2?' and ':' to ')+b+' are '+(ty||'questions')+(same?' of '+ms[0]+' mark'+(ms[0]>1?'s':'')+' each':' ('+tot+' marks in total)')+'.'}
+function instr(p){var m=p.meta,S=p.sections,n=p.count,ch=0;S.forEach(function(s){s.qs.forEach(function(q){if(q.or)ch++})});
+ var g=['This question paper contains '+n+' questions'+(S.length>1?' divided into '+S.length+' sections: '+S.map(function(s){return s.id||s.title}).join(', '):'')+'. All questions are compulsory.'];
+ S.forEach(function(s){g.push((S.length>1?s.title+': ':'')+secLine(s))});
+ if(ch)g.push('Internal choice is given in '+ch+' question'+(ch>1?'s':'')+'. Attempt only one of the alternatives in such questions.');
+ (m.gi||[]).forEach(function(x){if(!/\d|section|question paper (consists|contains|has)|compulsory|internal choice/i.test(x)&&g.length<10)g.push(x)});m.gi=g;
+ S.forEach(function(s){s.instructions=secLine(s)})}
+function normMeta(bp,f){var cnt=0,tot=0;(bp.sections||[]).forEach(function(s){(s.questions||[]).forEach(function(q){cnt++;tot+=(+q.marks||0)})});
+ return{title:cs(bp.title||'Question Paper'),exam:cs(bp.exam||f.board||''),className:cs(bp.className||f.cls||''),subject:cs(bp.subject||f.subject||''),code:cs(bp.code||''),duration:cs(bp.duration||f.time||''),maxMarks:+bp.maxMarks||tot,total:tot,language:cs(bp.language||f.lang||'English'),gi:(bp.generalInstructions||[]).map(cs).filter(Boolean).slice(0,10),note:cs(bp.note||''),count:cnt}}
+function cleanQ(q){if(!q||typeof q!=='object')return null;var o={text:cs(q.text),passage:cs(q.passage||''),key:String(q.key||'').toLowerCase().replace(/[^a-d]/g,'').slice(0,1),answer:cs(q.answer||''),marking:(Array.isArray(q.marking)?q.marking:q.marking?[q.marking]:[]).map(cs).filter(Boolean)};
+ if(Array.isArray(q.options)&&q.options.filter(Boolean).length>=2)o.options=q.options.map(function(x){return cs(x).replace(/^\(?[a-dA-D1-4][\).:]\s+/,'')});
+ if(Array.isArray(q.parts))o.parts=q.parts.filter(function(p){return p&&p.text}).map(function(p,i){return{label:cs(p.label||'('+['i','ii','iii','iv','v','vi'][i]+')'),text:cs(p.text),marks:+p.marks||0,answer:cs(p.answer||'')}});
+ if(q.table&&Array.isArray(q.table.rows))o.table={head:(q.table.head||[]).map(cs),rows:q.table.rows.slice(0,14).map(function(r){return(Array.isArray(r)?r:[r]).map(cs)})};
+ var sv=svg(q.figure);if(sv)o.figure=sv;return o}
+function svg(s){s=String(s||'').trim();if(!/^<svg[\s>]/i.test(s)||s.length>20000)return'';if(/<(script|foreignObject|iframe|image|use)\b|\bon\w+\s*=|javascript:|href\s*=/i.test(s))return'';if(!/xmlns=/.test(s))s=s.replace(/^<svg/i,'<svg xmlns="http://www.w3.org/2000/svg"');return s}
+function assemble(meta,secs,parts,f){var byN={};parts.forEach(function(p){var qs=Array.isArray(p.out)?p.out:(p.out&&(p.out.questions||p.out.items))||[];qs.forEach(function(q,i){var n=+q.n||(p.qs[i]&&p.qs[i].n);if(n)byN[n]=q})});var miss=0;
+ var sections=secs.map(function(s){return{id:cs(s.id||''),title:cs(s.title||('Section '+s.id)),instructions:cs(s.instructions||''),qs:s.questions.map(function(b){var q=cleanQ(byN[b.n]);if(!q||!q.text){miss++;return null}q.n=b.n;q.marks=+b.marks||1;q.type=b.type;if(b.choice&&byN[b.n].or){var o=cleanQ(byN[b.n].or);if(o&&o.text)q.or=o}if(!/mcq|assertion/.test(b.type||'')&&q.options&&q.options.length!==4)delete q.options;return q}).filter(Boolean)}}).filter(function(s){return s.qs.length});
+ if(miss>Math.max(2,meta.count*.15))throw new Error('Some questions could not be written. Please try again.');
+ var tot=0,cnt=0;sections.forEach(function(s){s.qs.forEach(function(q){tot+=q.marks;cnt++})});meta.total=tot;
+ var P_={sections:sections,meta:meta,count:cnt};instr(P_);
+ return{id:'p'+Date.now().toString(36),at:Date.now(),meta:meta,sections:sections,count:cnt,form:{req:f.req,board:f.board,cls:f.cls,subject:f.subject,chapters:f.chapters,marks:f.marks,time:f.time,level:f.level,lang:f.lang,key:f.key,choice:f.choice,student:f.student,school:f.school},opt:{key:f.key,student:f.student,school:f.school}}}
+
+/* ---------- A4 layout ---------- */
+var W=794,H=1123,MX=60,MT=52,MB=70,CW=W-MX*2,CH=H-MT-MB;
+function tx(s){return esc(s).replace(/\n/g,'<br>')}
+function optsHTML(o){if(!o||!o.length)return'';var L='abcdefgh',short=o.every(function(x){return x.length<=34});return'<div class="pq-opts'+(short?' two':'')+'">'+o.map(function(x,i){return'<div><span>('+L[i]+')</span> '+tx(x)+'</div>'}).join('')+'</div>'}
+function tableHTML(t){if(!t)return'';return'<table class="pq-tab">'+(t.head&&t.head.length?'<tr>'+t.head.map(function(h){return'<th>'+tx(h)+'</th>'}).join('')+'</tr>':'')+t.rows.map(function(r){return'<tr>'+r.map(function(c){return'<td>'+tx(c)+'</td>'}).join('')+'</tr>'}).join('')+'</table>'}
+var FIG={};function figHTML(s){if(!s)return'';var u=FIG[s];return u?'<div class="pq-fig"><img alt="" src="'+u.src+'" style="width:'+u.w+'px;height:'+u.h+'px"></div>':''}
+function raster(s){if(FIG[s])return Promise.resolve();return new Promise(function(ok){var im=new Image();im.onload=function(){try{var w=im.naturalWidth||320,h=im.naturalHeight||200;var vb=(s.match(/viewBox="([\d.\s-]+)"/)||[])[1];if(vb){var a=vb.trim().split(/\s+/).map(Number);if(a[2]>0&&a[3]>0){w=a[2];h=a[3]}}var k=Math.min(330/w,220/h,1.6);w=Math.round(w*k);h=Math.round(h*k);var c=document.createElement('canvas');c.width=w*2;c.height=h*2;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);FIG[s]={src:c.toDataURL('image/png'),w:w,h:h}}catch(e){}ok()};im.onerror=function(){ok()};im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)})}
+function rasterAll(p){var l=[];p.sections.forEach(function(sc){sc.qs.forEach(function(q){if(q.figure)l.push(q.figure);if(q.or&&q.or.figure)l.push(q.or.figure)})});return Promise.all(l.map(raster))}
+function qBody(q){return(q.passage?'<div class="pq-pass">'+tx(q.passage)+'</div>':'')+'<div class="pq-t">'+tx(q.text)+'</div>'+figHTML(q.figure)+tableHTML(q.table)+optsHTML(q.options)+(q.parts&&q.parts.length?'<div class="pq-parts">'+q.parts.map(function(p){return'<div class="pq-part"><span class="pq-pl">'+esc(p.label)+'</span><span class="pq-pt">'+tx(p.text)+'</span>'+(p.marks?'<span class="pq-pm">'+p.marks+'</span>':'')+'</div>'}).join('')+'</div>':'')}
+function blocks(p){var m=p.meta,o=p.opt||{},B=[];
+ var head='<div class="pq-head">'+(o.student?'<div class="pq-roll"><span>Roll No.</span>'+new Array(9).join('<i></i>')+'</div>':'')+(m.code?'<div class="pq-code">Subject Code: '+esc(m.code)+'</div>':'')+
+ (o.school?'<div class="pq-school">'+esc(o.school)+'</div>':'')+'<div class="pq-title">'+esc(m.title)+'</div><div class="pq-sub">'+esc([m.className,m.subject].filter(Boolean).join(' · '))+(m.exam?' <span>('+esc(m.exam)+')</span>':'')+'</div>'+
+ '<div class="pq-tm"><span>Time Allowed: '+esc(m.duration||'—')+'</span><span>Maximum Marks: '+m.total+'</span></div>'+(o.student?'<div class="pq-name"><span>Name: <i></i></span><span>Class &amp; Section: <i></i></span><span>Date: <i></i></span></div>':'')+'</div>';
+ B.push({h:head});
+ if(m.gi&&m.gi.length)B.push({h:'<div class="pq-gi"><b>General Instructions:</b><div class="pq-gil">'+m.gi.map(function(g,i){return'<div><span>'+(i+1)+'.</span><span>'+tx(g.replace(/^\d+[\).]\s*/,''))+'</span></div>'}).join('')+'</div></div>'});
+ p.sections.forEach(function(s){B.push({h:'<div class="pq-sec"><div class="pq-sech"><span>'+esc(s.title.toUpperCase())+'</span></div>'+(s.instructions?'<div class="pq-seci">'+tx(s.instructions)+'</div>':'')+'</div>',kn:1});
+  s.qs.forEach(function(q){B.push({h:'<div class="pq-q"><div class="pq-n">'+q.n+'.</div><div class="pq-b">'+qBody(q)+'</div><div class="pq-m">'+q.marks+'</div></div>',kn:q.or?1:0});
+   if(q.or){B.push({h:'<div class="pq-or">OR</div>',kn:1});B.push({h:'<div class="pq-q"><div class="pq-n"></div><div class="pq-b">'+qBody(q.or)+'</div><div class="pq-m"></div></div>'})}})});
+ B.push({h:'<div class="pq-end">✦ ✦ ✦ &nbsp; End of Question Paper &nbsp; ✦ ✦ ✦</div>'});
+ if(o.key){B.push({h:'<div class="pq-akh"><div>ANSWER KEY &amp; MARKING SCHEME</div><small>'+esc([m.className,m.subject,m.exam].filter(Boolean).join(' · '))+' · For self-checking and teachers</small></div>',page:1,kn:1});
+  p.sections.forEach(function(s){B.push({h:'<div class="pq-sech small"><span>'+esc(s.title.toUpperCase())+'</span></div>',kn:1});s.qs.forEach(function(q){B.push({h:ansHTML(q,q.n+'.')});if(q.or)B.push({h:ansHTML(q.or,'OR')})})})}
+ return B}
+function ansHTML(q,n){var k='';if(q.key&&q.options){var i='abcd'.indexOf(q.key);k='<div class="pa-k">('+q.key+') '+tx(q.options[i]||'')+'</div>'}
+ var parts=q.parts&&q.parts.some(function(p){return p.answer})?'<div class="pa-parts">'+q.parts.map(function(p){return p.answer?'<div><b>'+esc(p.label)+'</b> '+tx(p.answer)+(p.marks?' <em>['+p.marks+']</em>':'')+'</div>':''}).join('')+'</div>':'';
+ return'<div class="pa"><div class="pq-n">'+esc(n)+'</div><div class="pq-b">'+k+(q.answer&&!(k&&q.answer.length<4)?'<div class="pa-t">'+tx(q.answer)+'</div>':'')+parts+(q.marking&&q.marking.length?'<div class="pa-mk">'+q.marking.map(function(x){return'<div><span>✓</span><span>'+tx(x)+'</span></div>'}).join('')+'</div>':'')+'</div><div class="pq-m">'+(q.marks||'')+'</div></div>'}
+function stage(){var s=$('#epStage');if(!s){s=document.createElement('div');s.id='epStage';s.setAttribute('aria-hidden','true');document.body.appendChild(s)}s.innerHTML='';return s}
+function newPage(st){var d=document.createElement('div');d.className='pq-page';d.innerHTML='<div class="pq-in"></div>';st.appendChild(d);return d}
+function paginate(p){var st=stage(),B=blocks(p),groups=[],g=[];B.forEach(function(b){if(b.page&&g.length){groups.push(g);g=[]}g.push(b);if(!b.kn||g.length>=4){groups.push(g);g=[]}});if(g.length)groups.push(g);
+ var pages=[newPage(st)];function cur(){return pages[pages.length-1].firstChild}function over(){return cur().scrollHeight>CH+1}
+ function put(html){var t=document.createElement('div');t.innerHTML=html;var e=t.firstElementChild;cur().appendChild(e);return e}
+ groups.forEach(function(gr){if(gr[0].page&&cur().children.length)pages.push(newPage(st));var added=gr.map(function(b){return put(b.h)});
+  if(over()&&cur().children.length>added.length){added.forEach(function(e){e.remove()});pages.push(newPage(st));added=gr.map(function(b){return put(b.h)})}
+  if(over()&&added.length>1){added.forEach(function(e){e.remove()});gr.forEach(function(b){var e=put(b.h);if(over()&&cur().children.length>1){e.remove();pages.push(newPage(st));put(b.h)}})}});
+ pages=pages.filter(function(d){if(!d.firstChild.children.length){d.remove();return false}return true});
+ var m=p.meta,N=pages.length;pages.forEach(function(d,ix){var f=document.createElement('div');f.className='pq-foot';f.innerHTML='<span>'+esc([m.subject,m.className].filter(Boolean).join(' · '))+'</span><span>Page '+(ix+1)+' of '+N+'</span><span>StudyStarx</span>';d.appendChild(f)});return pages}
+function waitImgs(root){var im=[].slice.call(root.querySelectorAll('img'));return Promise.all(im.map(function(i){return i.complete?0:new Promise(function(r){i.onload=i.onerror=r})}))}
+function render(p){return Promise.all([libs(),fonts(),rasterAll(p)]).then(function(){var els=paginate(p);return waitImgs($('#epStage')).then(function(){var out=[],k=0;function one(){if(k>=els.length){$('#epStage').innerHTML='';return out}return html2canvas(els[k],{scale:2,backgroundColor:'#ffffff',logging:false,useCORS:true,width:W,height:H,windowWidth:W}).then(function(c){out.push(c.toDataURL('image/jpeg',.9));k++;return one()})}return one()})})}
+function show(p){ST.paper=p;ST.view='work';STEPS=[];draw();var ix=step('Opening your paper…');render(p).then(function(imgs){ST.imgs=imgs;ST.view='result';draw()}).catch(function(e){step(e.message||'Could not open it','err',ix)})}
+
+/* save a finished paper in the Study Library as text (questions + answer key) */
+function ptext(p){var m=p.meta||{},o=[];o.push((m.title||'Exam Paper')+' — '+[m.subject,m.className,m.exam].filter(Boolean).join(' · '));o.push('Max marks: '+(m.maxMarks||m.total||'')+(m.duration?' · Time: '+m.duration:''));o.push('');var n=0,ans=[];
+ (p.sections||[]).forEach(function(sc){o.push((sc.title||'Section').toUpperCase());(sc.qs||[]).forEach(function(q){n++;var t=(q.n||n)+'. '+(q.passage?q.passage+'\n':'')+(q.text||'')+(q.marks?' ['+q.marks+']':'');o.push(t);if(q.options&&q.options.length)o.push(q.options.map(function(x,i){return'   ('+'abcdefgh'[i]+') '+x}).join('\n'));if(q.parts&&q.parts.length)q.parts.forEach(function(pt,i){o.push('   '+(pt.label||'('+'abcdefgh'[i]+')')+' '+(pt.text||pt)+(pt.marks?' ['+pt.marks+']':''));if(pt.answer)ans.push((q.n||n)+' '+(pt.label||'')+' '+pt.answer)});if(q.or)o.push('   OR '+(q.or.text||''));var a=q.key?('('+q.key+') '+((q.options||[])['abcd'.indexOf(q.key)]||'')):(q.answer||'');if(a)ans.push((q.n||n)+'. '+a)});o.push('')});
+ if(ans.length){o.push('ANSWER KEY');o=o.concat(ans)}return o.join('\n').slice(0,60000)}
+function toLib(p){if(!p||p.inLib)return;var d=D();if(!Array.isArray(d.notes))d.notes=[];var m=p.meta||{};var title=('📝 '+[m.subject,m.className,'Exam Paper'].filter(Boolean).join(' ')+' ('+(m.maxMarks||m.total||'')+' marks)').slice(0,90);
+ d.notes.unshift({id:(typeof uid==='function'?uid():Date.now().toString(36)),title:title,subject:m.subject||'General',body:ptext(p),date:(typeof today==='function'?today():new Date().toISOString().slice(0,10)),paperId:p.id});p.inLib=1;try{persist()}catch(e){}try{renderNotes()}catch(e){}}
+/* the finished paper also appears in the coach chat, with Download and Open buttons */
+function toChat(p){var d=D();if(!Array.isArray(d.chat))d.chat=[];if(d.chat.some(function(m){return m.paperId===p.id}))return;var m=p.meta||{};
+ d.chat.push({role:'assistant',paperId:p.id,content:'📝 Your exam paper is ready!\n\n'+[m.title||'Exam Paper',[m.subject,m.className,m.exam].filter(Boolean).join(' · '),(m.total||m.maxMarks||'')+' marks'+(m.duration?' · '+m.duration:'')+' · '+(p.count||'')+' questions'].filter(Boolean).join('\n')+'\n\nI downloaded the PDF to your phone and saved it in your Study Library. Tap Download PDF below if you need it again.'});
+ try{persist()}catch(e){}try{renderChat()}catch(e){}paintCards()}
+function paintCards(){var el=$('#messages');if(!el)return;var c=D().chat||[];el.querySelectorAll('.bubble[data-ix]').forEach(function(b){var m=c[+b.dataset.ix];if(!m||!m.paperId||b.querySelector('.ep-cc'))return;var x=document.createElement('div');x.className='ep-cc';x.innerHTML='<button type="button" class="ep-ccd" data-epdl="'+esc(m.paperId)+'">⬇ Download PDF</button><button type="button" class="ep-cco" data-epop="'+esc(m.paperId)+'">👀 Open paper</button>';var acts=b.querySelector('.cq-acts');b.insertBefore(x,acts||null)})}
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-epdl],[data-epop]');if(!a)return;e.preventDefault();var id=a.dataset.epdl||a.dataset.epop,p=saved().filter(function(x){return x.id===id})[0];if(!p){tst('This paper is in your Study Library');try{go('library')}catch(_){}return}
+ open();if(a.dataset.epdl){ST.paper=p;ST.view='work';STEPS=[];draw();var ix=step('Getting your PDF ready…');libs().then(function(){return render(p)}).then(function(imgs){ST.imgs=imgs;ST.view='result';draw();download()}).catch(function(err){step(err.message||'Could not open it','err',ix)})}else show(p)});
+(function(){var t=setInterval(function(){var el=$('#messages');if(!el)return;clearInterval(t);new MutationObserver(function(){paintCards()}).observe(el,{childList:true});paintCards()},800)})();
+/* ---------- PDF ---------- */
+function fname(){var m=ST.paper.meta;return('StudyStarx '+[m.subject,m.className,'Exam Paper'].filter(Boolean).join(' ')).replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-')+'.pdf'}
+function download(){if(!ST.imgs.length)return;var pdf=new jspdf.jsPDF({unit:'mm',format:'a4',compress:true});ST.imgs.forEach(function(u,i){if(i)pdf.addPage();pdf.addImage(u,'JPEG',0,0,210,297,undefined,'FAST')});var m=ST.paper.meta;pdf.setProperties({title:m.title+' — '+m.subject+' '+m.className,subject:m.exam,creator:'StudyStarx'});var name=fname();
+ var N=window.SFNative;
+ if(N&&N.saveFile){try{var b64=pdf.output('datauristring').split(',')[1];var r=N.saveFile(name,'application/pdf',b64);tst(r==='ok'?'Saved in Downloads › StudyStarx ✓':r==='open'?'Opening your paper…':'Could not save the PDF. Please try again.')}catch(e){tst('Could not save the PDF. Please try again.')}return}
+ if(N&&N.isApp){tst('Please update the StudyStarx app to save PDFs. Opening it in your browser…');try{window.open(location.origin+'/?go=coach','_blank')}catch(e){}return}
+ var blob=pdf.output('blob'),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},60000);tst('PDF downloaded ✓')}
+
+/* ---------- entry points in the coach ---------- */
+var RX=/\b(make|create|generate|prepare|set|build|give|write|need|want|design|frame)\b[^.?!]{0,60}\b((question|exam|test|sample|mock|model|practice|board|revision|pre-?board|final|annual|unit[- ]test|half[- ]yearly|term)\s*(question\s*)?paper)s?\b/i;
+/* exam papers were removed from the app: no buttons, chips or chat hijack any more (old saved papers can still be opened/downloaded) */
+var hooked=0;function hook(){['epHeadBtn','epChip'].forEach(function(id){var x=document.getElementById(id);if(x)x.remove()});document.querySelectorAll('.ep-wc').forEach(function(x){x.remove()});return;if(!hooked){hooked=1;document.addEventListener('submit',function(e){if(!e.target||e.target.id!=='chatForm')return;var t=$('#chatText');var v=t&&t.value.trim();if(v&&(RX.test(v)||/\bpaper\b[^.]{0,30}\bpdf\b|\bpdf\b[^.]{0,30}\bpaper\b/i.test(v))){e.preventDefault();e.stopImmediatePropagation();t.value='';t.dispatchEvent(new Event('input',{bubbles:true}));open(v)}},true)}
+ var h=$('#page-coach .chathead');if(h&&!$('#epHeadBtn')){var b=document.createElement('button');b.type='button';b.id='epHeadBtn';b.className='ep-hb';b.innerHTML='📝 <span>Exam paper</span> <em>PLUS</em>';b.onclick=function(){open()};var cl=$('#clearChat');h.insertBefore(b,cl||null)}
+ var f=$('#chatForm');if(f&&!$('#epChip')){var ch=document.createElement('button');ch.type='button';ch.id='epChip';ch.className='ep-chip';ch.innerHTML='📝 Make a full exam paper with answer key <em>PLUS</em>';ch.onclick=function(){open()};f.parentNode.insertBefore(ch,f)}
+ var w=$('#messages .cq-welcome');if(w&&!w.querySelector('.ep-wc')){var c=document.createElement('button');c.type='button';c.className='ep-wc';c.innerHTML='<span class="ep-wci">📝</span><span><b>Make a full exam paper <em>PLUS</em></b><small>Board-pattern paper for any chapters, with answer key and marking scheme · PDF</small></span><span class="ep-wca">→</span>';c.onclick=function(){open()};var ideas=w.querySelector('.cq-ideas');w.insertBefore(c,ideas?ideas.nextSibling:null)}}
+function boot(){hook();var m=$('#messages');if(m&&!m.dataset.epw){m.dataset.epw=1;new MutationObserver(function(){if(m.querySelector('.cq-welcome')&&!m.querySelector('.ep-wc'))hook()}).observe(m,{childList:true})}
+ try{var q=new URLSearchParams(location.search);if(false){setTimeout(function(){try{go('coach')}catch(e){}open(q.get('paper')||'')},600)}}catch(e){}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,300)});else setTimeout(boot,300);
+setTimeout(boot,1500);setTimeout(boot,4000);
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('#epBox')&&!$('#epBox').hidden&&!ST.busy)close()});
+})();
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('#epBox [data-goto]');if(a){e.preventDefault();var b=document.getElementById('epBox');if(b)b.hidden=true;document.body.classList.remove('ep-open');try{go(a.dataset.goto)}catch(_){}}},true);
 
 </script></body></html>
