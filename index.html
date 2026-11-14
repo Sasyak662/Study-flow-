@@ -1660,7 +1660,7 @@ window.StudyFlowLaunchQA={resourceCount:()=>SF_RESOURCE_CATALOG.length,resources
  function renderSchedules(){const box=$f('sfFocusSchedules');box.innerHTML=db.schedules.length?db.schedules.map(x=>`<div class="focus-session-row"><div><b>${escapeHtmlFocus(x.title)}</b><small>${escapeHtmlFocus(x.subject)} · ${escapeHtmlFocus(x.daysLabel)} · ${escapeHtmlFocus(x.time)} · ${x.minutes} min</small></div><button class="btn line sm" type="button" data-focus-delete-schedule="${escapeHtmlFocus(x.id)}">Delete</button></div>`).join(''):'<div class="empty">Build your first weekly focus routine.</div>';box.querySelectorAll('[data-focus-delete-schedule]').forEach(b=>b.onclick=()=>{db.schedules=db.schedules.filter(x=>x.id!==b.dataset.focusDeleteSchedule);save();renderSchedules();notify('Focus routine deleted.')})}
  function renderLinks(){const box=$f('sfFocusLinks');box.innerHTML=db.links.length?db.links.map(x=>`<div class="focus-session-row"><div><b>${escapeHtmlFocus(x.title)}</b><small>${escapeHtmlFocus(new URL(x.url).hostname)}</small></div><div class="inline-actions"><button type="button" class="btn alt sm" data-focus-open-link="${escapeHtmlFocus(x.id)}">Open</button><button type="button" class="btn line sm" data-focus-delete-link="${escapeHtmlFocus(x.id)}">×</button></div></div>`).join(''):'<div class="empty">Add trusted study websites or video lessons. This list launches your links; it cannot block other sites in the browser.</div>';box.querySelectorAll('[data-focus-open-link]').forEach(b=>b.onclick=()=>{const x=db.links.find(x=>x.id===b.dataset.focusOpenLink);if(x)window.open(x.url,'_blank','noopener,noreferrer')});box.querySelectorAll('[data-focus-delete-link]').forEach(b=>b.onclick=()=>{db.links=db.links.filter(x=>x.id!==b.dataset.focusDeleteLink);save();renderLinks()})}
  function renderYoutube(){const box=$f('sfYoutubeList');box.innerHTML=db.youtube.length?db.youtube.map(x=>`<div class="focus-session-row"><div><b>${escapeHtmlFocus(x.title)}</b><small>${escapeHtmlFocus(new URL(x.url).hostname)} · approved study link</small></div><div class="inline-actions"><button type="button" class="btn alt sm" data-focus-open-youtube="${escapeHtmlFocus(x.id)}">Open lesson</button><button type="button" class="btn line sm" data-focus-delete-youtube="${escapeHtmlFocus(x.id)}">×</button></div></div>`).join(''):'<div class="empty">Add the YouTube lessons you plan to use.</div>';box.querySelectorAll('[data-focus-open-youtube]').forEach(b=>b.onclick=()=>{const x=db.youtube.find(x=>x.id===b.dataset.focusOpenYoutube);if(x)window.open(x.url,'_blank','noopener,noreferrer')});box.querySelectorAll('[data-focus-delete-youtube]').forEach(b=>b.onclick=()=>{db.youtube=db.youtube.filter(x=>x.id!==b.dataset.focusDeleteYoutube);save();renderYoutube()})}
- function refreshCoach(){const t=$f('sfFocusCoachTitle'),p=$f('sfFocusCoachText');if(!t||!p)return;const today=daySessionMins(todayKey());let minsBySubject={};db.sessions.forEach(s=>minsBySubject[s.subject||'General']=(minsBySubject[s.subject||'General']||0)+s.minutes);let least=Object.entries(minsBySubject).sort((a,b)=>a[1]-b[1])[0];let mistakes=typeof data!=='undefined'&&Array.isArray(data.mistakes)?data.mistakes:[];if(!db.sessions.length){t.textContent='Set your first focus goal';p.textContent='Try 25 minutes on one clearly defined task, then record what you completed. Your history will make future suggestions more relevant.';}else if(mistakes.length){t.textContent='Review a mistake after your next session';p.textContent=`You have ${mistakes.length} saved mistake(s). Finish a short ${state.subject||'study'} session, then revisit one saved error and solve it again without notes.`;}else if(least){t.textContent='Balance your subject time';p.textContent=`Your logged focus time is lowest in ${least[0]} (${least[1]} minutes). Consider a short session there if it matches your current priorities.`;}else{t.textContent='Keep your rhythm';p.textContent=`You have logged ${today} focus minutes today. Try a short retrieval-practice session and finish by checking what you can recall without notes.`}}
+ function refreshCoach(){const t=$f('sfFocusCoachTitle'),p=$f('sfFocusCoachText');if(!t||!p)return;try{const rb=$f('sfFocusCoachRefresh');if(rb)rb.textContent=db.sessions.length?'Refresh recommendation':'▶ Start 25 minutes now'}catch(e){}const today=daySessionMins(todayKey());let minsBySubject={};db.sessions.forEach(s=>minsBySubject[s.subject||'General']=(minsBySubject[s.subject||'General']||0)+s.minutes);let least=Object.entries(minsBySubject).sort((a,b)=>a[1]-b[1])[0];let mistakes=typeof data!=='undefined'&&Array.isArray(data.mistakes)?data.mistakes:[];if(!db.sessions.length){t.textContent='Set your first focus goal';p.textContent='Try 25 minutes on one clearly defined task, then record what you completed. Your history will make future suggestions more relevant.';}else if(mistakes.length){t.textContent='Review a mistake after your next session';p.textContent=`You have ${mistakes.length} saved mistake(s). Finish a short ${state.subject||'study'} session, then revisit one saved error and solve it again without notes.`;}else if(least){t.textContent='Balance your subject time';p.textContent=`Your logged focus time is lowest in ${least[0]} (${least[1]} minutes). Consider a short session there if it matches your current priorities.`;}else{t.textContent='Keep your rhythm';p.textContent=`You have logged ${today} focus minutes today. Try a short retrieval-practice session and finish by checking what you can recall without notes.`}}
  function makeInvite(){let goal=$f('sfBuddyGoal').value.trim()||'a focused study session';let minutes=minsClamp($f('sfFocusMinutes').value,1,180);let invite=`StudyStarx Focus Sprint\nGoal: ${goal}\nDuration: ${minutes} minutes\nLet's start at the same time, keep our phones away, and message each other when we're done.\nNote: this is a shareable invitation, not a live synced room.`;$f('sfBuddyInviteText').value=invite;$f('sfBuddyCopy').disabled=false;}
  function startSound(){const mode=$f('sfFocusSound').value;if(mode==='off'){stopSound();return}try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC){notify('Audio is not available in this browser.');return}stopSound();audioCtx=audioCtx||new AC();if(audioCtx.state==='suspended')audioCtx.resume();let buffer=audioCtx.createBuffer(1,audioCtx.sampleRate*2,audioCtx.sampleRate);let ch=buffer.getChannelData(0),last=0;for(let i=0;i<ch.length;i++){let white=Math.random()*2-1;last=mode==='deep'?(last+.02*white)/1.02:(last+.12*white)/1.12;ch[i]=mode==='deep'?last*3:white*.35;}noiseSource=audioCtx.createBufferSource();noiseSource.buffer=buffer;noiseSource.loop=true;let filter=audioCtx.createBiquadFilter();filter.type='lowpass';filter.frequency.value=mode==='deep'?280:1600;noiseGain=audioCtx.createGain();noiseGain.gain.value=.045;noiseSource.connect(filter);filter.connect(noiseGain);noiseGain.connect(audioCtx.destination);noiseSource.start();$f('sfFocusSoundToggle').textContent='Stop sound';}catch(e){notify('Could not start ambient sound in this browser.');console.warn(e)}}
  function stopSound(){try{if(noiseSource){noiseSource.stop();noiseSource.disconnect();noiseSource=null;}if(noiseGain){noiseGain.disconnect();noiseGain=null;}}catch(_){}const b=$f('sfFocusSoundToggle');if(b)b.textContent='Play sound';}
@@ -1671,7 +1671,7 @@ window.StudyFlowLaunchQA={resourceCount:()=>SF_RESOURCE_CATALOG.length,resources
  $f('sfFocusStrict').checked=!!db.settings.strict;$f('sfFocusGuard').checked=db.settings.guard!==false;$f('sfFocusTheme').value=db.settings.theme||'calm';$f('sfFocusSound').value=db.settings.sound||'off';$f('sfFocusDistractionList').value=db.rules||blank.rules;
  $f('sfFocusTheme').addEventListener('change',()=>{db.settings.theme=$f('sfFocusTheme').value;save();const theme=db.settings.theme;$f('sfFocusClockWrap').className='focus-clock-wrap theme-'+theme;$f('sfFocusClockWrap').closest('.focus-main-card').className='card focus-main-card theme-'+theme;});$f('sfFocusStrict').addEventListener('change',()=>{state.strict=$f('sfFocusStrict').checked;db.settings.strict=state.strict;save();paint()});$f('sfFocusGuard').addEventListener('change',()=>{state.guard=$f('sfFocusGuard').checked;db.settings.guard=state.guard;save()});$f('sfFocusSound').addEventListener('change',()=>{db.settings.sound=$f('sfFocusSound').value;save();if(db.settings.sound==='off')stopSound()});$f('sfFocusSoundToggle').addEventListener('click',()=>noiseSource?stopSound():startSound());
  $f('sfFocusSaveRules').addEventListener('click',()=>{db.rules=$f('sfFocusDistractionList').value.trim().slice(0,300);save();$f('sfFocusRuleNote').textContent='Saved locally. Focus Guard can notice tab switching, but cannot stop a student opening these domains outside StudyStarx.';notify('Focus rules saved on this device.')});
- $f('sfFocusCoachRefresh').addEventListener('click',()=>{refreshCoach();notify('Focus recommendation refreshed.')});$f('sfFocusSaveGoal').addEventListener('click',()=>{db.dailyGoal=minsClamp($f('sfFocusDailyGoal').value,15,600);save();renderStats();notify('Daily focus goal saved.')});
+ $f('sfFocusCoachRefresh').addEventListener('click',()=>{if(!db.sessions.length){try{const m=$f('sfFocusMinutes');if(m){m.value=25;m.dispatchEvent(new Event('change',{bubbles:true}))}window.scrollTo({top:0,behavior:'smooth'});const st=$f('sfFocusStart');if(st&&!st.disabled)setTimeout(()=>st.click(),450);notify('25-minute focus started — good luck!')}catch(e){}return}refreshCoach();notify('Focus recommendation refreshed.')});$f('sfFocusSaveGoal').addEventListener('click',()=>{db.dailyGoal=minsClamp($f('sfFocusDailyGoal').value,15,600);save();renderStats();notify('Daily focus goal saved.')});
  $f('sfFocusScheduleForm').addEventListener('submit',e=>{e.preventDefault();const days=$f('sfScheduleDays').value;const labels={daily:'Every day',weekdays:'Weekdays',weekends:'Weekends',MWF:'Mon / Wed / Fri',TTS:'Tue / Thu / Sat',once:'One time'};db.schedules.unshift({id:'routine-'+Date.now().toString(36),title:$f('sfScheduleTitle').value.trim(),subject:$f('sfScheduleSubject').value,days,daysLabel:labels[days],time:$f('sfScheduleTime').value,minutes:minsClamp($f('sfScheduleMinutes').value,1,180),created:todayKey()});save();renderSchedules();e.target.reset();$f('sfScheduleTime').value='19:00';notify('Weekly focus routine added.')});
  $f('sfFocusLinkForm').addEventListener('submit',e=>{e.preventDefault();let url;try{url=new URL($f('sfStudyLinkUrl').value.trim())}catch(_){notify('Enter a valid HTTPS study link.');return}if(url.protocol!=='https:'){notify('Only HTTPS links are allowed.');return}db.links.unshift({id:'link-'+Date.now().toString(36),title:$f('sfStudyLinkTitle').value.trim(),url:url.href});save();renderLinks();e.target.reset();notify('Study link added.')});
  $f('sfYoutubeForm').addEventListener('submit',e=>{e.preventDefault();let url;try{url=new URL($f('sfYoutubeUrl').value.trim())}catch(_){notify('Enter a valid YouTube URL.');return}if(url.protocol!=='https:'||!/(^|\.)youtube\.com$|(^|\.)youtu\.be$/.test(url.hostname)||/\/shorts(\/|$)/i.test(url.pathname)){notify('Use a YouTube channel, playlist or lesson link—not a Shorts URL.');return}if(url.hostname==='youtu.be'&&!url.pathname.slice(1)){notify('Add a specific video link.');return}db.youtube.unshift({id:'yt-'+Date.now().toString(36),title:$f('sfYoutubeTitle').value.trim(),url:url.href});save();renderYoutube();e.target.reset();notify('Approved YouTube lesson added. This list does not block other content on YouTube.')});
@@ -6432,7 +6432,12 @@ function questXP(){var d=D();return(d&&d.quest&&+d.quest.xp)||0}
 function totalXP(){return questXP()+(+S().xp||0)}
 function lvlOf(x){return 1+Math.floor(Math.sqrt(Math.max(0,x)/40))}
 function lvlXP(l){return 40*(l-1)*(l-1)}
-function level(){return lvlOf(totalXP())}
+function level(){return OWNER()?99:lvlOf(totalXP())}
+/* owner account: every building and every world unlocked (matched by a fingerprint of the email, not the email itself) */
+var OWN_H='58e0f93855fc063f8d5d16a7887f9ea9aba7180bb5413ffb2ac8ba78fae1d9f3',ownLast='',ownOn=false;
+function OWNER(){try{var e=String(window.sfAccount&&sfAccount.email&&sfAccount.email()||'').trim().toLowerCase();if(!e){ownOn=false;ownLast='';return false}if(e!==ownLast){ownLast=e;ownOn=false;if(window.crypto&&crypto.subtle&&window.TextEncoder){crypto.subtle.digest('SHA-256',new TextEncoder().encode(e)).then(function(b){var h=Array.prototype.map.call(new Uint8Array(b),function(x){return('0'+x.toString(16)).slice(-2)}).join('');if(h===OWN_H&&ownLast===e){ownOn=true;ownUnlock()}})}}return ownOn}catch(x){return false}}
+function ownUnlock(){try{var st=S(),ch=0;if(!st.built)st.built={};if(!st.unl)st.unl={};Object.keys(BL||{}).forEach(function(w){(BL[w]||[]).forEach(function(b){if(!st.built[b.k]){st.built[b.k]=1;ch=1}});if(!st.unl[w]){st.unl[w]=1;ch=1}});(B||[]).forEach(function(b){if(b&&b.k&&!st.built[b.k]){st.built[b.k]=1;ch=1}});st.cityUnlocked=true;if(ch){save();try{if(G.r3&&G.r3.rebuild)G.r3.rebuild()}catch(e){}try{bump()}catch(e){}}}catch(e){}}
+setInterval(function(){try{OWNER()}catch(e){}},3000);setTimeout(function(){try{OWNER()}catch(e){}},800);
 
 /* ---------- map ---------- */
 var N=18,TW=64,TH=32,CTR=8.5,SPAWN=[9,9],WORLD='island';
@@ -6507,7 +6512,7 @@ function BASE(id){return(WORLDS[id||WORLD]||WORLDS.island).base}
 function homeK(id){var L=BL[id]||B_ISLAND;return L.filter(function(b){return KF(b)==='home'})[0].k}
 function plusOK(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
 function wBuilt(id){var s=S();return id===(s.world||'island')?s.built:((s.worlds||{})[id]||{}).built||{}}
-function wOpen(id){var i=WORDER.indexOf(id);if(i<=0)return true;var s=S();if(id==='city'&&s.cityUnlocked)return true;if(s.unl&&s.unl[id])return true;return worldDone(WORDER[i-1])}
+function wOpen(id){if(OWNER())return true;var i=WORDER.indexOf(id);if(i<=0)return true;var s=S();if(id==='city'&&s.cityUnlocked)return true;if(s.unl&&s.unl[id])return true;return worldDone(WORDER[i-1])}
 
 var REQN={streak:['🔥','-day study streak'],answered:['🎯',' quiz questions answered'],mastered:['🏆',' topics mastered'],focus:['⏱️',' minutes of focus (total)']};
 var BOSSES=[['Forgetful Dragon','🐉'],['Kraken of Confusion','🐙'],['Procrastination Golem','🗿'],['Exam Phantom','👻'],['Chaos Hydra','🐲']];
@@ -6546,7 +6551,7 @@ function streak(){var s=S(),n=0,d=new Date();if(!s.days[todayS()])d.setDate(d.ge
 function mult(){return Math.round((1+Math.min(10,streak())*.1)*10)/10}
 function focusTotal(){var m=0;try{var f=JSON.parse(localStorage.getItem('studyflow-focus-center-v1')||'{}');(f.sessions||[]).forEach(function(x){m+=+x.minutes||0})}catch(e){}var m2=0;try{(D().sessions||[]).forEach(function(x){m2+=+x.minutes||0})}catch(e){}return Math.max(m,m2)}
 function stat(t){if(t==='streak')return streak();if(t==='answered')return(D().quiz||{}).attempted||0;if(t==='mastered')return mastered();if(t==='focus')return focusTotal();return 0}
-function reqMet(b){return!(b.req||[]).some(function(r){return stat(r[0])<r[1]})}
+function reqMet(b){if(OWNER())return true;return!(b.req||[]).some(function(r){return stat(r[0])<r[1]})}
 function reqHTML(b){if(!b.req)return'';return'<div class="iq-reqs"><b>Study goals to unlock</b>'+b.req.map(function(r){var v=stat(r[0]),ok=v>=r[1],N_=REQN[r[0]];return'<div class="iq-req'+(ok?' ok':'')+'"><span class="e">'+(ok?'✅':N_[0])+'</span><div style="flex:1"><span>'+r[1]+N_[1]+'</span><div class="pb"><span style="width:'+Math.min(100,v/r[1]*100)+'%"></span></div></div><small>'+Math.min(v,r[1])+' / '+r[1]+'</small></div>'}).join('')+'</div>'}
 function worldDone(id){var L=BL[id]||B_ISLAND,bt=(id===WORLD)?S().built:((S().worlds||{})[id]||{}).built||{};return L.every(function(b){return bt[b.k]})}
 function rentNow(){var s=S();if(!B.some(function(b){return KF(b)==='bank'}))return 0;return B.filter(function(b){return s.built[b.k]&&b.inc}).reduce(function(a,b){return a+b.inc},0)}
@@ -11202,281 +11207,6 @@ function boot(){composer();header();watchBadge();watchCaption();picker()}
 setInterval(boot,1500);setTimeout(boot,200);
 })();
 
-</script><style id="sf-hm-css">
-/* ===== StudyStarx home ===== */
-body.sx-home-on #page-dashboard>:not(#sxHome){display:none!important}
-body[data-sfpage="dashboard"] header.top #welcome,body[data-sfpage="dashboard"] header.top #welcome+.muted,body[data-sfpage="dashboard"] header.top #dateLabel{display:none}
-#sxHome{display:flex;flex-direction:column;gap:18px;max-width:1180px;margin:0 auto;padding-bottom:10px}
-#sxHome h1,#sxHome h2,#sxHome p{margin:0}
-#sxHome button{font:inherit;cursor:pointer}
-/* hero */
-.sxh-hero{position:relative;overflow:hidden;border-radius:28px;padding:28px 30px 24px;color:#fff;background:radial-gradient(120% 140% at 0% 0%,#7c3aed 0%,#4f46e5 45%,#1e1b4b 100%);box-shadow:0 24px 60px -28px rgba(79,70,229,.75)}
-.sxh-stars i{position:absolute;color:#fff;opacity:.55;font-style:normal;animation:sxtw 3.2s ease-in-out infinite}
-.sxh-stars i::before{content:'✦'}
-.sxh-stars i:nth-child(1){top:14px;right:22%;font-size:14px}
-.sxh-stars i:nth-child(2){top:58%;right:6%;font-size:22px;animation-delay:.6s}
-.sxh-stars i:nth-child(3){bottom:12px;left:38%;font-size:10px;animation-delay:1.2s}
-.sxh-stars i:nth-child(4){top:30%;left:52%;font-size:9px;animation-delay:1.8s}
-.sxh-stars i:nth-child(5){top:12px;left:44%;font-size:12px;animation-delay:2.2s}
-.sxh-stars i:nth-child(6){bottom:22%;right:30%;font-size:16px;animation-delay:.3s}
-@keyframes sxtw{0%,100%{opacity:.25;transform:scale(.85)}50%{opacity:.85;transform:scale(1.1)}}
-@media (prefers-reduced-motion:reduce){.sxh-stars i{animation:none}}
-.sxh-top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px}
-.sxh-date{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8;margin-bottom:6px}
-.sxh-hi h1{font-size:34px;line-height:1.15;letter-spacing:-.02em;font-weight:800}
-.sxh-spark{display:inline-block;color:#fde68a;animation:sxtw 2.6s ease-in-out infinite}
-.sxh-hi p{margin-top:8px!important;font-size:16px;opacity:.88}
-.sxh-ring{position:relative;flex:0 0 auto;width:104px;height:104px;border:0;padding:0;background:rgba(255,255,255,.1);border-radius:50%;color:#fff;display:grid;place-items:center}
-.sxh-ring svg{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);transform:rotate(-90deg)}
-.sxh-ring .t{fill:none;stroke:rgba(255,255,255,.18);stroke-width:8}
-.sxh-ring .v{fill:none;stroke:#fde68a;stroke-width:8;stroke-linecap:round;transition:stroke-dasharray .6s}
-.sxh-ring span{position:relative;display:flex;flex-direction:column;align-items:center;line-height:1}
-.sxh-ring b{font-size:24px;font-weight:800}
-.sxh-ring small{font-size:11px;opacity:.85;margin-top:3px}
-.sxh-chips{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 16px}
-.sxh-chips button{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:8px 14px;font-size:14px;backdrop-filter:blur(6px)}
-.sxh-chips button:hover{background:rgba(255,255,255,.2)}
-.sxh-ask{position:relative;display:flex;gap:8px;background:#fff;border-radius:18px;padding:6px;box-shadow:0 10px 30px -12px rgba(0,0,0,.45)}
-.sxh-ask input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;padding:10px 12px;color:#0f172a}
-.sxh-askb{border:0;border-radius:14px;padding:0 20px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;white-space:nowrap}
-.sxh-sug{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.sxh-sug button{border:0;background:transparent;color:#e0e7ff;font-size:14px;padding:4px 6px;border-radius:8px}
-.sxh-sug button:hover{background:rgba(255,255,255,.1);color:#fff}
-/* cards */
-.sxh-card{background:var(--card,#fff);border:1px solid var(--line,#e7e9f3);border-radius:22px;padding:20px 22px;box-shadow:0 12px 30px -24px rgba(15,23,42,.35)}
-.sxh-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
-.sxh-head h2{font-size:19px;font-weight:800;letter-spacing:-.01em}
-.sxh-head p{font-size:14px;color:var(--muted,#64748b);margin-top:3px!important}
-.sxh-pct{font-size:22px;font-weight:800;color:#6d28d9}
-.sxh-link{border:0;background:transparent;color:#4f46e5;font-weight:700;font-size:14px;padding:2px 0;white-space:nowrap}
-.sxh-bar{height:8px;border-radius:99px;background:#ede9fe;overflow:hidden;margin-bottom:12px}
-.sxh-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#8b5cf6,#6366f1);transition:width .5s}
-.sxh-list{display:flex;flex-direction:column;gap:8px}
-.sxh-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--soft,#f7f7fc);border:1px solid transparent}
-.sxh-item:hover{border-color:#e0e7ff}
-.sxh-item.done{opacity:.6}
-.sxh-item.done b{text-decoration:line-through}
-.sxh-ie{flex:0 0 40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 2px 8px -4px rgba(15,23,42,.25)}
-.sxh-it{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.sxh-it b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sxh-it small{font-size:13px;color:var(--muted,#64748b);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sxh-go{flex:0 0 auto;border:0;border-radius:12px;padding:9px 16px;background:#4f46e5;color:#fff;font-weight:700;font-size:14px}
-.sxh-go:hover{background:#4338ca}
-.sxh-ok{font-size:13px;font-weight:700;color:#16a34a}
-/* tiles */
-.sxh-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.sxh-tile{position:relative;overflow:hidden;text-align:left;border:0;border-radius:20px;padding:16px 16px 14px;color:#fff;display:flex;flex-direction:column;gap:3px;min-height:118px;box-shadow:0 14px 28px -20px rgba(15,23,42,.6);transition:transform .15s,box-shadow .15s}
-.sxh-tile:hover{transform:translateY(-2px);box-shadow:0 18px 32px -18px rgba(15,23,42,.6)}
-.sxh-tile:active{transform:scale(.98)}
-.sxh-tile::after{content:'';position:absolute;right:-26px;top:-26px;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.14)}
-.sxh-te{font-size:30px;line-height:1;margin-bottom:auto;filter:drop-shadow(0 4px 6px rgba(0,0,0,.18))}
-.sxh-tile b{font-size:16px;margin-top:12px}
-.sxh-tile small{font-size:12.5px;opacity:.9}
-.sxh-tile.sxc1{background:linear-gradient(135deg,#6366f1,#4f46e5)}
-.sxh-tile.sxc2{background:linear-gradient(135deg,#ec4899,#db2777)}
-.sxh-tile.sxc3{background:linear-gradient(135deg,#14b8a6,#0d9488)}
-.sxh-tile.sxc4{background:linear-gradient(135deg,#22c55e,#15803d)}
-.sxh-tile.sxc5{background:linear-gradient(135deg,#f97316,#ea580c)}
-.sxh-tile.sxc6{background:linear-gradient(135deg,#8b5cf6,#7c3aed)}
-.sxh-tile.sxc7{background:linear-gradient(135deg,#ef4444,#be123c)}
-.sxh-tile.sxc8{background:linear-gradient(135deg,#0ea5e9,#2563eb)}
-/* week + subjects */
-.sxh-two{display:grid;grid-template-columns:1.1fr 1fr;gap:18px}
-.sxh-bars{display:flex;align-items:flex-end;gap:10px;height:130px;padding-top:6px}
-.sxh-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%}
-.sxh-col{flex:1;width:100%;max-width:38px;background:#f1f0fb;border-radius:10px;display:flex;align-items:flex-end;overflow:hidden}
-.sxh-col i{display:block;width:100%;border-radius:10px;background:#c4b5fd}
-.sxh-day.on .sxh-col i{background:linear-gradient(180deg,#a78bfa,#6366f1)}
-.sxh-day.today small{color:#4f46e5;font-weight:800}
-.sxh-day small{font-size:12px;color:var(--muted,#64748b)}
-.sxh-sub{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:7px 4px;border-radius:12px;text-align:left;color:inherit}
-.sxh-sub:hover{background:var(--soft,#f7f7fc)}
-.sxh-sd{flex:0 0 32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px}
-.sxh-sn{flex:0 0 34%;font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sxh-sb{flex:1;height:8px;border-radius:99px;background:#f1f0fb;overflow:hidden}
-.sxh-sb i{display:block;height:100%;border-radius:99px}
-.sxh-sub small{flex:0 0 38px;text-align:right;font-size:12.5px;color:var(--muted,#64748b)}
-.s0{background:#6366f1}.s1{background:#14b8a6}.s2{background:#f97316}.s3{background:#ec4899}.s4{background:#22c55e}.s5{background:#0ea5e9}
-.sxh-empty{font-size:14px;color:var(--muted,#64748b)}
-/* books */
-.sxh-books{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:1px solid #dbeafe;border-radius:22px;padding:16px 20px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);color:inherit}
-.sxh-books:hover{border-color:#c7d2fe}
-.sxh-be{font-size:30px}
-.sxh-books span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:2px}
-.sxh-books b{font-size:16px}
-.sxh-books small{font-size:13.5px;color:var(--muted,#64748b)}
-.sxh-arrow{font-size:20px;color:#4f46e5;font-weight:800}
-/* dark theme */
-@media (prefers-color-scheme:dark){html:not([data-theme="light"]) .sxh-item{background:rgba(255,255,255,.04)}html:not([data-theme="light"]) .sxh-ie{background:rgba(255,255,255,.08)}html:not([data-theme="light"]) .sxh-books{background:rgba(99,102,241,.12);border-color:rgba(99,102,241,.3)}}
-[data-theme="dark"] .sxh-item{background:rgba(255,255,255,.04)}[data-theme="dark"] .sxh-ie{background:rgba(255,255,255,.08)}[data-theme="dark"] .sxh-books{background:rgba(99,102,241,.12);border-color:rgba(99,102,241,.3)}
-/* tablet */
-@media (max-width:1000px){.sxh-tiles{grid-template-columns:repeat(4,minmax(0,1fr))}.sxh-two{grid-template-columns:1fr}}
-/* phone */
-@media (max-width:640px){
- #sxHome{gap:14px}
- .sxh-hero{border-radius:24px;padding:20px 18px 18px}
- .sxh-hi h1{font-size:25px}
- .sxh-hi p{font-size:14.5px}
- .sxh-ring{width:82px;height:82px}
- .sxh-ring b{font-size:19px}
- .sxh-ring small{font-size:10px}
- .sxh-chips{margin:14px 0 12px;gap:6px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:-18px;padding-right:18px}
- .sxh-chips::-webkit-scrollbar{display:none}
- .sxh-chips button{flex:0 0 auto;font-size:13px;padding:7px 12px}
- .sxh-askb{padding:0 14px}
- .sxh-sug{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
- .sxh-sug button{flex:0 0 auto}
- .sxh-card{padding:16px;border-radius:20px}
- .sxh-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- .sxh-tile{min-height:104px;padding:14px;border-radius:18px}
- .sxh-te{font-size:26px}
- .sxh-tile b{font-size:15px}
- .sxh-item{padding:10px 12px;gap:10px}
- .sxh-ie{flex-basis:36px;height:36px;font-size:18px}
- .sxh-go{padding:8px 13px}
- .sxh-bars{height:110px;gap:6px}
-}
-/* never let anything make the page wider than the phone */
-html,body{max-width:100%;overflow-x:clip}
-.app,.app>main,main,.page,#sxHome,#sxHome>*,.sxh-hero>*,.sxh-two>*{min-width:0}
-#sxHome,#sxHome>*{max-width:100%}
-body>.app{width:100%;max-width:100%;min-width:0;justify-self:stretch}
-@media(max-width:900px){.app>main,.app main,.top{width:auto;max-width:100%}}
-/* phone layout: edge-to-edge page, full-width top bar, nothing hidden behind the bottom bar */
-@media(max-width:700px){
- body{border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important}
- .app{left:0!important}
- header.top{width:auto!important;max-width:none!important;margin-right:-13px!important;margin-left:-13px!important;box-sizing:border-box}
- main{padding-bottom:calc(128px + env(safe-area-inset-bottom))!important}
- body.sf-ingame main,body.ep-open main{padding-bottom:0!important}
-}
-#avatar{cursor:pointer}
-.sxh-th{display:flex;align-items:center;justify-content:space-between;margin:4px 2px -4px}.sxh-th h2{margin:0;font-size:17px}
-.sxh-edit{border:1px solid var(--line,#e5e7eb);background:var(--card,#fff);color:inherit;border-radius:99px;padding:6px 12px;font:600 13px Inter,system-ui,sans-serif;cursor:pointer}
-.sxh-tile.sxh-add{background:transparent!important;color:#6d28d9;border:2px dashed #c4b5fd;box-shadow:none}.sxh-tile.sxh-add::after{display:none}.sxh-add .sxh-te{font-size:26px;font-weight:700}
-.sxh-add small{color:#7c3aed;opacity:.85}
-.sxe-ov{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center}
-.sxe-box{background:var(--card,#fff);color:var(--ink,#1f2937);width:100%;max-width:520px;max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));box-sizing:border-box}
-@media(min-width:701px){.sxe-ov{align-items:center}.sxe-box{border-radius:22px}}
-.sxe-hd{display:flex;justify-content:space-between;align-items:center;position:sticky;top:-16px;background:inherit;padding:6px 0;z-index:1}.sxe-hd b{font-size:18px}
-.sxe-x{border:0;background:#6d28d9;color:#fff;border-radius:99px;padding:8px 18px;font:700 14px Inter,system-ui,sans-serif;cursor:pointer}
-.sxe-sub{margin:2px 0 10px;color:var(--muted,#6b7280);font-size:13.5px}.sxe-h{margin:18px 0 4px;font-size:15px}
-.sxe-list{display:grid;gap:6px}
-.sxe-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);color:inherit;border-radius:14px;padding:9px 12px;cursor:pointer;font:inherit}
-.sxe-row.on{border-color:#a78bfa;background:#f5f3ff}
-.sxe-e{font-size:22px;width:28px;text-align:center}.sxe-t{flex:1;min-width:0}.sxe-t b{display:block;font-size:14.5px}.sxe-t small{display:block;color:var(--muted,#6b7280);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sxe-ck{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#eef0f6;color:#6b7280}.sxe-row.on .sxe-ck{background:#6d28d9;color:#fff}
-.sxe-own{display:flex;gap:6px;align-items:center}.sxe-own .sxe-row{flex:1;min-width:0}.sxe-del{border:0;background:#fef2f2;border-radius:12px;padding:10px;cursor:pointer}
-.sxe-form{display:grid;grid-template-columns:56px 1fr;gap:8px;margin-top:10px}.sxe-form input{border:1.5px solid var(--line,#e5e7eb);border-radius:12px;padding:10px 12px;font:15px Inter,system-ui,sans-serif;background:var(--card,#fff);color:inherit;min-width:0}
-#sxeE{text-align:center}#sxeQ,.sxe-addb{grid-column:1/-1}
-.sxe-addb{border:0;border-radius:12px;padding:12px;font:700 14.5px Inter,system-ui,sans-serif;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;cursor:pointer}
-.sxe-reset{display:block;margin:16px auto 0;border:0;background:none;color:var(--muted,#6b7280);font:600 13px Inter,system-ui,sans-serif;cursor:pointer;text-decoration:underline}
-
-</style><script id="sf-hm-js">
-/* StudyStarx home page: short, personal, and fun. Replaces the old dashboard blocks (they stay hidden in the page so nothing else breaks). */
-(function(){
-'use strict';
-function $(s,r){return (r||document).querySelector(s)}
-function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function D(){try{return data}catch(e){return{}}}
-function P(){return D().profile||{}}
-function key(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function minsOn(k){return(D().sessions||[]).reduce(function(a,s){return a+(s&&s.date===k?(+s.minutes||0):0)},0)}
-function streak(){var d=new Date(),n=0;for(var i=0;i<400;i++){var m=minsOn(key(d));if(m>0)n++;else if(i>0)break;d.setDate(d.getDate()-1)}return n}
-function goal(){return +P().goal||45}
-function first(){var n=String(P().name||'').trim().split(/\s+/)[0];return n||'there'}
-function hello(){var h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'}
-function course(){var p=P();return p.level||[p.board||p.syllabus,p.grade].filter(Boolean).join(' · ')||'Your course'}
-function dueCards(){var now=Date.now();return(D().flashcards||[]).filter(function(c){return !c.due||c.due<=now}).length}
-function island(){try{var I=window.StudyFlowIsland;return{lvl:I&&I.level?I.level():1,coins:(I&&I.state&&+I.state.coins)||(+((D().island||{}).coins)||0)}}catch(e){return{lvl:1,coins:0}}}
-function tasksToday(){var k=key(new Date());return(D().tasks||[]).filter(function(t){return t&&t.date===k})}
-function subjects(){var s=P().subjects;return Array.isArray(s)&&s.length?s.slice(0,6):[]}
-function starterQuiz(){try{return(window.customQuizzes||[]).filter(function(q){return q&&q.starter&&!q.playedAt})[0]||null}catch(e){return null}}
-
-var ALL=[
- ['coach','💬','Ask the Coach','Explain anything','sxc1'],
- ['quiz','🎯','Quiz Studio','Fun quiz games','sxc2'],
- ['flashcards','🃏','Flashcards','Learn, Match, Test','sxc3'],
- ['quest','🏝️','StudyQuest','Play and earn coins','sxc4'],
- ['classes','🎥','Live class','Host or join','sxc5'],
- ['examiner','✍️','Exam Examiner','Marks your answers','sxc6'],
- ['focuslock','🔒','Focus Lock','Block distractions','sxc7'],
- ['resources','📚','Books','For your syllabus','sxc8'],
- ['upload','📤','Upload & Study','Notes into a study set','sxc1'],
- ['focus','⏱️','Focus timer','Study in sprints','sxc6'],
- ['timetable','🗓️','Timetable','Your week planned','sxc8'],
- ['progress','📈','Progress','See how you’re doing','sxc4'],
- ['mastery','🧠','Fix mistakes','Topics to work on','sxc7'],
- ['math','➗','Maths helper','Step-by-step maths','sxc5'],
- ['readiness','🏁','Exam readiness','Are you ready?','sxc2'],
- ['tools','🧰','AI Toolkit','Summaries and more','sxc3']
-];
-var DEF=['coach','quiz','flashcards','quest','classes','examiner','focuslock','resources'];
-function lsG(k,d){try{var v=JSON.parse(localStorage.getItem(k)||'null');return v==null?d:v}catch(e){return d}}
-function lsS(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-function own(){var o=lsG('sx-own',[]);return Array.isArray(o)?o.filter(function(x){return x&&x.n}).slice(0,8):[]}
-function picked(){var p=lsG('sx-tiles',null);return Array.isArray(p)?p:DEF.slice()}
-function myTiles(){var p=picked(),o=own(),out=[];p.forEach(function(id){if(id.indexOf('own:')===0){var n=+id.slice(4),x=o[n];if(x)out.push([id,esc(x.e||'⭐'),x.n,x.q?x.q:'Your shortcut','sxc'+(1+n%8)])}else{var t=ALL.filter(function(a){return a[0]===id})[0];if(t)out.push(t)}});return out}
-var TILES=ALL;
-
-function ring(m,g){var pct=Math.max(0,Math.min(1,m/g)),R=34,C=2*Math.PI*R;return'<svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="'+R+'" class="t"/><circle cx="42" cy="42" r="'+R+'" class="v" stroke-dasharray="'+(C*pct).toFixed(1)+' '+C.toFixed(1)+'"/></svg>'}
-
-function mission(){var out=[],tt=tasksToday();
- tt.slice(0,2).forEach(function(t){out.push({done:!!t.done,e:'📝',t:t.title||'Study task',s:(t.subject?t.subject+' · ':'')+(t.duration||t.minutes||25)+' min',go:'focus',b:'Start'})});
- var dc=dueCards();if(dc>0)out.push({done:false,e:'🃏',t:'Review '+dc+' flashcard'+(dc===1?'':'s'),s:'About '+Math.max(2,Math.round(dc*0.4))+' min · keeps them in memory',go:'flashcards',b:'Review'});
- var q=starterQuiz();if(q&&out.length<3)out.push({done:false,e:q.emoji||'🎯',t:'Play: '+q.title,s:(q.subject||'Quiz')+' · '+((q.questions||[]).length||8)+' questions',go:'quiz',b:'Play'});
- if(out.length<3)out.push({done:false,e:'🏝️',t:'Win coins in StudyQuest',s:'Answer questions on your subjects',go:'quest',b:'Play'});
- if(!tt.length&&out.length<4)out.push({done:false,e:'🗓️',t:'Plan today’s study',s:'Add one short session — it takes 10 seconds',go:'timetable',b:'Plan'});
- return out.slice(0,4)}
-
-function render(){var host=$('#page-dashboard');if(!host)return;var el=$('#sxHome');if(!el){el=document.createElement('div');el.id='sxHome';host.insertBefore(el,host.firstChild)}
- var now=new Date(),tk=key(now),m=minsOn(tk),g=goal(),st=streak(),is=island(),dc=dueCards(),ms=mission(),done=ms.filter(function(x){return x.done}).length;
- var line=m>=g?'You hit today’s goal — brilliant! ✦':m>0?'Nice start — '+(g-m)+' more minutes to reach today’s goal.':st>0?'Keep your '+st+'-day streak alive today.':'Let’s make today count. Small steps add up.';
- var wk=[],mx=1,tot=0;for(var i=6;i>=0;i--){var d=new Date(now);d.setDate(now.getDate()-i);var v=minsOn(key(d));tot+=v;mx=Math.max(mx,v);wk.push({d:d,v:v,t:i===0})}
- var bySub={};(D().sessions||[]).forEach(function(s){var dd=new Date(s.date+'T00:00:00');if(now-dd<7*864e5&&s.subject)bySub[s.subject]=(bySub[s.subject]||0)+(+s.minutes||0)});
- var subs=subjects(),smax=1;subs.forEach(function(s){smax=Math.max(smax,bySub[s]||0)});
- var h='';
- h+='<section class="sxh-hero"><div class="sxh-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>'
-  +'<div class="sxh-top"><div class="sxh-hi"><span class="sxh-date">'+esc(now.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'}))+'</span><h1>'+esc(hello())+', '+esc(first())+' <span class="sxh-spark">✦</span></h1><p>'+esc(line)+'</p></div>'
-  +'<button type="button" class="sxh-ring" data-sxgo="focus" aria-label="Today: '+m+' of '+g+' minutes. Start a focus session">'+ring(m,g)+'<span><b>'+m+'</b><small>of '+g+' min</small></span></button></div>'
-  +'<div class="sxh-chips"><button type="button" data-sxgo="progress">🔥 <b>'+st+'</b> day streak</button><button type="button" data-sxgo="quest">⭐ Level <b>'+is.lvl+'</b> · 🪙 '+is.coins+'</button><button type="button" data-sxgo="flashcards">🃏 <b>'+dc+'</b> card'+(dc===1?'':'s')+' due</button></div>'
-  +'<form class="sxh-ask" id="sxhAsk"><input id="sxhQ" type="text" autocomplete="off" placeholder="Ask your coach anything…" aria-label="Ask your coach"><button type="submit" class="sxh-askb">Ask ✦</button></form>'
-  +'<div class="sxh-sug"><button type="button" data-sxq="Make me a study plan for this week">🗓️ Plan my week</button><button type="button" data-sxq="Quiz me on my weakest topic">🎯 Quiz me</button><button type="button" data-sxq="Explain my hardest topic simply">💡 Explain simply</button></div></section>';
- h+='<section class="sxh-card sxh-mission"><div class="sxh-head"><div><h2>Today’s mission</h2><p>'+(done?done+' of '+ms.length+' done — keep going!':'Do these and you’re set for today')+'</p></div><span class="sxh-pct">'+Math.round(done/Math.max(1,ms.length)*100)+'%</span></div><div class="sxh-bar"><i style="width:'+Math.round(done/Math.max(1,ms.length)*100)+'%"></i></div><div class="sxh-list">'
-  +ms.map(function(x){return'<div class="sxh-item'+(x.done?' done':'')+'"><span class="sxh-ie">'+(x.done?'✅':x.e)+'</span><div class="sxh-it"><b>'+esc(x.t)+'</b><small>'+esc(x.s)+'</small></div>'+(x.done?'<span class="sxh-ok">Done</span>':'<button type="button" class="sxh-go" data-sxgo="'+x.go+'">'+x.b+'</button>')+'</div>'}).join('')+'</div></section>';
- h+='<div class="sxh-th"><h2>Your shortcuts</h2><button type="button" class="sxh-edit" data-sxedit="1">✏️ Edit</button></div><section class="sxh-tiles" aria-label="Shortcuts">'+myTiles().map(function(t){var sub=t[0]==='quest'?'Level '+is.lvl+' · '+is.coins+' coins':t[0]==='flashcards'&&dc?dc+' due now':t[3];return'<button type="button" class="sxh-tile '+t[4]+'" data-sxgo="'+t[0]+'"><span class="sxh-te">'+t[1]+'</span><b>'+esc(t[2])+'</b><small>'+esc(sub)+'</small></button>'}).join('')+'<button type="button" class="sxh-tile sxh-add" data-sxedit="1"><span class="sxh-te">＋</span><b>Add</b><small>Pick your shortcuts</small></button></section>';
- h+='<div class="sxh-two"><section class="sxh-card sxh-week"><div class="sxh-head"><div><h2>This week</h2><p>'+(tot?tot+' minutes studied':'No study yet — your first session starts the streak')+'</p></div><button type="button" class="sxh-link" data-sxgo="progress">Progress →</button></div><div class="sxh-bars">'
-  +wk.map(function(w){var hgt=w.v?Math.max(10,Math.round(w.v/mx*100)):4;return'<div class="sxh-day'+(w.t?' today':'')+(w.v?' on':'')+'" title="'+w.v+' min"><div class="sxh-col"><i style="height:'+hgt+'%"></i></div><small>'+w.d.toLocaleDateString(undefined,{weekday:'narrow'})+'</small></div>'}).join('')+'</div></section>';
- h+='<section class="sxh-card sxh-subj"><div class="sxh-head"><div><h2>Your subjects</h2><p>Minutes this week</p></div><button type="button" class="sxh-link" data-sxgo="settings">Edit →</button></div>'
-  +(subs.length?subs.map(function(s,i){var v=bySub[s]||0;return'<button type="button" class="sxh-sub" data-sxq="Help me revise '+esc(s)+'"><span class="sxh-sd s'+(i%6)+'">'+esc(s.slice(0,1).toUpperCase())+'</span><span class="sxh-sn">'+esc(s)+'</span><span class="sxh-sb"><i class="s'+(i%6)+'" style="width:'+(v?Math.max(6,Math.round(v/smax*100)):0)+'%"></i></span><small>'+v+'m</small></button>'}).join(''):'<p class="sxh-empty">Add your subjects in Settings to see them here.</p>')+'</section></div>';
- h+='<button type="button" class="sxh-books" data-sxgo="resources"><span class="sxh-be">📚</span><span><b>Books for '+esc(course())+'</b><small>Syllabus books with worked examples and exam practice — look inside free</small></span><span class="sxh-arrow">→</span></button>';
- el.innerHTML=h;document.body.classList.add('sx-home-on')}
-
-function ask(q){q=String(q||'').trim();if(!q)return;try{go('coach')}catch(e){}setTimeout(function(){var t=$('#chatText'),f=$('#chatForm');if(t&&f){t.value=q;t.dispatchEvent(new Event('input',{bubbles:true}));if(f.requestSubmit)f.requestSubmit();else f.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))}},250)}
-document.addEventListener('click',function(e){var ed=e.target.closest('[data-sxedit]');if(ed&&ed.closest('#sxHome')){e.preventDefault();openEdit();return}var b=e.target.closest('[data-sxgo]');if(b&&b.closest('#sxHome')){e.preventDefault();var g=b.dataset.sxgo;if(g.indexOf('own:')===0){var x=own()[+g.slice(4)];if(x){if(x.q)ask(x.q);else go('coach')}return}try{go(g)}catch(_){}return}var q=e.target.closest('[data-sxq]');if(q&&q.closest('#sxHome')){e.preventDefault();ask(q.dataset.sxq)}});
-document.addEventListener('submit',function(e){if(e.target&&e.target.id==='sxhAsk'){e.preventDefault();var i=$('#sxhQ');ask(i&&i.value);if(i)i.value=''}});
-var last='';function tick(){var pg=$('#page-dashboard');if(!pg||pg.offsetParent===null){return}var d=D(),sig=[(d.sessions||[]).length,(d.tasks||[]).filter(function(t){return t.done}).length,(d.tasks||[]).length,dueCards(),island().coins,island().lvl,P().name,P().goal,(P().subjects||[]).join(),new Date().getHours(),key(new Date())].join('|');if(sig!==last||!$('#sxHome')){if(document.activeElement&&document.activeElement.id==='sxhQ')return;last=sig;render()}}
-setInterval(tick,1500);document.addEventListener('visibilitychange',function(){if(!document.hidden){last='';tick()}});setTimeout(tick,300);
-function openEdit(){var ov=document.getElementById('sxEd');if(ov)ov.remove();ov=document.createElement('div');ov.id='sxEd';ov.className='sxe-ov';document.body.appendChild(ov);paintEdit();document.body.classList.add('sf-noscroll')}
-function closeEdit(){var ov=document.getElementById('sxEd');if(ov)ov.remove();document.body.classList.remove('sf-noscroll');last='';render()}
-function paintEdit(){var ov=document.getElementById('sxEd');if(!ov)return;var p=picked(),o=own();
- var row=function(id,e,n,d){var on=p.indexOf(id)>=0;return'<button type="button" class="sxe-row'+(on?' on':'')+'" data-sxt="'+esc(id)+'"><span class="sxe-e">'+e+'</span><span class="sxe-t"><b>'+esc(n)+'</b><small>'+esc(d)+'</small></span><span class="sxe-ck">'+(on?'✓':'+')+'</span></button>'};
- ov.innerHTML='<div class="sxe-box" role="dialog" aria-label="Edit shortcuts"><div class="sxe-hd"><b>Your shortcuts</b><button type="button" class="sxe-x" data-sxe="close">Done</button></div><p class="sxe-sub">Tap to show or hide a shortcut on your home page.</p>'
- +'<div class="sxe-list">'+ALL.map(function(t){return row(t[0],t[1],t[2],t[3])}).join('')+'</div>'
- +'<h3 class="sxe-h">Make your own</h3>'+(o.length?'<div class="sxe-list">'+o.map(function(x,i){return'<div class="sxe-own">'+row('own:'+i,esc(x.e||'⭐'),x.n,x.q?'Asks: '+x.q:'')+'<button type="button" class="sxe-del" data-sxdel="'+i+'" aria-label="Delete">🗑</button></div>'}).join('')+'</div>':'<p class="sxe-sub">Make a button for anything you do a lot — like “Practise French verbs”.</p>')
- +(o.length<8?'<form class="sxe-form" id="sxeForm"><input id="sxeE" maxlength="4" placeholder="⭐" aria-label="Emoji"><input id="sxeN" maxlength="24" placeholder="Name, e.g. French verbs" aria-label="Name" required><input id="sxeQ" maxlength="160" placeholder="What should the coach do? e.g. Quiz me on French verbs" aria-label="What the coach should do"><button type="submit" class="sxe-addb">＋ Add my shortcut</button></form>':'')
- +'<button type="button" class="sxe-reset" data-sxe="reset">Reset to default</button></div>'}
-document.addEventListener('click',function(e){var ov=e.target.closest('#sxEd');if(!ov)return;if(e.target===ov){closeEdit();return}
- var a=e.target.closest('[data-sxe]');if(a){if(a.dataset.sxe==='close')closeEdit();else{lsS('sx-tiles',DEF.slice());paintEdit()}return}
- var d=e.target.closest('[data-sxdel]');if(d){var i=+d.dataset.sxdel,o=own();o.splice(i,1);var p=picked().filter(function(x){return x!=='own:'+i}).map(function(x){if(x.indexOf('own:')===0&&+x.slice(4)>i)return'own:'+(+x.slice(4)-1);return x});lsS('sx-own',o);lsS('sx-tiles',p);paintEdit();return}
- var t=e.target.closest('[data-sxt]');if(t){var id=t.dataset.sxt,p=picked(),k=p.indexOf(id);if(k>=0)p.splice(k,1);else p.push(id);lsS('sx-tiles',p);paintEdit()}});
-document.addEventListener('submit',function(e){if(e.target&&e.target.id==='sxeForm'){e.preventDefault();var n=($('#sxeN').value||'').trim();if(!n)return;var o=own();o.push({e:($('#sxeE').value||'').trim()||'⭐',n:n,q:($('#sxeQ').value||'').trim()});lsS('sx-own',o);var p=picked();p.push('own:'+(o.length-1));lsS('sx-tiles',p);paintEdit()}});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('sxEd'))closeEdit()});
-document.addEventListener('click',function(e){var a=e.target.closest('#avatar');if(a){e.preventDefault();try{go('settings')}catch(_){}}});
-window.StudyStarxHome={render:render,edit:openEdit};
-
-})();
-
 </script><style id="sf-up-css">
 /* Upload & Study redesign */
 #page-upload.up-on>.pagehead{display:none}
@@ -11543,202 +11273,6 @@ function init(){var pg=$('#page-upload');if(!pg||pg.dataset.up)return;var f=$('#
 }
 document.addEventListener('DOMContentLoaded',init);setTimeout(init,300);setInterval(init,1500);
 })();
-
-</script><style id="sf-cx-css">
-#chatForm{position:relative}
-.cx-clip{flex:0 0 auto;width:40px;height:40px;border-radius:12px;border:1px solid var(--line,#e4e7ee);background:var(--card,#fff);color:var(--p,#4338ca);display:grid;place-items:center;cursor:pointer;align-self:flex-end;transition:transform .15s,background .15s}
-.cx-clip:hover{background:var(--pale,#eef0ff);transform:translateY(-1px)}
-.cx-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
-.cx-chips:empty{display:none}
-.cx-chip{display:inline-flex;align-items:center;gap:6px;background:var(--pale,#eef0ff);color:var(--ink,#25243b);border-radius:999px;padding:4px 6px 4px 10px;font-size:12.5px;max-width:100%;animation:cxIn .25s ease}
-.cx-chip button{border:0;background:rgba(0,0,0,.08);width:20px;height:20px;border-radius:50%;cursor:pointer;line-height:1;color:inherit}
-.cx-left{font-size:12px;color:var(--muted,#777891);align-self:center}
-.chatbox.cx-drop{outline:2px dashed var(--p,#4338ca);outline-offset:-6px}
-.cx-body{white-space:pre-wrap}
-.cx-fig{margin:10px 0;background:#fff;border:1px solid var(--line,#e4e7ee);border-radius:14px;padding:10px;max-width:440px}
-.cx-fig img{display:block;width:100%;height:auto}
-.cx-fig figcaption{font-size:12px;color:#777891;margin-top:6px;white-space:normal}
-.cx-file{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0;padding:12px;border:1px solid var(--line,#e4e7ee);border-radius:14px;background:var(--card,#fff);white-space:normal;max-width:480px}
-.cx-fi{font-size:24px}.cx-fm{flex:1;min-width:140px}.cx-fm b{display:block;font-size:14px;word-break:break-all}.cx-fm small{color:var(--muted,#777891)}
-.cx-dl,.cx-pv{border:1px solid var(--line,#e4e7ee);background:var(--card,#fff);color:var(--p,#4338ca);border-radius:10px;padding:6px 10px;font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
-.cx-file .cx-dl{background:var(--p,#4338ca);color:#fff;border-color:transparent}
-.cx-fig .cx-dl{padding:2px 8px}
-.cx-pre{flex-basis:100%;max-height:260px;overflow:auto;background:var(--bg,#f7f7fc);border-radius:10px;padding:10px;font:12.5px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;margin:0}
-.cx-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#25243b;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:99999;transition:.25s}
-.cx-toast.in{opacity:1;transform:translate(-50%,0)}
-@keyframes cxIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
-.mm-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line,#e5e7eb);background:var(--card,#fff);font-size:20px;cursor:pointer;flex:none;margin-right:6px}
-.mm-ov{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center}.mm-ov[hidden]{display:none}
-.mm-box{background:var(--card,#fff);color:var(--ink,#1f2937);width:100%;max-width:520px;max-height:85vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));box-sizing:border-box}
-@media(min-width:701px){.mm-ov{align-items:center}.mm-box{border-radius:22px}}
-.mm-hd{display:flex;justify-content:space-between;align-items:center}.mm-hd b{font-size:17px}
-.mm-x{border:0;background:#6d28d9;color:#fff;border-radius:99px;padding:8px 18px;font:700 14px Inter,system-ui,sans-serif;cursor:pointer}
-.mm-sub,.mm-empty{color:var(--muted,#6b7280);font-size:13.5px;margin:8px 0 12px}
-.mm-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}.mm-list li{display:flex;gap:10px;align-items:center;border:1px solid var(--line,#e7e8ef);border-radius:14px;padding:10px 12px;font-size:14px}.mm-list li span{flex:1}
-.mm-list li button{border:0;background:#fef2f2;color:#b91c1c;border-radius:10px;width:30px;height:30px;cursor:pointer}
-.mm-add{display:flex;gap:8px;margin-top:12px}.mm-add input{flex:1;min-width:0;border:1.5px solid var(--line,#e5e7eb);border-radius:12px;padding:10px 12px;font:15px Inter,system-ui,sans-serif;background:var(--card,#fff);color:inherit}.mm-add button{border:0;border-radius:12px;padding:0 16px;font-weight:700;background:#4f46e5;color:#fff;cursor:pointer}
-
-</style><script id="sf-cx-js">
-/* ===== AI Coach v3: attach files, AI-made files, diagrams, syllabus reminder, clearer answers ===== */
-(function(){
-function $(s,r){return(r||document).querySelector(s)}
-function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-var LIM={free:{att:3,make:2},plus:{att:40,make:40}};
-function lim(){return LIM[plus()?'plus':'free']}
-function day(){return new Date().toLocaleDateString('en-CA')}
-function use(){var u;try{u=JSON.parse(localStorage.getItem('sfCoachUse')||'{}')}catch(e){u={}}if(u.d!==day())u={d:day(),att:0,make:0};return u}
-function setUse(u){try{localStorage.setItem('sfCoachUse',JSON.stringify(u))}catch(e){}}
-function gate(t,w){if(window.sfPlusGate)sfPlusGate(t,w);else try{go('premium')}catch(e){}}
-
-/* ---------- attach files ---------- */
-var pending=[];
-function install(){
- var form=$('#chatForm');if(!form||form.dataset.cx)return;form.dataset.cx='1';
- var inp=document.createElement('input');inp.type='file';inp.id='cxFile';inp.multiple=true;inp.hidden=true;
- inp.accept='application/pdf,image/png,image/jpeg,image/webp,.txt,.md,text/plain';
- var btn=document.createElement('button');btn.type='button';btn.className='cx-clip';btn.title='Attach a file (PDF, photo or text)';btn.setAttribute('aria-label','Attach a file');
- btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5 12.6 21a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.7 3.7 0 0 1 5.2 5.2l-8.5 8.5a1.8 1.8 0 0 1-2.6-2.6l7.8-7.8"/></svg>';
- var chips=document.createElement('div');chips.className='cx-chips';chips.id='cxChips';
- form.insertBefore(btn,form.firstChild);form.appendChild(inp);form.after(chips);
- btn.onclick=function(){var u=use(),L=lim();if(u.att+pending.length>=L.att){gate('Attach more files','Free accounts can attach '+LIM.free.att+' files a day. StudyStarx Plus lets you attach up to '+LIM.plus.att+' files a day.');return}inp.click()};
- inp.onchange=function(){[].slice.call(inp.files||[]).forEach(add);inp.value=''};
- chips.addEventListener('click',function(e){var x=e.target.closest('[data-cxrm]');if(!x)return;pending.splice(+x.dataset.cxrm,1);drawChips()});
- // drag and drop onto the chat
- var box=form.closest('.chatbox')||form;
- box.addEventListener('dragover',function(e){if(e.dataTransfer&&[].slice.call(e.dataTransfer.types||[]).indexOf('Files')>-1){e.preventDefault();box.classList.add('cx-drop')}});
- box.addEventListener('dragleave',function(){box.classList.remove('cx-drop')});
- box.addEventListener('drop',function(e){if(!e.dataTransfer||!e.dataTransfer.files.length)return;e.preventDefault();box.classList.remove('cx-drop');[].slice.call(e.dataTransfer.files).forEach(function(f){var u=use();if(u.att+pending.length>=lim().att){gate('Attach more files','Free accounts can attach '+LIM.free.att+' files a day. Plus lets you attach up to '+LIM.plus.att+'.');return}add(f)})});
-}
-function add(f){
- if(pending.length>=4){toast('You can attach up to 4 files at once.');return}
- var okType=/^(application\/pdf|image\/(png|jpe?g|webp)|text\/plain)$/.test(f.type)||/\.(txt|md)$/i.test(f.name);
- if(!okType){toast('Use a PDF, a photo (PNG/JPG) or a text file.');return}
- if(f.size>2200000){toast(f.name+' is too big. Use a file under 2 MB.');return}
- var r=new FileReader();r.onload=function(){var d=String(r.result||'');var b64=d.slice(d.indexOf(',')+1);pending.push({name:f.name,mimeType:/\.(txt|md)$/i.test(f.name)||!f.type?'text/plain':f.type,data:b64});drawChips()};r.readAsDataURL(f);
-}
-function drawChips(){var c=$('#cxChips');if(!c)return;c.innerHTML=pending.map(function(p,i){return'<span class="cx-chip">'+(/pdf/.test(p.mimeType)?'📄':/image/.test(p.mimeType)?'🖼️':'📝')+' '+esc(p.name)+'<button type="button" data-cxrm="'+i+'" aria-label="Remove">×</button></span>'}).join('');var u=use(),L=lim();if(pending.length)c.insertAdjacentHTML('beforeend','<span class="cx-left">'+Math.max(0,L.att-u.att-pending.length)+' attachments left today</span>')}
-function toast(t){var d=document.createElement('div');d.className='cx-toast';d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.classList.add('in')},10);setTimeout(function(){d.remove()},3200)}
-window.sfCoachAttNames=function(){return pending.length?'\n📎 '+pending.map(function(p){return p.name}).join(', '):''};
-
-/* ---------- system prompt ---------- */
-function profileLine(){
- var p={};try{p=data.profile||{}}catch(e){}
- var bits=[];if(p.role&&p.role!=='student')bits.push('The user is a '+p.role+(p.child?' (child: '+p.child+')':'')+'.');
- if(p.grade)bits.push('Grade/level: '+p.grade+'.');if(p.board||p.syllabus)bits.push('Syllabus/board: '+(p.board||p.syllabus)+'.');
- if(p.subjects&&p.subjects.length)bits.push('Subjects they study: '+p.subjects.join(', ')+'.');
- if(p.hardest)bits.push('Finds hardest: '+p.hardest+'.');
- return bits.join(' ');
-}
-function syl(){var p={};try{p=data.profile||{}}catch(e){}var b=[p.board||p.syllabus,p.grade].filter(Boolean).join(' ');var sub=(p.subjects||[]).join(', ');return b?b+' course':''}
-/* ---------- long-term memory: the coach remembers what the student tells it ---------- */
-function memList(){try{if(!Array.isArray(data.memory))data.memory=[];return data.memory}catch(e){return[]}}
-function memAdd(t){t=String(t||'').replace(/\s+/g,' ').trim().replace(/^[-•*]\s*/,'').slice(0,160);if(t.length<3)return;var L=memList(),k=t.toLowerCase().replace(/[^a-z0-9 ]/g,'');for(var i=0;i<L.length;i++){var o=String(L[i].t||'').toLowerCase().replace(/[^a-z0-9 ]/g,'');if(o===k||(k.length>12&&(o.indexOf(k)>=0||k.indexOf(o)>=0))){L[i]={t:t.length>=String(L[i].t).length?t:L[i].t,d:Date.now()};return}}L.push({t:t,d:Date.now()});while(L.length>80)L.shift()}
-function memArchive(){try{var c=data.chat||[];if(!c.length)return;if(!Array.isArray(data.chatArchive))data.chatArchive=[];c.forEach(function(m){if(m&&m.role==='user')data.chatArchive.push({t:String(m.content||'').slice(0,240),d:Date.now()})});while(data.chatArchive.length>200)data.chatArchive.shift();if(typeof persist==='function')persist()}catch(e){}}
-document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#clearChat'))memArchive()},true);
-window.sfCoachMemory={list:memList,add:function(t){memAdd(t);try{persist()}catch(e){}},forget:function(i){var L=memList();L.splice(i,1);try{persist()}catch(e){}}};
-function memBlock(){var L=memList(),A=[];try{A=(data.chatArchive||[]).slice(-25)}catch(e){}
- var out='MEMORY (very important): you remember this student across all chats, like a real tutor who knows them.';
- out+=L.length?'\nThings the student has told you before:\n'+L.map(function(m){return'- '+m.t}).join('\n'):'\nYou do not know anything extra about them yet.';
- if(A.length)out+='\nThings they asked about in earlier chats (oldest first):\n'+A.map(function(m){return'- '+String(m.t).replace(/\s+/g,' ').slice(0,140)}).join('\n');
- out+='\nUse these naturally when they help (e.g. their exam dates, weak topics, goals, likes, how they like things explained). Never say you cannot remember earlier chats. If they ask what you remember, tell them.\nSAVING NEW MEMORIES: whenever the student tells you something lasting about themselves or their studies (name, class, school, exam dates, goals, weak or strong topics, what they find hard, how they like answers, their timetable, or anything they ask you to remember), add it at the very END of your reply on its own line exactly like: [[remember: short fact in third person]] — one line per fact, max 3. Do not mention these lines in your answer. Do not save one-off questions or things already listed above.';
- return out}
-function memStrip(reply){return String(reply||'').replace(/\[\[\s*remember\s*:\s*([^\]]{2,220})\]\]\s*/gi,function(_,f){memAdd(f);return''}).replace(/\n{3,}/g,'\n\n').trim()}
-function system(){
- var lv=($('#coachLevel')||{}).value||'',sub=($('#coachSubject')||{}).value||'';
- var brief='';try{brief=window.sfCoachBrief?sfCoachBrief():''}catch(e){}
- var u=use(),L=lim(),canMake=u.make<L.make;
- return [
- 'You are StudyStarx Coach, a kind, patient school tutor (IGCSE, Cambridge AS/A Level, IB Diploma, CBSE/ICSE and similar).',
- memBlock(),
- 'STUDENT: '+(profileLine()||'No survey yet.')+(lv?' Coach setting level: '+lv+'.':'')+(sub&&sub!=='General'?' Current subject: '+sub+'.':''),
- 'CONVERSATION (very important): this is an ongoing chat. Read the earlier messages before answering. If the student says things like "why?", "I don\'t get it", "explain step 2", "give another example", "what about the second one", "and in real life?" or uses words like "this/that/it", they mean the topic of your previous answer — continue from it, do not start a new topic and do not ask what they mean if it is clear from the chat. If they say they don\'t understand, explain the same idea again in a simpler, different way (new analogy, smaller steps).',
- 'GREETINGS AND SMALL TALK: if the student just says hi, hello, thanks, ok, bye or chats casually, reply in 1–2 friendly sentences like a real person (use their name), and ask what they want to study today. Do NOT use steps, "Final answer", "Quick check" or a syllabus note for these.\nUNDERSTAND THE REAL NEED: before answering, silently work out what the student actually wants (a definition, a step-by-step solution, a check of their own answer, exam technique, motivation, or reassurance). If they sound stressed or stuck, start with one short encouraging sentence. If the question is genuinely unclear even with the chat history, ask ONE short clarifying question instead of guessing.',
- 'MAKE IT EASY TO UNDERSTAND:',
- '- Start with a 1–2 sentence direct answer in plain words, like you are talking to a friend.',
- '- Then explain in short numbered steps. One idea per step. Short sentences. No long paragraphs.',
- '- Explain every technical word the first time you use it, in brackets.',
- '- Give one everyday example or comparison that makes the idea click.',
- '- For maths/science: show every step of working on its own line, say WHY each step is done, and box the final answer as "Final answer: ...".',
- '- Use plain text. Do NOT use LaTeX, $ signs or markdown tables. Write maths like: x^2 + 3x = 10, √16 = 4, 3/4.',
- '- End with "Quick check:" and one short question so the student can test themselves.',
- '- Match the student\'s level. If they say they don\'t understand, explain again more simply in a different way.',
- 'SYLLABUS CHECK (do this for every new question): compare the question with the STUDENT details above (their syllabus/board, grade and subjects). If the topic is clearly outside them — a subject they do not take, a topic from a different syllabus, or work well above their grade (e.g. university level) — start your reply with exactly one line: "📌 Heads up: this isn\'t part of your '+(syl()||'syllabus')+' — I\'ll still explain it." Then answer normally, at their level. Do not add this line for follow-up questions on a topic you already flagged, for general study skills, or when it is part of their course or you are not sure.',
- 'DIAGRAMS: When a diagram, graph, number line, triangle, circuit, cell, force diagram or table-like picture would really help (especially in maths and science), draw it as a simple SVG inside a fenced block that starts with ```svg and ends with ```. Rules: one <svg> with viewBox (about 0 0 360 240) and xmlns="http://www.w3.org/2000/svg", white background rect, clear labels with font-size 13+, simple lines and shapes only, no scripts, no images, no external links. Keep it small and correct. Then explain the diagram in words.',
- canMake?'FILES: If the user asks you to make a file (notes, a worksheet, a summary sheet, a revision plan, flashcards list, a CSV table), put the whole file content inside a fenced block that starts with ```file:NAME.EXT (EXT is md, txt or csv) and ends with ```. Make only one file unless asked for more. Outside the block, say in one line what the file contains.':
- 'FILES: The user has used today\'s file-making allowance. If they ask you to make a file, answer in the chat instead and say: "You have used today\'s free file creations — StudyStarx Plus lets you make more files."',
- 'If files are attached, read them carefully and answer about them. Be honest when unsure; never invent official mark schemes.',
- brief
- ].filter(Boolean).join('\n');
-}
-window.sfCoachPrep=function(question){
- var hist=[];try{var all_=(data.chat||[]).slice(-24),n_=all_.length;hist=all_.map(function(m,k){var c=String(m.content||'').replace(/```(svg|file:[^\n]*)[\s\S]*?```/g,'[$1 shown]').replace(/\n{3,}/g,'\n\n');/* recent turns in full, older turns shortened: keeps the conversation but uses far fewer tokens */var cap=k>=n_-4?2000:500;return{role:m.role,content:c.length>cap?c.slice(0,cap)+'…':c}})}catch(e){}
- var files=pending.map(function(p){return{mimeType:p.mimeType,data:p.data}});
- if(files.length){var u=use();u.att+=files.length;setUse(u)}
- pending=[];drawChips();
- return{system:system(),messages:hist,user:question,files:files,allowSearchFallback:!files.length,maxTokens:4000};
-};
-window.sfCoachAfter=function(reply){
- reply=memStrip(reply);try{persist()}catch(e){}var u=use(),L=lim(),n=0;
- reply=reply.replace(/```file:[^\n]*\n[\s\S]*?```/g,function(m){if(u.make<L.make){u.make++;n++;return m}return'[File not created — you have used today\'s '+L.make+' free file creations. StudyStarx Plus lets you make up to '+LIM.plus.make+' files a day.]'});
- setUse(u);return reply;
-};
-
-/* ---------- render diagrams and files inside answers ---------- */
-function cleanSvg(src){
- var s=String(src||'').trim();var a=s.indexOf('<svg'),b=s.lastIndexOf('</svg>');if(a<0||b<0)return'';s=s.slice(a,b+6);
- s=s.replace(/<(script|foreignObject|iframe|image|use)[\s\S]*?(<\/\1>|\/>)/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,'').replace(/(href|xlink:href)\s*=\s*("[^"]*"|'[^']*')/gi,'');
- if(!/xmlns=/.test(s))s=s.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');
- return s;
-}
-var RX=/```(svg|file:([^\n`]*))\n?([\s\S]*?)```/g;
-function decorate(){
- var m=$('#messages');if(!m)return;
- [].slice.call(m.querySelectorAll('.bubble:not(.user)')).forEach(function(b){
-  if(b.dataset.cx==='1')return;
-  var host=b.querySelector(':scope > div')||b;var t=host===b?[].slice.call(b.childNodes).filter(function(n){return n.nodeType===3}).map(function(n){return n.textContent}).join(''):host.textContent;
-  if(t.indexOf('```svg')<0&&t.indexOf('```file:')<0){b.dataset.cx='1';return}
-  b.dataset.cx='1';
-  var out=document.createElement('div');out.className='cx-body';var last=0,mm;RX.lastIndex=0;
-  while((mm=RX.exec(t))){
-   if(mm.index>last)out.appendChild(document.createTextNode(t.slice(last,mm.index).replace(/^\n+/,'').replace(/\n+$/,'\n')));
-   if(mm[1]==='svg'){var sv=cleanSvg(mm[3]);if(sv){var fig=document.createElement('figure');fig.className='cx-fig';var img=new Image();img.alt='Diagram';img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sv);fig.appendChild(img);var cap=document.createElement('figcaption');cap.innerHTML='Diagram · <button type="button" class="cx-dl" data-kind="svg">Download</button>';fig.appendChild(cap);fig.dataset.src=sv;out.appendChild(fig)}}
-   else{var name=(mm[2]||'notes.md').trim().replace(/[^\w.\- ]/g,'').slice(0,60)||'notes.md';if(!/\.(md|txt|csv)$/i.test(name))name+='.md';var body=mm[3].replace(/\s+$/,'');
-    var card=document.createElement('div');card.className='cx-file';card.dataset.name=name;card.dataset.body=body;
-    card.innerHTML='<div class="cx-fi">'+(/csv$/i.test(name)?'📊':'📄')+'</div><div class="cx-fm"><b>'+esc(name)+'</b><small>'+body.split('\n').length+' lines · made by StudyStarx Coach</small></div><button type="button" class="cx-dl" data-kind="file">⬇ Download</button><button type="button" class="cx-pv">Preview</button><pre class="cx-pre" hidden>'+esc(body)+'</pre>';out.appendChild(card)}
-   last=RX.lastIndex;
-  }
-  if(last<t.length)out.appendChild(document.createTextNode(t.slice(last).replace(/^\n+/,'')));
-  if(host===b){[].slice.call(b.childNodes).forEach(function(n){if(n.nodeType===3)n.remove()});var sm=b.querySelector('small');if(sm)sm.after(out);else b.prepend(out)}
-  else{host.textContent='';host.appendChild(out)}
- });
-}
-document.addEventListener('click',function(e){
- var d=e.target.closest('.cx-dl');
- if(d){var blob,name;if(d.dataset.kind==='svg'){var f=d.closest('.cx-fig');blob=new Blob([f.dataset.src],{type:'image/svg+xml'});name='diagram.svg'}else{var c=d.closest('.cx-file');name=c.dataset.name;blob=new Blob([c.dataset.body],{type:/csv$/i.test(name)?'text/csv':'text/plain'})}
-  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);return}
- var p=e.target.closest('.cx-pv');if(p){var pre=p.parentNode.querySelector('.cx-pre');pre.hidden=!pre.hidden;p.textContent=pre.hidden?'Preview':'Hide'}
-});
-
-function start(){
- install();
- var m=$('#messages');if(m&&!m.dataset.cxo){m.dataset.cxo='1';new MutationObserver(function(){decorate()}).observe(m,{childList:true,subtree:false});decorate()}
- // the old Math Solver page now opens the AI Coach
- try{if(typeof go==='function'&&!go.__cx){var g=go;var w=function(p){return g.apply(this,[p==='math'?'coach':p].concat([].slice.call(arguments,1)))};w.__cx=true;window.go=w;try{go=w}catch(e){}}}catch(e){}
- var sugg=document.querySelector('#page-coach .suggestions');if(sugg&&!sugg.dataset.cx){sugg.dataset.cx='1';sugg.insertAdjacentHTML('beforeend','<button data-prompt="Solve this maths problem step by step and draw a diagram if it helps: ">Maths with diagram</button><button data-prompt="Make me a one-page revision notes file on ">Make a notes file</button>');
-  [].slice.call(sugg.querySelectorAll('button[data-prompt]')).slice(-2).forEach(function(b){b.addEventListener('click',function(){var t=$('#chatText');if(t){t.value=b.dataset.prompt;t.focus()}})})}
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
-setTimeout(start,1200);
-})();
-/* memory viewer: 🧠 button in the coach header */
-(function(){function esc2(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function paint(ov){var L=window.sfCoachMemory?sfCoachMemory.list():[];ov.innerHTML='<div class="mm-box" role="dialog" aria-label="What the coach remembers"><div class="mm-hd"><b>🧠 What your coach remembers</b><button type="button" class="mm-x" data-mm="close">Done</button></div><p class="mm-sub">The coach saves things you tell it — like your exams, goals and weak topics — and uses them in every chat.</p>'+(L.length?'<ul class="mm-list">'+L.map(function(m,i){return'<li><span>'+esc2(m.t)+'</span><button type="button" data-mmdel="'+i+'" aria-label="Forget">✕</button></li>'}).join('')+'</ul>':'<p class="mm-empty">Nothing yet. Tell the coach about yourself — e.g. “My maths exam is on 12 March” or “Remember I find algebra hard”.</p>')+'<form class="mm-add" id="mmAdd"><input id="mmIn" maxlength="160" placeholder="Add something to remember…"><button type="submit">Add</button></form></div>'}
-function open(){var ov=document.getElementById('mmOv');if(!ov){ov=document.createElement('div');ov.id='mmOv';ov.className='mm-ov';document.body.appendChild(ov)}paint(ov);ov.hidden=false}
-document.addEventListener('click',function(e){var b=e.target.closest('#mmBtn');if(b){e.preventDefault();open();return}var ov=document.getElementById('mmOv');if(!ov||ov.hidden||!ov.contains(e.target))return;if(e.target===ov||e.target.closest('[data-mm="close"]')){ov.hidden=true;return}var d=e.target.closest('[data-mmdel]');if(d){sfCoachMemory.forget(+d.dataset.mmdel);paint(ov)}});
-document.addEventListener('submit',function(e){if(e.target&&e.target.id==='mmAdd'){e.preventDefault();var i=document.getElementById('mmIn');if(i&&i.value.trim()){sfCoachMemory.add(i.value.trim());paint(document.getElementById('mmOv'))}}});
-function btn(){var h=document.querySelector('#page-coach .chathead');if(!h||document.getElementById('mmBtn'))return;var c=document.getElementById('clearChat');var b=document.createElement('button');b.type='button';b.id='mmBtn';b.className='mm-btn';b.title='What the coach remembers';b.setAttribute('aria-label','What the coach remembers');b.textContent='🧠';if(c&&c.parentNode)c.parentNode.insertBefore(b,c);else h.appendChild(b)}
-setInterval(btn,1500);setTimeout(btn,400)})();
 
 </script><style id="sf-fo-css">
 /* Focus Studio — simplified */
@@ -11850,191 +11384,6 @@ function init(){var pg=$('#page-focus');if(!pg||pg.dataset.fo)return;var main=$(
  function runSt(){var run=$('#sfFocusStart');var busy=!!(run&&run.disabled);var started=busy||/resume/i.test((run&&run.textContent)||'');root.classList.toggle('fo-live',started);chips.classList.toggle('dis',busy);paint()}runSt();setInterval(runSt,500);document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.focus-controls'))setTimeout(runSt,60)});
 }
 document.addEventListener('DOMContentLoaded',function(){setTimeout(init,600)});setTimeout(init,900);setInterval(init,2000);
-})();
-
-</script><style id="sf-fz-css">
-/* Focus Lock — phone app screen */
-body.fz-app #page-focuslock>:not(#fzRoot){display:none!important}
-#fzRoot{max-width:560px;margin:0 auto;padding-bottom:24px;font-family:Inter,system-ui,sans-serif;color:var(--ink,#1f2937)}
-.fz-hero{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#312e81,#6d28d9 60%,#a21caf);color:#fff;border-radius:22px;padding:20px 20px;margin-bottom:14px;box-shadow:0 12px 30px rgba(76,29,149,.25)}
-.fz-ht{flex:1}.fz-hero h1{margin:0;font-size:24px;letter-spacing:-.01em;color:#fff}.fz-hero p{margin:4px 0 0;opacity:.85;font-size:14px}.fz-hi{font-size:40px}
-.fz-card{background:var(--card,#fff);border:1px solid var(--line,#e7e8ef);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
-.fz-sh{display:flex;justify-content:space-between;align-items:baseline}.fz-sh b{font-size:17px}.fz-sh span{font-size:12.5px;color:var(--muted,#6b7280);font-weight:600}
-.fz-prog{height:6px;background:#eef0f6;border-radius:99px;margin:10px 0 6px;overflow:hidden}.fz-prog i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:99px;transition:width .4s}
-.fz-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line,#eef0f4)}.fz-step:first-of-type{border-top:0}
-.fz-si{flex:0 0 40px;height:40px;border-radius:12px;background:#eef2ff;display:grid;place-items:center;font-size:20px}
-.fz-step.ok .fz-si{background:#dcfce7;color:#15803d;font-weight:800}
-.fz-step>div{flex:1;min-width:0}.fz-step b{display:block;font-size:14.5px}.fz-step b em{font-style:normal;font-size:10.5px;font-weight:700;color:#0369a1;background:#e0f2fe;border-radius:99px;padding:1px 7px;margin-left:4px;vertical-align:1px}.fz-step small{display:block;color:var(--muted,#6b7280);font-size:12.5px;line-height:1.4;margin-top:2px}
-.fz-allow{flex:none;border:0;border-radius:12px;padding:10px 16px;font:700 14px Inter,system-ui,sans-serif;background:#4f46e5;color:#fff;cursor:pointer}
-.fz-done{flex:none;font-size:12.5px;font-weight:700;color:#15803d}
-.fz-mini .fz-step{padding:8px 0}.fz-fine{font-size:12.5px;color:var(--muted,#6b7280);margin:10px 0 0;text-align:center}
-.fz-shake{animation:fzS .5s}@keyframes fzS{0%,100%{transform:none}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-.fz-lbl{display:flex;justify-content:space-between;font-weight:700;font-size:15px;margin:4px 0 10px}.fz-lbl span{font-size:12.5px;color:var(--muted,#6b7280)}
-.fz-lbl:not(:first-child){margin-top:18px}
-.fz-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.fz-app{position:relative;display:grid;justify-items:center;gap:4px;padding:10px 2px 8px;border:1.5px solid var(--line,#e7e8ef);border-radius:16px;background:var(--card,#fff);cursor:pointer;color:inherit;font:inherit}
-.fz-ai{font-size:24px;line-height:1.1}.fz-an{font-size:11.5px;font-weight:600;line-height:1.2;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
-.fz-app.on{border-color:#6d28d9;background:#f5f3ff;box-shadow:0 0 0 3px rgba(109,40,217,.12)}
-.fz-ck{position:absolute;top:4px;right:5px;width:17px;height:17px;border-radius:50%;background:#6d28d9;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center}
-.fz-more-apps{display:block;width:100%;margin-top:10px;border:1.5px dashed #c4b5fd;background:transparent;border-radius:14px;padding:11px;font:600 13.5px Inter,system-ui,sans-serif;color:#5b21b6;cursor:pointer}
-.fz-durs{display:flex;flex-wrap:wrap;gap:8px}.fz-dur{flex:1 0 auto;min-width:64px;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);border-radius:999px;padding:10px 12px;font:600 13.5px Inter,system-ui,sans-serif;color:inherit;cursor:pointer}
-.fz-dur.on{background:#6d28d9;border-color:#6d28d9;color:#fff}
-.fz-sw{display:flex;align-items:center;gap:12px;margin-top:16px;cursor:pointer}.fz-sw>span{flex:1}.fz-sw b{display:block;font-size:14.5px}.fz-sw small{color:var(--muted,#6b7280);font-size:12.5px}
-.fz-sw input{position:absolute;opacity:0;pointer-events:none}.fz-sw i{flex:none;width:46px;height:28px;border-radius:99px;background:#d1d5db;position:relative;transition:background .2s}
-.fz-sw i:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
-.fz-sw input:checked+i{background:#6d28d9}.fz-sw input:checked+i:after{transform:translateX(18px)}
-.fz-pl{font-style:normal;font-size:10px;font-weight:800;color:#b45309;background:#fef3c7;border-radius:99px;padding:1px 6px;margin-left:4px}
-.fz-opt{margin-top:14px;border-top:1px solid var(--line,#eef0f4);padding-top:10px}.fz-opt summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--muted,#6b7280);list-style:none}.fz-opt summary:before{content:"▸ "}.fz-opt[open] summary:before{content:"▾ "}.fz-opt summary::-webkit-details-marker{display:none}
-.fz-start{display:block;width:100%;margin-top:18px;border:0;border-radius:16px;padding:16px;font:700 16.5px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 10px 24px rgba(79,70,229,.3);cursor:pointer}
-.fz-start.off{background:#c7c9d9;box-shadow:none}
-.fz-upd{background:#fff7ed;border-color:#fed7aa}.fz-upd p{margin:6px 0 12px;font-size:13.5px;color:#7c2d12}
-.fz-btn{display:inline-block;background:#ea580c;color:#fff;border-radius:12px;padding:10px 16px;font-weight:700;text-decoration:none}
-.fz-run{text-align:center;background:linear-gradient(180deg,#1e1b4b,#312e81);color:#fff;border-radius:24px;padding:26px 18px 22px;box-shadow:0 14px 34px rgba(30,27,75,.35)}
-.fz-ring{position:relative;width:220px;height:220px;margin:0 auto}.fz-ring svg{width:100%;height:100%;transform:rotate(-90deg)}.fz-ring circle{fill:none;stroke-width:12}.fz-ring .bg{stroke:rgba(255,255,255,.12)}.fz-ring .fg{stroke:#a78bfa;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
-.fz-rt{position:absolute;inset:0;display:grid;place-content:center}.fz-rt b{font-size:44px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}.fz-rt span{font-size:13px;opacity:.75}
-.fz-run h2{margin:16px 0 4px;color:#fff;font-size:21px}.fz-run p{margin:0 0 10px;opacity:.8;font-size:14px}
-.fz-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.fz-tags span{background:rgba(255,255,255,.12);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:600}
-.fz-stop{margin-top:18px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:14px;padding:11px 22px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
-.fz-strict{margin-top:16px!important;font-size:13px!important}
-@media(max-width:360px){.fz-apps{grid-template-columns:repeat(3,1fr)}}
-/* Focus Lock — browser page tidy-up */
-body.fz-web #page-focuslock .pagehead .pl-chips{display:none}
-.fz-wmore{margin-top:8px}.fz-wmore summary,.fz-wsched summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--muted,#6b7280);padding:6px 2px;list-style:none}.fz-wmore summary::-webkit-details-marker,.fz-wsched summary::-webkit-details-marker{display:none}
-.fz-wmore summary:before,.fz-wsched summary:before{content:"▸ "}.fz-wmore[open] summary:before,.fz-wsched[open] summary:before{content:"▾ "}
-.fz-wmore .fl-opt{margin-top:8px}
-.fz-wsched{padding:14px 18px}.fz-wsched summary{color:var(--ink,#1f2937);font-size:15px}.fz-wsched summary span{display:block;font-weight:400;font-size:12.5px;color:var(--muted,#6b7280);margin:2px 0 0 14px}
-.fz-wsched .pp-sched{box-shadow:none;border:0;padding:8px 0 0;margin:0}
-
-.fz-warn{background:#fef2f2;border:1.5px solid #fca5a5;color:#7f1d1d;border-radius:18px;padding:14px 16px;margin-bottom:12px}.fz-warn p{margin:6px 0 10px;font-size:13.5px}.fz-warn .fz-allow{margin:0 6px 6px 0}
-.fz-okb{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-weight:600;font-size:14px;text-align:center}
-
-.fz-skip{display:block;margin:6px auto 0;border:0;background:none;color:var(--muted,#6b7280);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
-/* v3 — one bold card: dial + start, apps as chips */
-#fzRoot .fz-hero{position:relative;overflow:hidden;padding:22px 20px 20px;border-radius:26px;background:radial-gradient(120% 120% at 100% 0%,rgba(255,255,255,.18),rgba(255,255,255,0) 50%),linear-gradient(150deg,#1e1b4b 0%,#4c1d95 55%,#a21caf 100%);margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0;box-shadow:none}
-#fzRoot .fz-hero:after{content:"";position:absolute;right:-60px;bottom:-90px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.07)}
-#fzRoot .fz-hero h1{font-size:26px}
-#fzRoot .fz-hi span{display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:rgba(255,255,255,.14);font-size:30px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
-.fz-main{background:linear-gradient(180deg,#4c1d95,#3b1580);border-radius:0 0 26px 26px;padding:6px 18px 20px;margin-bottom:14px;box-shadow:0 18px 40px -20px rgba(76,29,149,.8);color:#fff}
-.fz-dial{display:flex;align-items:center;justify-content:center;gap:18px;margin:6px 0 14px}
-.fz-pm{width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font:700 28px/1 Inter,system-ui,sans-serif;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
-.fz-pm:active{transform:scale(.94)}
-.fz-dv{display:grid;place-items:center;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.18),rgba(255,255,255,.04) 70%);box-shadow:inset 0 0 0 6px rgba(255,255,255,.12),0 0 0 1px rgba(255,255,255,.18);text-align:center}
-.fz-dv{align-content:center;gap:4px}.fz-dv b{font-size:32px;letter-spacing:-.02em;line-height:1}.fz-dv span{font-size:12.5px;opacity:.75}
-.fz-qd{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
-.fz-qd .fz-dur{flex:1;min-width:0;padding:8px 4px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:13px}
-.fz-qd .fz-dur.on{background:#fff;color:#4c1d95;border-color:#fff}
-.fz-main .fz-start{margin-top:0;background:linear-gradient(135deg,#facc15,#f97316);color:#3b0764;box-shadow:0 12px 26px -10px rgba(249,115,22,.75);font-size:17px}
-.fz-main .fz-start span{margin-right:4px}.fz-main .fz-start.off{background:rgba(255,255,255,.25);color:rgba(255,255,255,.8);box-shadow:none}
-.fz-main .fz-fl{color:rgba(255,255,255,.8)}
-.fz-blk{padding:14px 16px}
-.fz-bh{display:flex;justify-content:space-between;align-items:center;gap:10px}.fz-bh b{font-size:16px;display:block}.fz-bh small{color:var(--muted,#6b7280);font-size:12.5px}
-.fz-edit{border:0;background:#f3e8ff;color:#6d28d9;border-radius:99px;padding:8px 16px;font:700 13.5px Inter,system-ui,sans-serif;cursor:pointer}
-.fz-chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
-.fz-chip{display:inline-flex;align-items:center;gap:6px;background:#f5f3ff;border:1px solid #e9d5ff;color:#4c1d95;border-radius:99px;padding:6px 11px;font-size:13px;font-weight:600}.fz-chip i{font-style:normal}
-.fz-blk .fz-apps{margin-top:12px}
-.fz-sw2{margin-top:12px;padding-top:12px;border-top:1px solid var(--line,#eef0f4)}
-#fzRoot .fz-setup{border:0;background:linear-gradient(180deg,#fff7ed,#fff);box-shadow:0 0 0 1.5px #fed7aa inset}
-#fzRoot .fz-run{border-radius:26px;background:radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.15),rgba(255,255,255,0) 50%),linear-gradient(160deg,#1e1b4b,#4c1d95 60%,#86198f)}
-#fzRoot .fz-ring .fg{stroke:url(#fzG);stroke:#facc15}
-html[data-dark] .fz-chip{background:#2e1065;border-color:#4c1d95;color:#e9d5ff}html[data-dark] .fz-edit{background:#2e1065;color:#e9d5ff}
-
-</style><script id="sf-fz-js">
-/* StudyStarx Focus Lock — clean phone screen (Regain-style): set up once, tap apps, pick a time, start.
-   In the browser it only tidies the page (extra options folded away). */
-(function(){
-var $=function(s,r){return(r||document).querySelector(s)};
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function N(){return window.SFNative||null}
-function J(f,d){try{var v=f();return v?JSON.parse(v):d}catch(e){return d}}
-function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
-function tst(m){try{toast(m)}catch(e){}}
-function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
-var APPS=[['youtube','YouTube','▶️',['youtube']],['instagram','Instagram','📸',['instagram']],['tiktok','TikTok','🎵',['tiktok']],['snapchat','Snapchat','👻',['snapchat']],['whatsapp','WhatsApp','💬',['whatsapp']],['facebook','Facebook','📘',['facebook','katana']],['x','X / Twitter','✖️',['twitter','x']],['reddit','Reddit','👽',['reddit']],['netflix','Netflix','🎬',['netflix']],['hotstar','Hotstar','⭐',['hotstar']],['prime','Prime Video','📺',['primevideo','avod']],['discord','Discord','🎮',['discord']],['telegram','Telegram','✈️',['telegram']],['pinterest','Pinterest','📌',['pinterest']],['spotify','Spotify','🎧',['spotify']],['threads','Threads','🧵',['threads','barcelona']],['bgmi','BGMI','🔫',['pubg','bgmi','imobile']],['freefire','Free Fire','🔥',['freefire','dts.freefire']],['codm','Call of Duty','🎯',['callofduty']],['roblox','Roblox','🧱',['roblox']],['minecraft','Minecraft','⛏️',['minecraft']],['clash','Clash of Clans','🏰',['clashofclans']],['mxplayer','MX Player','🎞️',['mxtech']],['chrome','Chrome','🌐',['com.android.chrome']]];
-var DURS=[25,45,60,90,120];
-var st={sel:null,mins:+(ls('fz-mins')||60),strict:false,guard:false,inst:null,popup:ls('fz-popup')==='1'};
-function sel(){if(!st.sel){var s=J(function(){return ls('fz-sel')},null);st.sel=new Set(Array.isArray(s)?s:['youtube','instagram'])}return st.sel}
-function saveSel(){ls('fz-sel',JSON.stringify(Array.from(sel())))}
-function perms(){var n=N();if(!n||!n.permState)return null;return J(function(){return n.permState()},null)}
-function info(){var n=N();if(!n||!n.lockInfo)return{until:0};return J(function(){return n.lockInfo()},{until:0})}
-function installed(){if(st.inst)return st.inst;var n=N();if(!n||!n.installed)return null;var q={};APPS.forEach(function(a){q[a[0]]=a[3]});st.inst=J(function(){return n.installed(JSON.stringify(q))},null);return st.inst}
-function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0')}
-function durLabel(m){return m<60?m+' min':m%60?Math.floor(m/60)+'h '+m%60+'m':m/60+(m===60?' hour':' hours')}
-
-/* ---------- phone screen ---------- */
-function root(){var pg=$('#page-focuslock');if(!pg)return null;var r=$('#fzRoot');if(!r){r=document.createElement('div');r.id='fzRoot';pg.insertBefore(r,pg.firstChild);r.addEventListener('click',onClick);document.body.classList.add('fz-app')}return r}
-function steps(p){var L=[['usage','📊','Allow usage access','Find StudyStarx in the list and switch it on. This lets StudyStarx notice when a blocked app opens.',p.usage],['overlay','🪟','Allow display over other apps','Switch it on, so the “Stay focused” screen can cover a blocked app.',p.overlay]];
- if(p.xiaomi)L.push(['popup','📱','Allow pop-up windows','On Xiaomi / Redmi / POCO: tap “Other permissions”, then allow “Display pop-up windows while running in the background”.',st.popup]);
- L.push(['acc','⚡','Instant blocking','Best for no delay at all. In Accessibility, switch on “StudyStarx Focus Lock”. Greyed out? In App info tap ⋮ › “Allow restricted settings” first.',p.acc,1]);
- L.push(['battery','🔋','Keep blocking switched on','Tap Allow so your phone never switches the lock off.',p.battery,1]);return L}
-function draw(){var r=root();if(!r)return;var n=N(),p=perms(),li=info(),now=Date.now();
- if(li.until>now){drawRun(r,li,p);return}
- var html='<div class="fz-hero"><div class="fz-ht"><h1>Focus Lock</h1><p>Lock away distracting apps and get real work done.</p></div><div class="fz-hi"><span>🔒</span></div></div>';
- if(!p||!(p.v>=6)){html+='<div class="fz-card fz-upd"><b>Update the StudyStarx app</b><p>The new version blocks apps much more reliably. Download it and install it over this one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';r.innerHTML=html+mainCard(false);return}
- var S=steps(p),need=S.filter(function(x){return!x[5]}),done=need.filter(function(x){return x[4]}).length,ready=p.usage&&p.overlay&&(!p.xiaomi||st.popup);
- var setup='';if(!ready||!p.battery||(!p.acc&&ls('fz-acc-skip')!=='1')){setup+='<div class="fz-card fz-setup'+(ready?' fz-mini':'')+'" id="fzSetup"><div class="fz-sh"><b>'+(ready?'Make blocking stronger':'Set up blocking')+'</b><span>'+(ready?'optional':done+' of '+need.length+' done')+'</span></div>'+(ready?'':'<div class="fz-prog"><i style="width:'+Math.round(done/need.length*100)+'%"></i></div>')+
-  S.filter(function(x){return!ready||!x[4]}).map(function(x,i){return'<div class="fz-step'+(x[4]?' ok':'')+'"><span class="fz-si">'+(x[4]?'✓':x[1])+'</span><div><b>'+esc(x[2])+(x[5]?' <em>recommended</em>':'')+'</b><small>'+esc(x[3])+'</small></div>'+(x[4]?'<span class="fz-done">Done</span>':'<button type="button" class="fz-allow" data-fz="perm" data-k="'+x[0]+'">Allow</button>')+'</div>'}).join('')+
-  (ready&&!p.acc?'<button type="button" class="fz-skip" data-fz="skipacc">Hide these tips</button>':'')+(ready?'':'<p class="fz-fine">🔐 StudyStarx only sees which app is open — never what’s on your screen.</p>')+'</div>'}
- r.innerHTML=html+mainCard(ready)+setup}
-function mainCard(ready){var inst=installed(),s=sel(),li=info();
- var list=APPS.filter(function(a){return!inst||inst[a[0]]||s.has(a[0])});var extra=li.chosen||0;
- var chosen=APPS.filter(function(a){return s.has(a[0])});var open=ls('fz-edit')==='1'||!chosen.length;
- var ix=DURS.indexOf(st.mins);
- return'<div class="fz-main">'+
-  '<div class="fz-dial"><button type="button" class="fz-pm" data-fz="dmin" aria-label="Less time">−</button><div class="fz-dv"><b>'+durLabel(st.mins)+'</b><span>focus time</span></div><button type="button" class="fz-pm" data-fz="dplus" aria-label="More time">+</button></div>'+
-  '<div class="fz-qd">'+DURS.map(function(m){return'<button type="button" class="fz-dur'+(m===st.mins?' on':'')+'" data-fz="dur" data-m="'+m+'">'+durLabel(m)+'</button>'}).join('')+'</div>'+
-  '<button type="button" class="fz-start'+(ready?'':' off')+'" data-fz="start"><span>🔒</span> Start Focus Lock</button>'+(ready?'':'<p class="fz-fine fz-fl">Finish the quick setup below to start.</p>')+
- '</div>'+
- '<div class="fz-card fz-blk"><div class="fz-bh"><div><b>Apps to block</b><small>'+(chosen.length||extra?(chosen.length+extra)+' app'+((chosen.length+extra)===1?'':'s')+' will be blocked':'Pick at least one app')+'</small></div><button type="button" class="fz-edit" data-fz="edit">'+(open?'Done':'Change')+'</button></div>'+
- (open?'<div class="fz-apps">'+list.map(function(a){var on=s.has(a[0]);return'<button type="button" class="fz-app'+(on?' on':'')+'" data-fz="app" data-k="'+a[0]+'" aria-pressed="'+on+'"><span class="fz-ai">'+a[2]+'</span><span class="fz-an">'+esc(a[1])+'</span>'+(on?'<span class="fz-ck">✓</span>':'')+'</button>'}).join('')+'</div><button type="button" class="fz-more-apps" data-fz="pick">＋ Other apps on my phone'+(extra?' <b>('+extra+')</b>':'')+'</button>':
-  '<div class="fz-chips">'+chosen.slice(0,8).map(function(a){return'<span class="fz-chip"><i>'+a[2]+'</i>'+esc(a[1])+'</span>'}).join('')+(chosen.length>8?'<span class="fz-chip">+'+(chosen.length-8)+'</span>':'')+(extra?'<span class="fz-chip">+'+extra+' more</span>':'')+'</div>')+
- '<label class="fz-sw fz-sw2"><span><b>Strict mode</b><small>No stopping early</small></span><input type="checkbox" id="fzStrict"'+(st.strict?' checked':'')+'><i></i></label>'+
- '</div>'}
-function drawRun(r,li,p){var n=N();if(p&&p.v>=6&&p.usage&&p.overlay&&!p.watch&&n.ensureWatch){try{n.ensureWatch()}catch(_){}}
- var warn='';if(!p||!(p.v>=6))warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked</b><p>This version of the app can’t block reliably. Install the new one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';
- else if(!p.usage||!p.overlay)warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked yet</b><p>Two permissions are needed. Tap each one, switch StudyStarx on, and come back.</p>'+(p.usage?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="usage">Allow usage access</button> ')+(p.overlay?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="overlay">Allow display over other apps</button>')+'</div>';
- else if(p.watch)warn='<div class="fz-okb">✅ Blocking is active'+(p.blocks?' · blocked '+p.blocks+' time'+(p.blocks>1?'s':''):'')+'</div>';
- else warn='<div class="fz-warn"><b>Starting the blocker…</b><p>If this stays for more than a few seconds, allow “Keep blocking switched on”.</p><button type="button" class="fz-allow" data-fz="perm" data-k="battery">Allow</button></div>';var left=li.until-Date.now(),tot=+(ls('fz-total')||0)||Math.max(left,1),pc=Math.max(0,Math.min(1,left/tot)),C=2*Math.PI*88;
- var end=new Date(li.until).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});var apps=(li.apps||[]).slice(0,12);
- r.innerHTML=warn+'<div class="fz-run"><div class="fz-ring"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="88" class="bg"/><circle cx="100" cy="100" r="88" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc)).toFixed(1)+'"/></svg><div class="fz-rt"><b id="fzLeft">'+fmt(left)+'</b><span>until '+esc(end)+'</span></div></div>'+
- '<h2>Stay focused 🌱</h2><p>'+(apps.length?'These apps are blocked:':'Your chosen apps are blocked.')+'</p><div class="fz-tags">'+apps.map(function(a){return'<span>'+esc(a)+'</span>'}).join('')+'</div>'+
- (li.strict?'<p class="fz-strict">🔐 Strict mode — the lock ends by itself at '+esc(end)+'.</p>':'<button type="button" class="fz-stop" data-fz="stop">Stop the lock</button>')+'</div>'}
-function onClick(e){var _b=e&&e.target&&e.target.closest?e.target.closest('[data-fz]'):null;if(_b){var _k=_b.dataset.fz;if(_k==='edit'){readOpts();ls('fz-edit',ls('fz-edit')==='1'?'0':'1');draw();return}if(_k==='dmin'||_k==='dplus'){var _L=[15,25,30,45,60,90,120,180],_i=_L.indexOf(st.mins);if(_i<0){_i=0;for(var _q=0;_q<_L.length;_q++)if(_L[_q]<=st.mins)_i=_q}_i=Math.max(0,Math.min(_L.length-1,_i+(_k==='dplus'?1:-1)));st.mins=_L[_i];ls('fz-mins',st.mins);readOpts();draw();return}if(_k==='edit')readOpts();}var b=e.target.closest('[data-fz]');if(!b)return;var k=b.dataset.fz,n=N();
- if(k==='skipacc'){ls('fz-acc-skip','1');draw();return}
- if(k==='perm'){if(b.dataset.k==='popup'){st.popup=true;ls('fz-popup','1')}try{n.openPerm(b.dataset.k)}catch(_){}return}
- if(k==='app'){var s=sel();s.has(b.dataset.k)?s.delete(b.dataset.k):s.add(b.dataset.k);saveSel();draw();return}
- if(k==='pick'){try{n.openBlocker()}catch(_){}return}
- if(k==='dur'){st.mins=+b.dataset.m;ls('fz-mins',st.mins);readOpts();draw();return}
- if(k==='custom'){var v=prompt('How many minutes? (5 – 720)',String(st.mins));v=Math.round(+v);if(v>=5&&v<=720){st.mins=v;ls('fz-mins',v);readOpts();draw()}return}
- if(k==='start'){readOpts();start(b);return}
- if(k==='stop'){if(!confirm('Stop the focus lock now?'))return;try{n.stopBlock()}catch(_){}setTimeout(draw,200);return}}
-function readOpts(){var a=$('#fzStrict'),g=$('#fzGuard');if(a)st.strict=a.checked;if(g)st.guard=g.checked}
-function start(b){var n=N(),p=perms();
- if(b.classList.contains('off')){var su=$('#fzSetup');if(su){su.classList.remove('fz-shake');void su.offsetWidth;su.classList.add('fz-shake');su.scrollIntoView({behavior:'smooth',block:'center'})}else tst('Update the app first.');return}
- var s=sel(),li=info();if(!s.size&&!(li.chosen>0)){tst('Tap at least one app to block.');return}
- if(st.guard&&!plus()){try{if(window.sfPlusGate)sfPlusGate('Uninstall protection','guard');else go('premium')}catch(_){}return}
- var words=[];APPS.forEach(function(a){if(s.has(a[0]))words=words.concat(a[3])});
- if(st.strict&&!confirm('Strict mode: you will NOT be able to stop this lock for '+durLabel(st.mins)+'. Start?'))return;
- try{if(n.startBlockNames)n.startBlockNames(st.mins,JSON.stringify(words),!!st.strict);else n.startBlock(st.mins)}catch(_){}
- if(st.guard&&n.guardOn&&!n.guardOn()&&n.askGuard)try{n.askGuard()}catch(_){}
- ls('fz-total',String(st.mins*60000));
- try{var F=data.flock||(data.flock={locks:[],extra:[]});F.locks=(F.locks||[]).filter(function(l){return l.until>Date.now()});APPS.forEach(function(a){if(s.has(a[0]))F.locks.push({key:a[0],label:a[1],until:Date.now()+st.mins*60000,strict:st.strict})});persist()}catch(_){}
- try{window.sfConfetti&&sfConfetti()}catch(_){}
- setTimeout(draw,250)}
-var tick=null;function loop(){clearInterval(tick);tick=setInterval(function(){var pg=$('#page-focuslock');if(!pg||!pg.classList.contains('active'))return;var li=info();var el=$('#fzLeft');if(li.until>Date.now()){if(el)el.textContent=fmt(li.until-Date.now());else draw();if(Date.now()%10000<1000)draw()}else if(el)draw()},1000)}
-
-/* ---------- browser page: fold the extras away ---------- */
-function tidyWeb(){var pg=$('#page-focuslock');if(!pg||pg.dataset.fzw)return;var opts=$('.fl-opts',pg);if(!opts)return;pg.dataset.fzw=1;document.body.classList.add('fz-web');
- var d=document.createElement('details');d.className='fz-wmore';d.innerHTML='<summary>More options</summary>';['flPomo','flEdu','flGuard'].forEach(function(id){var i=document.getElementById(id);var l=i&&i.closest('label');if(l)d.appendChild(l)});opts.appendChild(d);
- var h=opts.previousElementSibling;if(h&&h.classList.contains('fl-step')){var t=h.querySelector('h2');if(t)t.textContent='Strict lock?'}
- var moveSched=function(){var sc=$('#ppSched');if(!sc||sc.dataset.fzw)return;sc.dataset.fzw=1;var w=document.createElement('details');w.className='card fz-wsched';w.innerHTML='<summary>📅 Weekly schedules <span>Lock automatically at the same time each week</span></summary>';sc.parentNode.insertBefore(w,sc);w.appendChild(sc)};moveSched();setTimeout(moveSched,1500);setTimeout(moveSched,4000)}
-
-function boot(){if(N()){draw();loop()}else tidyWeb()}
-document.addEventListener('visibilitychange',function(){if(!document.hidden&&N()){st.inst=null;draw()}});
-window.addEventListener('focus',function(){if(N())draw()});
-if(typeof window.go==='function'&&!window.go.__fz){var og=window.go,w=function(p){var r=og.apply(this,arguments);if(p==='focuslock')setTimeout(boot,30);return r};w.__fz=1;for(var k in og)try{w[k]=og[k]}catch(e){}window.go=w}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,400)});else setTimeout(boot,400);
-setTimeout(boot,2000);
-window.sfFocusLockDraw=draw;
 })();
 
 </script><style id="sf-ep-css">
@@ -12387,5 +11736,721 @@ setTimeout(boot,1500);setTimeout(boot,4000);
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('#epBox')&&!$('#epBox').hidden&&!ST.busy)close()});
 })();
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('#epBox [data-goto]');if(a){e.preventDefault();var b=document.getElementById('epBox');if(b)b.hidden=true;document.body.classList.remove('ep-open');try{go(a.dataset.goto)}catch(_){}}},true);
+
+</script><style id="sf-cx-css">
+#chatForm{position:relative}
+.cx-clip{flex:0 0 auto;width:40px;height:40px;border-radius:12px;border:1px solid var(--line,#e4e7ee);background:var(--card,#fff);color:var(--p,#4338ca);display:grid;place-items:center;cursor:pointer;align-self:flex-end;transition:transform .15s,background .15s}
+.cx-clip:hover{background:var(--pale,#eef0ff);transform:translateY(-1px)}
+.cx-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
+.cx-chips:empty{display:none}
+.cx-chip{display:inline-flex;align-items:center;gap:6px;background:var(--pale,#eef0ff);color:var(--ink,#25243b);border-radius:999px;padding:4px 6px 4px 10px;font-size:12.5px;max-width:100%;animation:cxIn .25s ease}
+.cx-chip button{border:0;background:rgba(0,0,0,.08);width:20px;height:20px;border-radius:50%;cursor:pointer;line-height:1;color:inherit}
+.cx-left{font-size:12px;color:var(--muted,#777891);align-self:center}
+.chatbox.cx-drop{outline:2px dashed var(--p,#4338ca);outline-offset:-6px}
+.cx-body{white-space:pre-wrap}
+.cx-fig{margin:10px 0;background:#fff;border:1px solid var(--line,#e4e7ee);border-radius:14px;padding:10px;max-width:440px}
+.cx-fig img{display:block;width:100%;height:auto}
+.cx-fig figcaption{font-size:12px;color:#777891;margin-top:6px;white-space:normal}
+.cx-file{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0;padding:12px;border:1px solid var(--line,#e4e7ee);border-radius:14px;background:var(--card,#fff);white-space:normal;max-width:480px}
+.cx-fi{font-size:24px}.cx-fm{flex:1;min-width:140px}.cx-fm b{display:block;font-size:14px;word-break:break-all}.cx-fm small{color:var(--muted,#777891)}
+.cx-dl,.cx-pv{border:1px solid var(--line,#e4e7ee);background:var(--card,#fff);color:var(--p,#4338ca);border-radius:10px;padding:6px 10px;font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
+.cx-file .cx-dl{background:var(--p,#4338ca);color:#fff;border-color:transparent}
+.cx-fig .cx-dl{padding:2px 8px}
+.cx-pre{flex-basis:100%;max-height:260px;overflow:auto;background:var(--bg,#f7f7fc);border-radius:10px;padding:10px;font:12.5px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;margin:0}
+.cx-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#25243b;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:99999;transition:.25s}
+.cx-toast.in{opacity:1;transform:translate(-50%,0)}
+@keyframes cxIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.mm-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line,#e5e7eb);background:var(--card,#fff);font-size:20px;cursor:pointer;flex:none;margin-right:6px}
+.mm-ov{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center}.mm-ov[hidden]{display:none}
+.mm-box{background:var(--card,#fff);color:var(--ink,#1f2937);width:100%;max-width:520px;max-height:85vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));box-sizing:border-box}
+@media(min-width:701px){.mm-ov{align-items:center}.mm-box{border-radius:22px}}
+.mm-hd{display:flex;justify-content:space-between;align-items:center}.mm-hd b{font-size:17px}
+.mm-x{border:0;background:#6d28d9;color:#fff;border-radius:99px;padding:8px 18px;font:700 14px Inter,system-ui,sans-serif;cursor:pointer}
+.mm-sub,.mm-empty{color:var(--muted,#6b7280);font-size:13.5px;margin:8px 0 12px}
+.mm-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}.mm-list li{display:flex;gap:10px;align-items:center;border:1px solid var(--line,#e7e8ef);border-radius:14px;padding:10px 12px;font-size:14px}.mm-list li span{flex:1}
+.mm-list li button{border:0;background:#fef2f2;color:#b91c1c;border-radius:10px;width:30px;height:30px;cursor:pointer}
+.mm-add{display:flex;gap:8px;margin-top:12px}.mm-add input{flex:1;min-width:0;border:1.5px solid var(--line,#e5e7eb);border-radius:12px;padding:10px 12px;font:15px Inter,system-ui,sans-serif;background:var(--card,#fff);color:inherit}.mm-add button{border:0;border-radius:12px;padding:0 16px;font-weight:700;background:#4f46e5;color:#fff;cursor:pointer}
+/* coach header: everything fits on a phone */
+@media(max-width:700px){
+ #page-coach .chathead{flex-wrap:wrap!important;row-gap:10px;column-gap:8px}
+ #page-coach .chathead>.logo{flex:none}
+ #page-coach .chathead>.logo+div{flex:1 1 calc(100% - 70px)!important;min-width:0}
+ #page-coach .chathead .ep-hb{margin-left:auto!important}
+ #page-coach .chathead .ep-hb{margin-left:0!important;margin-right:0!important}
+ #page-coach .chathead #mmBtn{width:40px;height:40px;margin-right:0}
+ #page-coach .chathead #clearChat{margin-left:auto!important;white-space:nowrap;flex:none}
+}
+
+</style><script id="sf-cx-js">
+/* ===== AI Coach v3: attach files, AI-made files, diagrams, syllabus reminder, clearer answers ===== */
+(function(){
+function $(s,r){return(r||document).querySelector(s)}
+function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var LIM={free:{att:3,make:2},plus:{att:40,make:40}};
+function lim(){return LIM[plus()?'plus':'free']}
+function day(){return new Date().toLocaleDateString('en-CA')}
+function use(){var u;try{u=JSON.parse(localStorage.getItem('sfCoachUse')||'{}')}catch(e){u={}}if(u.d!==day())u={d:day(),att:0,make:0};return u}
+function setUse(u){try{localStorage.setItem('sfCoachUse',JSON.stringify(u))}catch(e){}}
+function gate(t,w){if(window.sfPlusGate)sfPlusGate(t,w);else try{go('premium')}catch(e){}}
+
+/* ---------- attach files ---------- */
+var pending=[];
+function install(){
+ var form=$('#chatForm');if(!form||form.dataset.cx)return;form.dataset.cx='1';
+ var inp=document.createElement('input');inp.type='file';inp.id='cxFile';inp.multiple=true;inp.hidden=true;
+ inp.accept='application/pdf,image/png,image/jpeg,image/webp,.txt,.md,text/plain';
+ var btn=document.createElement('button');btn.type='button';btn.className='cx-clip';btn.title='Attach a file (PDF, photo or text)';btn.setAttribute('aria-label','Attach a file');
+ btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5 12.6 21a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.7 3.7 0 0 1 5.2 5.2l-8.5 8.5a1.8 1.8 0 0 1-2.6-2.6l7.8-7.8"/></svg>';
+ var chips=document.createElement('div');chips.className='cx-chips';chips.id='cxChips';
+ form.insertBefore(btn,form.firstChild);form.appendChild(inp);form.after(chips);
+ btn.onclick=function(){var u=use(),L=lim();if(u.att+pending.length>=L.att){gate('Attach more files','Free accounts can attach '+LIM.free.att+' files a day. StudyStarx Plus lets you attach up to '+LIM.plus.att+' files a day.');return}inp.click()};
+ inp.onchange=function(){[].slice.call(inp.files||[]).forEach(add);inp.value=''};
+ chips.addEventListener('click',function(e){var x=e.target.closest('[data-cxrm]');if(!x)return;pending.splice(+x.dataset.cxrm,1);drawChips()});
+ // drag and drop onto the chat
+ var box=form.closest('.chatbox')||form;
+ box.addEventListener('dragover',function(e){if(e.dataTransfer&&[].slice.call(e.dataTransfer.types||[]).indexOf('Files')>-1){e.preventDefault();box.classList.add('cx-drop')}});
+ box.addEventListener('dragleave',function(){box.classList.remove('cx-drop')});
+ box.addEventListener('drop',function(e){if(!e.dataTransfer||!e.dataTransfer.files.length)return;e.preventDefault();box.classList.remove('cx-drop');[].slice.call(e.dataTransfer.files).forEach(function(f){var u=use();if(u.att+pending.length>=lim().att){gate('Attach more files','Free accounts can attach '+LIM.free.att+' files a day. Plus lets you attach up to '+LIM.plus.att+'.');return}add(f)})});
+}
+function add(f){
+ if(pending.length>=4){toast('You can attach up to 4 files at once.');return}
+ var okType=/^(application\/pdf|image\/(png|jpe?g|webp)|text\/plain)$/.test(f.type)||/\.(txt|md)$/i.test(f.name);
+ if(!okType){toast('Use a PDF, a photo (PNG/JPG) or a text file.');return}
+ if(f.size>2200000){toast(f.name+' is too big. Use a file under 2 MB.');return}
+ var r=new FileReader();r.onload=function(){var d=String(r.result||'');var b64=d.slice(d.indexOf(',')+1);pending.push({name:f.name,mimeType:/\.(txt|md)$/i.test(f.name)||!f.type?'text/plain':f.type,data:b64});drawChips()};r.readAsDataURL(f);
+}
+function drawChips(){var c=$('#cxChips');if(!c)return;c.innerHTML=pending.map(function(p,i){return'<span class="cx-chip">'+(/pdf/.test(p.mimeType)?'📄':/image/.test(p.mimeType)?'🖼️':'📝')+' '+esc(p.name)+'<button type="button" data-cxrm="'+i+'" aria-label="Remove">×</button></span>'}).join('');var u=use(),L=lim();if(pending.length)c.insertAdjacentHTML('beforeend','<span class="cx-left">'+Math.max(0,L.att-u.att-pending.length)+' attachments left today</span>')}
+function toast(t){var d=document.createElement('div');d.className='cx-toast';d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.classList.add('in')},10);setTimeout(function(){d.remove()},3200)}
+window.sfCoachAttNames=function(){return pending.length?'\n📎 '+pending.map(function(p){return p.name}).join(', '):''};
+
+/* ---------- system prompt ---------- */
+function profileLine(){
+ var p={};try{p=data.profile||{}}catch(e){}
+ var bits=[];if(p.role&&p.role!=='student')bits.push('The user is a '+p.role+(p.child?' (child: '+p.child+')':'')+'.');
+ if(p.grade)bits.push('Grade/level: '+p.grade+'.');if(p.board||p.syllabus)bits.push('Syllabus/board: '+(p.board||p.syllabus)+'.');
+ if(p.subjects&&p.subjects.length)bits.push('Subjects they study: '+p.subjects.join(', ')+'.');
+ if(p.hardest)bits.push('Finds hardest: '+p.hardest+'.');
+ return bits.join(' ');
+}
+function syl(){var p={};try{p=data.profile||{}}catch(e){}var b=[p.board||p.syllabus,p.grade].filter(Boolean).join(' ');var sub=(p.subjects||[]).join(', ');return b?b+' course':''}
+/* ---------- long-term memory: the coach remembers what the student tells it ---------- */
+function memList(){try{if(!Array.isArray(data.memory))data.memory=[];return data.memory}catch(e){return[]}}
+function memAdd(t){t=String(t||'').replace(/\s+/g,' ').trim().replace(/^[-•*]\s*/,'').slice(0,160);if(t.length<3)return;var L=memList(),k=t.toLowerCase().replace(/[^a-z0-9 ]/g,'');for(var i=0;i<L.length;i++){var o=String(L[i].t||'').toLowerCase().replace(/[^a-z0-9 ]/g,'');if(o===k||(k.length>12&&(o.indexOf(k)>=0||k.indexOf(o)>=0))){L[i]={t:t.length>=String(L[i].t).length?t:L[i].t,d:Date.now()};return}}L.push({t:t,d:Date.now()});while(L.length>80)L.shift()}
+function memArchive(){try{var c=data.chat||[];if(!c.length)return;if(!Array.isArray(data.chatArchive))data.chatArchive=[];c.forEach(function(m){if(m&&m.role==='user')data.chatArchive.push({t:String(m.content||'').slice(0,240),d:Date.now()})});while(data.chatArchive.length>200)data.chatArchive.shift();if(typeof persist==='function')persist()}catch(e){}}
+document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#clearChat'))memArchive()},true);
+window.sfCoachMemory={list:memList,add:function(t){memAdd(t);try{persist()}catch(e){}},forget:function(i){var L=memList();L.splice(i,1);try{persist()}catch(e){}}};
+function memBlock(){var L=memList(),A=[];try{A=(data.chatArchive||[]).slice(-25)}catch(e){}
+ var out='MEMORY (very important): you remember this student across all chats, like a real tutor who knows them.';
+ out+=L.length?'\nThings the student has told you before:\n'+L.map(function(m){return'- '+m.t}).join('\n'):'\nYou do not know anything extra about them yet.';
+ if(A.length)out+='\nThings they asked about in earlier chats (oldest first):\n'+A.map(function(m){return'- '+String(m.t).replace(/\s+/g,' ').slice(0,140)}).join('\n');
+ out+='\nUse these naturally when they help (e.g. their exam dates, weak topics, goals, likes, how they like things explained). Never say you cannot remember earlier chats. If they ask what you remember, tell them.\nSAVING NEW MEMORIES: whenever the student tells you something lasting about themselves or their studies (name, class, school, exam dates, goals, weak or strong topics, what they find hard, how they like answers, their timetable, or anything they ask you to remember), add it at the very END of your reply on its own line exactly like: [[remember: short fact in third person]] — one line per fact, max 3. Do not mention these lines in your answer. Do not save one-off questions or things already listed above.';
+ return out}
+function memStrip(reply){return String(reply||'').replace(/\[\[\s*remember\s*:\s*([^\]]{2,220})\]\]\s*/gi,function(_,f){memAdd(f);return''}).replace(/\n{3,}/g,'\n\n').trim()}
+function system(){
+ var lv=($('#coachLevel')||{}).value||'',sub=($('#coachSubject')||{}).value||'';
+ var brief='';try{brief=window.sfCoachBrief?sfCoachBrief():''}catch(e){}
+ var u=use(),L=lim(),canMake=u.make<L.make;
+ return [
+ 'You are StudyStarx Coach, a kind, patient school tutor (IGCSE, Cambridge AS/A Level, IB Diploma, CBSE/ICSE and similar).',
+ memBlock(),
+ 'STUDENT: '+(profileLine()||'No survey yet.')+(lv?' Coach setting level: '+lv+'.':'')+(sub&&sub!=='General'?' Current subject: '+sub+'.':''),
+ 'CONVERSATION (very important): this is an ongoing chat. Read the earlier messages before answering. If the student says things like "why?", "I don\'t get it", "explain step 2", "give another example", "what about the second one", "and in real life?" or uses words like "this/that/it", they mean the topic of your previous answer — continue from it, do not start a new topic and do not ask what they mean if it is clear from the chat. If they say they don\'t understand, explain the same idea again in a simpler, different way (new analogy, smaller steps).',
+ 'GREETINGS AND SMALL TALK: if the student just says hi, hello, thanks, ok, bye or chats casually, reply in 1–2 friendly sentences like a real person (use their name), and ask what they want to study today. Do NOT use steps, "Final answer", "Quick check" or a syllabus note for these.\nUNDERSTAND THE REAL NEED: before answering, silently work out what the student actually wants (a definition, a step-by-step solution, a check of their own answer, exam technique, motivation, or reassurance). If they sound stressed or stuck, start with one short encouraging sentence. If the question is genuinely unclear even with the chat history, ask ONE short clarifying question instead of guessing.',
+ 'MAKE IT EASY TO UNDERSTAND:',
+ '- Start with a 1–2 sentence direct answer in plain words, like you are talking to a friend.',
+ '- Then explain in short numbered steps. One idea per step. Short sentences. No long paragraphs.',
+ '- Explain every technical word the first time you use it, in brackets.',
+ '- Give one everyday example or comparison that makes the idea click.',
+ '- For maths/science: show every step of working on its own line, say WHY each step is done, and box the final answer as "Final answer: ...".',
+ '- Use plain text. Do NOT use LaTeX, $ signs or markdown tables. Write maths like: x^2 + 3x = 10, √16 = 4, 3/4.',
+ '- End with "Quick check:" and one short question so the student can test themselves.',
+ '- Match the student\'s level. If they say they don\'t understand, explain again more simply in a different way.',
+ 'SYLLABUS CHECK (do this for every new question): compare the question with the STUDENT details above (their syllabus/board, grade and subjects). If the topic is clearly outside them — a subject they do not take, a topic from a different syllabus, or work well above their grade (e.g. university level) — start your reply with exactly one line: "📌 Heads up: this isn\'t part of your '+(syl()||'syllabus')+' — I\'ll still explain it." Then answer normally, at their level. Do not add this line for follow-up questions on a topic you already flagged, for general study skills, or when it is part of their course or you are not sure.',
+ 'DIAGRAMS: When a diagram, graph, number line, triangle, circuit, cell, force diagram or table-like picture would really help (especially in maths and science), draw it as a simple SVG inside a fenced block that starts with ```svg and ends with ```. Rules: one <svg> with viewBox (about 0 0 360 240) and xmlns="http://www.w3.org/2000/svg", white background rect, clear labels with font-size 13+, simple lines and shapes only, no scripts, no images, no external links. Keep it small and correct. Then explain the diagram in words.',
+ canMake?'FILES: If the user asks you to make a file (notes, a worksheet, a summary sheet, a revision plan, flashcards list, a CSV table), put the whole file content inside a fenced block that starts with ```file:NAME.EXT (EXT is md, txt or csv) and ends with ```. Make only one file unless asked for more. Outside the block, say in one line what the file contains.':
+ 'FILES: The user has used today\'s file-making allowance. If they ask you to make a file, answer in the chat instead and say: "You have used today\'s free file creations — StudyStarx Plus lets you make more files."',
+ 'If files are attached, read them carefully and answer about them. Be honest when unsure; never invent official mark schemes.',
+ brief
+ ].filter(Boolean).join('\n');
+}
+window.sfCoachPrep=function(question){
+ var hist=[];try{var all_=(data.chat||[]).slice(-24),n_=all_.length;hist=all_.map(function(m,k){var c=String(m.content||'').replace(/```(svg|file:[^\n]*)[\s\S]*?```/g,'[$1 shown]').replace(/\n{3,}/g,'\n\n');/* recent turns in full, older turns shortened: keeps the conversation but uses far fewer tokens */var cap=k>=n_-4?2000:500;return{role:m.role,content:c.length>cap?c.slice(0,cap)+'…':c}})}catch(e){}
+ var files=pending.map(function(p){return{mimeType:p.mimeType,data:p.data}});
+ if(files.length){var u=use();u.att+=files.length;setUse(u)}
+ pending=[];drawChips();
+ return{system:system(),messages:hist,user:question,files:files,allowSearchFallback:!files.length,maxTokens:4000};
+};
+window.sfCoachAfter=function(reply){
+ reply=memStrip(reply);try{persist()}catch(e){}var u=use(),L=lim(),n=0;
+ reply=reply.replace(/```file:[^\n]*\n[\s\S]*?```/g,function(m){if(u.make<L.make){u.make++;n++;return m}return'[File not created — you have used today\'s '+L.make+' free file creations. StudyStarx Plus lets you make up to '+LIM.plus.make+' files a day.]'});
+ setUse(u);return reply;
+};
+
+/* ---------- render diagrams and files inside answers ---------- */
+function cleanSvg(src){
+ var s=String(src||'').trim();var a=s.indexOf('<svg'),b=s.lastIndexOf('</svg>');if(a<0||b<0)return'';s=s.slice(a,b+6);
+ s=s.replace(/<(script|foreignObject|iframe|image|use)[\s\S]*?(<\/\1>|\/>)/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,'').replace(/(href|xlink:href)\s*=\s*("[^"]*"|'[^']*')/gi,'');
+ if(!/xmlns=/.test(s))s=s.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');
+ return s;
+}
+var RX=/```(svg|file:([^\n`]*))\n?([\s\S]*?)```/g;
+function decorate(){
+ var m=$('#messages');if(!m)return;
+ [].slice.call(m.querySelectorAll('.bubble:not(.user)')).forEach(function(b){
+  if(b.dataset.cx==='1')return;
+  var host=b.querySelector(':scope > div')||b;var t=host===b?[].slice.call(b.childNodes).filter(function(n){return n.nodeType===3}).map(function(n){return n.textContent}).join(''):host.textContent;
+  if(t.indexOf('```svg')<0&&t.indexOf('```file:')<0){b.dataset.cx='1';return}
+  b.dataset.cx='1';
+  var out=document.createElement('div');out.className='cx-body';var last=0,mm;RX.lastIndex=0;
+  while((mm=RX.exec(t))){
+   if(mm.index>last)out.appendChild(document.createTextNode(t.slice(last,mm.index).replace(/^\n+/,'').replace(/\n+$/,'\n')));
+   if(mm[1]==='svg'){var sv=cleanSvg(mm[3]);if(sv){var fig=document.createElement('figure');fig.className='cx-fig';var img=new Image();img.alt='Diagram';img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sv);fig.appendChild(img);var cap=document.createElement('figcaption');cap.innerHTML='Diagram · <button type="button" class="cx-dl" data-kind="svg">Download</button>';fig.appendChild(cap);fig.dataset.src=sv;out.appendChild(fig)}}
+   else{var name=(mm[2]||'notes.md').trim().replace(/[^\w.\- ]/g,'').slice(0,60)||'notes.md';if(!/\.(md|txt|csv)$/i.test(name))name+='.md';var body=mm[3].replace(/\s+$/,'');
+    var card=document.createElement('div');card.className='cx-file';card.dataset.name=name;card.dataset.body=body;
+    card.innerHTML='<div class="cx-fi">'+(/csv$/i.test(name)?'📊':'📄')+'</div><div class="cx-fm"><b>'+esc(name)+'</b><small>'+body.split('\n').length+' lines · made by StudyStarx Coach</small></div><button type="button" class="cx-dl" data-kind="file">⬇ Download</button><button type="button" class="cx-pv">Preview</button><pre class="cx-pre" hidden>'+esc(body)+'</pre>';out.appendChild(card)}
+   last=RX.lastIndex;
+  }
+  if(last<t.length)out.appendChild(document.createTextNode(t.slice(last).replace(/^\n+/,'')));
+  if(host===b){[].slice.call(b.childNodes).forEach(function(n){if(n.nodeType===3)n.remove()});var sm=b.querySelector('small');if(sm)sm.after(out);else b.prepend(out)}
+  else{host.textContent='';host.appendChild(out)}
+ });
+}
+document.addEventListener('click',function(e){
+ var d=e.target.closest('.cx-dl');
+ if(d){var blob,name;if(d.dataset.kind==='svg'){var f=d.closest('.cx-fig');blob=new Blob([f.dataset.src],{type:'image/svg+xml'});name='diagram.svg'}else{var c=d.closest('.cx-file');name=c.dataset.name;blob=new Blob([c.dataset.body],{type:/csv$/i.test(name)?'text/csv':'text/plain'})}
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);return}
+ var p=e.target.closest('.cx-pv');if(p){var pre=p.parentNode.querySelector('.cx-pre');pre.hidden=!pre.hidden;p.textContent=pre.hidden?'Preview':'Hide'}
+});
+
+function start(){
+ install();
+ var m=$('#messages');if(m&&!m.dataset.cxo){m.dataset.cxo='1';new MutationObserver(function(){decorate()}).observe(m,{childList:true,subtree:false});decorate()}
+ // the old Math Solver page now opens the AI Coach
+ try{if(typeof go==='function'&&!go.__cx){var g=go;var w=function(p){return g.apply(this,[p==='math'?'coach':p].concat([].slice.call(arguments,1)))};w.__cx=true;window.go=w;try{go=w}catch(e){}}}catch(e){}
+ var sugg=document.querySelector('#page-coach .suggestions');if(sugg&&!sugg.dataset.cx){sugg.dataset.cx='1';sugg.insertAdjacentHTML('beforeend','<button data-prompt="Solve this maths problem step by step and draw a diagram if it helps: ">Maths with diagram</button><button data-prompt="Make me a one-page revision notes file on ">Make a notes file</button>');
+  [].slice.call(sugg.querySelectorAll('button[data-prompt]')).slice(-2).forEach(function(b){b.addEventListener('click',function(){var t=$('#chatText');if(t){t.value=b.dataset.prompt;t.focus()}})})}
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+setTimeout(start,1200);
+})();
+/* memory viewer: 🧠 button in the coach header */
+(function(){function esc2(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function paint(ov){var L=window.sfCoachMemory?sfCoachMemory.list():[];ov.innerHTML='<div class="mm-box" role="dialog" aria-label="What the coach remembers"><div class="mm-hd"><b>🧠 What your coach remembers</b><button type="button" class="mm-x" data-mm="close">Done</button></div><p class="mm-sub">The coach saves things you tell it — like your exams, goals and weak topics — and uses them in every chat.</p>'+(L.length?'<ul class="mm-list">'+L.map(function(m,i){return'<li><span>'+esc2(m.t)+'</span><button type="button" data-mmdel="'+i+'" aria-label="Forget">✕</button></li>'}).join('')+'</ul>':'<p class="mm-empty">Nothing yet. Tell the coach about yourself — e.g. “My maths exam is on 12 March” or “Remember I find algebra hard”.</p>')+'<form class="mm-add" id="mmAdd"><input id="mmIn" maxlength="160" placeholder="Add something to remember…"><button type="submit">Add</button></form></div>'}
+function open(){var ov=document.getElementById('mmOv');if(!ov){ov=document.createElement('div');ov.id='mmOv';ov.className='mm-ov';document.body.appendChild(ov)}paint(ov);ov.hidden=false}
+document.addEventListener('click',function(e){var b=e.target.closest('#mmBtn');if(b){e.preventDefault();open();return}var ov=document.getElementById('mmOv');if(!ov||ov.hidden||!ov.contains(e.target))return;if(e.target===ov||e.target.closest('[data-mm="close"]')){ov.hidden=true;return}var d=e.target.closest('[data-mmdel]');if(d){sfCoachMemory.forget(+d.dataset.mmdel);paint(ov)}});
+document.addEventListener('submit',function(e){if(e.target&&e.target.id==='mmAdd'){e.preventDefault();var i=document.getElementById('mmIn');if(i&&i.value.trim()){sfCoachMemory.add(i.value.trim());paint(document.getElementById('mmOv'))}}});
+function btn(){var h=document.querySelector('#page-coach .chathead');if(!h||document.getElementById('mmBtn'))return;var c=document.getElementById('clearChat');var b=document.createElement('button');b.type='button';b.id='mmBtn';b.className='mm-btn';b.title='What the coach remembers';b.setAttribute('aria-label','What the coach remembers');b.textContent='🧠';if(c&&c.parentNode)c.parentNode.insertBefore(b,c);else h.appendChild(b)}
+setInterval(btn,1500);setTimeout(btn,400)})();
+
+</script><style id="sf-fz-css">
+/* Focus Lock — phone app screen */
+body.fz-app #page-focuslock>:not(#fzRoot){display:none!important}
+#fzRoot{max-width:560px;margin:0 auto;padding-bottom:24px;font-family:Inter,system-ui,sans-serif;color:var(--ink,#1f2937)}
+.fz-hero{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#312e81,#6d28d9 60%,#a21caf);color:#fff;border-radius:22px;padding:20px 20px;margin-bottom:14px;box-shadow:0 12px 30px rgba(76,29,149,.25)}
+.fz-ht{flex:1}.fz-hero h1{margin:0;font-size:24px;letter-spacing:-.01em;color:#fff}.fz-hero p{margin:4px 0 0;opacity:.85;font-size:14px}.fz-hi{font-size:40px}
+.fz-card{background:var(--card,#fff);border:1px solid var(--line,#e7e8ef);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.fz-sh{display:flex;justify-content:space-between;align-items:baseline}.fz-sh b{font-size:17px}.fz-sh span{font-size:12.5px;color:var(--muted,#6b7280);font-weight:600}
+.fz-prog{height:6px;background:#eef0f6;border-radius:99px;margin:10px 0 6px;overflow:hidden}.fz-prog i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:99px;transition:width .4s}
+.fz-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line,#eef0f4)}.fz-step:first-of-type{border-top:0}
+.fz-si{flex:0 0 40px;height:40px;border-radius:12px;background:#eef2ff;display:grid;place-items:center;font-size:20px}
+.fz-step.ok .fz-si{background:#dcfce7;color:#15803d;font-weight:800}
+.fz-step>div{flex:1;min-width:0}.fz-step b{display:block;font-size:14.5px}.fz-step b em{font-style:normal;font-size:10.5px;font-weight:700;color:#0369a1;background:#e0f2fe;border-radius:99px;padding:1px 7px;margin-left:4px;vertical-align:1px}.fz-step small{display:block;color:var(--muted,#6b7280);font-size:12.5px;line-height:1.4;margin-top:2px}
+.fz-allow{flex:none;border:0;border-radius:12px;padding:10px 16px;font:700 14px Inter,system-ui,sans-serif;background:#4f46e5;color:#fff;cursor:pointer}
+.fz-done{flex:none;font-size:12.5px;font-weight:700;color:#15803d}
+.fz-mini .fz-step{padding:8px 0}.fz-fine{font-size:12.5px;color:var(--muted,#6b7280);margin:10px 0 0;text-align:center}
+.fz-shake{animation:fzS .5s}@keyframes fzS{0%,100%{transform:none}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.fz-lbl{display:flex;justify-content:space-between;font-weight:700;font-size:15px;margin:4px 0 10px}.fz-lbl span{font-size:12.5px;color:var(--muted,#6b7280)}
+.fz-lbl:not(:first-child){margin-top:18px}
+.fz-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fz-app{position:relative;display:grid;justify-items:center;gap:4px;padding:10px 2px 8px;border:1.5px solid var(--line,#e7e8ef);border-radius:16px;background:var(--card,#fff);cursor:pointer;color:inherit;font:inherit}
+.fz-ai{font-size:24px;line-height:1.1}.fz-an{font-size:11.5px;font-weight:600;line-height:1.2;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.fz-app.on{border-color:#6d28d9;background:#f5f3ff;box-shadow:0 0 0 3px rgba(109,40,217,.12)}
+.fz-ck{position:absolute;top:4px;right:5px;width:17px;height:17px;border-radius:50%;background:#6d28d9;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center}
+.fz-more-apps{display:block;width:100%;margin-top:10px;border:1.5px dashed #c4b5fd;background:transparent;border-radius:14px;padding:11px;font:600 13.5px Inter,system-ui,sans-serif;color:#5b21b6;cursor:pointer}
+.fz-durs{display:flex;flex-wrap:wrap;gap:8px}.fz-dur{flex:1 0 auto;min-width:64px;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);border-radius:999px;padding:10px 12px;font:600 13.5px Inter,system-ui,sans-serif;color:inherit;cursor:pointer}
+.fz-dur.on{background:#6d28d9;border-color:#6d28d9;color:#fff}
+.fz-sw{display:flex;align-items:center;gap:12px;margin-top:16px;cursor:pointer}.fz-sw>span{flex:1}.fz-sw b{display:block;font-size:14.5px}.fz-sw small{color:var(--muted,#6b7280);font-size:12.5px}
+.fz-sw input{position:absolute;opacity:0;pointer-events:none}.fz-sw i{flex:none;width:46px;height:28px;border-radius:99px;background:#d1d5db;position:relative;transition:background .2s}
+.fz-sw i:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.fz-sw input:checked+i{background:#6d28d9}.fz-sw input:checked+i:after{transform:translateX(18px)}
+.fz-pl{font-style:normal;font-size:10px;font-weight:800;color:#b45309;background:#fef3c7;border-radius:99px;padding:1px 6px;margin-left:4px}
+.fz-opt{margin-top:14px;border-top:1px solid var(--line,#eef0f4);padding-top:10px}.fz-opt summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--muted,#6b7280);list-style:none}.fz-opt summary:before{content:"▸ "}.fz-opt[open] summary:before{content:"▾ "}.fz-opt summary::-webkit-details-marker{display:none}
+.fz-start{display:block;width:100%;margin-top:18px;border:0;border-radius:16px;padding:16px;font:700 16.5px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 10px 24px rgba(79,70,229,.3);cursor:pointer}
+.fz-start.off{background:#c7c9d9;box-shadow:none}
+.fz-upd{background:#fff7ed;border-color:#fed7aa}.fz-upd p{margin:6px 0 12px;font-size:13.5px;color:#7c2d12}
+.fz-btn{display:inline-block;background:#ea580c;color:#fff;border-radius:12px;padding:10px 16px;font-weight:700;text-decoration:none}
+.fz-run{text-align:center;background:linear-gradient(180deg,#1e1b4b,#312e81);color:#fff;border-radius:24px;padding:26px 18px 22px;box-shadow:0 14px 34px rgba(30,27,75,.35)}
+.fz-ring{position:relative;width:220px;height:220px;margin:0 auto}.fz-ring svg{width:100%;height:100%;transform:rotate(-90deg)}.fz-ring circle{fill:none;stroke-width:12}.fz-ring .bg{stroke:rgba(255,255,255,.12)}.fz-ring .fg{stroke:#a78bfa;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.fz-rt{position:absolute;inset:0;display:grid;place-content:center}.fz-rt b{font-size:44px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}.fz-rt span{font-size:13px;opacity:.75}
+.fz-run h2{margin:16px 0 4px;color:#fff;font-size:21px}.fz-run p{margin:0 0 10px;opacity:.8;font-size:14px}
+.fz-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.fz-tags span{background:rgba(255,255,255,.12);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:600}
+.fz-stop{margin-top:18px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:14px;padding:11px 22px;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
+.fz-strict{margin-top:16px!important;font-size:13px!important}
+@media(max-width:360px){.fz-apps{grid-template-columns:repeat(3,1fr)}}
+/* Focus Lock — browser page tidy-up */
+body.fz-web #page-focuslock .pagehead .pl-chips{display:none}
+.fz-wmore{margin-top:8px}.fz-wmore summary,.fz-wsched summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--muted,#6b7280);padding:6px 2px;list-style:none}.fz-wmore summary::-webkit-details-marker,.fz-wsched summary::-webkit-details-marker{display:none}
+.fz-wmore summary:before,.fz-wsched summary:before{content:"▸ "}.fz-wmore[open] summary:before,.fz-wsched[open] summary:before{content:"▾ "}
+.fz-wmore .fl-opt{margin-top:8px}
+.fz-wsched{padding:14px 18px}.fz-wsched summary{color:var(--ink,#1f2937);font-size:15px}.fz-wsched summary span{display:block;font-weight:400;font-size:12.5px;color:var(--muted,#6b7280);margin:2px 0 0 14px}
+.fz-wsched .pp-sched{box-shadow:none;border:0;padding:8px 0 0;margin:0}
+
+.fz-warn{background:#fef2f2;border:1.5px solid #fca5a5;color:#7f1d1d;border-radius:18px;padding:14px 16px;margin-bottom:12px}.fz-warn p{margin:6px 0 10px;font-size:13.5px}.fz-warn .fz-allow{margin:0 6px 6px 0}
+.fz-okb{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:14px;padding:10px 14px;margin-bottom:12px;font-weight:600;font-size:14px;text-align:center}
+
+.fz-skip{display:block;margin:6px auto 0;border:0;background:none;color:var(--muted,#6b7280);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
+/* v3 — one bold card: dial + start, apps as chips */
+#fzRoot .fz-hero{position:relative;overflow:hidden;padding:22px 20px 20px;border-radius:26px;background:radial-gradient(120% 120% at 100% 0%,rgba(255,255,255,.18),rgba(255,255,255,0) 50%),linear-gradient(150deg,#1e1b4b 0%,#4c1d95 55%,#a21caf 100%);margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0;box-shadow:none}
+#fzRoot .fz-hero:after{content:"";position:absolute;right:-60px;bottom:-90px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.07)}
+#fzRoot .fz-hero h1{font-size:26px}
+#fzRoot .fz-hi span{display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:rgba(255,255,255,.14);font-size:30px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.fz-main{background:linear-gradient(180deg,#4c1d95,#3b1580);border-radius:0 0 26px 26px;padding:6px 18px 20px;margin-bottom:14px;box-shadow:0 18px 40px -20px rgba(76,29,149,.8);color:#fff}
+.fz-dial{display:flex;align-items:center;justify-content:center;gap:18px;margin:6px 0 14px}
+.fz-pm{width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font:700 28px/1 Inter,system-ui,sans-serif;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.fz-pm:active{transform:scale(.94)}
+.fz-dv{display:grid;place-items:center;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.18),rgba(255,255,255,.04) 70%);box-shadow:inset 0 0 0 6px rgba(255,255,255,.12),0 0 0 1px rgba(255,255,255,.18);text-align:center}
+.fz-dv{align-content:center;gap:4px}.fz-dv b{font-size:32px;letter-spacing:-.02em;line-height:1}.fz-dv span{font-size:12.5px;opacity:.75}
+.fz-qd{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
+.fz-qd .fz-dur{flex:1;min-width:0;padding:8px 4px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:13px}
+.fz-qd .fz-dur.on{background:#fff;color:#4c1d95;border-color:#fff}
+.fz-main .fz-start{margin-top:0;background:linear-gradient(135deg,#facc15,#f97316);color:#3b0764;box-shadow:0 12px 26px -10px rgba(249,115,22,.75);font-size:17px}
+.fz-main .fz-start span{margin-right:4px}.fz-main .fz-start.off{background:rgba(255,255,255,.25);color:rgba(255,255,255,.8);box-shadow:none}
+.fz-main .fz-fl{color:rgba(255,255,255,.8)}
+.fz-blk{padding:14px 16px}
+.fz-bh{display:flex;justify-content:space-between;align-items:center;gap:10px}.fz-bh b{font-size:16px;display:block}.fz-bh small{color:var(--muted,#6b7280);font-size:12.5px}
+.fz-edit{border:0;background:#f3e8ff;color:#6d28d9;border-radius:99px;padding:8px 16px;font:700 13.5px Inter,system-ui,sans-serif;cursor:pointer}
+.fz-chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.fz-chip{display:inline-flex;align-items:center;gap:6px;background:#f5f3ff;border:1px solid #e9d5ff;color:#4c1d95;border-radius:99px;padding:6px 11px;font-size:13px;font-weight:600}.fz-chip i{font-style:normal}
+.fz-blk .fz-apps{margin-top:12px}
+.fz-sw2{margin-top:12px;padding-top:12px;border-top:1px solid var(--line,#eef0f4)}
+#fzRoot .fz-setup{border:0;background:linear-gradient(180deg,#fff7ed,#fff);box-shadow:0 0 0 1.5px #fed7aa inset}
+#fzRoot .fz-run{border-radius:26px;background:radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.15),rgba(255,255,255,0) 50%),linear-gradient(160deg,#1e1b4b,#4c1d95 60%,#86198f)}
+#fzRoot .fz-ring .fg{stroke:url(#fzG);stroke:#facc15}
+html[data-dark] .fz-chip{background:#2e1065;border-color:#4c1d95;color:#e9d5ff}html[data-dark] .fz-edit{background:#2e1065;color:#e9d5ff}
+/* v4 — tappable dial, wheel picker, a little sparkle */
+.fz-main{position:relative;overflow:hidden}
+.fz-stars{position:absolute;inset:0;pointer-events:none}
+.fz-stars i{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;opacity:.0;animation:fzTw 3.6s ease-in-out infinite}
+.fz-stars i:nth-child(1){left:12%;top:18%}.fz-stars i:nth-child(2){left:84%;top:12%;animation-delay:.6s}.fz-stars i:nth-child(3){left:20%;top:52%;animation-delay:1.2s;width:3px;height:3px}.fz-stars i:nth-child(4){left:78%;top:46%;animation-delay:1.8s}.fz-stars i:nth-child(5){left:50%;top:6%;animation-delay:2.4s;width:3px;height:3px}.fz-stars i:nth-child(6){left:92%;top:66%;animation-delay:3s}
+@keyframes fzTw{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:.9;transform:scale(1.3)}}
+.fz-dial,.fz-qd,.fz-main .fz-start{position:relative}
+button.fz-dv{border:0;color:#fff;font:inherit;cursor:pointer;position:relative}
+button.fz-dv:before{content:"";position:absolute;inset:-8px;border-radius:50%;background:conic-gradient(from 0deg,#facc15,#f472b6,#a78bfa,#38bdf8,#facc15);-webkit-mask:radial-gradient(circle,transparent 69%,#000 70%);mask:radial-gradient(circle,transparent 69%,#000 70%);opacity:.85;animation:fzSpin 8s linear infinite}
+@keyframes fzSpin{to{transform:rotate(360deg)}}
+button.fz-dv span{background:rgba(255,255,255,.14);border-radius:99px;padding:3px 9px;opacity:1!important;font-size:11.5px;font-weight:600}
+.fz-qd .fz-dur{white-space:nowrap;font-size:12.5px!important;padding:8px 2px!important}
+.fz-wov{position:fixed;inset:0;z-index:10000;background:rgba(15,10,40,.55);display:flex;align-items:flex-end;justify-content:center;animation:fzFade .18s}
+@keyframes fzFade{from{opacity:0}}
+.fz-wbox{width:100%;max-width:460px;background:var(--card,#fff);color:var(--ink,#111827);border-radius:26px 26px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));box-sizing:border-box;animation:fzUp .22s ease-out}
+@keyframes fzUp{from{transform:translateY(40px)}}
+@media(min-width:701px){.fz-wov{align-items:center}.fz-wbox{border-radius:26px}}
+.fz-wt{display:block;text-align:center;font-size:17px;margin-bottom:8px}
+.fz-wwrap{position:relative;display:flex;align-items:flex-start;justify-content:center;gap:6px;height:212px}
+.fz-wband{position:absolute;left:8%;right:8%;top:72px;height:48px;border-radius:14px;background:#f3e8ff;pointer-events:none}
+.fz-wc{position:relative;width:96px;text-align:center}.fz-wc small{display:block;color:var(--muted,#6b7280);font-size:12px;font-weight:600;margin-top:2px}
+.fz-wl{height:192px;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-mask:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.fz-wl::-webkit-scrollbar{display:none}
+.fz-wpad{height:72px}
+.fz-wi{height:48px;line-height:48px;scroll-snap-align:center;font:600 30px/48px Inter,system-ui,sans-serif;color:#c4c4d4;cursor:pointer;font-variant-numeric:tabular-nums;transition:color .12s,transform .12s}
+.fz-wi.on{color:#4c1d95;font-weight:800;transform:scale(1.12)}
+.fz-wcolon{font:800 30px/48px Inter,system-ui,sans-serif;color:#4c1d95;margin-top:72px;position:relative}
+.fz-wnote{text-align:center;margin:4px 0 12px;font-weight:600;color:#6d28d9;font-size:14px}
+.fz-wbtns{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.fz-wcancel,.fz-wok{border:0;border-radius:14px;padding:14px;font:700 15px Inter,system-ui,sans-serif;cursor:pointer}
+.fz-wcancel{background:var(--card2,#f1f5f9);color:inherit}.fz-wok{background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff}
+html[data-dark] .fz-wband{background:#2e1065}html[data-dark] .fz-wi.on,html[data-dark] .fz-wcolon{color:#e9d5ff}
+
+</style><script id="sf-fz-js">
+/* StudyStarx Focus Lock — clean phone screen (Regain-style): set up once, tap apps, pick a time, start.
+   In the browser it only tidies the page (extra options folded away). */
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)};
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function N(){return window.SFNative||null}
+function J(f,d){try{var v=f();return v?JSON.parse(v):d}catch(e){return d}}
+function plus(){try{return typeof isPlus==='function'?isPlus():!!(window.sfAccount&&sfAccount.isPlus())}catch(e){return false}}
+function tst(m){try{toast(m)}catch(e){}}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+var APPS=[['youtube','YouTube','▶️',['youtube']],['instagram','Instagram','📸',['instagram']],['tiktok','TikTok','🎵',['tiktok']],['snapchat','Snapchat','👻',['snapchat']],['whatsapp','WhatsApp','💬',['whatsapp']],['facebook','Facebook','📘',['facebook','katana']],['x','X / Twitter','✖️',['twitter','x']],['reddit','Reddit','👽',['reddit']],['netflix','Netflix','🎬',['netflix']],['hotstar','Hotstar','⭐',['hotstar']],['prime','Prime Video','📺',['primevideo','avod']],['discord','Discord','🎮',['discord']],['telegram','Telegram','✈️',['telegram']],['pinterest','Pinterest','📌',['pinterest']],['spotify','Spotify','🎧',['spotify']],['threads','Threads','🧵',['threads','barcelona']],['bgmi','BGMI','🔫',['pubg','bgmi','imobile']],['freefire','Free Fire','🔥',['freefire','dts.freefire']],['codm','Call of Duty','🎯',['callofduty']],['roblox','Roblox','🧱',['roblox']],['minecraft','Minecraft','⛏️',['minecraft']],['clash','Clash of Clans','🏰',['clashofclans']],['mxplayer','MX Player','🎞️',['mxtech']],['chrome','Chrome','🌐',['com.android.chrome']]];
+var DURS=[25,45,60,90,120];
+var st={sel:null,mins:+(ls('fz-mins')||60),strict:false,guard:false,inst:null,popup:ls('fz-popup')==='1'};
+function sel(){if(!st.sel){var s=J(function(){return ls('fz-sel')},null);st.sel=new Set(Array.isArray(s)?s:['youtube','instagram'])}return st.sel}
+function saveSel(){ls('fz-sel',JSON.stringify(Array.from(sel())))}
+function perms(){var n=N();if(!n||!n.permState)return null;return J(function(){return n.permState()},null)}
+function info(){var n=N();if(!n||!n.lockInfo)return{until:0};return J(function(){return n.lockInfo()},{until:0})}
+function installed(){if(st.inst)return st.inst;var n=N();if(!n||!n.installed)return null;var q={};APPS.forEach(function(a){q[a[0]]=a[3]});st.inst=J(function(){return n.installed(JSON.stringify(q))},null);return st.inst}
+function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0')}
+function durLabel(m){return m<60?m+' min':m%60?Math.floor(m/60)+'h '+m%60+'m':m/60+(m===60?' hour':' hours')}
+
+/* ---------- phone screen ---------- */
+function root(){var pg=$('#page-focuslock');if(!pg)return null;var r=$('#fzRoot');if(!r){r=document.createElement('div');r.id='fzRoot';pg.insertBefore(r,pg.firstChild);r.addEventListener('click',onClick);document.body.classList.add('fz-app')}return r}
+function steps(p){var L=[['usage','📊','Allow usage access','Find StudyStarx in the list and switch it on. This lets StudyStarx notice when a blocked app opens.',p.usage],['overlay','🪟','Allow display over other apps','Switch it on, so the “Stay focused” screen can cover a blocked app.',p.overlay]];
+ if(p.xiaomi)L.push(['popup','📱','Allow pop-up windows','On Xiaomi / Redmi / POCO: tap “Other permissions”, then allow “Display pop-up windows while running in the background”.',st.popup]);
+ L.push(['acc','⚡','Instant blocking','Best for no delay at all. In Accessibility, switch on “StudyStarx Focus Lock”. Greyed out? In App info tap ⋮ › “Allow restricted settings” first.',p.acc,1]);
+ L.push(['battery','🔋','Keep blocking switched on','Tap Allow so your phone never switches the lock off.',p.battery,1]);return L}
+function draw(){var r=root();if(!r)return;var n=N(),p=perms(),li=info(),now=Date.now();
+ if(li.until>now){drawRun(r,li,p);return}
+ var html='<div class="fz-hero"><div class="fz-ht"><h1>Focus Lock</h1><p>Lock away distracting apps and get real work done.</p></div><div class="fz-hi"><span>🔒</span></div></div>';
+ if(!p||!(p.v>=6)){html+='<div class="fz-card fz-upd"><b>Update the StudyStarx app</b><p>The new version blocks apps much more reliably. Download it and install it over this one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';r.innerHTML=html+mainCard(false);return}
+ var S=steps(p),need=S.filter(function(x){return!x[5]}),done=need.filter(function(x){return x[4]}).length,ready=p.usage&&p.overlay&&(!p.xiaomi||st.popup);
+ var setup='';if(!ready||!p.battery||(!p.acc&&ls('fz-acc-skip')!=='1')){setup+='<div class="fz-card fz-setup'+(ready?' fz-mini':'')+'" id="fzSetup"><div class="fz-sh"><b>'+(ready?'Make blocking stronger':'Set up blocking')+'</b><span>'+(ready?'optional':done+' of '+need.length+' done')+'</span></div>'+(ready?'':'<div class="fz-prog"><i style="width:'+Math.round(done/need.length*100)+'%"></i></div>')+
+  S.filter(function(x){return!ready||!x[4]}).map(function(x,i){return'<div class="fz-step'+(x[4]?' ok':'')+'"><span class="fz-si">'+(x[4]?'✓':x[1])+'</span><div><b>'+esc(x[2])+(x[5]?' <em>recommended</em>':'')+'</b><small>'+esc(x[3])+'</small></div>'+(x[4]?'<span class="fz-done">Done</span>':'<button type="button" class="fz-allow" data-fz="perm" data-k="'+x[0]+'">Allow</button>')+'</div>'}).join('')+
+  (ready&&!p.acc?'<button type="button" class="fz-skip" data-fz="skipacc">Hide these tips</button>':'')+(ready?'':'<p class="fz-fine">🔐 StudyStarx only sees which app is open — never what’s on your screen.</p>')+'</div>'}
+ r.innerHTML=html+mainCard(ready)+setup}
+function mainCard(ready){var inst=installed(),s=sel(),li=info();
+ var list=APPS.filter(function(a){return!inst||inst[a[0]]||s.has(a[0])});var extra=li.chosen||0;
+ var chosen=APPS.filter(function(a){return s.has(a[0])});var open=ls('fz-edit')==='1'||!chosen.length;
+ var ix=DURS.indexOf(st.mins);
+ return'<div class="fz-main">'+
+  '<div class="fz-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fz-dial"><button type="button" class="fz-pm" data-fz="dmin" aria-label="Less time">−</button><button type="button" class="fz-dv" data-fz="wheel" aria-label="Set your own time"><b>'+durLabel(st.mins)+'</b><span>✎ tap to set time</span></button><button type="button" class="fz-pm" data-fz="dplus" aria-label="More time">+</button></div>'+
+  '<div class="fz-qd">'+DURS.map(function(m){return'<button type="button" class="fz-dur'+(m===st.mins?' on':'')+'" data-fz="dur" data-m="'+m+'">'+durLabel(m)+'</button>'}).join('')+'</div>'+
+  '<button type="button" class="fz-start'+(ready?'':' off')+'" data-fz="start"><span>🔒</span> Start Focus Lock</button>'+(ready?'':'<p class="fz-fine fz-fl">Finish the quick setup below to start.</p>')+
+ '</div>'+
+ '<div class="fz-card fz-blk"><div class="fz-bh"><div><b>Apps to block</b><small>'+(chosen.length||extra?(chosen.length+extra)+' app'+((chosen.length+extra)===1?'':'s')+' will be blocked':'Pick at least one app')+'</small></div><button type="button" class="fz-edit" data-fz="edit">'+(open?'Done':'Change')+'</button></div>'+
+ (open?'<div class="fz-apps">'+list.map(function(a){var on=s.has(a[0]);return'<button type="button" class="fz-app'+(on?' on':'')+'" data-fz="app" data-k="'+a[0]+'" aria-pressed="'+on+'"><span class="fz-ai">'+a[2]+'</span><span class="fz-an">'+esc(a[1])+'</span>'+(on?'<span class="fz-ck">✓</span>':'')+'</button>'}).join('')+'</div><button type="button" class="fz-more-apps" data-fz="pick">＋ Other apps on my phone'+(extra?' <b>('+extra+')</b>':'')+'</button>':
+  '<div class="fz-chips">'+chosen.slice(0,8).map(function(a){return'<span class="fz-chip"><i>'+a[2]+'</i>'+esc(a[1])+'</span>'}).join('')+(chosen.length>8?'<span class="fz-chip">+'+(chosen.length-8)+'</span>':'')+(extra?'<span class="fz-chip">+'+extra+' more</span>':'')+'</div>')+
+ '<label class="fz-sw fz-sw2"><span><b>Strict mode</b><small>No stopping early</small></span><input type="checkbox" id="fzStrict"'+(st.strict?' checked':'')+'><i></i></label>'+
+ '</div>'}
+function drawRun(r,li,p){var n=N();if(p&&p.v>=6&&p.usage&&p.overlay&&!p.watch&&n.ensureWatch){try{n.ensureWatch()}catch(_){}}
+ var warn='';if(!p||!(p.v>=6))warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked</b><p>This version of the app can’t block reliably. Install the new one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';
+ else if(!p.usage||!p.overlay)warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked yet</b><p>Two permissions are needed. Tap each one, switch StudyStarx on, and come back.</p>'+(p.usage?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="usage">Allow usage access</button> ')+(p.overlay?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="overlay">Allow display over other apps</button>')+'</div>';
+ else if(p.watch)warn='<div class="fz-okb">✅ Blocking is active'+(p.blocks?' · blocked '+p.blocks+' time'+(p.blocks>1?'s':''):'')+'</div>';
+ else warn='<div class="fz-warn"><b>Starting the blocker…</b><p>If this stays for more than a few seconds, allow “Keep blocking switched on”.</p><button type="button" class="fz-allow" data-fz="perm" data-k="battery">Allow</button></div>';var left=li.until-Date.now(),tot=+(ls('fz-total')||0)||Math.max(left,1),pc=Math.max(0,Math.min(1,left/tot)),C=2*Math.PI*88;
+ var end=new Date(li.until).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});var apps=(li.apps||[]).slice(0,12);
+ r.innerHTML=warn+'<div class="fz-run"><div class="fz-ring"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="88" class="bg"/><circle cx="100" cy="100" r="88" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc)).toFixed(1)+'"/></svg><div class="fz-rt"><b id="fzLeft">'+fmt(left)+'</b><span>until '+esc(end)+'</span></div></div>'+
+ '<h2>Stay focused 🌱</h2><p>'+(apps.length?'These apps are blocked:':'Your chosen apps are blocked.')+'</p><div class="fz-tags">'+apps.map(function(a){return'<span>'+esc(a)+'</span>'}).join('')+'</div>'+
+ (li.strict?'<p class="fz-strict">🔐 Strict mode — the lock ends by itself at '+esc(end)+'.</p>':'<button type="button" class="fz-stop" data-fz="stop">Stop the lock</button>')+'</div>'}
+/* scroll-wheel time picker: hours : minutes */
+function wheel(){var ov=document.getElementById('fzWheel');if(ov)ov.remove();ov=document.createElement('div');ov.id='fzWheel';ov.className='fz-wov';var h0=Math.floor(st.mins/60),m0=st.mins%60;
+ var col=function(id,n,step,sel,unit){var h='';for(var i=0;i<n;i+=step)h+='<div class="fz-wi" data-v="'+i+'">'+(i<10?'0'+i:i)+'</div>';return'<div class="fz-wc"><div class="fz-wl" id="'+id+'">'+'<div class="fz-wpad"></div>'+h+'<div class="fz-wpad"></div></div><small>'+unit+'</small></div>'};
+ ov.innerHTML='<div class="fz-wbox" role="dialog" aria-label="Set focus time"><b class="fz-wt">Set your focus time</b><div class="fz-wwrap"><div class="fz-wband"></div>'+col('fzWH',9,1,h0,'hours')+'<div class="fz-wcolon">:</div>'+col('fzWM',60,1,m0,'minutes')+'</div><p class="fz-wnote" id="fzWNote"></p><div class="fz-wbtns"><button type="button" class="fz-wcancel">Cancel</button><button type="button" class="fz-wok">Set time</button></div></div>';
+ document.body.appendChild(ov);var IH=48;
+ var L=[document.getElementById('fzWH'),document.getElementById('fzWM')];
+ function val(l){return Math.max(0,Math.round(l.scrollTop/IH))}
+ function paint(){L.forEach(function(l){var v=val(l);l.querySelectorAll('.fz-wi').forEach(function(e,i){e.classList.toggle('on',i===v)})});var t=val(L[0])*60+val(L[1]);var n=document.getElementById('fzWNote');if(n)n.textContent=t<5?'Pick at least 5 minutes':'Focus for '+durLabel(t)}
+ L[0].scrollTop=h0*IH;L[1].scrollTop=m0*IH;paint();
+ L.forEach(function(l){var tm;l.addEventListener('scroll',function(){paint();clearTimeout(tm);tm=setTimeout(function(){l.scrollTo({top:val(l)*IH,behavior:'smooth'})},120)});l.addEventListener('click',function(e){var it=e.target.closest('.fz-wi');if(it){var i=Array.prototype.indexOf.call(l.querySelectorAll('.fz-wi'),it);l.scrollTo({top:i*IH,behavior:'smooth'})}})});
+ ov.addEventListener('click',function(e){if(e.target===ov||e.target.closest('.fz-wcancel')){ov.remove();return}if(e.target.closest('.fz-wok')){var t=val(L[0])*60+val(L[1]);if(t<5)t=5;st.mins=Math.min(8*60+59,t);ls('fz-mins',st.mins);ov.remove();draw()}})}
+function onClick(e){var _b=e&&e.target&&e.target.closest?e.target.closest('[data-fz]'):null;if(_b){var _k=_b.dataset.fz;if(_k==='wheel'){readOpts();wheel();return}if(_k==='edit'){readOpts();ls('fz-edit',ls('fz-edit')==='1'?'0':'1');draw();return}if(_k==='dmin'||_k==='dplus'){var _L=[15,25,30,45,60,90,120,180],_i=_L.indexOf(st.mins);if(_i<0){_i=0;for(var _q=0;_q<_L.length;_q++)if(_L[_q]<=st.mins)_i=_q}_i=Math.max(0,Math.min(_L.length-1,_i+(_k==='dplus'?1:-1)));st.mins=_L[_i];ls('fz-mins',st.mins);readOpts();draw();return}if(_k==='edit')readOpts();}var b=e.target.closest('[data-fz]');if(!b)return;var k=b.dataset.fz,n=N();
+ if(k==='skipacc'){ls('fz-acc-skip','1');draw();return}
+ if(k==='perm'){if(b.dataset.k==='popup'){st.popup=true;ls('fz-popup','1')}try{n.openPerm(b.dataset.k)}catch(_){}return}
+ if(k==='app'){var s=sel();s.has(b.dataset.k)?s.delete(b.dataset.k):s.add(b.dataset.k);saveSel();draw();return}
+ if(k==='pick'){try{n.openBlocker()}catch(_){}return}
+ if(k==='dur'){st.mins=+b.dataset.m;ls('fz-mins',st.mins);readOpts();draw();return}
+ if(k==='custom'){var v=prompt('How many minutes? (5 – 720)',String(st.mins));v=Math.round(+v);if(v>=5&&v<=720){st.mins=v;ls('fz-mins',v);readOpts();draw()}return}
+ if(k==='start'){readOpts();start(b);return}
+ if(k==='stop'){if(!confirm('Stop the focus lock now?'))return;try{n.stopBlock()}catch(_){}setTimeout(draw,200);return}}
+function readOpts(){var a=$('#fzStrict'),g=$('#fzGuard');if(a)st.strict=a.checked;if(g)st.guard=g.checked}
+function start(b){var n=N(),p=perms();
+ if(b.classList.contains('off')){var su=$('#fzSetup');if(su){su.classList.remove('fz-shake');void su.offsetWidth;su.classList.add('fz-shake');su.scrollIntoView({behavior:'smooth',block:'center'})}else tst('Update the app first.');return}
+ var s=sel(),li=info();if(!s.size&&!(li.chosen>0)){tst('Tap at least one app to block.');return}
+ if(st.guard&&!plus()){try{if(window.sfPlusGate)sfPlusGate('Uninstall protection','guard');else go('premium')}catch(_){}return}
+ var words=[];APPS.forEach(function(a){if(s.has(a[0]))words=words.concat(a[3])});
+ if(st.strict&&!confirm('Strict mode: you will NOT be able to stop this lock for '+durLabel(st.mins)+'. Start?'))return;
+ try{if(n.startBlockNames)n.startBlockNames(st.mins,JSON.stringify(words),!!st.strict);else n.startBlock(st.mins)}catch(_){}
+ if(st.guard&&n.guardOn&&!n.guardOn()&&n.askGuard)try{n.askGuard()}catch(_){}
+ ls('fz-total',String(st.mins*60000));
+ try{var F=data.flock||(data.flock={locks:[],extra:[]});F.locks=(F.locks||[]).filter(function(l){return l.until>Date.now()});APPS.forEach(function(a){if(s.has(a[0]))F.locks.push({key:a[0],label:a[1],until:Date.now()+st.mins*60000,strict:st.strict})});persist()}catch(_){}
+ try{window.sfConfetti&&sfConfetti()}catch(_){}
+ setTimeout(draw,250)}
+var tick=null;function loop(){clearInterval(tick);tick=setInterval(function(){var pg=$('#page-focuslock');if(!pg||!pg.classList.contains('active'))return;var li=info();var el=$('#fzLeft');if(li.until>Date.now()){if(el)el.textContent=fmt(li.until-Date.now());else draw();if(Date.now()%10000<1000)draw()}else if(el)draw()},1000)}
+
+/* ---------- browser page: fold the extras away ---------- */
+function tidyWeb(){var pg=$('#page-focuslock');if(!pg||pg.dataset.fzw)return;var opts=$('.fl-opts',pg);if(!opts)return;pg.dataset.fzw=1;document.body.classList.add('fz-web');
+ var d=document.createElement('details');d.className='fz-wmore';d.innerHTML='<summary>More options</summary>';['flPomo','flEdu','flGuard'].forEach(function(id){var i=document.getElementById(id);var l=i&&i.closest('label');if(l)d.appendChild(l)});opts.appendChild(d);
+ var h=opts.previousElementSibling;if(h&&h.classList.contains('fl-step')){var t=h.querySelector('h2');if(t)t.textContent='Strict lock?'}
+ var moveSched=function(){var sc=$('#ppSched');if(!sc||sc.dataset.fzw)return;sc.dataset.fzw=1;var w=document.createElement('details');w.className='card fz-wsched';w.innerHTML='<summary>📅 Weekly schedules <span>Lock automatically at the same time each week</span></summary>';sc.parentNode.insertBefore(w,sc);w.appendChild(sc)};moveSched();setTimeout(moveSched,1500);setTimeout(moveSched,4000)}
+
+function boot(){if(N()){draw();loop()}else tidyWeb()}
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&N()){st.inst=null;draw()}});
+window.addEventListener('focus',function(){if(N())draw()});
+if(typeof window.go==='function'&&!window.go.__fz){var og=window.go,w=function(p){var r=og.apply(this,arguments);if(p==='focuslock')setTimeout(boot,30);return r};w.__fz=1;for(var k in og)try{w[k]=og[k]}catch(e){}window.go=w}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,400)});else setTimeout(boot,400);
+setTimeout(boot,2000);
+window.sfFocusLockDraw=draw;
+})();
+
+</script><style id="sf-hm-css">
+/* ===== StudyStarx home ===== */
+body.sx-home-on #page-dashboard>:not(#sxHome){display:none!important}
+body[data-sfpage="dashboard"] header.top #welcome,body[data-sfpage="dashboard"] header.top #welcome+.muted,body[data-sfpage="dashboard"] header.top #dateLabel{display:none}
+#sxHome{display:flex;flex-direction:column;gap:18px;max-width:1180px;margin:0 auto;padding-bottom:10px}
+#sxHome h1,#sxHome h2,#sxHome p{margin:0}
+#sxHome button{font:inherit;cursor:pointer}
+/* hero */
+.sxh-hero{position:relative;overflow:hidden;border-radius:28px;padding:28px 30px 24px;color:#fff;background:radial-gradient(120% 140% at 0% 0%,#7c3aed 0%,#4f46e5 45%,#1e1b4b 100%);box-shadow:0 24px 60px -28px rgba(79,70,229,.75)}
+.sxh-stars i{position:absolute;color:#fff;opacity:.55;font-style:normal;animation:sxtw 3.2s ease-in-out infinite}
+.sxh-stars i::before{content:'✦'}
+.sxh-stars i:nth-child(1){top:14px;right:22%;font-size:14px}
+.sxh-stars i:nth-child(2){top:58%;right:6%;font-size:22px;animation-delay:.6s}
+.sxh-stars i:nth-child(3){bottom:12px;left:38%;font-size:10px;animation-delay:1.2s}
+.sxh-stars i:nth-child(4){top:30%;left:52%;font-size:9px;animation-delay:1.8s}
+.sxh-stars i:nth-child(5){top:12px;left:44%;font-size:12px;animation-delay:2.2s}
+.sxh-stars i:nth-child(6){bottom:22%;right:30%;font-size:16px;animation-delay:.3s}
+@keyframes sxtw{0%,100%{opacity:.25;transform:scale(.85)}50%{opacity:.85;transform:scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.sxh-stars i{animation:none}}
+.sxh-top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.sxh-date{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8;margin-bottom:6px}
+.sxh-hi h1{font-size:34px;line-height:1.15;letter-spacing:-.02em;font-weight:800}
+.sxh-spark{display:inline-block;color:#fde68a;animation:sxtw 2.6s ease-in-out infinite}
+.sxh-hi p{margin-top:8px!important;font-size:16px;opacity:.88}
+.sxh-ring{position:relative;flex:0 0 auto;width:104px;height:104px;border:0;padding:0;background:rgba(255,255,255,.1);border-radius:50%;color:#fff;display:grid;place-items:center}
+.sxh-ring svg{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);transform:rotate(-90deg)}
+.sxh-ring .t{fill:none;stroke:rgba(255,255,255,.18);stroke-width:8}
+.sxh-ring .v{fill:none;stroke:#fde68a;stroke-width:8;stroke-linecap:round;transition:stroke-dasharray .6s}
+.sxh-ring span{position:relative;display:flex;flex-direction:column;align-items:center;line-height:1}
+.sxh-ring b{font-size:24px;font-weight:800}
+.sxh-ring small{font-size:11px;opacity:.85;margin-top:3px}
+.sxh-chips{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 16px}
+.sxh-chips button{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:8px 14px;font-size:14px;backdrop-filter:blur(6px)}
+.sxh-chips button:hover{background:rgba(255,255,255,.2)}
+.sxh-ask{position:relative;display:flex;gap:8px;background:#fff;border-radius:18px;padding:6px;box-shadow:0 10px 30px -12px rgba(0,0,0,.45)}
+.sxh-ask input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;padding:10px 12px;color:#0f172a}
+.sxh-askb{border:0;border-radius:14px;padding:0 20px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;white-space:nowrap}
+.sxh-sug{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.sxh-sug button{border:0;background:transparent;color:#e0e7ff;font-size:14px;padding:4px 6px;border-radius:8px}
+.sxh-sug button:hover{background:rgba(255,255,255,.1);color:#fff}
+/* cards */
+.sxh-card{background:var(--card,#fff);border:1px solid var(--line,#e7e9f3);border-radius:22px;padding:20px 22px;box-shadow:0 12px 30px -24px rgba(15,23,42,.35)}
+.sxh-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.sxh-head h2{font-size:19px;font-weight:800;letter-spacing:-.01em}
+.sxh-head p{font-size:14px;color:var(--muted,#64748b);margin-top:3px!important}
+.sxh-pct{font-size:22px;font-weight:800;color:#6d28d9}
+.sxh-link{border:0;background:transparent;color:#4f46e5;font-weight:700;font-size:14px;padding:2px 0;white-space:nowrap}
+.sxh-bar{height:8px;border-radius:99px;background:#ede9fe;overflow:hidden;margin-bottom:12px}
+.sxh-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#8b5cf6,#6366f1);transition:width .5s}
+.sxh-list{display:flex;flex-direction:column;gap:8px}
+.sxh-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--soft,#f7f7fc);border:1px solid transparent}
+.sxh-item:hover{border-color:#e0e7ff}
+.sxh-item.done{opacity:.6}
+.sxh-item.done b{text-decoration:line-through}
+.sxh-ie{flex:0 0 40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 2px 8px -4px rgba(15,23,42,.25)}
+.sxh-it{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.sxh-it b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sxh-it small{font-size:13px;color:var(--muted,#64748b);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sxh-go{flex:0 0 auto;border:0;border-radius:12px;padding:9px 16px;background:#4f46e5;color:#fff;font-weight:700;font-size:14px}
+.sxh-go:hover{background:#4338ca}
+.sxh-ok{font-size:13px;font-weight:700;color:#16a34a}
+/* tiles */
+.sxh-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.sxh-tile{position:relative;overflow:hidden;text-align:left;border:0;border-radius:20px;padding:16px 16px 14px;color:#fff;display:flex;flex-direction:column;gap:3px;min-height:118px;box-shadow:0 14px 28px -20px rgba(15,23,42,.6);transition:transform .15s,box-shadow .15s}
+.sxh-tile:hover{transform:translateY(-2px);box-shadow:0 18px 32px -18px rgba(15,23,42,.6)}
+.sxh-tile:active{transform:scale(.98)}
+.sxh-tile::after{content:'';position:absolute;right:-26px;top:-26px;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.14)}
+.sxh-te{font-size:30px;line-height:1;margin-bottom:auto;filter:drop-shadow(0 4px 6px rgba(0,0,0,.18))}
+.sxh-tile b{font-size:16px;margin-top:12px}
+.sxh-tile small{font-size:12.5px;opacity:.9}
+.sxh-tile.sxc1{background:linear-gradient(135deg,#6366f1,#4f46e5)}
+.sxh-tile.sxc2{background:linear-gradient(135deg,#ec4899,#db2777)}
+.sxh-tile.sxc3{background:linear-gradient(135deg,#14b8a6,#0d9488)}
+.sxh-tile.sxc4{background:linear-gradient(135deg,#22c55e,#15803d)}
+.sxh-tile.sxc5{background:linear-gradient(135deg,#f97316,#ea580c)}
+.sxh-tile.sxc6{background:linear-gradient(135deg,#8b5cf6,#7c3aed)}
+.sxh-tile.sxc7{background:linear-gradient(135deg,#ef4444,#be123c)}
+.sxh-tile.sxc8{background:linear-gradient(135deg,#0ea5e9,#2563eb)}
+/* week + subjects */
+.sxh-two{display:grid;grid-template-columns:1.1fr 1fr;gap:18px}
+.sxh-bars{display:flex;align-items:flex-end;gap:10px;height:130px;padding-top:6px}
+.sxh-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%}
+.sxh-col{flex:1;width:100%;max-width:38px;background:#f1f0fb;border-radius:10px;display:flex;align-items:flex-end;overflow:hidden}
+.sxh-col i{display:block;width:100%;border-radius:10px;background:#c4b5fd}
+.sxh-day.on .sxh-col i{background:linear-gradient(180deg,#a78bfa,#6366f1)}
+.sxh-day.today small{color:#4f46e5;font-weight:800}
+.sxh-day small{font-size:12px;color:var(--muted,#64748b)}
+.sxh-sub{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:7px 4px;border-radius:12px;text-align:left;color:inherit}
+.sxh-sub:hover{background:var(--soft,#f7f7fc)}
+.sxh-sd{flex:0 0 32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px}
+.sxh-sn{flex:0 0 34%;font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sxh-sb{flex:1;height:8px;border-radius:99px;background:#f1f0fb;overflow:hidden}
+.sxh-sb i{display:block;height:100%;border-radius:99px}
+.sxh-sub small{flex:0 0 38px;text-align:right;font-size:12.5px;color:var(--muted,#64748b)}
+.s0{background:#6366f1}.s1{background:#14b8a6}.s2{background:#f97316}.s3{background:#ec4899}.s4{background:#22c55e}.s5{background:#0ea5e9}
+.sxh-empty{font-size:14px;color:var(--muted,#64748b)}
+/* books */
+.sxh-books{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:1px solid #dbeafe;border-radius:22px;padding:16px 20px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);color:inherit}
+.sxh-books:hover{border-color:#c7d2fe}
+.sxh-be{font-size:30px}
+.sxh-books span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:2px}
+.sxh-books b{font-size:16px}
+.sxh-books small{font-size:13.5px;color:var(--muted,#64748b)}
+.sxh-arrow{font-size:20px;color:#4f46e5;font-weight:800}
+/* dark theme */
+@media (prefers-color-scheme:dark){html:not([data-theme="light"]) .sxh-item{background:rgba(255,255,255,.04)}html:not([data-theme="light"]) .sxh-ie{background:rgba(255,255,255,.08)}html:not([data-theme="light"]) .sxh-books{background:rgba(99,102,241,.12);border-color:rgba(99,102,241,.3)}}
+[data-theme="dark"] .sxh-item{background:rgba(255,255,255,.04)}[data-theme="dark"] .sxh-ie{background:rgba(255,255,255,.08)}[data-theme="dark"] .sxh-books{background:rgba(99,102,241,.12);border-color:rgba(99,102,241,.3)}
+/* tablet */
+@media (max-width:1000px){.sxh-tiles{grid-template-columns:repeat(4,minmax(0,1fr))}.sxh-two{grid-template-columns:1fr}}
+/* phone */
+@media (max-width:640px){
+ #sxHome{gap:14px}
+ .sxh-hero{border-radius:24px;padding:20px 18px 18px}
+ .sxh-hi h1{font-size:25px}
+ .sxh-hi p{font-size:14.5px}
+ .sxh-ring{width:82px;height:82px}
+ .sxh-ring b{font-size:19px}
+ .sxh-ring small{font-size:10px}
+ .sxh-chips{margin:14px 0 12px;gap:6px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:-18px;padding-right:18px}
+ .sxh-chips::-webkit-scrollbar{display:none}
+ .sxh-chips button{flex:0 0 auto;font-size:13px;padding:7px 12px}
+ .sxh-askb{padding:0 14px}
+ .sxh-sug{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+ .sxh-sug button{flex:0 0 auto}
+ .sxh-card{padding:16px;border-radius:20px}
+ .sxh-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .sxh-tile{min-height:104px;padding:14px;border-radius:18px}
+ .sxh-te{font-size:26px}
+ .sxh-tile b{font-size:15px}
+ .sxh-item{padding:10px 12px;gap:10px}
+ .sxh-ie{flex-basis:36px;height:36px;font-size:18px}
+ .sxh-go{padding:8px 13px}
+ .sxh-bars{height:110px;gap:6px}
+}
+/* never let anything make the page wider than the phone */
+html,body{max-width:100%;overflow-x:clip}
+.app,.app>main,main,.page,#sxHome,#sxHome>*,.sxh-hero>*,.sxh-two>*{min-width:0}
+#sxHome,#sxHome>*{max-width:100%}
+body>.app{width:100%;max-width:100%;min-width:0;justify-self:stretch}
+@media(max-width:900px){.app>main,.app main,.top{width:auto;max-width:100%}}
+/* phone layout: edge-to-edge page, full-width top bar, nothing hidden behind the bottom bar */
+@media(max-width:700px){
+ body{border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important}
+ .app{left:0!important}
+ header.top{width:auto!important;max-width:none!important;margin-right:-13px!important;margin-left:-13px!important;box-sizing:border-box}
+ main{padding-bottom:calc(128px + env(safe-area-inset-bottom))!important}
+ body.sf-ingame main,body.ep-open main{padding-bottom:0!important}
+}
+#avatar{cursor:pointer}
+.sxh-th{display:flex;align-items:center;justify-content:space-between;margin:4px 2px -4px}.sxh-th h2{margin:0;font-size:17px}
+.sxh-edit{border:1px solid var(--line,#e5e7eb);background:var(--card,#fff);color:inherit;border-radius:99px;padding:6px 12px;font:600 13px Inter,system-ui,sans-serif;cursor:pointer}
+.sxh-tile.sxh-add{background:transparent!important;color:#6d28d9;border:2px dashed #c4b5fd;box-shadow:none}.sxh-tile.sxh-add::after{display:none}.sxh-add .sxh-te{font-size:26px;font-weight:700}
+.sxh-add small{color:#7c3aed;opacity:.85}
+.sxe-ov{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center}
+.sxe-box{background:var(--card,#fff);color:var(--ink,#1f2937);width:100%;max-width:520px;max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));box-sizing:border-box}
+@media(min-width:701px){.sxe-ov{align-items:center}.sxe-box{border-radius:22px}}
+.sxe-hd{display:flex;justify-content:space-between;align-items:center;position:sticky;top:-16px;background:inherit;padding:6px 0;z-index:1}.sxe-hd b{font-size:18px}
+.sxe-x{border:0;background:#6d28d9;color:#fff;border-radius:99px;padding:8px 18px;font:700 14px Inter,system-ui,sans-serif;cursor:pointer}
+.sxe-sub{margin:2px 0 10px;color:var(--muted,#6b7280);font-size:13.5px}.sxe-h{margin:18px 0 4px;font-size:15px}
+.sxe-list{display:grid;gap:6px}
+.sxe-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1.5px solid var(--line,#e7e8ef);background:var(--card,#fff);color:inherit;border-radius:14px;padding:9px 12px;cursor:pointer;font:inherit}
+.sxe-row.on{border-color:#a78bfa;background:#f5f3ff}
+.sxe-e{font-size:22px;width:28px;text-align:center}.sxe-t{flex:1;min-width:0}.sxe-t b{display:block;font-size:14.5px}.sxe-t small{display:block;color:var(--muted,#6b7280);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sxe-ck{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#eef0f6;color:#6b7280}.sxe-row.on .sxe-ck{background:#6d28d9;color:#fff}
+.sxe-own{display:flex;gap:6px;align-items:center}.sxe-own .sxe-row{flex:1;min-width:0}.sxe-del{border:0;background:#fef2f2;border-radius:12px;padding:10px;cursor:pointer}
+.sxe-form{display:grid;grid-template-columns:56px 1fr;gap:8px;margin-top:10px}.sxe-form input{border:1.5px solid var(--line,#e5e7eb);border-radius:12px;padding:10px 12px;font:15px Inter,system-ui,sans-serif;background:var(--card,#fff);color:inherit;min-width:0}
+#sxeE{text-align:center}#sxeQ,.sxe-addb{grid-column:1/-1}
+.sxe-addb{border:0;border-radius:12px;padding:12px;font:700 14.5px Inter,system-ui,sans-serif;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;cursor:pointer}
+.sxe-reset{display:block;margin:16px auto 0;border:0;background:none;color:var(--muted,#6b7280);font:600 13px Inter,system-ui,sans-serif;cursor:pointer;text-decoration:underline}
+/* rows that ran off the screen on small phones: wrap instead */
+.sxh-chips,.sxh-sug{flex-wrap:wrap!important;overflow:visible!important}
+.sxh-chips>*,.sxh-sug>*{flex:0 1 auto!important;min-width:0}
+@media(max-width:380px){.tt-tabs.tt-tabs4{display:flex!important;overflow-x:auto!important;scrollbar-width:none;gap:4px!important}.tt-tabs.tt-tabs4::-webkit-scrollbar{display:none}.tt-tabs.tt-tabs4 button{flex:0 0 auto!important;padding:8px 10px!important;font-size:12.5px!important;white-space:nowrap}}
+.sxh-chips{gap:6px!important}.sxh-chips>*{padding:6px 10px!important;font-size:13px!important}
+@media(max-width:380px){.sxh-chips>*{padding:5px 9px!important;font-size:12px!important}.sxh-sug>*{font-size:12.5px!important}}
+@media(max-width:380px){#kqSubj{min-width:0;flex:2 1 0!important;font-size:13px;padding-left:10px!important;padding-right:4px!important;text-overflow:ellipsis}}
+
+</style><script id="sf-hm-js">
+/* StudyStarx home page: short, personal, and fun. Replaces the old dashboard blocks (they stay hidden in the page so nothing else breaks). */
+(function(){
+'use strict';
+function $(s,r){return (r||document).querySelector(s)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function D(){try{return data}catch(e){return{}}}
+function P(){return D().profile||{}}
+function key(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function minsOn(k){return(D().sessions||[]).reduce(function(a,s){return a+(s&&s.date===k?(+s.minutes||0):0)},0)}
+function streak(){var d=new Date(),n=0;for(var i=0;i<400;i++){var m=minsOn(key(d));if(m>0)n++;else if(i>0)break;d.setDate(d.getDate()-1)}return n}
+function goal(){return +P().goal||45}
+function first(){var n=String(P().name||'').trim().split(/\s+/)[0];return n||'there'}
+function hello(){var h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'}
+function course(){var p=P();return p.level||[p.board||p.syllabus,p.grade].filter(Boolean).join(' · ')||'Your course'}
+function dueCards(){var now=Date.now();return(D().flashcards||[]).filter(function(c){return !c.due||c.due<=now}).length}
+function island(){try{var I=window.StudyFlowIsland;return{lvl:I&&I.level?I.level():1,coins:(I&&I.state&&+I.state.coins)||(+((D().island||{}).coins)||0)}}catch(e){return{lvl:1,coins:0}}}
+function tasksToday(){var k=key(new Date());return(D().tasks||[]).filter(function(t){return t&&t.date===k})}
+function subjects(){var s=P().subjects;return Array.isArray(s)&&s.length?s.slice(0,6):[]}
+function starterQuiz(){try{return(window.customQuizzes||[]).filter(function(q){return q&&q.starter&&!q.playedAt})[0]||null}catch(e){return null}}
+
+var ALL=[
+ ['coach','💬','Ask the Coach','Explain anything','sxc1'],
+ ['quiz','🎯','Quiz Studio','Fun quiz games','sxc2'],
+ ['flashcards','🃏','Flashcards','Learn, Match, Test','sxc3'],
+ ['quest','🏝️','StudyQuest','Play and earn coins','sxc4'],
+ ['classes','🎥','Live class','Host or join','sxc5'],
+ ['examiner','✍️','Exam Examiner','Marks your answers','sxc6'],
+ ['focuslock','🔒','Focus Lock','Block distractions','sxc7'],
+ ['resources','📚','Books','For your syllabus','sxc8'],
+ ['upload','📤','Upload & Study','Notes into a study set','sxc1'],
+ ['focus','⏱️','Focus timer','Study in sprints','sxc6'],
+ ['timetable','🗓️','Timetable','Your week planned','sxc8'],
+ ['progress','📈','Progress','See how you’re doing','sxc4'],
+ ['mastery','🧠','Fix mistakes','Topics to work on','sxc7'],
+ ['math','➗','Maths helper','Step-by-step maths','sxc5'],
+ ['readiness','🏁','Exam readiness','Are you ready?','sxc2'],
+ ['tools','🧰','AI Toolkit','Summaries and more','sxc3']
+];
+var DEF=['coach','quiz','flashcards','quest','classes','examiner','focuslock','resources'];
+function lsG(k,d){try{var v=JSON.parse(localStorage.getItem(k)||'null');return v==null?d:v}catch(e){return d}}
+function lsS(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function own(){var o=lsG('sx-own',[]);return Array.isArray(o)?o.filter(function(x){return x&&x.n}).slice(0,8):[]}
+function picked(){var p=lsG('sx-tiles',null);return Array.isArray(p)?p:DEF.slice()}
+function myTiles(){var p=picked(),o=own(),out=[];p.forEach(function(id){if(id.indexOf('own:')===0){var n=+id.slice(4),x=o[n];if(x)out.push([id,esc(x.e||'⭐'),x.n,x.q?x.q:'Your shortcut','sxc'+(1+n%8)])}else{var t=ALL.filter(function(a){return a[0]===id})[0];if(t)out.push(t)}});return out}
+var TILES=ALL;
+
+function ring(m,g){var pct=Math.max(0,Math.min(1,m/g)),R=34,C=2*Math.PI*R;return'<svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="'+R+'" class="t"/><circle cx="42" cy="42" r="'+R+'" class="v" stroke-dasharray="'+(C*pct).toFixed(1)+' '+C.toFixed(1)+'"/></svg>'}
+
+function mission(){var out=[],tt=tasksToday();
+ tt.slice(0,2).forEach(function(t){out.push({done:!!t.done,e:'📝',t:t.title||'Study task',s:(t.subject?t.subject+' · ':'')+(t.duration||t.minutes||25)+' min',go:'focus',b:'Start'})});
+ var dc=dueCards();if(dc>0)out.push({done:false,e:'🃏',t:'Review '+dc+' flashcard'+(dc===1?'':'s'),s:'About '+Math.max(2,Math.round(dc*0.4))+' min · keeps them in memory',go:'flashcards',b:'Review'});
+ var q=starterQuiz();if(q&&out.length<3)out.push({done:false,e:q.emoji||'🎯',t:'Play: '+q.title,s:(q.subject||'Quiz')+' · '+((q.questions||[]).length||8)+' questions',go:'quiz',b:'Play'});
+ if(out.length<3)out.push({done:false,e:'🏝️',t:'Win coins in StudyQuest',s:'Answer questions on your subjects',go:'quest',b:'Play'});
+ if(!tt.length&&out.length<4)out.push({done:false,e:'🗓️',t:'Plan today’s study',s:'Add one short session — it takes 10 seconds',go:'timetable',b:'Plan'});
+ return out.slice(0,4)}
+
+function render(){var host=$('#page-dashboard');if(!host)return;var el=$('#sxHome');if(!el){el=document.createElement('div');el.id='sxHome';host.insertBefore(el,host.firstChild)}
+ var now=new Date(),tk=key(now),m=minsOn(tk),g=goal(),st=streak(),is=island(),dc=dueCards(),ms=mission(),done=ms.filter(function(x){return x.done}).length;
+ var line=m>=g?'You hit today’s goal — brilliant! ✦':m>0?'Nice start — '+(g-m)+' more minutes to reach today’s goal.':st>0?'Keep your '+st+'-day streak alive today.':'Let’s make today count. Small steps add up.';
+ var wk=[],mx=1,tot=0;for(var i=6;i>=0;i--){var d=new Date(now);d.setDate(now.getDate()-i);var v=minsOn(key(d));tot+=v;mx=Math.max(mx,v);wk.push({d:d,v:v,t:i===0})}
+ var bySub={};(D().sessions||[]).forEach(function(s){var dd=new Date(s.date+'T00:00:00');if(now-dd<7*864e5&&s.subject)bySub[s.subject]=(bySub[s.subject]||0)+(+s.minutes||0)});
+ var subs=subjects(),smax=1;subs.forEach(function(s){smax=Math.max(smax,bySub[s]||0)});
+ var h='';
+ h+='<section class="sxh-hero"><div class="sxh-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>'
+  +'<div class="sxh-top"><div class="sxh-hi"><span class="sxh-date">'+esc(now.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'}))+'</span><h1>'+esc(hello())+', '+esc(first())+' <span class="sxh-spark">✦</span></h1><p>'+esc(line)+'</p></div>'
+  +'<button type="button" class="sxh-ring" data-sxgo="focus" aria-label="Today: '+m+' of '+g+' minutes. Start a focus session">'+ring(m,g)+'<span><b>'+m+'</b><small>of '+g+' min</small></span></button></div>'
+  +'<div class="sxh-chips"><button type="button" data-sxgo="progress">🔥 <b>'+st+'</b> day streak</button><button type="button" data-sxgo="quest">⭐ Level <b>'+is.lvl+'</b> · 🪙 '+is.coins+'</button><button type="button" data-sxgo="flashcards">🃏 <b>'+dc+'</b> card'+(dc===1?'':'s')+' due</button></div>'
+  +'<form class="sxh-ask" id="sxhAsk"><input id="sxhQ" type="text" autocomplete="off" placeholder="Ask your coach anything…" aria-label="Ask your coach"><button type="submit" class="sxh-askb">Ask ✦</button></form>'
+  +'<div class="sxh-sug"><button type="button" data-sxq="Make me a study plan for this week">🗓️ Plan my week</button><button type="button" data-sxq="Quiz me on my weakest topic">🎯 Quiz me</button><button type="button" data-sxq="Explain my hardest topic simply">💡 Explain simply</button></div></section>';
+ h+='<section class="sxh-card sxh-mission"><div class="sxh-head"><div><h2>Today’s mission</h2><p>'+(done?done+' of '+ms.length+' done — keep going!':'Do these and you’re set for today')+'</p></div><span class="sxh-pct">'+Math.round(done/Math.max(1,ms.length)*100)+'%</span></div><div class="sxh-bar"><i style="width:'+Math.round(done/Math.max(1,ms.length)*100)+'%"></i></div><div class="sxh-list">'
+  +ms.map(function(x){return'<div class="sxh-item'+(x.done?' done':'')+'"><span class="sxh-ie">'+(x.done?'✅':x.e)+'</span><div class="sxh-it"><b>'+esc(x.t)+'</b><small>'+esc(x.s)+'</small></div>'+(x.done?'<span class="sxh-ok">Done</span>':'<button type="button" class="sxh-go" data-sxgo="'+x.go+'">'+x.b+'</button>')+'</div>'}).join('')+'</div></section>';
+ h+='<div class="sxh-th"><h2>Your shortcuts</h2><button type="button" class="sxh-edit" data-sxedit="1">✏️ Edit</button></div><section class="sxh-tiles" aria-label="Shortcuts">'+myTiles().map(function(t){var sub=t[0]==='quest'?'Level '+is.lvl+' · '+is.coins+' coins':t[0]==='flashcards'&&dc?dc+' due now':t[3];return'<button type="button" class="sxh-tile '+t[4]+'" data-sxgo="'+t[0]+'"><span class="sxh-te">'+t[1]+'</span><b>'+esc(t[2])+'</b><small>'+esc(sub)+'</small></button>'}).join('')+'<button type="button" class="sxh-tile sxh-add" data-sxedit="1"><span class="sxh-te">＋</span><b>Add</b><small>Pick your shortcuts</small></button></section>';
+ h+='<div class="sxh-two"><section class="sxh-card sxh-week"><div class="sxh-head"><div><h2>This week</h2><p>'+(tot?tot+' minutes studied':'No study yet — your first session starts the streak')+'</p></div><button type="button" class="sxh-link" data-sxgo="progress">Progress →</button></div><div class="sxh-bars">'
+  +wk.map(function(w){var hgt=w.v?Math.max(10,Math.round(w.v/mx*100)):4;return'<div class="sxh-day'+(w.t?' today':'')+(w.v?' on':'')+'" title="'+w.v+' min"><div class="sxh-col"><i style="height:'+hgt+'%"></i></div><small>'+w.d.toLocaleDateString(undefined,{weekday:'narrow'})+'</small></div>'}).join('')+'</div></section>';
+ h+='<section class="sxh-card sxh-subj"><div class="sxh-head"><div><h2>Your subjects</h2><p>Minutes this week</p></div><button type="button" class="sxh-link" data-sxgo="settings">Edit →</button></div>'
+  +(subs.length?subs.map(function(s,i){var v=bySub[s]||0;return'<button type="button" class="sxh-sub" data-sxq="Help me revise '+esc(s)+'"><span class="sxh-sd s'+(i%6)+'">'+esc(s.slice(0,1).toUpperCase())+'</span><span class="sxh-sn">'+esc(s)+'</span><span class="sxh-sb"><i class="s'+(i%6)+'" style="width:'+(v?Math.max(6,Math.round(v/smax*100)):0)+'%"></i></span><small>'+v+'m</small></button>'}).join(''):'<p class="sxh-empty">Add your subjects in Settings to see them here.</p>')+'</section></div>';
+ h+='<button type="button" class="sxh-books" data-sxgo="resources"><span class="sxh-be">📚</span><span><b>Books for '+esc(course())+'</b><small>Syllabus books with worked examples and exam practice — look inside free</small></span><span class="sxh-arrow">→</span></button>';
+ el.innerHTML=h;document.body.classList.add('sx-home-on')}
+
+function ask(q){q=String(q||'').trim();if(!q)return;try{go('coach')}catch(e){}setTimeout(function(){var t=$('#chatText'),f=$('#chatForm');if(t&&f){t.value=q;t.dispatchEvent(new Event('input',{bubbles:true}));if(f.requestSubmit)f.requestSubmit();else f.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))}},250)}
+document.addEventListener('click',function(e){var ed=e.target.closest('[data-sxedit]');if(ed&&ed.closest('#sxHome')){e.preventDefault();openEdit();return}var b=e.target.closest('[data-sxgo]');if(b&&b.closest('#sxHome')){e.preventDefault();var g=b.dataset.sxgo;if(g.indexOf('own:')===0){var x=own()[+g.slice(4)];if(x){if(x.q)ask(x.q);else go('coach')}return}try{go(g)}catch(_){}return}var q=e.target.closest('[data-sxq]');if(q&&q.closest('#sxHome')){e.preventDefault();ask(q.dataset.sxq)}});
+document.addEventListener('submit',function(e){if(e.target&&e.target.id==='sxhAsk'){e.preventDefault();var i=$('#sxhQ');ask(i&&i.value);if(i)i.value=''}});
+var last='';function tick(){var pg=$('#page-dashboard');if(!pg||pg.offsetParent===null){return}var d=D(),sig=[(d.sessions||[]).length,(d.tasks||[]).filter(function(t){return t.done}).length,(d.tasks||[]).length,dueCards(),island().coins,island().lvl,P().name,P().goal,(P().subjects||[]).join(),new Date().getHours(),key(new Date())].join('|');if(sig!==last||!$('#sxHome')){if(document.activeElement&&document.activeElement.id==='sxhQ')return;last=sig;render()}}
+setInterval(tick,1500);document.addEventListener('visibilitychange',function(){if(!document.hidden){last='';tick()}});setTimeout(tick,300);
+function openEdit(){var ov=document.getElementById('sxEd');if(ov)ov.remove();ov=document.createElement('div');ov.id='sxEd';ov.className='sxe-ov';document.body.appendChild(ov);paintEdit();document.body.classList.add('sf-noscroll')}
+function closeEdit(){var ov=document.getElementById('sxEd');if(ov)ov.remove();document.body.classList.remove('sf-noscroll');last='';render()}
+function paintEdit(){var ov=document.getElementById('sxEd');if(!ov)return;var p=picked(),o=own();
+ var row=function(id,e,n,d){var on=p.indexOf(id)>=0;return'<button type="button" class="sxe-row'+(on?' on':'')+'" data-sxt="'+esc(id)+'"><span class="sxe-e">'+e+'</span><span class="sxe-t"><b>'+esc(n)+'</b><small>'+esc(d)+'</small></span><span class="sxe-ck">'+(on?'✓':'+')+'</span></button>'};
+ ov.innerHTML='<div class="sxe-box" role="dialog" aria-label="Edit shortcuts"><div class="sxe-hd"><b>Your shortcuts</b><button type="button" class="sxe-x" data-sxe="close">Done</button></div><p class="sxe-sub">Tap to show or hide a shortcut on your home page.</p>'
+ +'<div class="sxe-list">'+ALL.map(function(t){return row(t[0],t[1],t[2],t[3])}).join('')+'</div>'
+ +'<h3 class="sxe-h">Make your own</h3>'+(o.length?'<div class="sxe-list">'+o.map(function(x,i){return'<div class="sxe-own">'+row('own:'+i,esc(x.e||'⭐'),x.n,x.q?'Asks: '+x.q:'')+'<button type="button" class="sxe-del" data-sxdel="'+i+'" aria-label="Delete">🗑</button></div>'}).join('')+'</div>':'<p class="sxe-sub">Make a button for anything you do a lot — like “Practise French verbs”.</p>')
+ +(o.length<8?'<form class="sxe-form" id="sxeForm"><input id="sxeE" maxlength="4" placeholder="⭐" aria-label="Emoji"><input id="sxeN" maxlength="24" placeholder="Name, e.g. French verbs" aria-label="Name" required><input id="sxeQ" maxlength="160" placeholder="What should the coach do? e.g. Quiz me on French verbs" aria-label="What the coach should do"><button type="submit" class="sxe-addb">＋ Add my shortcut</button></form>':'')
+ +'<button type="button" class="sxe-reset" data-sxe="reset">Reset to default</button></div>'}
+document.addEventListener('click',function(e){var ov=e.target.closest('#sxEd');if(!ov)return;if(e.target===ov){closeEdit();return}
+ var a=e.target.closest('[data-sxe]');if(a){if(a.dataset.sxe==='close')closeEdit();else{lsS('sx-tiles',DEF.slice());paintEdit()}return}
+ var d=e.target.closest('[data-sxdel]');if(d){var i=+d.dataset.sxdel,o=own();o.splice(i,1);var p=picked().filter(function(x){return x!=='own:'+i}).map(function(x){if(x.indexOf('own:')===0&&+x.slice(4)>i)return'own:'+(+x.slice(4)-1);return x});lsS('sx-own',o);lsS('sx-tiles',p);paintEdit();return}
+ var t=e.target.closest('[data-sxt]');if(t){var id=t.dataset.sxt,p=picked(),k=p.indexOf(id);if(k>=0)p.splice(k,1);else p.push(id);lsS('sx-tiles',p);paintEdit()}});
+document.addEventListener('submit',function(e){if(e.target&&e.target.id==='sxeForm'){e.preventDefault();var n=($('#sxeN').value||'').trim();if(!n)return;var o=own();o.push({e:($('#sxeE').value||'').trim()||'⭐',n:n,q:($('#sxeQ').value||'').trim()});lsS('sx-own',o);var p=picked();p.push('own:'+(o.length-1));lsS('sx-tiles',p);paintEdit()}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('sxEd'))closeEdit()});
+document.addEventListener('click',function(e){var a=e.target.closest('#avatar');if(a){e.preventDefault();try{go('settings')}catch(_){}}});
+window.StudyStarxHome={render:render,edit:openEdit};
+
+})();
 
 </script></body></html>
