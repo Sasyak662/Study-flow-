@@ -12649,12 +12649,10 @@ setInterval(function(){var b=document.getElementById('mmBtn');if(b)b.remove()},1
    Each kind has a daily cap so quizzes stay worthwhile. */
 (function(){
 var SRC={
- focus:{cap:240,n:'Focus timer',e:'⏱️',how:'2 coins per minute',go:'focus'},
- review:{cap:120,n:'Flashcard review',e:'🃏',how:'+10 per review round',go:'flashcards'},
- plan:{cap:120,n:'Timetable sessions',e:'📅',how:'+3 to +12 per session done',go:'planner'},
- learn:{cap:100,n:'Fix mistakes & learn',e:'🛠️',how:'+2 per fixed mistake, +15 per round',go:'mistakes'},
- live:{cap:100,n:'Live classes',e:'🎥',how:'join, answer and take part',go:'classes'},
- checkin:{cap:20,n:'Daily check-in',e:'🎁',how:'+20 just for opening StudyStarx',go:null}
+ revq:{cap:150,n:'Review round',e:'🔁',how:'Answer 8 questions you have seen before · +6 per correct answer',act:'review'},
+ learn:{cap:100,n:'Fix your mistakes',e:'🛠️',how:'Get old mistakes right · +2 each, +15 per round',go:'mistakes'},
+ review:{cap:60,n:'Flashcard review',e:'🃏',how:'+10 per review round',go:'flashcards'},
+ checkin:{cap:20,n:'Daily check-in',e:'🎁',how:'+20 for opening StudyStarx each day',go:null}
 };
 function D(){try{return typeof data!=='undefined'?data:null}catch(e){return null}}
 function I(){return window.StudyFlowIsland}
@@ -12663,17 +12661,20 @@ function E(){var d=D();if(!d)return null;if(!d.earn||d.earn.d!==today())d.earn={
 function save(){try{persist()}catch(e){}}
 window.sfEarn=function(c,src){c=Math.round(+c||0);var S0=SRC[src];if(c<=0||!S0)return 0;var e=E();if(!e)return 0;var used=e.s[src]||0,g=Math.min(c,Math.max(0,S0.cap-used));if(!g)return 0;
  var I0=I();if(!I0||typeof I0.gain!=='function')return 0;e.s[src]=used+g;save();try{I0.gain(g,Math.max(1,Math.round(g/2)),S0.e)}catch(_){e.s[src]=used;save();return 0}try{paint()}catch(_){}return g};
-/* focus minutes: 2 coins a minute (only minutes done from now on count) */
-function focusMins(){var m=0;try{var f=JSON.parse(localStorage.getItem('studyflow-focus-center-v1')||'{}');(f.sessions||[]).forEach(function(x){m+=+x.minutes||0})}catch(e){}var m2=0;try{(D().sessions||[]).forEach(function(x){m2+=+x.minutes||0})}catch(e){}return Math.max(m,m2)}
-function tickFocus(){var d=D();if(!d||!I())return;var t=focusMins();if(d.earnFocus==null||d.earnFocus>t){d.earnFocus=t;save();return}var add=t-d.earnFocus;if(add>=1){d.earnFocus=t;save();window.sfEarn(add*2,'focus')}}
 function checkin(){var e=E();if(e&&!(e.s.checkin>0)&&I()&&I().gain)window.sfEarn(20,'checkin')}
-setInterval(function(){try{tickFocus();checkin()}catch(e){}},15000);setTimeout(function(){try{tickFocus();checkin()}catch(e){}},6000);
+setInterval(function(){try{checkin()}catch(e){}},15000);setTimeout(function(){try{checkin()}catch(e){}},6000);
 /* card on the StudyQuest page */
 function paint(){var pg=document.getElementById('page-quest');if(!pg)return;var c=document.getElementById('neCard');var e=E()||{s:{}};
- var html='<div class="ne-hd"><h2>🪙 Earn coins without quizzes</h2><p>Study your way — every one of these gives coins and XP to build your world.</p></div><div class="ne-list">'+Object.keys(SRC).map(function(k){var s=SRC[k],u=Math.min(e.s[k]||0,s.cap),pc=Math.round(u/s.cap*100);return'<button type="button" class="ne-it'+(u>=s.cap?' full':'')+'"'+(s.go?' data-nego="'+s.go+'"':'')+'><span class="ne-e">'+s.e+'</span><span class="ne-t"><b>'+s.n+'</b><small>'+s.how+'</small><span class="ne-bar"><i style="width:'+pc+'%"></i></span></span><span class="ne-n">'+(u>=s.cap?'✓ Max today':u+' / '+s.cap)+'</span></button>'}).join('')+'</div>';
+ var html='<div class="ne-hd"><h2>🪙 Earn coins without quizzes</h2><p>Real practice that earns coins and XP — no new AI needed.</p></div><div class="ne-list">'+Object.keys(SRC).map(function(k){var s=SRC[k],u=Math.min(e.s[k]||0,s.cap),pc=Math.round(u/s.cap*100);return'<button type="button" class="ne-it'+(u>=s.cap?' full':'')+'"'+(s.go?' data-nego="'+s.go+'"':'')+(s.act?' data-neact="'+s.act+'"':'')+'><span class="ne-e">'+s.e+'</span><span class="ne-t"><b>'+s.n+'</b><small>'+s.how+'</small><span class="ne-bar"><i style="width:'+pc+'%"></i></span></span><span class="ne-n">'+(u>=s.cap?'✓ Max today':u+' / '+s.cap)+'</span></button>'}).join('')+'</div>';
  if(!c){c=document.createElement('div');c.id='neCard';c.className='card ne-card';var after=document.getElementById('sqAutoCard')||document.querySelector('#page-quest .card');if(after&&after.parentNode===pg)after.insertAdjacentElement('afterend',c);else pg.appendChild(c)}
  if(c.dataset.h!==html){c.innerHTML=html;c.dataset.h=html}}
-document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('[data-nego]');if(!b)return;try{go(b.dataset.nego)}catch(e){}});
+document.addEventListener('click',function(ev){var r=ev.target.closest&&ev.target.closest('[data-neact="review"]');if(r){reviewRound();return}var b=ev.target.closest&&ev.target.closest('[data-nego]');if(!b)return;try{go(b.dataset.nego)}catch(e){}});
+/* Review round: 8 questions the student has already met (StudyQuest bank), no AI used */
+function reviewRound(){var B=window.SFQuestBank,Q=window.StudyFlowQuiz;if(!B||!Q){try{toast('Open StudyQuest once first.')}catch(e){}return}var pool=[];try{B.subjects().forEach(function(sub){var e=B.entry(sub);e.qs.forEach(function(q){if(e.seen[q.id]&&q.options&&q.options.length>=2)pool.push({q:q,sub:sub,n:e.seen[q.id]})})})}catch(e){}
+ if(pool.length<4){try{toast('Play a few StudyQuest quizzes first — then you can review those questions here.')}catch(e){}return}
+ for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=pool[i];pool[i]=pool[j];pool[j]=t}pool.sort(function(a,b){return a.n-b.n});
+ var qs=pool.slice(0,8).map(function(x){return{text:x.q.text,options:x.q.options.slice(),correct:+x.q.correct,explain:x.q.explain||'',time:20,subject:x.sub,topic:x.q.topic||x.sub,pic:x.q.pic||''}});
+ Q.play({id:'ne-review',title:'🔁 Review round',subject:'Review',topic:'Review',emoji:'🔁',color:'#0f766e',questions:qs},{mode:'solo',shuffle:true,shuffleAnswers:true,onEnd:function(res){var c=Math.max(0,+res.correct||0),g=window.sfEarn(c*6,'revq');setTimeout(function(){var h=document.querySelector('.kq-full h1');if(h)h.insertAdjacentHTML('afterend','<p style="font-weight:800;margin:4px 0 0">'+(g>0?'🪙 +'+g+' coins for '+c+' correct answers':'You have earned today\\u2019s review coins — great practice anyway!')+'</p>')},300)}})}
 setInterval(function(){try{paint()}catch(e){}},2000);
 })();
 
