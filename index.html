@@ -5410,9 +5410,9 @@ function level(){return(ST.p.grade+' · '+ST.p.syll).trim()}
 function RL(){return ST.p.role||'student'}
 function fn(){return esc(ST.p.name.split(' ')[0]||'friend')}
 function stepSchool(){var r=RL();
- if(r==='teacher')return'<div class="ob2-hero">🧑‍🏫</div><span class="ob2-k">Step 2 of 4 · Your teaching</span><h2>What do you teach, '+fn()+'?</h2><p>We use this to make lesson quizzes and class material that match your board.</p><label class="ob2-f"><span>Which grades or classes do you teach?</span><input id="ob2Grade" maxlength="60" placeholder="e.g. Grades 9–10, Class 11, DP1" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus or exam board?</span><input id="ob2Syll" maxlength="60" placeholder="e.g. CBSE, IB Diploma, Cambridge IGCSE" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>';
+ if(r==='teacher')return'<div class="ob2-hero">🧑‍🏫</div><span class="ob2-k">Step 2 of 4 · Your teaching</span><h2>What do you teach, '+fn()+'?</h2><p>We use this to make lesson quizzes and class material that match your board.</p><label class="ob2-f"><span>Which grades or classes do you teach?</span><input id="ob2Grade" maxlength="60" placeholder="e.g. Grades 9–10, Class 11, DP1" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus or exam board?</span><input id="ob2Syll" list="ob2SyllList" autocomplete="off" maxlength="60" placeholder="Pick from the list or type it — e.g. CBSE, Cambridge IGCSE" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>';
  if(r==='parent')return'<div class="ob2-hero">👪</div><span class="ob2-k">Step 2 of 4 · Your child</span><h2>Tell us about your child</h2><p>StudyStarx builds everything around your child\'s class and syllabus, and shows you how they are doing.</p><label class="ob2-f"><span>Your child\'s first name</span><input id="ob2Child" maxlength="40" placeholder="e.g. Aarav" value="'+esc(ST.p.child||'')+'"></label><label class="ob2-f"><span>Which grade or class are they in?</span><input id="ob2Grade" maxlength="40" placeholder="e.g. Class 8, Grade 10" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus or exam board?</span><input id="ob2Syll" maxlength="60" placeholder="e.g. CBSE, ICSE, IGCSE, IB" value="'+esc(ST.p.syll)+'"></label>';
- return'<div class="ob2-hero">🏫</div><span class="ob2-k">Step 2 of 4 · Your school</span><h2>Where are you studying, '+fn()+'?</h2><p>Type it exactly how your school says it — there\'s no wrong answer.</p><label class="ob2-f"><span>Which grade, class or college year are you in?</span><input id="ob2Grade" maxlength="40" placeholder="e.g. Class 10, Grade 11, DP1, B.Tech 2nd year" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus, exam board or college course?</span><input id="ob2Syll" maxlength="60" placeholder="e.g. CBSE, IB, IGCSE, State board, or your college course (JNTU B.Tech CSE)" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>'}
+ return'<div class="ob2-hero">🏫</div><span class="ob2-k">Step 2 of 4 · Your school</span><h2>Where are you studying, '+fn()+'?</h2><p>Type it exactly how your school says it — there\'s no wrong answer.</p><label class="ob2-f"><span>Which grade, class or college year are you in?</span><input id="ob2Grade" maxlength="40" placeholder="e.g. Class 10, Grade 11, DP1, B.Tech 2nd year" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus, exam board or college course?</span><input id="ob2Syll" list="ob2SyllList" autocomplete="off" maxlength="60" placeholder="Pick from the list or type it — e.g. CBSE, Telangana State Board, or your college course" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>'}
 function stepSubjects(){var r=RL(),h=r==='teacher'?'Which subjects do you teach?':r==='parent'?'Which subjects does '+esc(ST.p.child||'your child')+' study?':'Which subjects do you study?';
  return'<div class="ob2-hero">📚</div><span class="ob2-k">Step 3 of 4 · Subjects</span><h2>'+h+'</h2><p>Type each subject and press <b>Enter</b>. Add as many as you like.</p><div class="ob2-subin"><input id="ob2Sub" maxlength="50" placeholder="Type a subject, e.g. Physics" autocomplete="off"><button type="button" id="ob2SubAdd">Add</button></div><div class="ob2-subs" id="ob2Subs"></div>'+(r==='teacher'?'':'<div id="ob2Hard"></div>')}
 function stepGoals(){var r=RL();
@@ -5423,7 +5423,7 @@ function stepGoals(){var r=RL();
 function acctHTML(){var on=!(window.sfAccount&&sfAccount.signedIn&&sfAccount.signedIn());return'<div class="ob2-hero">🔐</div><span class="ob2-k">Welcome to StudyStarx</span><h2 id="ob2AH">'+(ST.am==='login'?'Welcome back':'Create your free StudyStarx account')+'</h2><p>Your progress, notes, flashcards and classes are saved to your account, so you can pick up on any phone, tablet or laptop.</p><div class="ob2-tabs"><button type="button" data-am="signup" class="'+(ST.am!=='login'?'on':'')+'">I\'m new</button><button type="button" data-am="login" class="'+(ST.am==='login'?'on':'')+'">I have an account</button></div>'+(ST.acctOK?'':'<div class="sf-gwrap" hidden><div class="sf-gbtn" id="ob2G"></div><div class="sf-gor"><span>or use email</span></div></div>')+'<label class="ob2-f"><span>Email</span><input id="ob2Email" type="email" autocomplete="email" placeholder="you@example.com" value="'+esc(ST.email||'')+'"'+(ST.acctOK?' disabled':'')+'></label><label class="ob2-f"><span>Password <em>(8+ characters)</em></span><input id="ob2Pass" type="password" autocomplete="'+(ST.am==='login'?'current-password':'new-password')+'" placeholder="Choose a password"'+(ST.acctOK?' disabled':'')+'></label><div id="ob2Rec"></div><p class="ob2-fine">Free forever. No card needed. By continuing you agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms</a> and <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>'}
 function tourHTML(i){var t=TOUR[i];return'<div class="ob2-hero">'+t[0]+'</div><span class="ob2-k">Quick tour · '+(i+1)+' of 3</span><h2>'+esc(t[1])+'</h2>'+(t[2]?'<p>'+esc(t[2])+'</p>':'')+'<div class="ob2-feats'+(i===2?' why':'')+'">'+t[3].map(function(f,k){return'<div class="ob2-feat" style="animation-delay:'+(k*90+120)+'ms"><span>'+f[0]+'</span><div><b>'+esc(f[1])+'</b><small>'+esc(f[2])+'</small></div></div>'}).join('')+'</div><div class="ob2-dots">'+[0,1,2].map(function(k){return'<i class="'+(k===i?'on':'')+'"></i>'}).join('')+'</div>'}
 function finish(){var d=D();if(!d){close();return}
- d.profile=Object.assign({},d.profile,{lang:(function(l){l=String(l||'').trim();return /^[\p{L} ()\-]{2,30}$/u.test(l)?l.charAt(0).toUpperCase()+l.slice(1).toLowerCase():'English'})(ST.p.lang),name:ST.p.name,role:ST.p.role||'student',grade:ST.p.grade,syllabus:ST.p.syll,board:ST.p.syll,curriculum:ST.p.syll,school:ST.p.school,subjects:ST.subs.slice(),hardest:ST.hard||'',aim:ST.aim,goal:ST.mins,level:level(),child:ST.p.child||'',classSize:ST.size||'',onboarded:true});
+ d.profile=Object.assign({},d.profile,{lang:(function(l){l=String(l||'').trim();return /^[\p{L} ()\-]{2,30}$/u.test(l)?l.charAt(0).toUpperCase()+l.slice(1).toLowerCase():'English'})(ST.p.lang),name:ST.p.name,role:ST.p.role||'student',grade:ST.p.grade,syllabus:(window.sfCanon?sfCanon.board(ST.p.syll):ST.p.syll),board:ST.p.syll,curriculum:ST.p.syll,school:ST.p.school,subjects:ST.subs.slice(),hardest:ST.hard||'',aim:ST.aim,goal:ST.mins,level:level(),child:ST.p.child||'',classSize:ST.size||'',onboarded:true});
  if(!Array.isArray(d.exams))d.exams=[];Object.keys(ST.exams).forEach(function(s){var dt=ST.exams[s];if(!dt)return;var ex=d.exams.find(function(x){return x.subject===s&&x.date>=today()});if(ex)ex.date=dt;else d.exams.push({id:uid(),subject:s,date:dt,name:s+' exam',weak:s===ST.hard?5:3})});
  try{var mx=window.StudyFlowMastery;if(mx&&mx.M){var M=mx.M();if(M.prefs)M.prefs.minutes=[15,30,45,60,90,120].indexOf(ST.mins)>=0?ST.mins:45}}catch(e){}
  try{var sel=document.getElementById('profileLevel');if(sel&&![].some.call(sel.options,function(o){return o.value===d.profile.level})){var o=document.createElement('option');o.textContent=d.profile.level;sel.appendChild(o)}sel&&(sel.value=d.profile.level)}catch(e){}
@@ -7330,7 +7330,96 @@ window.sfPreview={open:open,close:close};
 @keyframes sqSpin{to{transform:rotate(360deg)}}@keyframes sqShake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
 @keyframes sqCoin{0%{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1;transform:translateY(-10px) scale(1.1)}100%{transform:translateY(-80px) scale(.9);opacity:0}}
 
-</style><script id="sf-sq-js">
+</style><script id="sf-canon-js">
+// Same syllabus + same grade = the same shared question set, however the student types it
+window.sfCanon=(function(){
+var B=[
+['CBSE',/\bcbse\b|central board|ncert/i],
+['ICSE (CISCE)',/\bicse\b|cisce|indian certificate/i],
+['ISC (CISCE)',/\bisc\b/i],
+['NIOS',/\bnios\b|national institute of open/i],
+['Cambridge AS & A Level',/(a[\s-]?level|as\s*(&|and)\s*a|\bas level)/i,/edexcel|pearson|aqa|oxford/i],
+['Pearson Edexcel International A Level',/(edexcel|pearson).*(a[\s-]?level|ial)|(a[\s-]?level|ial).*(edexcel|pearson)/i],
+['Pearson Edexcel International GCSE',/edexcel|pearson/i],
+['OxfordAQA',/\baqa\b|oxford\s*aqa/i],
+['Cambridge IGCSE',/igcse|cambridge|cie\b|caie/i],
+['British GCSE',/\bgcse\b|british|english national|uk curriculum|key stage/i],
+['IB Diploma',/\bib\b.*(dp|diploma)|ib\s*dp|international baccalaureate.*diploma/i],
+['IB MYP',/\bmyp\b|middle years/i],
+['IB PYP',/\bpyp\b|primary years/i],
+['IB',/\bib\b|baccalaureate/i,/french/i],
+['AP (Advanced Placement)',/\bap\b|advanced placement|college board/i],
+['American Curriculum (Common Core)',/american|common core|\bus\b|usa|united states/i],
+['Andhra Pradesh State Board',/andhra|bseap|bieap|\bap state|\bap board/i],
+['Telangana State Board',/telangana|bsetg|tsbie|\bts state|\bts board|\bssc\b.*telangana/i],
+['Arunachal Pradesh',/arunachal/i],
+['Assam State Board (SEBA/AHSEC)',/assam|seba|ahsec/i],
+['Bihar State Board (BSEB)',/bihar|bseb/i],
+['Chhattisgarh State Board (CGBSE)',/chhattisgarh|cgbse/i],
+['Goa State Board (GBSHSE)',/\bgoa\b|gbshse/i],
+['Gujarat State Board (GSEB)',/gujarat|gseb/i],
+['Haryana State Board (HBSE)',/haryana|hbse|bseh/i],
+['Himachal Pradesh State Board (HPBOSE)',/himachal|hpbose/i],
+['Jharkhand State Board (JAC)',/jharkhand|\bjac\b/i],
+['Karnataka State Board (KSEAB)',/karnataka|kseab|sslc.*karnataka|\bpuc\b/i],
+['Kerala State Board',/kerala|kbpe|dhse|plus two/i],
+['Madhya Pradesh State Board (MPBSE)',/madhya|mpbse/i],
+['Maharashtra State Board (MSBSHSE)',/maharashtra|msbshse|mieb/i],
+['Manipur State Board',/manipur|bosem|cohsem/i],
+['Meghalaya State Board (MBOSE)',/meghalaya|mbose/i],
+['Mizoram State Board (MBSE)',/mizoram/i],
+['Nagaland State Board (NBSE)',/nagaland|nbse/i],
+['Odisha State Board (BSE/CHSE)',/odisha|orissa|chse/i],
+['Punjab State Board (PSEB)',/punjab|pseb/i],
+['Rajasthan State Board (RBSE)',/rajasthan|rbse|bser/i],
+['Sikkim State Board',/sikkim/i],
+['Tamil Nadu State Board',/tamil|tndge|samacheer/i],
+['Tripura State Board (TBSE)',/tripura|tbse/i],
+['Uttar Pradesh State Board (UP Board)',/uttar pradesh|upmsp|\bup board/i],
+['Uttarakhand State Board (UBSE)',/uttarakhand|ubse/i],
+['West Bengal State Board (WBBSE/WBCHSE)',/bengal|wbbse|wbchse/i],
+['Jammu & Kashmir Board (JKBOSE)',/jammu|kashmir|jkbose/i],
+['Delhi Board (DBSE)',/\bdbse\b|delhi board/i],
+['AMU Board',/\bamu\b|aligarh/i],
+['Jamia Millia Islamia Board',/jamia|\bjmi\b/i],
+['Banasthali Vidyapith',/banasthali/i],
+['Dayalbagh (DEI)',/dayalbagh|\bdei\b/i],
+['State Open School',/open school|bosse|rsos|mpsos|toss|aposs|cgsos|wbsos|jksos/i],
+['Sanskrit Board',/sanskrit|vedavidya/i],
+['Madrasa Board',/madrasa|madrasah/i],
+['Chinese National Curriculum',/china|chinese|gaokao|zhongkao/i],
+['Indonesian Curriculum (Kurikulum Merdeka)',/indonesia|merdeka/i],
+['Brazilian Curriculum (BNCC)',/brazil|bncc|enem/i],
+['Nigerian Curriculum (WAEC/NECO)',/nigeria|waec|neco|wassce/i],
+['Pakistani Curriculum (FBISE/BISE)',/pakistan|fbise|bise|matric|fsc\b/i],
+['Bangladeshi Curriculum (NCTB)',/bangladesh|nctb/i],
+['Mexican Curriculum (SEP)',/mexic|\bsep\b/i],
+['Russian Curriculum (FGOS)',/russia|fgos/i],
+['Japanese Curriculum (MEXT)',/japan|mext/i],
+['French Curriculum (Baccalauréat)',/french|france|aefe|brevet/i],
+['German Curriculum (Abitur)',/german|abitur|gymnasium/i],
+['Turkish Curriculum (MEB)',/turk|\bmeb\b/i],
+['South Korean Curriculum',/korea|suneung|csat/i],
+['Canadian Curriculum (Ontario)',/ontario|ossd/i],
+['Canadian Curriculum (British Columbia)',/british columbia|\bbc\b|dogwood/i],
+['Canadian Curriculum (Alberta)',/alberta/i],
+['Canadian Curriculum',/canad/i],
+['Australian Curriculum (ACARA)',/australia|acara|\bhsc\b|\bvce\b|\bqce\b|atar/i],
+['Singapore Curriculum (MOE)',/singapore|psle|o[\s-]?level/i],
+['Montessori',/montessori/i],
+['International Primary Curriculum (IPC/IMYC)',/\bipc\b|imyc/i]
+];
+function board(t){t=String(t||'').trim();if(!t)return'';for(var i=0;i<B.length;i++){var b=B[i];if(b[1].test(t)&&!(b[2]&&b[2].test(t)))return b[0]}return t.replace(/\s+/g,' ')}
+function grade(t){t=String(t||'').trim();var m=t.match(/\b(\d{1,2})(st|nd|rd|th)?\b/);var w={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12};
+ if(!m){var mw=t.toLowerCase().match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b/);if(mw)m=[0,String(w[mw[1]])]}
+ if(/\bdp\s*1\b|\bas\b(?!\s*&)/i.test(t))return'Grade 11';if(/\bdp\s*2\b|\ba2\b/i.test(t))return'Grade 12';
+ if(m&&/\b(grade|class|year|std|standard|form|yr|gr)\b|^\s*\d{1,2}(st|nd|rd|th)?\s*$/i.test(t)){var n=+m[1];if(/\byear\b/i.test(t)&&/british|uk|igcse|gcse/i.test(t))n=n-1;if(n>=1&&n<=12)return'Grade '+n}
+ if(m&&+m[1]>=1&&+m[1]<=12)return'Grade '+(+m[1]);
+ return t.replace(/\s+/g,' ')}
+return{board:board,grade:grade,list:B.map(function(b){return b[0]})}})();
+(function(){function add(){if(document.getElementById('ob2SyllList')||!document.body)return;var d=document.createElement('datalist');d.id='ob2SyllList';d.innerHTML=window.sfCanon.list.concat(['Other state board','College / university course']).map(function(n){return'<option value="'+n.replace(/"/g,'&quot;')+'">'}).join('');document.body.appendChild(d)}if(document.body)add();else document.addEventListener('DOMContentLoaded',add)})();
+
+</script><script id="sf-sq-js">
 var QB_START={
 math:[
 ['What is 15% of 80?',['10','12','15','8'],1,'15% of 80 = 0.15 × 80 = 12.'],
@@ -7570,7 +7659,7 @@ function save(){try{persist()}catch(e){}}
 function st(){try{return I()?I().state():(data.island=data.island||{})}catch(e){return{}}}
 function bank(){var s=st();if(!s.qbank)s.qbank={};return s.qbank}
 function subjects(){var s=(P().subjects||[]).filter(Boolean);return s.length?s.slice(0,12):['General']}
-function level(){var p=P();return[p.grade||p.level,p.board||p.curriculum||p.syllabus].filter(Boolean).join(' · ')||'secondary school'}
+function level(){var p=P(),C=window.sfCanon;var g=p.grade||p.level,b=p.board||p.curriculum||p.syllabus;if(C){g=C.grade(g);b=C.board(b)}return[g,b].filter(Boolean).join(' · ')||'secondary school'}
 function today(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
 function hash(t){var h=0;t=String(t).toLowerCase().replace(/[^a-z0-9]/g,'');for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return'q'+(h>>>0).toString(36)}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}

@@ -76,8 +76,12 @@ function buildContents(messages, user) {
 
 // Shared StudyQuest question pools: one pool per course + subject, so the AI writes each question once for everyone.
 const POOL_MAX = 400;
+const SUBJ = [[/^(maths?|mathematics|math)\b|^(additional|core|extended) math/, 'mathematics'], [/^(english( language)?|eng)$/, 'english'], [/^(computer( science| studies| applications)?|computers|ict|it|information technology|cs)$/, 'computer science'],
+  [/^(social (studies|science)|sst|s\.s\.t)$/, 'social studies'], [/^(evs|environmental (studies|science))$/, 'evs'], [/^(accounts?|accountancy|accounting)$/, 'accountancy'], [/^(business( studies)?|bst)$/, 'business studies'],
+  [/^(bio|biology)$/, 'biology'], [/^(chem|chemistry)$/, 'chemistry'], [/^(phy|physics)$/, 'physics'], [/^(eco|economics)$/, 'economics'], [/^(geo|geography)$/, 'geography'], [/^(hist|history)$/, 'history'], [/^(gen(eral)? science|science)$/, 'science']];
+function subjCanon(x) { x = String(x || '').trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 60); for (const [re, v] of SUBJ) if (re.test(x)) return v; return x; }
 function poolKey(lv, sub) {
-  const t = String(lv || '').trim().toLowerCase().slice(0, 80) + '|' + String(sub || '').trim().toLowerCase().slice(0, 60);
+  const t = String(lv || '').trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 80) + '|' + subjCanon(sub);
   return 'sf:qp:' + require('crypto').createHash('sha1').update(t).digest('hex').slice(0, 24);
 }
 function poolItem(q) {
