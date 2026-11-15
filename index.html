@@ -10718,13 +10718,15 @@ html.sfm-ready #sfTabs [data-tab]{visibility:visible}
 
 #page-quiz#page-quiz#page-quiz#page-quiz>.sfm-tabs{display:flex!important}
 
+.sfm-plus-tag{font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.06em;background:linear-gradient(135deg,#f59e0b,#ec4899);color:#fff;padding:2px 6px;border-radius:999px;margin-left:4px;vertical-align:middle}
+
 </style><script id="sf-mg-js">
 /* ===== Fewer pages: related pages share one menu item and switch with tabs at the top ===== */
 (function(){
 var M={quiz:[['quiz','🎯 Quizzes'],['flashcards','🃏 Flashcards']],
  coach:[['coach','💬 Chat'],['examiner','✍️ Mark my answer']],
  timetable:[['timetable','🗓️ Timetable'],['director','✅ Today’s plan']],
- library:[['library','📒 My notes'],['upload','📤 Upload & study']],
+ library:[['library','📒 My notes'],['upload','📤 Upload & study <em class="sfm-plus-tag">PLUS</em>']],
  resources:[['resources','📚 Book store'],['cart','🛒 My cart & books']]};
 var NAME={library:'My Notes',resources:'Books',quiz:'Practice',timetable:'Timetable',coach:'AI Coach',quest:'StudyQuest',progress:'Progress'};
 var GONE={mastery:'quiz',mistakes:'quiz'};
@@ -10759,7 +10761,9 @@ function openMore(){if(document.getElementById('sfmOv'))return closeMore();var c
  sh.addEventListener('touchend',function(){if(y0==null)return;sh.style.transition='';if(dy>80)closeMore();else sh.style.transform='';y0=null;dy=0})}
 window.addEventListener('click',function(e){if(!window.matchMedia('(max-width:900px)').matches)return;if(e.target.closest('#sfMore')||e.target.closest('#menu')){e.preventDefault();e.stopImmediatePropagation();var sb=document.getElementById('sidebar');if(sb)sb.classList.remove('open');openMore()}},true);
 function boot(){Object.keys(HOST).forEach(tabs);nav();tabbar();
- if(typeof window.go==='function'&&!window.go.__sfm){var o=window.go;window.go=function(p){if(GONE[p]){p=GONE[p];arguments[0]=p}var r=o.apply(this,arguments);try{tabs(p);mark(p);markTabs()}catch(e){}return r};window.go.__sfm=1}}
+ if(typeof window.go==='function'&&!window.go.__sfm){var o=window.go;window.go=function(p){if(GONE[p]){p=GONE[p];arguments[0]=p}
+  // Upload & study is a Plus feature
+  if(p==='upload'&&!plusOn()){try{window.sfPlusGate?sfPlusGate('Upload & study is a Plus feature','With StudyStarx Plus, upload your notes, worksheets or past papers and the AI turns them into explanations, quizzes and flashcards.'):alert('Upload & study is a Plus feature')}catch(e){}if(!document.querySelector('.page.active'))p=arguments[0]='library';else return}var r=o.apply(this,arguments);try{tabs(p);mark(p);markTabs()}catch(e){}return r};window.go.__sfm=1}}
 // build the phone bottom bar straight away (no flash of the old buttons on start-up)
 try{tabbar()}catch(e){}
 try{var tmo=new MutationObserver(function(){var n=document.getElementById('sfTabs');if(n&&n.dataset.sfm!=='2'){try{tabbar()}catch(e){}}});tmo.observe(document.documentElement,{childList:true,subtree:true});setTimeout(function(){tmo.disconnect()},8000)}catch(e){}
