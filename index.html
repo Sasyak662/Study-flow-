@@ -10908,6 +10908,101 @@ html[data-dark] .fz-wband{background:#2e1065}html[data-dark] .fz-wi.on,html[data
 .fz-clear{border:0;background:none;color:#6b7280;font:600 12.5px Inter,system-ui,sans-serif;text-decoration:underline;cursor:pointer;padding:4px 2px}
 [data-theme="dark"] .fz-choose{background:#1e1b4b;border-color:#4338ca}[data-theme="dark"] .fz-choose b{color:#c7d2fe}
 
+/* ================= Focus Lock 2.0 — night-sky design ================= */
+#fzRoot{display:grid;gap:14px;font-family:Inter,system-ui,sans-serif}
+.fx-hero,.fx-run{position:relative;overflow:hidden;border-radius:30px;padding:22px 18px 20px;color:#fff;background:linear-gradient(160deg,#0b0a24 0%,#1e1b4b 38%,#4c1d95 78%,#7e22ce 100%);box-shadow:0 18px 40px -12px rgba(76,29,149,.55);isolation:isolate}
+.fx-aur{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.fx-aur i{position:absolute;border-radius:50%;filter:blur(40px);opacity:.55;animation:fxFloat 14s ease-in-out infinite alternate}
+.fx-aur i:nth-child(1){width:220px;height:220px;background:#6366f1;top:-70px;left:-60px}
+.fx-aur i:nth-child(2){width:200px;height:200px;background:#db2777;bottom:-80px;right:-50px;animation-delay:-5s}
+.fx-aur i:nth-child(3){width:150px;height:150px;background:#f59e0b;top:40%;left:55%;opacity:.25;animation-delay:-9s}
+@keyframes fxFloat{to{transform:translate3d(30px,20px,0) scale(1.15)}}
+.fx-stars{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.fx-stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.7;animation:fxTw 3s ease-in-out infinite}
+.fx-stars i:nth-child(1){top:8%;left:12%}.fx-stars i:nth-child(2){top:14%;left:78%;animation-delay:-1s}.fx-stars i:nth-child(3){top:28%;left:90%;animation-delay:-2s}.fx-stars i:nth-child(4){top:36%;left:6%;animation-delay:-.5s}.fx-stars i:nth-child(5){top:52%;left:94%;animation-delay:-1.5s}.fx-stars i:nth-child(6){top:62%;left:4%;animation-delay:-2.5s}.fx-stars i:nth-child(7){top:72%;left:88%}.fx-stars i:nth-child(8){top:84%;left:16%;animation-delay:-1.2s}.fx-stars i:nth-child(9){top:20%;left:46%;animation-delay:-.8s}.fx-stars i:nth-child(10){top:90%;left:60%;animation-delay:-2.2s}.fx-stars i:nth-child(11){top:44%;left:30%;width:3px;height:3px;animation-delay:-1.7s}.fx-stars i:nth-child(12){top:6%;left:60%;animation-delay:-.3s}.fx-stars i:nth-child(13){top:78%;left:40%;animation-delay:-2.8s}.fx-stars i:nth-child(14){top:33%;left:70%;width:3px;height:3px}
+@keyframes fxTw{50%{opacity:.15}}
+.fx-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.fx-top small{font-size:11px;letter-spacing:.14em;font-weight:800;color:#c4b5fd}
+.fx-top h1{margin:4px 0 0;font:800 23px/1.2 Inter,system-ui,sans-serif;color:#fff}
+.fx-today{flex:none;text-align:center;font-weight:800;font-size:14px;line-height:1.15;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:8px 11px;backdrop-filter:blur(6px)}
+.fx-today em{font-style:normal;font-size:10.5px;font-weight:600;color:#ddd6fe}
+.fx-dial{display:flex;align-items:center;justify-content:center;gap:6px;margin:14px 0 10px}
+.fx-dv{position:relative;width:min(230px,58vw);aspect-ratio:1;border:0;background:none;padding:0;cursor:pointer;color:#fff}
+.fx-dv svg{width:100%;height:100%;overflow:visible}
+.fx-dv line{stroke:rgba(255,255,255,.22);stroke-width:2;stroke-linecap:round}
+.fx-dv line.big{stroke-width:3}
+.fx-dv line.on{stroke:#fde68a}
+.fx-dv .trk{fill:none;stroke:rgba(255,255,255,.08);stroke-width:12}
+.fx-dv .arc{fill:none;stroke:url(#fxG);stroke-width:12;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(251,146,60,.7));transition:stroke-dashoffset .5s cubic-bezier(.32,.72,0,1)}
+.fx-dt{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.fx-dt b{font:900 34px/1 Nunito,Inter,sans-serif;letter-spacing:-.01em;text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.fx-dt small{margin-top:8px;font-size:11.5px;font-weight:700;color:#e9d5ff;background:rgba(255,255,255,.12);border-radius:999px;padding:4px 10px}
+.fx-pm{width:48px;height:48px;flex:none;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-size:24px;font-weight:600;cursor:pointer;backdrop-filter:blur(6px);transition:transform .12s}
+.fx-pm:active{transform:scale(.9)}
+.fx-chips{display:flex;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:5px;margin-bottom:16px}
+.fx-chips button{flex:1;min-width:0;border:0;border-radius:13px;background:transparent;color:#e9d5ff;font:700 13px Inter,system-ui,sans-serif;padding:9px 2px;cursor:pointer;white-space:nowrap}
+.fx-chips button.on{background:#fff;color:#4c1d95;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.fx-start{position:relative;overflow:hidden;width:100%;border:0;border-radius:20px;padding:17px;font:900 18px Nunito,Inter,sans-serif;color:#3b0764;background:linear-gradient(135deg,#fde047,#fb923c 60%,#f472b6);box-shadow:0 10px 30px -6px rgba(251,146,60,.65),inset 0 -3px 0 rgba(0,0,0,.08);cursor:pointer;transition:transform .12s}
+.fx-start:active{transform:scale(.97)}
+.fx-start.off{filter:grayscale(.6);opacity:.7}
+.fx-sh{position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);animation:fxSh 3.2s ease-in-out infinite}
+@keyframes fxSh{0%,55%{left:-60%}100%{left:130%}}
+.fx-sub{margin:10px 0 0;text-align:center;font-size:12.5px;color:#ddd6fe;font-weight:600}
+.fx-card{background:var(--card,#fff);border:1px solid color-mix(in srgb,var(--line,#e5e7eb) 80%,transparent);border-radius:24px;padding:16px;box-shadow:0 10px 28px -16px rgba(30,27,75,.25)}
+.fx-ch{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.fx-ch b{display:block;font-size:16px;font-weight:800;color:var(--ink,#111827)}
+.fx-ch small{display:block;font-size:12.5px;color:var(--muted,#6b7280);margin-top:1px}
+.fx-ico{width:40px;height:40px;flex:none;border-radius:13px;display:grid;place-items:center;font-size:19px;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 6px 14px -4px color-mix(in srgb,var(--a) 60%,transparent)}
+.fx-tl{display:grid;gap:10px;margin-bottom:12px}
+.fx-tr{background:color-mix(in srgb,#8b5cf6 6%,var(--card,#fff));border-radius:16px;padding:11px 12px}
+.fx-trh{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.fx-trh b{flex:1;font-size:15px;color:var(--ink,#111)}.fx-trh small{font-size:12px;font-weight:700;color:var(--muted,#6b7280)}
+.fx-rk{width:22px;height:22px;border-radius:7px;background:#1e1b4b;color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}
+.fx-bar{height:7px;border-radius:7px;background:color-mix(in srgb,#8b5cf6 14%,transparent);overflow:hidden}
+.fx-bar span{display:block;height:100%;border-radius:7px;background:linear-gradient(90deg,#8b5cf6,#ec4899)}
+.fx-topgo{width:100%;border:0;border-radius:16px;padding:14px;background:linear-gradient(135deg,#1e1b4b,#5b21b6);color:#fff;font:800 15px Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 8px 20px -8px rgba(91,33,182,.7)}
+.fx-coin{margin:10px 0 0;text-align:center;font-size:12px;color:var(--muted,#6b7280);font-weight:600}
+.fx-choose{width:100%;display:flex;align-items:center;gap:12px;text-align:left;border:0;border-radius:16px;padding:15px 16px;background:linear-gradient(135deg,#eef2ff,#f5f3ff);cursor:pointer;font-family:inherit}
+.fx-choose span{flex:1}.fx-choose b{display:block;font-size:15px;color:#3730a3}.fx-choose small{display:block;font-size:12.5px;color:#6b7280;margin-top:2px}
+.fx-choose i{font-style:normal;width:30px;height:30px;border-radius:50%;background:#4f46e5;color:#fff;display:grid;place-items:center;font-size:18px}
+.fx-opts .fx-ch{margin-bottom:4px}
+.fx-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid color-mix(in srgb,var(--line,#e5e7eb) 70%,transparent);cursor:pointer}
+.fx-row .fx-ico{width:34px;height:34px;border-radius:11px;font-size:16px}
+.fx-rt{flex:1;min-width:0}.fx-rt b{display:block;font-size:14.5px;color:var(--ink,#111)}.fx-rt small{display:block;font-size:12px;color:var(--muted,#6b7280);margin-top:2px;line-height:1.35}
+.fx-row input{position:absolute;opacity:0;pointer-events:none}
+.fx-sw{flex:none;width:48px;height:28px;border-radius:999px;background:#d1d5db;position:relative;transition:background .2s}
+.fx-sw:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.2);transition:transform .25s cubic-bezier(.32,.72,0,1)}
+.fx-row input:checked+.fx-sw{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+.fx-row input:checked+.fx-sw:after{transform:translateX(20px)}
+.fx-bars{display:flex;align-items:flex-end;gap:8px;height:110px;padding-top:6px}
+.fx-bars div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}
+.fx-bars span{width:100%;max-width:30px;border-radius:9px 9px 5px 5px;background:color-mix(in srgb,#8b5cf6 22%,transparent)}
+.fx-bars div.td span{background:linear-gradient(180deg,#f59e0b,#ec4899)}
+.fx-bars small{font-size:11px;font-weight:700;color:var(--muted,#6b7280)}
+/* running */
+.fx-run{text-align:center;padding:20px 18px 24px}
+.fx-live{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:#bbf7d0;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);border-radius:999px;padding:6px 12px}
+.fx-live i{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:fxPing 1.6s infinite}
+@keyframes fxPing{70%{box-shadow:0 0 0 8px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+.fx-run .fx-ring{position:relative;width:min(250px,64vw);aspect-ratio:1;margin:18px auto 10px}
+.fx-run .fx-ring svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.fx-run .fx-ring .bg{fill:none;stroke:rgba(255,255,255,.1);stroke-width:10}
+.fx-run .fx-ring .fg{fill:none;stroke:url(#fxR);stroke-width:10;stroke-linecap:round;filter:drop-shadow(0 0 10px rgba(251,146,60,.75));transition:stroke-dashoffset 1s linear}
+.fx-run .fz-rt{position:absolute;inset:0;display:grid;place-content:center;gap:2px}
+.fx-run .fz-rt small{font-size:10.5px;letter-spacing:.16em;font-weight:800;color:#c4b5fd}
+.fx-run .fz-rt b{font:900 46px/1 Nunito,Inter,sans-serif;color:#fff;font-variant-numeric:tabular-nums;text-shadow:0 4px 24px rgba(0,0,0,.4)}
+.fx-run .fz-rt span{font-size:13px;color:#e9d5ff;font-weight:600}
+.fx-run h2{margin:8px 0 4px;font:900 24px Nunito,Inter,sans-serif;color:#fff}
+.fx-q{margin:0 auto 14px;max-width:280px;font-size:14px;color:#ddd6fe;font-style:italic}
+.fx-locked{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:10px 12px 12px;margin-bottom:16px}
+.fx-locked small{display:block;font-size:10.5px;letter-spacing:.14em;font-weight:800;color:#c4b5fd;margin-bottom:8px}
+.fx-run .fz-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.fx-run .fz-tags span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:700}
+.fx-stop{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;border-radius:16px;padding:12px 26px;font:700 14px Inter,system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(6px)}
+.fx-run .fz-strict{color:#fde68a;font-weight:700;font-size:13px}
+@media (prefers-reduced-motion:reduce){.fx-aur i,.fx-stars i,.fx-sh,.fx-live i{animation:none}}
+[data-theme="dark"] .fx-choose{background:linear-gradient(135deg,#1e1b4b,#2e1065)}[data-theme="dark"] .fx-choose b{color:#c7d2fe}
+
 </style><script id="sf-fz-js">
 /* StudyStarx Focus Lock — clean phone screen (Regain-style): set up once, tap apps, pick a time, start.
    In the browser it only tidies the page (extra options folded away). */
@@ -10925,9 +11020,9 @@ var DURS=[25,45,60,90,120];
 function top2(){if(st._tt&&Date.now()-st._tt<60000)return st._top;st._tt=Date.now();st._top=null;try{var n=N();if(n&&n.topApps){var l=JSON.parse(n.topApps(7)||'[]');l=(l||[]).filter(function(t){return!/study\s*(starx|stars|flow)/i.test(String(t.label))&&!/studyflow|studystarx/i.test(String(t.pkg))});if(l.length)st._top=l.slice(0,2)}}catch(e){}return st._top}
 function perDay(m){m=Math.round(m/7);return m<60?m+' min':Math.floor(m/60)+'h'+(m%60?' '+m%60+'m':'')}
 function covers(words,T){if(!T||!T.length)return true;var w=words.map(function(x){return String(x).toLowerCase()});return T.every(function(t){var pk=String(t.pkg).toLowerCase(),lb=String(t.label).toLowerCase();return w.some(function(x){return x.length>1&&(pk===x||pk.indexOf(x)>=0||lb===x||lb.indexOf(x)>=0)})})}
-function topCard(){var T=top2();if(!T)return'';return'<div class="fz-card fz-top"><div class="fz-bh"><div><b>📊 Your most-used apps</b><small>From your screen time this week</small></div></div><div class="fz-tl">'+T.map(function(t,i){return'<div class="fz-tr"><span class="fz-tn">'+(i+1)+'</span><b>'+esc(t.label)+'</b><small>'+perDay(t.mins)+' a day</small></div>'}).join('')+'</div><button type="button" class="fz-topgo" data-fz="top">🔒 Lock these '+T.length+' for '+durLabel(st.mins)+'</button><p class="fz-fine">🪙 Focus Lock coins only count when your most-used apps are locked.</p></div>'}
+function topCard(){var T=top2();if(!T)return'';var mx=Math.max.apply(null,T.map(function(t){return t.mins}))||1;return'<div class="fx-card fx-topc"><div class="fx-ch"><span class="fx-ico" style="--a:#ec4899;--b:#8b5cf6">📊</span><div><b>Your most-used apps</b><small>From your screen time this week</small></div></div><div class="fx-tl">'+T.map(function(t,i){return'<div class="fx-tr"><div class="fx-trh"><span class="fx-rk">'+(i+1)+'</span><b>'+esc(t.label)+'</b><small>'+perDay(t.mins)+' a day</small></div><div class="fx-bar"><span style="width:'+Math.max(8,Math.round(t.mins/mx*100))+'%"></span></div></div>'}).join('')+'</div><button type="button" class="fx-topgo" data-fz="top">🔒 Lock these '+T.length+' for '+durLabel(st.mins)+'</button><p class="fx-coin">🪙 Coins only count when your most-used apps are locked</p></div>'}
 var st={sel:null,mins:+(ls('fz-mins')||60),strict:false,guard:false,earn:ls('fz-earn')==='1',inst:null,popup:ls('fz-popup')==='1'};
-function sel(){if(!st.sel){var s=J(function(){return ls('fz-sel')},null);st.sel=new Set(Array.isArray(s)?s:['youtube','instagram'])}return st.sel}
+function sel(){if(!st.sel){var s=J(function(){return ls('fz-sel')},null);st.sel=new Set(Array.isArray(s)?s:[])}return st.sel}
 function saveSel(){ls('fz-sel',JSON.stringify(Array.from(sel())))}
 function perms(){var n=N();if(!n||!n.permState)return null;return J(function(){return n.permState()},null)}
 function info(){var n=N();if(!n||!n.lockInfo)return{until:0};return J(function(){return n.lockInfo()},{until:0})}
@@ -10943,35 +11038,45 @@ function steps(p){var L=[['usage','📊','Allow usage access','Find StudyStarx i
  L.push(['battery','🔋','Keep blocking switched on','Tap Allow so your phone never switches the lock off.',p.battery,1]);return L}
 function draw(){var r=root();if(!r)return;var n=N(),p=perms(),li=info(),now=Date.now();
  if(li.until>now){drawRun(r,li,p);return}
- var html='<div class="fz-hero"><div class="fz-ht"><h1>Focus Lock</h1><p>Lock away distracting apps and get real work done.</p></div><div class="fz-hi"><span>🔒</span></div></div>';
+ var html='';
  if(!p||!(p.v>=6)){html+='<div class="fz-card fz-upd"><b>Update the StudyStarx app</b><p>The new version blocks apps much more reliably. Download it and install it over this one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';r.innerHTML=html+mainCard(false);return}
  var S=steps(p),need=S.filter(function(x){return!x[5]}),done=need.filter(function(x){return x[4]}).length,ready=p.usage&&p.overlay&&(!p.xiaomi||st.popup);
  var setup='';if(!ready||!p.battery||(!p.acc&&ls('fz-acc-skip')!=='1')){setup+='<div class="fz-card fz-setup'+(ready?' fz-mini':'')+'" id="fzSetup"><div class="fz-sh"><b>'+(ready?'Make blocking stronger':'Set up blocking')+'</b><span>'+(ready?'optional':done+' of '+need.length+' done')+'</span></div>'+(ready?'':'<div class="fz-prog"><i style="width:'+Math.round(done/need.length*100)+'%"></i></div>')+
   S.filter(function(x){return!ready||!x[4]}).map(function(x,i){return'<div class="fz-step'+(x[4]?' ok':'')+'"><span class="fz-si">'+(x[4]?'✓':x[1])+'</span><div><b>'+esc(x[2])+(x[5]?' <em>recommended</em>':'')+'</b><small>'+esc(x[3])+'</small></div>'+(x[4]?'<span class="fz-done">Done</span>':'<button type="button" class="fz-allow" data-fz="perm" data-k="'+x[0]+'">Allow</button>')+'</div>'}).join('')+
   (ready&&!p.acc?'<button type="button" class="fz-skip" data-fz="skipacc">Hide these tips</button>':'')+(ready?'':'<p class="fz-fine">🔐 StudyStarx only sees which app is open — never what’s on your screen.</p>')+'</div>'}
  r.innerHTML=html+mainCard(ready)+setup}
-function mainCard(ready){var inst=installed(),s=sel(),li=info();
- var list=APPS.filter(function(a){return!inst||inst[a[0]]||s.has(a[0])});var extra=li.chosen||0;
- var chosen=APPS.filter(function(a){return s.has(a[0])});var open=ls('fz-edit')==='1'||!chosen.length;
- var ix=DURS.indexOf(st.mins);
- return'<div class="fz-main">'+
-  '<div class="fz-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fz-dial"><button type="button" class="fz-pm" data-fz="dmin" aria-label="Less time">−</button><button type="button" class="fz-dv" data-fz="wheel" aria-label="Set your own time"><b>'+durLabel(st.mins)+'</b><span>✎ tap to set time</span></button><button type="button" class="fz-pm" data-fz="dplus" aria-label="More time">+</button></div>'+
-  '<div class="fz-qd">'+DURS.map(function(m){return'<button type="button" class="fz-dur'+(m===st.mins?' on':'')+'" data-fz="dur" data-m="'+m+'">'+durLabel(m)+'</button>'}).join('')+'</div>'+
-  '<button type="button" class="fz-start'+(ready?'':' off')+'" data-fz="start"><span>🔒</span> Start Focus Lock</button>'+(ready?'':'<p class="fz-fine fz-fl">Finish the quick setup below to start.</p>')+
- '</div>'+
- topCard()+'<div class="fz-card fz-blk"><div class="fz-bh"><div><b>Apps to block</b><small>'+((chosen.length+extra)?(chosen.length+extra)+' app'+((chosen.length+extra)===1?'':'s')+' will be blocked':'No apps chosen yet')+'</small></div></div>'+
- '<button type="button" class="fz-choose" data-fz="pick"><span class="fz-ci">📱</span><span><b>Choose which apps to block</b><small>Pick from the apps on your phone</small></span><i>›</i></button>'+
- (chosen.length?'<button type="button" class="fz-clear" data-fz="clearsel">Clear my earlier picks ('+chosen.length+')</button>':'')+'<label class="fz-sw fz-sw2"><span><b>Strict mode</b><small>No stopping early</small></span><input type="checkbox" id="fzStrict"'+(st.strict?' checked':'')+'><i></i></label>'+'<label class="fz-sw fz-sw2"><span><b>Can’t delete StudyStarx <em class="fz-pl">PLUS</em></b><small>The app can’t be uninstalled until the timer ends</small></span><input type="checkbox" id="fzGuard"'+(st.guard?' checked':'')+'><i></i></label>'+'<label class="fz-sw fz-sw2"><span><b>Earn a break <em class="fz-pl">PLUS</em></b><small>Finish homework or a quiz to open your apps for up to 45 min — the AI decides how long</small></span><input type="checkbox" id="fzEarn"'+(st.earn?' checked':'')+'><i></i></label>'+
- '</div>'}
+function fname(){try{return String((data.profile&&data.profile.name)||'').split(' ')[0]}catch(e){return''}}
+function weekMins(){var out=[],k='studyflow-focus-center-v1',f=J(function(){return localStorage.getItem(k)},{})||{},ss=f.sessions||[];for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);var key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');out.push({d:d,m:ss.filter(function(x){return x.date===key}).reduce(function(a,x){return a+(+x.minutes||0)},0)})}return out}
+function dialSvg(m){var R=96,C=2*Math.PI*R,f=Math.max(.04,Math.min(1,m/180)),t='';for(var i=0;i<60;i++){var a=i/60*2*Math.PI,big=i%5===0,r1=big?108:110,r2=116;t+='<line x1="'+(120+Math.sin(a)*r1).toFixed(1)+'" y1="'+(120-Math.cos(a)*r1).toFixed(1)+'" x2="'+(120+Math.sin(a)*r2).toFixed(1)+'" y2="'+(120-Math.cos(a)*r2).toFixed(1)+'" class="'+(i/60<f?'on':'')+(big?' big':'')+'"/>'}
+ return'<svg viewBox="0 0 240 240" aria-hidden="true"><defs><linearGradient id="fxG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fde047"/><stop offset=".55" stop-color="#fb923c"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>'+t+'<circle cx="120" cy="120" r="'+R+'" class="trk"/><circle cx="120" cy="120" r="'+R+'" class="arc" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-f)).toFixed(1)+'" transform="rotate(-90 120 120)"/></svg>'}
+function mainCard(ready){var s=sel(),li=info();var extra=li.chosen||0;var chosen=APPS.filter(function(a){return s.has(a[0])});var nApps=chosen.length+extra;
+ var wk=weekMins(),today=wk[6].m,tot=wk.reduce(function(a,x){return a+x.m},0),mx=Math.max(30,Math.max.apply(null,wk.map(function(x){return x.m}))),nm=fname();
+ var endAt=new Date(Date.now()+st.mins*60000).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+ var hero='<div class="fx-hero"><div class="fx-aur" aria-hidden="true"><i></i><i></i><i></i></div><div class="fx-stars" aria-hidden="true">'+'<i></i>'.repeat(14)+'</div>'+
+  '<div class="fx-top"><div><small>FOCUS LOCK</small><h1>'+(nm?'Ready to focus, '+esc(nm)+'?':'Ready to focus?')+'</h1></div><span class="fx-today">🔥 '+today+' min<br><em>today</em></span></div>'+
+  '<div class="fx-dial"><button type="button" class="fx-pm" data-fz="dmin" aria-label="Less time">−</button><button type="button" class="fx-dv" data-fz="wheel" aria-label="Set your own time">'+dialSvg(st.mins)+'<span class="fx-dt"><b>'+durLabel(st.mins)+'</b><small>tap to change</small></span></button><button type="button" class="fx-pm" data-fz="dplus" aria-label="More time">+</button></div>'+
+  '<div class="fx-chips">'+DURS.map(function(m){return'<button type="button" class="'+(m===st.mins?'on':'')+'" data-fz="dur" data-m="'+m+'">'+durLabel(m).replace(' hours','h').replace(' hour','h')+'</button>'}).join('')+'</div>'+
+  '<button type="button" class="fx-start'+(ready?'':' off')+'" data-fz="start"><span class="fx-sh" aria-hidden="true"></span>🔒 Start Focus Lock</button>'+
+  '<p class="fx-sub">'+(ready?(nApps?nApps+' app'+(nApps===1?'':'s')+' locked until '+esc(endAt):'Choose apps below, then start'):'Finish the quick setup below to start')+'</p></div>';
+ var apps='<div class="fx-card"><div class="fx-ch"><span class="fx-ico" style="--a:#6366f1;--b:#8b5cf6">📱</span><div><b>Apps to block</b><small>'+(nApps?nApps+' app'+(nApps===1?'':'s')+' chosen':'None chosen yet')+'</small></div></div>'+
+  '<button type="button" class="fx-choose" data-fz="pick"><span><b>Choose which apps to block</b><small>Pick from the apps on your phone</small></span><i>›</i></button>'+
+  (chosen.length?'<button type="button" class="fz-clear" data-fz="clearsel">Clear my earlier picks ('+chosen.length+')</button>':'')+'</div>';
+ var row=function(id,ic,a,b,t,d,on,pl){return'<label class="fx-row"><span class="fx-ico" style="--a:'+a+';--b:'+b+'">'+ic+'</span><span class="fx-rt"><b>'+t+(pl?' <em class="fz-pl">PLUS</em>':'')+'</b><small>'+d+'</small></span><input type="checkbox" id="'+id+'"'+(on?' checked':'')+'><i class="fx-sw"></i></label>'};
+ var opts='<div class="fx-card fx-opts"><div class="fx-ch"><span class="fx-ico" style="--a:#0ea5e9;--b:#6366f1">⚙️</span><div><b>Lock settings</b><small>Make it as strong as you need</small></div></div>'+
+  row('fzStrict','🛡️','#ef4444','#f97316','Strict mode','No stopping early',st.strict)+row('fzGuard','🚫','#3b82f6','#06b6d4','Can’t delete StudyStarx','The app can’t be uninstalled until the timer ends',st.guard,1)+row('fzEarn','☕','#10b981','#84cc16','Earn a break','Finish homework or a quiz to open your apps for up to 45 min',st.earn,1)+'</div>';
+ var week='<div class="fx-card"><div class="fx-ch"><span class="fx-ico" style="--a:#f59e0b;--b:#ef4444">📈</span><div><b>Your focus this week</b><small>'+(tot?(tot>=60?Math.floor(tot/60)+'h '+(tot%60)+'m':tot+' min')+' in total':'Your first lock starts the chart')+'</small></div></div><div class="fx-bars">'+wk.map(function(x,i){return'<div class="'+(i===6?'td':'')+'"><span style="height:'+Math.max(4,Math.round(x.m/mx*100))+'%"></span><small>'+['S','M','T','W','T','F','S'][x.d.getDay()]+'</small></div>'}).join('')+'</div></div>';
+ return hero+topCard()+apps+opts+week}
 function drawRun(r,li,p){var n=N();st.lastP=JSON.stringify(p||{});if(p&&p.v>=6&&p.usage&&p.overlay&&!p.watch&&n.ensureWatch){try{n.ensureWatch()}catch(_){}}
  var warn='';if(!p||!(p.v>=6))warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked</b><p>This version of the app can’t block reliably. Install the new one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';
  else if(!p.usage||!p.overlay)warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked yet</b><p>Two permissions are needed. Tap each one, switch StudyStarx on, and come back.</p>'+(p.usage?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="usage">Allow usage access</button> ')+(p.overlay?'':'<button type="button" class="fz-allow" data-fz="perm" data-k="overlay">Allow display over other apps</button>')+'</div>';
  else if(p.watch)warn='<div class="fz-okb">✅ Blocking is active'+(p.blocks?' · blocked '+p.blocks+' time'+(p.blocks>1?'s':''):'')+'</div>';
  else warn='<div class="fz-warn"><b>Starting the blocker…</b><p>If this stays for more than a few seconds, allow “Keep blocking switched on”.</p><button type="button" class="fz-allow" data-fz="perm" data-k="battery">Allow</button></div>';var left=li.until-Date.now(),tot=+(ls('fz-total')||0)||Math.max(left,1),pc=Math.max(0,Math.min(1,left/tot)),C=2*Math.PI*88;
  var end=new Date(li.until).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});var apps=(li.apps||[]).slice(0,12);
- r.innerHTML=warn+earnCard(li)+'<div class="fz-run"><div class="fz-ring"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="88" class="bg"/><circle cx="100" cy="100" r="88" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc)).toFixed(1)+'"/></svg><div class="fz-rt"><b id="fzLeft">'+fmt(left)+'</b><span>until '+esc(end)+'</span></div></div>'+
- '<h2>Stay focused 🌱</h2><p>'+(apps.length?'These apps are blocked:':'Your chosen apps are blocked.')+'</p><div class="fz-tags">'+apps.map(function(a){return'<span>'+esc(a)+'</span>'}).join('')+'</div>'+
- (li.strict?'<p class="fz-strict">🔐 Strict mode — the lock ends by itself at '+esc(end)+'.</p>':'<button type="button" class="fz-stop" data-fz="stop">Stop the lock</button>')+'</div>'}
+ var q=['Small steps every day add up.','Your future self is cheering for you.','Deep work now, free time later.','One page at a time.','Phones can wait. Dreams can’t.'];q=q[Math.floor(Date.now()/600000)%q.length];
+ r.innerHTML=(warn.indexOf('fz-okb')>=0?'':warn)+earnCard(li)+'<div class="fx-run"><div class="fx-aur" aria-hidden="true"><i></i><i></i><i></i></div><div class="fx-stars" aria-hidden="true">'+'<i></i>'.repeat(14)+'</div>'+(warn.indexOf('fz-okb')>=0?'<div class="fx-live"><i></i>Blocking is on'+(p&&p.blocks?' · stopped '+p.blocks+' time'+(p.blocks>1?'s':''):'')+'</div>':'')+
+ '<div class="fz-ring fx-ring"><svg viewBox="0 0 200 200"><defs><linearGradient id="fxR" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fde047"/><stop offset=".5" stop-color="#fb923c"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs><circle cx="100" cy="100" r="88" class="bg"/><circle cx="100" cy="100" r="88" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc)).toFixed(1)+'"/></svg><div class="fz-rt"><small>TIME LEFT</small><b id="fzLeft">'+fmt(left)+'</b><span>until '+esc(end)+'</span></div></div>'+
+ '<h2>Stay focused 🌱</h2><p class="fx-q">“'+esc(q)+'”</p>'+(apps.length?'<div class="fx-locked"><small>LOCKED APPS</small><div class="fz-tags">'+apps.map(function(a){return'<span>🔒 '+esc(a)+'</span>'}).join('')+'</div></div>':'')+
+ (li.strict?'<p class="fz-strict">🛡️ Strict mode — the lock ends by itself at '+esc(end)+'.</p>':'<button type="button" class="fx-stop" data-fz="stop">Stop the lock</button>')+'</div>'}
 /* scroll-wheel time picker: hours : minutes */
 function wheel(){var ov=document.getElementById('fzWheel');if(ov)ov.remove();ov=document.createElement('div');ov.id='fzWheel';ov.className='fz-wov';var h0=Math.floor(st.mins/60),m0=st.mins%60;
  var col=function(id,n,step,sel,unit){var h='';for(var i=0;i<n;i+=step)h+='<div class="fz-wi" data-v="'+i+'">'+(i<10?'0'+i:i)+'</div>';return'<div class="fz-wc"><div class="fz-wl" id="'+id+'">'+'<div class="fz-wpad"></div>'+h+'<div class="fz-wpad"></div></div><small>'+unit+'</small></div>'};
