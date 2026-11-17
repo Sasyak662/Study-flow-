@@ -10978,11 +10978,14 @@ html.sfm-ready #sfTabs [data-tab]{visibility:visible}
 
 .sqlim-ov{position:fixed;inset:0;z-index:10050;background:rgba(15,23,42,.5);display:grid;place-items:center;padding:16px}.sqlim{background:var(--card,#fff);border-radius:24px;padding:24px 20px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(15,23,42,.3)}.sqlim-e{font-size:48px}.sqlim h3{margin:6px 0 8px;font-size:20px}.sqlim p{margin:0 0 10px;color:var(--muted,#5b6180);font-size:14px;line-height:1.45}.sqlim-s{background:#fffbeb;border-radius:14px;padding:10px 12px;color:#78350f!important}.sqlim-b{display:flex;gap:10px;margin-top:6px}.sqlim-b button{flex:1;border:0;border-radius:14px;padding:12px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff}.sqlim-b button.g{background:#eef0f8;color:#334155}
 
-/* iPhone-style sheet: quick slide-up with a soft settle; only the panel moves (no blur, no per-card animation) so it stays smooth on phones */
-.sfm-ov{transition:background .22s ease!important}
-.sfm-sheet{transform:translate3d(0,100%,0);transition:transform .3s cubic-bezier(.32,.72,0,1)!important;will-change:transform;backface-visibility:hidden;contain:layout paint}
+/* iPhone-style sheet: kept ready off-screen; opening only moves it on the GPU */
+.sfm-ov{transition:background .25s ease!important;touch-action:none}
+.sfm-ov.sfm-idle{visibility:hidden;pointer-events:none}
+.sfm-ov:not(.in){pointer-events:none}
+.sfm-sheet{transform:translate3d(0,105%,0);transition:transform .3s cubic-bezier(.32,.72,0,1)!important;will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden;touch-action:pan-y}
 .sfm-ov.in .sfm-sheet{transform:translate3d(0,0,0)}
-.sfm-ov.out .sfm-sheet{transition:transform .22s cubic-bezier(.4,0,1,1)!important}
+.sfm-ov:not(.in) .sfm-sheet{transition-duration:.22s!important;transition-timing-function:cubic-bezier(.4,0,1,1)!important}
+.sfm-ov .sfm-card{animation:none!important}
 .sfm-ov .sfm-card:active{transform:scale(.96);transition:transform .1s}
 @media (prefers-reduced-motion:reduce){.sfm-sheet{transition:none!important}}
 
@@ -11015,18 +11018,23 @@ function tabbar(){var n=document.getElementById('sfTabs');if(!n)return;if(n.data
  TABS.forEach(function(t){var b=document.createElement('button');b.type='button';b.dataset.goto=t[0];b.dataset.tab=t[0];b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+t[2]+'</svg>'+t[1];n.insertBefore(b,more||null)});n.dataset.sfm='2';markTabs()}
 function markTabs(){var n=document.getElementById('sfTabs');if(!n)return;var c=cur();n.querySelectorAll('[data-tab]').forEach(function(b){b.classList.toggle('active',b.dataset.tab===c)});var m=document.getElementById('sfMore');if(m)m.classList.toggle('active',MORE.some(function(x){return x[0]===c}))}
 function plusOn(){try{return!!((window.sfAccount&&sfAccount.isPlus&&sfAccount.isPlus())||(window.StudyFlowIsland&&StudyFlowIsland._I.plusOK()))}catch(e){return false}}
-function closeMore(){var o=document.getElementById('sfmOv');if(!o)return;o.id='';o.classList.remove('in');o.classList.add('out');var sh0=o.querySelector('.sfm-sheet');if(sh0)sh0.style.transition='';document.documentElement.classList.remove('pm-lock');setTimeout(function(){o.remove()},240)}
-function openMore(){if(document.getElementById('sfmOv'))return closeMore();var c=cur(),o=document.createElement('div');o.id='sfmOv';o.className='sfm-ov';
- o.innerHTML='<div class="sfm-sheet" role="dialog" aria-modal="true" aria-label="More"><div class="sfm-grab"></div><div class="sfm-top"><h3>More</h3><button type="button" class="sfm-x" aria-label="Close">✕</button></div><div class="sfm-grid">'+
+/* the More sheet is built once and kept ready, so opening it only slides it up (no building, no page re-layout = no glitch) */
+var MO=null,MOK='';
+function moreHTML(c){return'<div class="sfm-sheet" role="dialog" aria-modal="true" aria-label="More"><div class="sfm-grab"></div><div class="sfm-top"><h3>More</h3><button type="button" class="sfm-x" aria-label="Close">✕</button></div><div class="sfm-grid">'+
  MORE.map(function(x){return'<button type="button" class="sfm-card'+(x[0]===c?' on':'')+'" data-sfmgo="'+x[0]+'"><span class="sfm-ic" style="background:linear-gradient(135deg,'+x[4]+','+x[5]+')">'+x[3]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small></button>'}).join('')+'</div>'+
- (plusOn()?'':'<button type="button" class="sfm-plus" data-sfmgo="premium"><span>✦</span><div><b>Get StudyStarx Plus</b><small>250 AI questions a day, all 10 worlds and every character</small></div><i>›</i></button>')+'</div>';
- document.body.appendChild(o);document.documentElement.classList.add('pm-lock');void o.offsetHeight;void o.querySelector('.sfm-sheet').getBoundingClientRect();requestAnimationFrame(function(){requestAnimationFrame(function(){o.classList.add('in')})});
- o.addEventListener('click',function(e){var g=e.target.closest('[data-sfmgo]');if(g){closeMore();try{go(g.dataset.sfmgo)}catch(_){}try{window.scrollTo({top:0})}catch(_){}return}if(e.target===o||e.target.closest('.sfm-x'))closeMore()});
- var sh=o.querySelector('.sfm-sheet'),y0=null,dy=0;sh.addEventListener('touchstart',function(e){if(e.target.closest('.sfm-grid'))return;y0=e.touches[0].clientY;sh.style.transition='none'},{passive:true});
- sh.addEventListener('touchmove',function(e){if(y0==null)return;dy=Math.max(0,e.touches[0].clientY-y0);sh.style.transform='translateY('+dy+'px)'},{passive:true});
- sh.addEventListener('touchend',function(){if(y0==null)return;sh.style.transition='';if(dy>80)closeMore();else sh.style.transform='';y0=null;dy=0})}
+ (plusOn()?'':'<button type="button" class="sfm-plus" data-sfmgo="premium"><span>✦</span><div><b>Get StudyStarx Plus</b><small>250 AI questions a day, all 10 worlds and every character</small></div><i>›</i></button>')+'</div>'}
+function moreEl(){if(MO&&MO.isConnected)return MO;var o=document.createElement('div');o.className='sfm-ov sfm-idle';o.setAttribute('aria-hidden','true');document.body.appendChild(o);MO=o;MOK='';
+ o.addEventListener('click',function(e){var g=e.target.closest('[data-sfmgo]');if(g){closeMore();setTimeout(function(){try{go(g.dataset.sfmgo)}catch(_){}try{window.scrollTo({top:0})}catch(_){}},10);return}if(e.target===o||e.target.closest('.sfm-x'))closeMore()});
+ o.addEventListener('touchmove',function(e){if(!e.target.closest('.sfm-sheet'))e.preventDefault()},{passive:false});
+ var y0=null,dy=0;o.addEventListener('touchstart',function(e){var sh=o.querySelector('.sfm-sheet');if(!sh||!e.target.closest('.sfm-sheet')||e.target.closest('.sfm-grid'))return;y0=e.touches[0].clientY;dy=0;sh.style.transition='none'},{passive:true});
+ o.addEventListener('touchmove',function(e){if(y0==null)return;dy=Math.max(0,e.touches[0].clientY-y0);o.querySelector('.sfm-sheet').style.transform='translate3d(0,'+dy+'px,0)'},{passive:true});
+ o.addEventListener('touchend',function(){if(y0==null)return;var sh=o.querySelector('.sfm-sheet');sh.style.transition='';sh.style.transform='';y0=null;if(dy>80)closeMore();dy=0});
+ return o}
+function moreFill(){var o=moreEl(),c=cur(),k=c+'|'+(plusOn()?1:0);if(k!==MOK){o.innerHTML=moreHTML(c);MOK=k}return o}
+function closeMore(){var o=MO;if(!o||!o.classList.contains('in'))return;o.classList.remove('in');o.setAttribute('aria-hidden','true');clearTimeout(o._t);o._t=setTimeout(function(){if(!o.classList.contains('in'))o.classList.add('sfm-idle')},260)}
+function openMore(){var o=moreFill();if(o.classList.contains('in'))return closeMore();clearTimeout(o._t);o.classList.remove('sfm-idle');o.setAttribute('aria-hidden','false');void o.offsetHeight;requestAnimationFrame(function(){o.classList.add('in')})}
 window.addEventListener('click',function(e){if(!window.matchMedia('(max-width:900px)').matches)return;if(e.target.closest('#sfMore')||e.target.closest('#menu')){e.preventDefault();e.stopImmediatePropagation();var sb=document.getElementById('sidebar');if(sb)sb.classList.remove('open');openMore()}},true);
-function boot(){Object.keys(HOST).forEach(tabs);nav();tabbar();
+function boot(){Object.keys(HOST).forEach(tabs);nav();tabbar();try{(window.requestIdleCallback||setTimeout)(function(){try{moreFill()}catch(e){}})}catch(e){}
  if(typeof window.go==='function'&&!window.go.__sfm){var o=window.go;window.go=function(p){if(GONE[p]){p=GONE[p];arguments[0]=p}
   // Upload & study is a Plus feature
   if(p==='upload'&&!plusOn()){try{window.sfPlusGate?sfPlusGate('Upload & study is a Plus feature','With StudyStarx Plus, upload your notes, worksheets or past papers and the AI turns them into explanations, quizzes and flashcards.'):alert('Upload & study is a Plus feature')}catch(e){}if(!document.querySelector('.page.active'))p=arguments[0]='library';else return}var r=o.apply(this,arguments);try{tabs(p);mark(p);markTabs()}catch(e){}return r};window.go.__sfm=1}}
