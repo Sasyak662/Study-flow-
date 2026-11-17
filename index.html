@@ -11587,4 +11587,94 @@ new MutationObserver(swap).observe(document.body,{childList:true});swap();
 window.sfOpenOnboarding=open;window.StudyFlowSetup={open:open};
 })();
 
+</script><style id="sf-cz-css">
+/* ===== AI Coach — aurora chat ===== */
+#page-coach.cz .chatbox{position:relative;overflow:hidden;border:0!important;border-radius:28px!important;padding:0!important;background:#fbfbff!important;box-shadow:0 20px 50px -24px rgba(79,70,229,.45)!important;isolation:isolate}
+#page-coach.cz .chatbox:before{content:"";position:absolute;inset:-20%;z-index:-1;background:radial-gradient(40% 35% at 15% 10%,rgba(129,140,248,.28),transparent 70%),radial-gradient(35% 30% at 90% 20%,rgba(244,114,182,.18),transparent 70%),radial-gradient(45% 40% at 70% 95%,rgba(45,212,191,.18),transparent 70%);animation:czDrift 18s ease-in-out infinite alternate;pointer-events:none}
+@keyframes czDrift{to{transform:translate3d(4%,3%,0) rotate(6deg)}}
+/* header */
+#page-coach.cz .chathead{position:relative;z-index:2;display:flex;align-items:center;gap:10px;padding:12px 12px 10px 14px!important;margin:0!important;border:0!important;background:rgba(255,255,255,.72)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(99,102,241,.1)}
+#page-coach.cz .chathead .logo{width:44px!important;height:44px!important;min-width:44px;border-radius:50%!important;background:none!important;box-shadow:none!important;padding:0!important;display:grid;place-items:center}
+.cz-orb{position:relative;width:40px;height:40px;border-radius:50%;background:conic-gradient(from 0deg,#6366f1,#a855f7,#ec4899,#f59e0b,#22d3ee,#6366f1);animation:czSpin 6s linear infinite;box-shadow:0 0 18px rgba(139,92,246,.55)}
+.cz-orb:after{content:"✦";position:absolute;inset:4px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#eef2ff 55%,#e0e7ff);display:grid;place-items:center;font-size:15px;color:#6d28d9;animation:czSpin 6s linear infinite reverse}
+@keyframes czSpin{to{transform:rotate(360deg)}}
+#page-coach.cz .chathead b{font:900 16.5px Nunito,Inter,sans-serif;background:linear-gradient(90deg,#4338ca,#9333ea);-webkit-background-clip:text;background-clip:text;color:transparent}
+#page-coach.cz .chathead .tiny{font-size:11.5px!important;font-weight:600}
+#page-coach.cz #clearChat{display:flex;align-items:center;gap:5px;border:0!important;border-radius:999px!important;padding:8px 12px!important;background:linear-gradient(135deg,#eef2ff,#f5f3ff)!important;color:#4338ca!important;font:800 12.5px Inter,system-ui,sans-serif!important;text-decoration:none!important;box-shadow:inset 0 0 0 1px rgba(99,102,241,.18)}
+.cz-gear{flex:none;width:36px;height:36px;border:0;border-radius:50%;background:linear-gradient(135deg,#eef2ff,#f5f3ff);box-shadow:inset 0 0 0 1px rgba(99,102,241,.18);font-size:16px;cursor:pointer}
+@media(max-width:400px){#page-coach.cz #clearChat .cz-t{display:none}}
+/* settings pill hidden on phone (gear opens it as a sheet) */
+@media(max-width:900px){#page-coach.cz .sf-cset:not(.cz-sheet){display:none!important}}
+#page-coach.cz .sf-cset.cz-sheet{position:fixed!important;left:0;right:0;bottom:0;z-index:9500;margin:0!important;max-height:80vh;overflow:auto;border-radius:24px 24px 0 0!important;padding:18px 18px calc(18px + env(safe-area-inset-bottom))!important;box-shadow:0 -20px 50px rgba(30,27,75,.35)!important;animation:czUp .3s cubic-bezier(.32,.72,0,1)}
+#page-coach.cz .sf-cset.cz-sheet .sf-cset-sum{display:none!important}
+@keyframes czUp{from{transform:translateY(100%)}}
+body.cz-shade:after{content:"";position:fixed;inset:0;z-index:9400;background:rgba(15,10,40,.45)}
+/* welcome */
+#page-coach.cz .cq-welcome{padding:22px 14px 8px!important;text-align:center}
+#page-coach.cz .cq-wav{position:relative;width:86px!important;height:86px!important;margin:0 auto 14px!important;border-radius:50%!important;background:conic-gradient(from 0deg,#6366f1,#a855f7,#ec4899,#f59e0b,#22d3ee,#6366f1)!important;animation:czSpin 8s linear infinite;box-shadow:0 0 0 8px rgba(139,92,246,.08),0 14px 40px -6px rgba(139,92,246,.6)!important;font-size:0!important;color:transparent!important}
+#page-coach.cz .cq-wav:after{content:"✦";position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#f5f3ff 60%,#e0e7ff);display:grid;place-items:center;font-size:30px;color:#7c3aed;animation:czSpin 8s linear infinite reverse}
+#page-coach.cz .cq-welcome h2{font:900 21px/1.25 Nunito,Inter,sans-serif!important;background:linear-gradient(90deg,#312e81,#7e22ce,#be185d);-webkit-background-clip:text;background-clip:text;color:transparent!important;margin:0 0 6px!important}
+#page-coach.cz .cq-welcome p{font-size:13.5px!important;color:#64748b!important;max-width:320px;margin:0 auto 16px!important}
+#page-coach.cz .cq-ideas{display:grid!important;grid-template-columns:1fr 1fr;gap:10px!important}
+#page-coach.cz .cq-idea{position:relative;overflow:hidden;text-align:left!important;border:0!important;border-radius:20px!important;padding:14px 12px!important;background:rgba(255,255,255,.85)!important;box-shadow:0 8px 20px -14px rgba(30,27,75,.5),inset 0 0 0 1px rgba(99,102,241,.1)!important;display:flex!important;flex-direction:column;align-items:flex-start!important;gap:6px!important;transition:transform .12s}
+#page-coach.cz .cq-idea:active{transform:scale(.96)}
+#page-coach.cz .cq-idea span{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;font-size:19px!important;background:linear-gradient(135deg,#e0e7ff,#ede9fe)}
+#page-coach.cz .cq-idea:nth-child(2) span{background:linear-gradient(135deg,#fce7f3,#ffe4e6)}
+#page-coach.cz .cq-idea:nth-child(3) span{background:linear-gradient(135deg,#ccfbf1,#e0f2fe)}
+#page-coach.cz .cq-idea:nth-child(4) span{background:linear-gradient(135deg,#fef3c7,#ffedd5)}
+#page-coach.cz .cq-idea b{font:900 14px Nunito,Inter,sans-serif!important;color:#1e1b4b!important}
+#page-coach.cz .cq-idea small{display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:11.5px!important;color:#64748b!important;line-height:1.35}
+/* messages */
+#page-coach.cz .messages{padding:14px 12px 8px!important;background:transparent!important;gap:12px}
+#page-coach.cz .bubble.user{margin-left:auto!important;max-width:84%!important;border:0!important;border-radius:22px 22px 6px 22px!important;padding:11px 15px!important;background:linear-gradient(135deg,#6366f1,#8b5cf6 60%,#a855f7)!important;color:#fff!important;font-weight:600;box-shadow:0 10px 22px -12px rgba(99,102,241,.8)!important;animation:czIn .3s cubic-bezier(.32,.72,0,1)}
+#page-coach.cz .bubble.user small{display:none!important}
+#page-coach.cz .cq-row{align-items:flex-end!important;gap:8px!important;animation:czIn .35s cubic-bezier(.32,.72,0,1)}
+@keyframes czIn{from{opacity:0;transform:translateY(10px)}}
+#page-coach.cz .cq-av{width:30px!important;height:30px!important;min-width:30px;border-radius:50%!important;background:conic-gradient(from 0deg,#6366f1,#a855f7,#ec4899,#22d3ee,#6366f1)!important;color:#fff!important;font-size:13px!important;display:grid!important;place-items:center;box-shadow:0 4px 12px -4px rgba(139,92,246,.7)!important;margin-bottom:2px}
+#page-coach.cz .bubble.cq-c{border:0!important;border-radius:22px 22px 22px 6px!important;padding:13px 15px!important;background:rgba(255,255,255,.92)!important;box-shadow:0 12px 30px -20px rgba(30,27,75,.55),inset 0 0 0 1px rgba(99,102,241,.08)!important;max-width:100%!important}
+#page-coach.cz .bubble.cq-c>small{display:inline-block!important;font:900 10px Inter,sans-serif!important;letter-spacing:.14em;color:#7c3aed!important;margin-bottom:6px}
+#page-coach.cz .cq-h{border:0!important;padding:0!important;margin:12px 0 6px!important;font:900 15px Nunito,Inter,sans-serif!important;color:#312e81!important;display:flex;align-items:center;gap:8px}
+#page-coach.cz .cq-h:before{content:"";flex:none;width:5px;height:18px;border-radius:4px;background:linear-gradient(180deg,#6366f1,#ec4899)}
+#page-coach.cz .cq-hr{border:0!important;height:1px;background:linear-gradient(90deg,transparent,rgba(99,102,241,.25),transparent)!important;margin:10px 0!important}
+#page-coach.cz .cq-key{border:0!important;border-radius:16px!important;padding:10px 12px!important;background:linear-gradient(135deg,#ecfdf5,#d1fae5)!important;box-shadow:inset 0 0 0 1px #a7f3d0;color:#064e3b!important;font-weight:800}
+#page-coach.cz .cq-key span{color:#047857!important;font:900 10.5px Inter,sans-serif!important;letter-spacing:.12em}
+#page-coach.cz .cq-trust{border-radius:999px!important;font-size:11px!important}
+#page-coach.cz .cq-acts{gap:6px!important;margin-top:10px!important;flex-wrap:wrap}
+#page-coach.cz .cq-act,#page-coach.cz .bubble .sf-save{border:0!important;border-radius:999px!important;padding:6px 11px!important;background:#f1f5ff!important;color:#4338ca!important;font:800 11.5px Inter,system-ui,sans-serif!important;box-shadow:inset 0 0 0 1px rgba(99,102,241,.15)!important}
+/* composer */
+#page-coach.cz .chatinput{position:relative;z-index:2;margin:6px 10px 10px!important;padding:6px!important;border:0!important;border-radius:26px!important;background:#fff!important;box-shadow:0 12px 30px -14px rgba(30,27,75,.45),inset 0 0 0 1.5px rgba(99,102,241,.14)!important;display:flex!important;align-items:flex-end!important;gap:6px!important}
+#page-coach.cz .chatinput:focus-within{box-shadow:0 12px 30px -14px rgba(30,27,75,.45),inset 0 0 0 2px #8b5cf6,0 0 0 4px rgba(139,92,246,.12)!important}
+#page-coach.cz #chatText{border:0!important;background:transparent!important;box-shadow:none!important;padding:10px 4px!important;font:600 15px Inter,system-ui,sans-serif!important;min-height:22px!important;outline:0}
+#page-coach.cz .cx-clip,#page-coach.cz .cq-mic{flex:none;width:40px!important;height:40px!important;min-width:40px!important;padding:0!important;border:0!important;border-radius:50%!important;background:#f1f5ff!important;color:#4f46e5!important;display:grid!important;place-items:center}
+#page-coach.cz .cq-send{flex:none;width:44px!important;height:44px!important;min-width:44px!important;padding:0!important;border:0!important;border-radius:50%!important;background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899)!important;color:#fff!important;box-shadow:0 8px 18px -6px rgba(168,85,247,.8)!important;transition:transform .12s}
+#page-coach.cz .cq-send:active{transform:scale(.9)}
+#page-coach.cz .sfm-tabs{margin-bottom:10px}
+[data-theme="dark"] #page-coach.cz .chatbox{background:#0f1020!important}[data-theme="dark"] #page-coach.cz .chathead,[data-theme="dark"] #page-coach.cz .chatinput,[data-theme="dark"] #page-coach.cz .bubble.cq-c,[data-theme="dark"] #page-coach.cz .cq-idea{background:rgba(30,32,56,.85)!important}[data-theme="dark"] #page-coach.cz .cq-idea b,[data-theme="dark"] #page-coach.cz .cq-h{color:#e0e7ff!important}
+#page-coach.cz .chathead{display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important}
+#page-coach.cz .chathead>div:nth-child(2){flex:1 1 auto;min-width:0}
+#page-coach.cz .chathead>div:nth-child(2) .tiny{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#page-coach.cz #clearChat{margin:0!important;flex:none;white-space:nowrap;width:auto!important;position:static!important}
+.cz-shd{display:none}
+#page-coach.cz .sf-cset.cz-sheet .cz-shd{display:flex;align-items:center;justify-content:space-between;margin:-4px 0 14px}
+.cz-shd b{font:900 18px Nunito,Inter,sans-serif;color:#312e81}
+.cz-done{border:0;border-radius:999px;padding:8px 16px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;font:800 13px Inter,sans-serif}
+#page-coach.cz .sf-cset.cz-sheet{bottom:0!important;top:auto!important}
+
+</style><script id="sf-cz-js">
+/* ===== AI Coach redesign: aurora chat — glowing orb coach, gradient bubbles, floating composer, settings in a sheet ===== */
+(function(){
+function tidy(){var pg=document.getElementById('page-coach');if(!pg)return;if(!pg.classList.contains('cz'))pg.classList.add('cz');
+ var head=pg.querySelector('.chathead');if(head&&!head.querySelector('.cz-gear')){
+  var lg=head.querySelector('.logo');if(lg&&!lg.querySelector('.cz-orb')){lg.innerHTML='<span class="cz-orb" aria-hidden="true"></span>'}
+  var nc=document.getElementById('clearChat');if(nc){nc.innerHTML='<span aria-hidden="true">✎</span><span class="cz-t">New chat</span>';nc.setAttribute('aria-label','New chat')}
+  var g=document.createElement('button');g.type='button';g.className='cz-gear';g.setAttribute('aria-label','Coach settings');g.innerHTML='⚙️';
+  if(nc)nc.after(g);else head.appendChild(g);
+  g.onclick=function(){var s=pg.querySelector('.sf-cset');if(!s)return;if(s.classList.contains('sf-closed')){var b=s.querySelector('.sf-cset-sum');if(b)b.click()}if(!s.querySelector('.cz-shd')){var h=document.createElement('div');h.className='cz-shd';h.innerHTML='<b>⚙️ Coach settings</b><button type="button" class="cz-done">Done</button>';s.prepend(h)}s.classList.add('cz-sheet');document.body.classList.add('cz-shade')}}
+}
+document.addEventListener('click',function(e){var s=document.querySelector('#page-coach .sf-cset.cz-sheet');if(!s)return;if(e.target.closest('.cz-gear'))return;
+ if(!e.target.closest('.sf-cset')||e.target.closest('.cz-done')||e.target.closest('.sf-cset-sum')){s.classList.remove('cz-sheet');document.body.classList.remove('cz-shade');if(!s.classList.contains('sf-closed')){var b=s.querySelector('.sf-cset-sum');if(b&&!e.target.closest('.sf-cset-sum'))b.click()}}},true);
+var n=0;(function loop(){try{tidy()}catch(e){}if(++n<30)setTimeout(loop,500)})();
+var mt=0;new MutationObserver(function(){if(mt)return;mt=setTimeout(function(){mt=0},200);var pg=document.getElementById('page-coach');if(pg&&pg.classList.contains('active'))try{tidy()}catch(e){}}).observe(document.documentElement,{attributes:true,subtree:true,attributeFilter:['class']});
+})();
+
 </script></body></html>
