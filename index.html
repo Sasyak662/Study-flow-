@@ -11658,6 +11658,48 @@ var n=0;(function loop(){try{tidy()}catch(e){}if(++n<30)setTimeout(loop,500)})()
 var mt=0;new MutationObserver(function(){if(mt)return;mt=setTimeout(function(){mt=0;var pg=document.getElementById('page-upload');if(pg&&pg.classList.contains('active'))try{tidy()}catch(e){}},200)}).observe(document.documentElement,{attributes:true,subtree:true,attributeFilter:['class']});
 })();
 
+</script><style id="sf-smth-css">
+
+</style><script id="sf-smth-js">
+function sfSayMath(t){
+ t=String(t||'');
+ var N={'1/2':'one half','1/3':'one third','2/3':'two thirds','1/4':'one quarter','3/4':'three quarters','1/5':'one fifth','1/8':'one eighth'};
+ // LaTeX
+ t=t.replace(/\$\$?/g,' ').replace(/\\\(|\\\)|\\\[|\\\]/g,' ');
+ for(var k=0;k<3;k++)t=t.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g,' ($1) over ($2) ');
+ t=t.replace(/\\sqrt\s*\[(\d+)\]\s*\{([^{}]*)\}/g,' the $1th root of ($2) ').replace(/\\sqrt\s*\{([^{}]*)\}/g,' the square root of ($1) ');
+ var LX={'times':'×','cdot':'×','div':'÷','pm':'±','le':'≤','leq':'≤','ge':'≥','geq':'≥','ne':'≠','neq':'≠','approx':'≈','pi':'π','theta':' theta ','alpha':' alpha ','beta':' beta ','infty':' infinity ','degree':'°','circ':'°','to':'→','rightarrow':'→','Rightarrow':'→','left':'','right':'','quad':' ','text':'','mathrm':''};
+ t=t.replace(/\\([A-Za-z]+)/g,function(m,w){return LX.hasOwnProperty(w)?LX[w]:' '+w+' '}).replace(/[{}]/g,' ');
+ // superscripts
+ var SUP={'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9','⁻':'-','⁺':'+','ⁿ':'n'};
+ t=t.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺ⁿ]+/g,function(s){return '^'+s.split('').map(function(c){return SUP[c]}).join('')});
+ // units first
+ var U={'m/s':'metres per second','km/h':'kilometres per hour','m/s^2':'metres per second squared','g/cm^3':'grams per cubic centimetre','kg/m^3':'kilograms per cubic metre','cm^2':'square centimetres','m^2':'square metres','km^2':'square kilometres','mm^2':'square millimetres','cm^3':'cubic centimetres','m^3':'cubic metres'};
+ t=t.replace(/(\d)\s?(m\/s\^2|g\/cm\^3|kg\/m\^3|m\/s|km\/h|[ckm]?m\^[23])(?![\w^])/g,function(m,d,u){return d+' '+U[u]+' '});
+ // powers
+ t=t.replace(/\^\(([^()]*)\)/g,' to the power of $1 ').replace(/\^\s?2(?!\d)/g,' squared ').replace(/\^\s?3(?!\d)/g,' cubed ').replace(/\^\s?(-?[\w.]+)/g,' to the power of $1 ');
+ t=t.replace(/\)\s*\(/g,') times (');
+ // roots
+ t=t.replace(/(\d)\s?√/g,'$1 root ');
+ t=t.replace(/∛\s?/g,' the cube root of ').replace(/√\s?\(([^()]*)\)/g,' the square root of $1 ').replace(/√\s?/g,' the square root of ');
+ // fractions
+ t=t.replace(/(^|[^\w.\/])(\d+)\s?\/\s?(\d+)(?![\w.\/])/g,function(m,a,x,y){var f=x+'/'+y;return a+(N[f]||(x+' over '+y))});
+ t=t.replace(/(\)|\w)\s?\/\s?(\(|\w)/g,'$1 over $2');
+ // operators
+ t=t.replace(/±/g,' plus or minus ').replace(/[×✕✖]|(?<=\d)\s?[x*]\s?(?=\d)|\s\*\s|·/g,' times ').replace(/÷/g,' divided by ').replace(/≠/g,' is not equal to ').replace(/≈/g,' is about ').replace(/≤|<=/g,' is less than or equal to ').replace(/≥|>=/g,' is greater than or equal to ').replace(/(\s)<(\s)/g,' is less than ').replace(/(\s)>(\s)/g,' is greater than ').replace(/=>|⇒|→|-->|->/g,' which gives ').replace(/=/g,' equals ').replace(/π/g,' pi ').replace(/°\s?C\b/g,' degrees Celsius ').replace(/°/g,' degrees ').replace(/(\d)\s?%/g,'$1 percent ').replace(/∞/g,' infinity ').replace(/∠/g,' angle ').replace(/△/g,' triangle ').replace(/θ/g,' theta ');
+ t=t.replace(/(\d)\s?:\s?(\d)/g,'$1 to $2');
+ // minus / negative
+ t=t.replace(/(\d|(?<![a-zA-Z])[a-zA-Z](?![a-zA-Z])|\)|squared|cubed)\s*[-−–]\s*(?=\d|\b[a-zA-Z]{1,3}\b|\(|√|the square)/g,function(m,a){return a+' minus '}).replace(/(^|[\s(=])[-−](?=\d|[a-z]\b)/g,'$1 negative ').replace(/(\w|\))\s?\+\s?/g,'$1 plus ').replace(/\+/g,' plus ');
+ t=t.replace(/(\d)\.(\d)/g,'$1 point $2');
+ // brackets: just pause slightly
+ t=t.replace(/[()\[\]]/g,' ');
+ // implicit multiplication like 2x, 3ab is fine to read as is; remove leftover symbols
+ t=t.replace(/[\/\\|_~^`*#>•✦─✅✔✓❌⚠️📝✏️]/g,' ').replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu,' ');
+ t=t.replace(/\s+([,.!?;:])/g,'$1').replace(/([.!?]){2,}/g,'$1').replace(/[ \t]{2,}/g,' ');
+ return t.trim();
+}
+if(typeof module!=='undefined')module.exports=sfSayMath;else window.sfSayMath=sfSayMath;
+
 </script><style id="sf-cz-css">
 /* ===== AI Coach — aurora chat ===== */
 #page-coach.cz .chatbox{position:relative;overflow:hidden;border:0!important;border-radius:28px!important;padding:0!important;background:#fbfbff!important;box-shadow:0 20px 50px -24px rgba(79,70,229,.45)!important;isolation:isolate}
@@ -11734,7 +11776,7 @@ body.cz-shade:after{content:"";position:fixed;inset:0;z-index:9400;background:rg
 #page-coach.cz .chathead b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;font-size:15.5px!important}
 #page-coach.cz .chathead .logo{width:40px!important;height:40px!important;min-width:40px}
 #page-coach.cz .chathead .cz-orb{width:36px;height:36px}
-@media(max-width:480px){#page-coach.cz #clearChat .cz-t{display:none}#page-coach.cz #clearChat{width:36px!important;height:36px;padding:0!important;justify-content:center;font-size:16px!important}}
+@media(max-width:480px){#page-coach.cz #clearChat .cz-t{display:inline!important}#page-coach.cz #clearChat{width:auto!important;height:34px;padding:0 11px!important;font-size:12.5px!important;gap:3px}}
 @media(max-width:900px){
 #page-coach.cz .cq-welcome{padding:14px 4px 6px!important}
 #page-coach.cz .cq-wav{width:62px!important;height:62px!important;margin-bottom:10px!important;box-shadow:0 0 0 6px rgba(139,92,246,.08),0 10px 28px -6px rgba(139,92,246,.6)!important}
@@ -11747,10 +11789,10 @@ body.cz-shade:after{content:"";position:fixed;inset:0;z-index:9400;background:rg
 #page-coach.cz .cq-idea small{display:none!important}
 #page-coach.cz .bubble.cq-c .cq-acts{margin-top:8px!important}
 }
-@media(max-width:480px){#page-coach.cz #clearChat{font-size:0!important;color:transparent!important;overflow:hidden}#page-coach.cz #clearChat *{display:none!important}#page-coach.cz #clearChat:before{content:"＋";font:900 20px/1 Inter,sans-serif;color:#4338ca}}
 #page-coach.cz #chatText{max-height:140px!important;resize:none;line-height:1.4!important;overflow-y:auto}
 #page-coach.cz #chatText:placeholder-shown{height:42px!important;min-height:0!important}
 #page-coach.cz .chatinput{align-items:flex-end!important}
+@media(max-width:480px){#page-coach.cz .chathead{gap:8px;padding:10px 10px 9px 10px!important}#page-coach.cz .chathead b{font-size:14.5px!important}#page-coach.cz .cz-gear{width:34px;height:34px;font-size:15px}}
 
 </style><script id="sf-cz-js">
 /* ===== AI Coach redesign: aurora chat — glowing orb coach, gradient bubbles, floating composer, settings in a sheet ===== */
@@ -11772,47 +11814,5 @@ window.addEventListener('resize',function(){setTimeout(fit,60)});if(window.visua
 var n=0;(function loop(){try{tidy();fit()}catch(e){}if(++n<30)setTimeout(loop,500)})();
 var mt=0;new MutationObserver(function(){if(mt)return;mt=setTimeout(function(){mt=0},200);var pg=document.getElementById('page-coach');if(pg&&pg.classList.contains('active'))try{tidy();setTimeout(fit,50)}catch(e){}}).observe(document.documentElement,{attributes:true,subtree:true,attributeFilter:['class']});
 })();
-
-</script><style id="sf-smth-css">
-
-</style><script id="sf-smth-js">
-function sfSayMath(t){
- t=String(t||'');
- var N={'1/2':'one half','1/3':'one third','2/3':'two thirds','1/4':'one quarter','3/4':'three quarters','1/5':'one fifth','1/8':'one eighth'};
- // LaTeX
- t=t.replace(/\$\$?/g,' ').replace(/\\\(|\\\)|\\\[|\\\]/g,' ');
- for(var k=0;k<3;k++)t=t.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g,' ($1) over ($2) ');
- t=t.replace(/\\sqrt\s*\[(\d+)\]\s*\{([^{}]*)\}/g,' the $1th root of ($2) ').replace(/\\sqrt\s*\{([^{}]*)\}/g,' the square root of ($1) ');
- var LX={'times':'×','cdot':'×','div':'÷','pm':'±','le':'≤','leq':'≤','ge':'≥','geq':'≥','ne':'≠','neq':'≠','approx':'≈','pi':'π','theta':' theta ','alpha':' alpha ','beta':' beta ','infty':' infinity ','degree':'°','circ':'°','to':'→','rightarrow':'→','Rightarrow':'→','left':'','right':'','quad':' ','text':'','mathrm':''};
- t=t.replace(/\\([A-Za-z]+)/g,function(m,w){return LX.hasOwnProperty(w)?LX[w]:' '+w+' '}).replace(/[{}]/g,' ');
- // superscripts
- var SUP={'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9','⁻':'-','⁺':'+','ⁿ':'n'};
- t=t.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺ⁿ]+/g,function(s){return '^'+s.split('').map(function(c){return SUP[c]}).join('')});
- // units first
- var U={'m/s':'metres per second','km/h':'kilometres per hour','m/s^2':'metres per second squared','g/cm^3':'grams per cubic centimetre','kg/m^3':'kilograms per cubic metre','cm^2':'square centimetres','m^2':'square metres','km^2':'square kilometres','mm^2':'square millimetres','cm^3':'cubic centimetres','m^3':'cubic metres'};
- t=t.replace(/(\d)\s?(m\/s\^2|g\/cm\^3|kg\/m\^3|m\/s|km\/h|[ckm]?m\^[23])(?![\w^])/g,function(m,d,u){return d+' '+U[u]+' '});
- // powers
- t=t.replace(/\^\(([^()]*)\)/g,' to the power of $1 ').replace(/\^\s?2(?!\d)/g,' squared ').replace(/\^\s?3(?!\d)/g,' cubed ').replace(/\^\s?(-?[\w.]+)/g,' to the power of $1 ');
- t=t.replace(/\)\s*\(/g,') times (');
- // roots
- t=t.replace(/(\d)\s?√/g,'$1 root ');
- t=t.replace(/∛\s?/g,' the cube root of ').replace(/√\s?\(([^()]*)\)/g,' the square root of $1 ').replace(/√\s?/g,' the square root of ');
- // fractions
- t=t.replace(/(^|[^\w.\/])(\d+)\s?\/\s?(\d+)(?![\w.\/])/g,function(m,a,x,y){var f=x+'/'+y;return a+(N[f]||(x+' over '+y))});
- t=t.replace(/(\)|\w)\s?\/\s?(\(|\w)/g,'$1 over $2');
- // operators
- t=t.replace(/±/g,' plus or minus ').replace(/[×✕✖]|(?<=\d)\s?[x*]\s?(?=\d)|\s\*\s|·/g,' times ').replace(/÷/g,' divided by ').replace(/≠/g,' is not equal to ').replace(/≈/g,' is about ').replace(/≤|<=/g,' is less than or equal to ').replace(/≥|>=/g,' is greater than or equal to ').replace(/(\s)<(\s)/g,' is less than ').replace(/(\s)>(\s)/g,' is greater than ').replace(/=>|⇒|→|-->|->/g,' which gives ').replace(/=/g,' equals ').replace(/π/g,' pi ').replace(/°\s?C\b/g,' degrees Celsius ').replace(/°/g,' degrees ').replace(/(\d)\s?%/g,'$1 percent ').replace(/∞/g,' infinity ').replace(/∠/g,' angle ').replace(/△/g,' triangle ').replace(/θ/g,' theta ');
- t=t.replace(/(\d)\s?:\s?(\d)/g,'$1 to $2');
- // minus / negative
- t=t.replace(/(\d|(?<![a-zA-Z])[a-zA-Z](?![a-zA-Z])|\)|squared|cubed)\s*[-−–]\s*(?=\d|\b[a-zA-Z]{1,3}\b|\(|√|the square)/g,function(m,a){return a+' minus '}).replace(/(^|[\s(=])[-−](?=\d|[a-z]\b)/g,'$1 negative ').replace(/(\w|\))\s?\+\s?/g,'$1 plus ').replace(/\+/g,' plus ');
- t=t.replace(/(\d)\.(\d)/g,'$1 point $2');
- // brackets: just pause slightly
- t=t.replace(/[()\[\]]/g,' ');
- // implicit multiplication like 2x, 3ab is fine to read as is; remove leftover symbols
- t=t.replace(/[\/\\|_~^`*#>•✦─✅✔✓❌⚠️📝✏️]/g,' ').replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu,' ');
- t=t.replace(/\s+([,.!?;:])/g,'$1').replace(/([.!?]){2,}/g,'$1').replace(/[ \t]{2,}/g,' ');
- return t.trim();
-}
-if(typeof module!=='undefined')module.exports=sfSayMath;else window.sfSayMath=sfSayMath;
 
 </script></body></html>
