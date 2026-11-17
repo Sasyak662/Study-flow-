@@ -11509,54 +11509,50 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 })();
 
 </script><style id="sf-rail-css">
-/* one glass top bar */
-.iq-railed .iq-hud{left:8px!important;right:62px!important;top:8px!important;flex-wrap:nowrap!important;gap:4px!important;padding:5px!important;align-items:center!important;background:rgba(20,16,60,.55);border:1px solid rgba(255,255,255,.16);border-radius:18px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 8px 20px -10px rgba(0,0,0,.5);width:auto!important}
-.iq-railed .iq-hud>*{background:transparent!important;border:0!important;box-shadow:none!important}
-.iq-railed .iq-hud .iq-lv{padding:0 6px 0 0!important;gap:6px!important;min-width:0;flex:1 1 auto}
-.iq-railed .iq-hud .iq-lv .b{flex:none!important;width:32px!important;height:32px!important;min-width:32px!important;display:grid!important;place-items:center}
-.iq-railed .iq-hud .iq-lv .b span{font-size:14px!important}
-.iq-railed .iq-hud .iq-lv small:first-child{display:none!important}
-.iq-railed .iq-hud .iq-lv>div{min-width:0;flex:1}
-.iq-railed .iq-hud .iq-lv .bar{width:100%!important;max-width:80px;height:6px!important}
-.iq-railed .iq-hud .iq-lv #iqXpT{font-size:9.5px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;color:#c7d2fe!important}
-.iq-railed .iq-hud .iq-sp{display:none!important}
-.iq-railed .iq-hud .iq-chip{padding:4px 6px!important;font-size:13px!important;gap:3px!important;min-width:0;flex:0 0 auto;border-left:1px solid rgba(255,255,255,.14)!important;border-radius:0!important}
-.iq-railed .iq-hud .iq-chip i{font-size:14px!important}
-.iq-railed .iq-hud .iq-chip small{display:none!important}
-/* round buttons on the right */
-.iq-rail{position:absolute;right:8px;top:8px;z-index:6;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.iq-rail .iq-btn{width:46px!important;height:46px!important;min-width:0!important;padding:0!important;border-radius:50%!important;display:grid!important;place-items:center;font-size:21px!important;position:relative;margin:0!important;background:rgba(20,16,60,.6)!important;border:1.5px solid rgba(255,255,255,.22)!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 14px -6px rgba(0,0,0,.6)!important;color:#fff!important}
-.iq-rail .iq-btn .t{display:none!important}
-.iq-rail .iq-btn .dot{position:absolute;top:-3px;right:-3px}
-.iq-rail #iqEarn{background:linear-gradient(135deg,#fbbf24,#f97316)!important;border-color:rgba(255,255,255,.5)!important}
-.iq-rail .iq-morebtn{font-size:22px!important;font-weight:900;letter-spacing:1px}
-/* More: expands to the left as labelled pills */
-.iq-more{display:flex;flex-direction:column;align-items:flex-end;gap:6px;max-height:0;overflow:hidden;opacity:0;transform:translateY(-6px);transition:max-height .25s ease,opacity .2s,transform .25s;order:9}
-.iq-rail .iq-morebtn{order:8}
-.iq-rail.open .iq-more{max-height:260px;opacity:1;transform:none}
-.iq-more .iq-btn{width:auto!important;height:40px!important;border-radius:999px!important;display:flex!important;align-items:center;gap:6px;padding:0 12px 0 10px!important;font-size:17px!important}
-.iq-more .iq-btn>*:not(.iq-ml):not(:first-child){display:none!important}
-.iq-more #sqRunBtn{font-size:17px!important}
-.iq-ml{font:800 12.5px Nunito,Inter,sans-serif;white-space:nowrap}
-.iq-rail>#iqQ{order:1}.iq-rail>#iqEarn{order:2}
+/* top: one glass bar */
+.iq-docked .iq-hud{left:8px!important;right:8px!important;top:8px!important;flex-wrap:nowrap!important;gap:2px!important;padding:5px!important;align-items:center!important;background:rgba(20,16,60,.55);border:1px solid rgba(255,255,255,.16);border-radius:18px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 8px 20px -10px rgba(0,0,0,.5);width:auto!important}
+.iq-docked .iq-hud>*{background:transparent!important;border:0!important;box-shadow:none!important}
+.iq-docked .iq-hud .iq-lv{padding:0 6px 0 0!important;gap:6px!important;min-width:0;flex:1 1 auto}
+.iq-docked .iq-hud .iq-lv .b{flex:none!important;width:32px!important;height:32px!important;min-width:32px!important;display:grid!important;place-items:center}
+.iq-docked .iq-hud .iq-lv .b span{font-size:14px!important}
+.iq-docked .iq-hud .iq-lv small:first-child{display:none!important}
+.iq-docked .iq-hud .iq-lv>div{min-width:0;flex:1}
+.iq-docked .iq-hud .iq-lv .bar{width:100%!important;max-width:90px;height:6px!important}
+.iq-docked .iq-hud .iq-lv #iqXpT{font-size:9.5px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;color:#c7d2fe!important}
+.iq-docked .iq-hud .iq-sp{display:none!important}
+.iq-docked .iq-hud .iq-chip{padding:4px 7px!important;font-size:13px!important;gap:3px!important;min-width:0;flex:0 0 auto;border-left:1px solid rgba(255,255,255,.14)!important;border-radius:0!important}
+.iq-docked .iq-hud .iq-chip i{font-size:14px!important}
+.iq-docked .iq-hud .iq-chip small{display:none!important}
+.iq-docked .iq-hud #iqFull{width:32px!important;height:32px!important;min-width:0!important;padding:0!important;font-size:15px!important;border-left:1px solid rgba(255,255,255,.14)!important;border-radius:0!important;color:#c7d2fe!important}
+/* bottom dock */
+.iq-dock{position:absolute;left:8px;right:8px;bottom:8px;z-index:6;display:flex;gap:4px;padding:5px;background:rgba(20,16,60,.62);border:1px solid rgba(255,255,255,.16);border-radius:20px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 10px 24px -10px rgba(0,0,0,.6)}
+.iq-dock .iq-btn{flex:1 1 0;min-width:0!important;width:auto!important;height:54px!important;padding:4px 2px!important;margin:0!important;border-radius:15px!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:21px!important;line-height:1;background:transparent!important;border:0!important;box-shadow:none!important;color:#fff!important;position:relative;transition:background .15s,transform .1s}
+.iq-dock .iq-btn:active{transform:scale(.94);background:rgba(255,255,255,.1)!important}
+.iq-dock .iq-btn .t{display:none!important}
+.iq-dock .iq-btn>*:not(.iq-dl):not(.dot):not(:first-child){display:none!important}
+.iq-dl{font:800 10.5px Nunito,Inter,sans-serif;color:#e0e7ff;white-space:nowrap;letter-spacing:.01em}
+.iq-dock .iq-btn .dot{position:absolute;top:4px;right:calc(50% - 20px)}
+.iq-dock #iqEarn{background:linear-gradient(160deg,#fbbf24,#f97316)!important;box-shadow:0 4px 12px -4px rgba(249,115,22,.7)!important}
+.iq-dock #iqEarn .iq-dl{color:#fff}
+/* owl hint sits above the dock; pinch to zoom, so the +/- buttons go */
+.iq-docked .iq-bottom{bottom:74px!important}
+.iq-docked .iq-zoom{display:none!important}
+.iq-docked .iq-hintw{max-width:92%!important}
+.iq-docked #iqAct{bottom:150px!important}
 
 </style><script id="sf-rail-js">
-/* ===== Island HUD: one glass top bar + 3 round buttons (Quests, Earn, More); less-used ones live inside More ===== */
+/* ===== Island HUD: glass top bar + a labelled dock at the bottom (Quests, Earn, Shop, Map, Study Run) — everything visible, nothing hidden ===== */
 (function(){
-var MAIN=['iqQ','iqEarn'],MORE=[['iqMap','🗺️','Map'],['iqShop','🛒','Shop'],['sqRunBtn','⚡','Study Run'],['iqFull','⛶','Full screen']];
-function tidy(){var w=document.getElementById('iqWrap');if(!w)return;var hud=w.querySelector('.iq-hud');if(!hud)return;w.classList.add('iq-railed');
- var r=w.querySelector('.iq-rail');if(!r){r=document.createElement('div');r.className='iq-rail';r.innerHTML='<div class="iq-more" id="iqMoreBox"></div><button type="button" class="iq-btn iq-morebtn" id="iqMoreBtn" aria-label="More" aria-expanded="false">⋯</button>';w.appendChild(r)}
- var box=r.querySelector('#iqMoreBox'),mb=r.querySelector('#iqMoreBtn');
- MAIN.forEach(function(id){var b=document.getElementById(id);if(b&&b.parentNode!==r)r.insertBefore(b,box)});
- MORE.forEach(function(m){var b=document.getElementById(m[0]);if(b&&b.parentNode!==box){box.appendChild(b);b.setAttribute('aria-label',m[2]);if(!b.querySelector('.iq-ml')){b.insertAdjacentHTML('beforeend','<span class="iq-ml">'+m[2]+'</span>')}}});
- var st=document.getElementById('iqStreakC');if(st&&st.parentNode===hud&&hud.lastElementChild!==st)hud.appendChild(st)}
-function setMore(on){var r=document.querySelector('.iq-rail');if(!r)return;r.classList.toggle('open',on);var b=document.getElementById('iqMoreBtn');if(b){b.setAttribute('aria-expanded',on?'true':'false');b.textContent=on?'✕':'⋯'}}
-document.addEventListener('click',function(e){if(e.target.closest('#iqMoreBtn')){e.preventDefault();var r=document.querySelector('.iq-rail');setMore(!(r&&r.classList.contains('open')));return}
- if(e.target.closest('#iqMoreBox .iq-btn')){setTimeout(function(){setMore(false)},50);return}
- if(!e.target.closest('.iq-rail'))setMore(false);
- if(e.target.closest('[data-page="quest"],#sfTabs'))setTimeout(tidy,300)});
+var DOCK=[['iqQ','📜','Quests'],['iqEarn','💰','Earn'],['iqShop','🛒','Shop'],['iqMap','🗺️','Map'],['sqRunBtn','⚡','Quiz Run']];
+function tidy(){var w=document.getElementById('iqWrap');if(!w)return;var hud=w.querySelector('.iq-hud');if(!hud)return;w.classList.add('iq-docked');
+ var d=w.querySelector('.iq-dock');if(!d){d=document.createElement('div');d.className='iq-dock';w.appendChild(d)}
+ DOCK.forEach(function(m){var b=document.getElementById(m[0]);if(!b)return;if(b.parentNode!==d){d.appendChild(b)}if(!b.querySelector('.iq-dl')){b.insertAdjacentHTML('beforeend','<span class="iq-dl">'+m[2]+'</span>')}b.setAttribute('aria-label',m[2])});
+ DOCK.forEach(function(m){var b=document.getElementById(m[0]);if(b&&b.parentNode===d)d.appendChild(b)});
+ var st=document.getElementById('iqStreakC');if(st&&st.parentNode===hud)hud.appendChild(st);
+ var f=document.getElementById('iqFull');if(f&&f.parentNode===hud&&hud.lastElementChild!==f)hud.appendChild(f);
+ var old=w.querySelector('.iq-rail');if(old)old.remove()}
 var n=0;(function loop(){tidy();if(++n<40)setTimeout(loop,500)})();
-new MutationObserver(function(){var w=document.getElementById('iqWrap');if(w){var hud=w.querySelector('.iq-hud');if(hud&&hud.querySelector('#sqRunBtn,#iqQ,#iqMap,#iqShop,#iqEarn,#iqFull'))tidy()}}).observe(document.documentElement,{childList:true,subtree:true});
+new MutationObserver(function(){var w=document.getElementById('iqWrap');if(w){var hud=w.querySelector('.iq-hud');if(hud&&hud.querySelector('#sqRunBtn,#iqQ,#iqMap,#iqShop,#iqEarn'))tidy()}}).observe(document.documentElement,{childList:true,subtree:true});
 })();
 
 </script></body></html>
