@@ -24,6 +24,7 @@ public class WatchService extends Service {
     private Handler h; // background thread: the checks never slow down the app's own screen
     private volatile boolean shieldUp = false;
     private String front = "";
+    private long frontAt = 0;
     private long since = 0, lastT = 0;
     private volatile long lastShow = 0, graceUntil = 0;
     private android.view.View shield;
@@ -107,14 +108,14 @@ public class WatchService extends Service {
             if (e.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND && e.getTimeStamp() >= newest) {
                 events++;
                 front = e.getPackageName() == null ? "" : e.getPackageName();
-                newest = e.getTimeStamp();
+                newest = e.getTimeStamp(); frontAt = newest;
             }
         }
         if (newest > since) android.util.Log.i("SXWatch", "front=" + front + " t=" + newest + " lag=" + (now - newest));
         since = Math.max(since, newest);
         boolean bad = !front.isEmpty() && !front.equals(getPackageName()) && Lock.isBlocked(this, front);
         // once the blocked app is gone, the focus screen clears itself after a few seconds
-        if (!bad) { if (shieldUp && (Lock.pausedUntil(this) > 0 || (!front.isEmpty() && now - lastShow > 6000))) ui.post(() -> hideShield()); return; }
+        if (!bad) { if (shieldUp && (Lock.pausedUntil(this) > 0 || (!front.isEmpty() && (frontAt > lastShow + 1200 || now - lastShow > 6000)))) ui.post(() -> hideShield()); return; }
         if (now < graceUntil) return;
         if (now - lastShow < 1200) return;
         lastShow = now; if (!shieldUp) blocks++;
@@ -209,6 +210,17 @@ public class WatchService extends Service {
             hideShieldSmooth();
         });
         root.addView(back, new android.widget.LinearLayout.LayoutParams(-2, -2));
+        // a clear way out to the rest of the phone (other apps still work — only the blocked ones stay locked)
+        android.widget.Button home = new android.widget.Button(this); home.setText("Go to home screen"); home.setAllCaps(false); home.setTextColor(0xFFFFFFFF); home.setTextSize(15);
+        android.graphics.drawable.GradientDrawable hb = new android.graphics.drawable.GradientDrawable(); hb.setColor(0x26FFFFFF); hb.setStroke(dp(1), 0x66FFFFFF); hb.setCornerRadius(dp(16)); home.setBackground(hb);
+        home.setPadding(dp(26), dp(12), dp(26), dp(12));
+        home.setOnClickListener(v -> {
+            graceUntil = System.currentTimeMillis() + 1500;
+            try { startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION)); } catch (Exception ignored) {}
+            hideShieldSmooth();
+        });
+        android.widget.LinearLayout.LayoutParams hlp = new android.widget.LinearLayout.LayoutParams(-2, -2); hlp.topMargin = dp(12);
+        root.addView(home, hlp);
         android.view.WindowManager.LayoutParams lp = new android.view.WindowManager.LayoutParams(-1, -1,
                 Build.VERSION.SDK_INT >= 26 ? android.view.WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : android.view.WindowManager.LayoutParams.TYPE_PHONE,
                 android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | android.view.WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
