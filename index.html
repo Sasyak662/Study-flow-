@@ -11238,6 +11238,14 @@ body:not([data-sfpage="library"]) .nb-fab{display:none}
 .nb-save{margin-top:12px;border:0;border-radius:16px;padding:15px;background:linear-gradient(135deg,#fb923c,#f43f5e);color:#fff;font:900 16px Nunito,Inter,sans-serif;cursor:pointer;box-shadow:0 10px 22px -10px rgba(244,63,94,.7);flex:none}
 [data-theme="dark"] .nb-sh{background:#1c1917}[data-theme="dark"] .nb-txt,[data-theme="dark"] .nb-ti,[data-theme="dark"] .nb-ta{color:#f5f5f4}[data-theme="dark"] .nb-body,[data-theme="dark"] .nb-ta{background-image:repeating-linear-gradient(transparent 0 27px,#292524 27px 28px)!important}[data-theme="dark"] .nb-empty{background:#1c1917;border-color:#44403c}
 .nb-tabs button em{color:#1f2937}
+/* editor fits with the keyboard open: header, title and subject row never shrink; only the writing area does */
+.nb-sh{max-height:92dvh}
+.nb-eh,.nb-ti,.nb-sp,.nb-save,.nb-rh,.nb-acts{flex:none!important}
+.nb-sp{padding:12px 2px!important;align-items:center;scrollbar-width:none!important;-ms-overflow-style:none}
+.nb-sp::-webkit-scrollbar{display:none!important;height:0!important}
+.nb-sp button{white-space:nowrap;line-height:1.2;min-height:36px;box-sizing:border-box}
+.nb-edit .nb-ta{min-height:110px!important;flex:1 1 auto}
+.nb-ti{width:100%;box-sizing:border-box}
 
 </style><script id="sf-nb-js">
 /* ===== Study Library — "notebook desk" redesign: search, subject tabs, colourful note cards, reader + editor sheets ===== */
