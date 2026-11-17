@@ -5612,7 +5612,7 @@ function init(){var pg=$('page-quest');if(!pg||$('iqWrap'))return;
  var world=pg.querySelector('.world-scene');var wc=world&&world.closest('.card');if(wc){wc.classList.add('iq-hide');var gr=wc.parentElement;if(gr&&gr.classList.contains('grid'))gr.classList.add('iq-solo')}
  var tb=$('botSpeech');var tcard=tb&&tb.closest('.card');if(tcard){var h2=tcard.querySelector('h2');if(h2)h2.textContent='Professor Owl’s classroom'}
  var w=document.createElement('div');w.className='iq-wrap';w.id='iqWrap';
- w.innerHTML='<canvas id="iqCv" aria-label="StudyQuest island. Tap or click to walk."></canvas><div class="iq-hud"><div class="iq-lv"><span class="b"><span id="iqLv">1</span></span><div><small>LEVEL</small><div class="bar"><span id="iqXpBar"></span></div><small id="iqXpT"></small></div></div><span class="iq-sp"></span><span class="iq-chip c"><i>🪙</i><span id="iqCoins">0</span></span><span class="iq-chip g"><i>💎</i><span id="iqGems">0</span></span><button class="iq-btn" id="iqQ" aria-label="Daily quests">📜<span class="t">Quests</span><span class="dot" id="iqQDot" hidden>0</span></button><span class="iq-chip s" id="iqStreakC" title="Study streak — coin bonus"><i>🔥</i><span id="iqStrk">0</span><small id="iqMult"></small></span><button class="iq-btn" id="iqMap" aria-label="World map">🗺️<span class="t">Map</span></button><button class="iq-btn" id="iqShop" aria-label="Shop">🛒<span class="t">Shop</span></button><button class="iq-btn" id="iqFull" aria-label="Full screen">⛶</button></div><div class="iq-bottom"><div class="iq-hintw"><span class="iq-owl">🦉</span><div class="iq-hint" id="iqHint"></div></div><div class="iq-zoom"><button class="iq-btn" id="iqZi" aria-label="Zoom in">＋</button><button class="iq-btn" id="iqZo" aria-label="Zoom out">－</button></div></div><button class="iq-act" id="iqAct" hidden></button><div class="iq-panel" id="iqPanel" hidden></div>';
+ w.innerHTML='<canvas id="iqCv" aria-label="StudyQuest island. Tap or click to walk."></canvas><div class="iq-hud"><div class="iq-lv"><span class="b"><span id="iqLv">1</span></span><div><small>LEVEL</small><div class="bar"><span id="iqXpBar"></span></div><small id="iqXpT"></small></div></div><span class="iq-sp"></span><span class="iq-chip c"><i>🪙</i><span id="iqCoins">0</span></span><span class="iq-chip g"><i>💎</i><span id="iqGems">0</span></span><button class="iq-btn" id="iqQ" aria-label="Daily quests">📜<span class="t">Quests</span><span class="dot" id="iqQDot" hidden>0</span></button><span class="iq-chip s" id="iqStreakC" title="Study streak — coin bonus"><i>🔥</i><span id="iqStrk">0</span><small id="iqMult"></small></span><button class="iq-btn" id="iqMap" aria-label="World map">🗺️<span class="t">Map</span></button><button class="iq-btn" id="iqShop" aria-label="Shop">🛒<span class="t">Shop</span></button><button class="iq-btn iq-earnb" id="iqEarn" aria-label="Ways to earn coins and diamonds">💰<span class="t">Earn</span></button><button class="iq-btn" id="iqFull" aria-label="Full screen">⛶</button></div><div class="iq-bottom"><div class="iq-hintw"><span class="iq-owl">🦉</span><div class="iq-hint" id="iqHint"></div></div><div class="iq-zoom"><button class="iq-btn" id="iqZi" aria-label="Zoom in">＋</button><button class="iq-btn" id="iqZo" aria-label="Zoom out">－</button></div></div><button class="iq-act" id="iqAct" hidden></button><div class="iq-panel" id="iqPanel" hidden></div>';
  var first=pg.firstElementChild;pg.insertBefore(w,first&&first.classList.contains('pagehead')?first.nextSibling:first);
  var lg=document.createElement('div');lg.className='iq-legend';lg.innerHTML='<div><span class="e">🎯</span><span><b>Learn to earn</b><small>Coins, XP and gems come only from StudyQuest quizzes — made for your subjects</small></span></div><div><span class="e">🏗️</span><span><b>Build the island</b><small>Each building opens a study activity</small></span></div><div><span class="e">🐉</span><span><b>Beat bosses</b><small>Win gems for rare pets and hats</small></span></div><div><span class="e">🦉</span><span><b>Daily quests</b><small>Talk to Professor Owl every day</small></span></div>';w.insertAdjacentElement('afterend',lg);
  G.wrap=w;G.cv=$('iqCv');G.ctx=G.cv.getContext('2d');
@@ -11443,6 +11443,69 @@ function deco(){var mk=document.getElementById('mxExMarks');if(mk&&!mk.parentNod
  var btn=document.getElementById('mxExBtn');if(btn&&btn.textContent.indexOf('🖍')<0&&/Mark my answer/.test(btn.textContent))btn.textContent='🖍️ Mark my answer'}
 function go(){if(!build()){setTimeout(go,500);return}deco();var f=document.getElementById('mxExForm');new MutationObserver(function(){deco()}).observe(f,{childList:true,subtree:true});var pg=document.getElementById('page-examiner');new MutationObserver(function(){if(pg.classList.contains('active'))deco()}).observe(pg,{attributes:true,attributeFilter:['class']})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(go,400)});else setTimeout(go,400);
+})();
+
+</script><style id="sf-ern-css">
+.iq-earnb{background:linear-gradient(135deg,#f59e0b,#f97316)!important;color:#fff!important}
+.ern-ov{position:fixed;inset:0;z-index:9600;background:rgba(15,10,40,0);display:flex;align-items:flex-end;justify-content:center;transition:background .22s}
+.ern-ov.in{background:rgba(15,10,40,.55)}
+.ern-sh{width:100%;max-width:560px;max-height:86vh;display:flex;flex-direction:column;background:#fff;border-radius:26px 26px 0 0;transform:translate3d(0,100%,0);transition:transform .3s cubic-bezier(.32,.72,0,1);font-family:Nunito,Inter,system-ui,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+.ern-ov.in .ern-sh{transform:none}
+.ern-hd{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 12px;background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff;border-radius:26px 26px 0 0}
+.ern-hd b{display:block;font:900 20px Nunito,Inter,sans-serif}.ern-hd small{font-size:12.5px;color:#ddd6fe;font-weight:700}
+.ern-x{border:0;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:15px;cursor:pointer}
+.ern-body{overflow:auto;padding:12px 14px 18px}
+.ern-q{background:#ecfdf5;color:#065f46;border-radius:14px;padding:10px 12px;font-size:13.5px;font-weight:700;margin-bottom:4px}
+.ern-body h4{display:flex;align-items:center;gap:8px;margin:14px 2px 8px;font:900 15px Nunito,Inter,sans-serif;color:#1f2937}
+.ern-coin,.ern-gem{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;font-size:15px;background:#fef3c7}.ern-gem{background:#e0f2fe}
+.ern-r{display:flex;align-items:center;gap:12px;padding:10px;border-radius:16px;background:#f8fafc;margin-bottom:8px}
+.ern-r.off{opacity:.55}
+.ern-e{flex:none;width:42px;height:42px;border-radius:13px;background:#fff;box-shadow:0 3px 8px -4px rgba(0,0,0,.25);display:grid;place-items:center;font-size:21px}
+.ern-t{flex:1;min-width:0}.ern-t b{display:block;font-size:14.5px;color:#111827}.ern-t small{display:block;font:600 12px Inter,system-ui,sans-serif;color:#6b7280;margin-top:1px}
+.ern-t em{display:inline-block;font-style:normal;font:800 11px Inter,sans-serif;color:#7c3aed;background:#f3e8ff;border-radius:999px;padding:2px 8px;margin-top:4px}
+.ern-go{flex:none;border:0;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font:900 14px Nunito,Inter,sans-serif;box-shadow:0 4px 0 #15803d;cursor:pointer}
+.ern-go:active{transform:translateY(2px);box-shadow:0 2px 0 #15803d}
+.ern-auto{flex:none;font:800 11.5px Inter,sans-serif;color:#64748b;background:#e2e8f0;border-radius:999px;padding:5px 9px}
+
+</style><script id="sf-ern-js">
+/* ===== Island "💰 Earn" button: every way to earn coins and diamonds, each with a Go button ===== */
+(function(){
+function I(){return window.StudyFlowIsland}
+function bld(kind){try{var J=I()._I,S=J.S(),b=J.B_().filter(function(x){return J.KF(x)===kind})[0];return b?{b:b,built:!!(S.built&&S.built[b.k])}:null}catch(e){return null}}
+function openB(kind){var x=bld(kind);if(!x)return false;try{I()._I.openB(x.b);return true}catch(e){return false}}
+function ne(key){var el=document.querySelector('#neCard [data-neact="'+key+'"],#neCard [data-nego="'+key+'"]');if(el){el.click();return true}var c=document.getElementById('neCard');if(c)c.scrollIntoView({behavior:'smooth',block:'center'});return false}
+function used(src){try{return((data.earn&&data.earn.s)||{})[src]||0}catch(e){return 0}}
+var COINS=[
+ {e:'📚',n:'Library quiz',d:'+10 for every correct answer',t:'quiz',go:function(){if(!openB('library')){var b=document.createElement('button');b.dataset.sqopen=1;document.body.appendChild(b);b.click();b.remove()}}},
+ {e:'🎯',n:'Study Run',d:'Quiz with streak bonus coins',t:'quiz',go:function(){var b=document.createElement('button');b.dataset.sqopen=1;document.body.appendChild(b);b.click();b.remove()}},
+ {e:'🤖',n:'Quiz Arena',d:'Beat the bots · +50 for a win',t:'quiz',go:function(){if(!openB('arena'))openB('library')}},
+ {e:'🔁',n:'Review round',d:'+6 per correct · up to 40 a day',src:'revq',cap:40,go:function(){ne('review')}},
+ {e:'⚡',n:'Speed round',d:'+5 per correct · up to 30 a day',src:'speed',cap:30,go:function(){ne('speed')}},
+ {e:'🧮',n:'Mental maths',d:'+5 per correct · up to 30 a day',src:'maths',cap:30,go:function(){ne('maths')}},
+ {e:'🃏',n:'Flashcard review',d:'+10 per round · up to 30 a day',src:'review',cap:30,go:function(){try{go('flashcards')}catch(e){}}},
+ {e:'🗓️',n:'Timetable sessions',d:'Tick off a session · up to +15 each',src:'plan',cap:45,go:function(){try{go('timetable')}catch(e){}}},
+ {e:'🔒',n:'Focus Lock',d:'Lock 25+ min · +25 coins',src:'lock',cap:50,go:function(){try{go('focuslock')}catch(e){}}},
+ {e:'📜',n:'Daily quests',d:'Finish Professor Owl’s quests',go:function(){var q=document.getElementById('iqQ');if(q)q.click()}},
+ {e:'🔥',n:'Streak bonus',d:'+50 on day 3 · +150 on day 7 in a row',src:'streak',cap:150,auto:1}
+];
+var GEMS=[
+ {e:'🐉',n:'Beat a boss',d:'Win in the Dragon’s Cave · +1 💎',go:function(){if(!openB('cave'))openB('library')}},
+ {e:'🔒',n:'First Focus Lock of the day',d:'25+ min · +1 💎',go:function(){try{go('focuslock')}catch(e){}}},
+ {e:'🎁',n:'Come back every day',d:'Every 3rd day you open StudyStarx · +1 💎',auto:1}
+];
+function row(x){var u=x.src?used(x.src):0,full=x.cap&&u>=x.cap,Q=x.t==='quiz'&&window.sfQuizDay?sfQuizDay():null,qOut=Q&&Q.done>=Q.max;
+ var st=full?'✓ Max today':qOut?'Done today':x.cap?u+' / '+x.cap:'';
+ return'<div class="ern-r'+(full||qOut?' off':'')+'"><span class="ern-e">'+x.e+'</span><span class="ern-t"><b>'+x.n+'</b><small>'+x.d+'</small>'+(st?'<em>'+st+'</em>':'')+'</span>'+(x.auto?'<span class="ern-auto">Automatic</span>':'<button type="button" class="ern-go" data-ern="'+x.n+'">Go ›</button>')+'</div>'}
+function open(){close();var o=document.createElement('div');o.className='ern-ov';o.id='ernOv';var Q=window.sfQuizDay?sfQuizDay():null;
+ o.innerHTML='<div class="ern-sh" role="dialog" aria-modal="true" aria-label="Ways to earn"><div class="ern-hd"><div><b>💰 Ways to earn</b><small>Tap Go to jump straight there</small></div><button type="button" class="ern-x" data-ern="x" aria-label="Close">✕</button></div><div class="ern-body">'+
+ (Q?'<div class="ern-q">🎯 Quiz rounds today: <b>'+Math.max(0,Q.max-Q.done)+' of '+Q.max+' left</b></div>':'')+
+ '<h4><span class="ern-coin">🪙</span> Coins</h4>'+COINS.map(row).join('')+'<h4><span class="ern-gem">💎</span> Diamonds</h4>'+GEMS.map(row).join('')+'</div></div>';
+ document.body.appendChild(o);void o.offsetHeight;requestAnimationFrame(function(){o.classList.add('in')})}
+function close(){var o=document.getElementById('ernOv');if(!o)return;o.classList.remove('in');setTimeout(function(){o.remove()},240)}
+document.addEventListener('click',function(e){if(e.target.closest('#iqEarn')){e.preventDefault();e.stopPropagation();open();return}
+ var o=e.target.closest('#ernOv');if(!o)return;if(e.target===o){close();return}var b=e.target.closest('[data-ern]');if(!b)return;if(b.dataset.ern==='x'){close();return}
+ var x=COINS.concat(GEMS).filter(function(r){return r.n===b.dataset.ern})[0];if(x&&x.go){close();setTimeout(function(){try{x.go()}catch(_){}},200)}},true);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 })();
 
 </script></body></html>
