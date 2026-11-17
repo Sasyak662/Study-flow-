@@ -10977,16 +10977,13 @@ html.sfm-ready #sfTabs [data-tab]{visibility:visible}
 
 .sqlim-ov{position:fixed;inset:0;z-index:10050;background:rgba(15,23,42,.5);display:grid;place-items:center;padding:16px}.sqlim{background:var(--card,#fff);border-radius:24px;padding:24px 20px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(15,23,42,.3)}.sqlim-e{font-size:48px}.sqlim h3{margin:6px 0 8px;font-size:20px}.sqlim p{margin:0 0 10px;color:var(--muted,#5b6180);font-size:14px;line-height:1.45}.sqlim-s{background:#fffbeb;border-radius:14px;padding:10px 12px;color:#78350f!important}.sqlim-b{display:flex;gap:10px;margin-top:6px}.sqlim-b button{flex:1;border:0;border-radius:14px;padding:12px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff}.sqlim-b button.g{background:#eef0f8;color:#334155}
 
-/* iPhone-style sheet: slides up with a soft spring, cards ripple in, backdrop blurs */
-.sfm-ov{transition:background .38s ease,backdrop-filter .38s ease,-webkit-backdrop-filter .38s ease!important}
-.sfm-ov.in{-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-.sfm-sheet{transition:transform .5s cubic-bezier(.32,.72,0,1)!important;will-change:transform}
-.sfm-ov.out .sfm-sheet{transition:transform .32s cubic-bezier(.4,0,1,1)!important}
-.sfm-ov .sfm-card,.sfm-ov .sfm-plus{opacity:0;transform:translateY(14px) scale(.96);transition:opacity .35s ease,transform .45s cubic-bezier(.32,.72,0,1)}
-.sfm-ov.in .sfm-card,.sfm-ov.in .sfm-plus{opacity:1;transform:none}
-.sfm-ov.in .sfm-card:nth-child(1){transition-delay:.06s}.sfm-ov.in .sfm-card:nth-child(2){transition-delay:.09s}.sfm-ov.in .sfm-card:nth-child(3){transition-delay:.12s}.sfm-ov.in .sfm-card:nth-child(4){transition-delay:.15s}.sfm-ov.in .sfm-card:nth-child(5){transition-delay:.18s}.sfm-ov.in .sfm-card:nth-child(6){transition-delay:.21s}.sfm-ov.in .sfm-plus{transition-delay:.24s}
-.sfm-ov .sfm-card:active{transform:scale(.96)!important;transition-duration:.1s!important}
-@media (prefers-reduced-motion:reduce){.sfm-sheet,.sfm-ov .sfm-card,.sfm-ov .sfm-plus{transition:none!important}}
+/* iPhone-style sheet: quick slide-up with a soft settle; only the panel moves (no blur, no per-card animation) so it stays smooth on phones */
+.sfm-ov{transition:background .22s ease!important}
+.sfm-sheet{transform:translate3d(0,100%,0);transition:transform .3s cubic-bezier(.32,.72,0,1)!important;will-change:transform;backface-visibility:hidden;contain:layout paint}
+.sfm-ov.in .sfm-sheet{transform:translate3d(0,0,0)}
+.sfm-ov.out .sfm-sheet{transition:transform .22s cubic-bezier(.4,0,1,1)!important}
+.sfm-ov .sfm-card:active{transform:scale(.96);transition:transform .1s}
+@media (prefers-reduced-motion:reduce){.sfm-sheet{transition:none!important}}
 
 </style><script id="sf-mg-js">
 /* ===== Fewer pages: related pages share one menu item and switch with tabs at the top ===== */
@@ -11017,7 +11014,7 @@ function tabbar(){var n=document.getElementById('sfTabs');if(!n)return;if(n.data
  TABS.forEach(function(t){var b=document.createElement('button');b.type='button';b.dataset.goto=t[0];b.dataset.tab=t[0];b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+t[2]+'</svg>'+t[1];n.insertBefore(b,more||null)});n.dataset.sfm='2';markTabs()}
 function markTabs(){var n=document.getElementById('sfTabs');if(!n)return;var c=cur();n.querySelectorAll('[data-tab]').forEach(function(b){b.classList.toggle('active',b.dataset.tab===c)});var m=document.getElementById('sfMore');if(m)m.classList.toggle('active',MORE.some(function(x){return x[0]===c}))}
 function plusOn(){try{return!!((window.sfAccount&&sfAccount.isPlus&&sfAccount.isPlus())||(window.StudyFlowIsland&&StudyFlowIsland._I.plusOK()))}catch(e){return false}}
-function closeMore(){var o=document.getElementById('sfmOv');if(!o)return;o.id='';o.classList.remove('in');o.classList.add('out');var sh0=o.querySelector('.sfm-sheet');if(sh0)sh0.style.transition='';document.documentElement.classList.remove('pm-lock');setTimeout(function(){o.remove()},380)}
+function closeMore(){var o=document.getElementById('sfmOv');if(!o)return;o.id='';o.classList.remove('in');o.classList.add('out');var sh0=o.querySelector('.sfm-sheet');if(sh0)sh0.style.transition='';document.documentElement.classList.remove('pm-lock');setTimeout(function(){o.remove()},240)}
 function openMore(){if(document.getElementById('sfmOv'))return closeMore();var c=cur(),o=document.createElement('div');o.id='sfmOv';o.className='sfm-ov';
  o.innerHTML='<div class="sfm-sheet" role="dialog" aria-modal="true" aria-label="More"><div class="sfm-grab"></div><div class="sfm-top"><h3>More</h3><button type="button" class="sfm-x" aria-label="Close">✕</button></div><div class="sfm-grid">'+
  MORE.map(function(x){return'<button type="button" class="sfm-card'+(x[0]===c?' on':'')+'" data-sfmgo="'+x[0]+'"><span class="sfm-ic" style="background:linear-gradient(135deg,'+x[4]+','+x[5]+')">'+x[3]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small></button>'}).join('')+'</div>'+
