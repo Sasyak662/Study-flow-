@@ -40,7 +40,7 @@ public class WatchService extends Service {
         if (now < w.graceUntil) return true;
         w.lastShow = now; if (!w.shieldUp) blocks++;
         w.ui.post(() -> w.showShield(pkg));
-        w.hushMedia();
+        w.goHome();
         w.closeLater(pkg);
         return true;
     }
@@ -158,6 +158,8 @@ public class WatchService extends Service {
     /** Take the phone's sound focus so any video or music the blocked app was playing pauses at once. */
     private Object focusReq;
     private void hushMedia() {
+        pauseMedia(this);
+        if (h != null) { h.postDelayed(() -> pauseMedia(this), 700); h.postDelayed(() -> pauseMedia(this), 1800); }
         try {
             android.media.AudioManager am = (android.media.AudioManager) getSystemService(AUDIO_SERVICE);
             if (am == null) return;
@@ -167,6 +169,16 @@ public class WatchService extends Service {
                         .setOnAudioFocusChangeListener(fc -> {}).build();
                 am.requestAudioFocus(r); focusReq = r;
             } else am.requestAudioFocus(null, android.media.AudioManager.STREAM_MUSIC, android.media.AudioManager.AUDIOFOCUS_GAIN);
+        } catch (Exception ignored) {}
+    }
+    /** Press "pause" on whatever video or music is playing (works for floating videos too). */
+    static void pauseMedia(android.content.Context c) {
+        try {
+            android.media.AudioManager am = (android.media.AudioManager) c.getSystemService(AUDIO_SERVICE);
+            if (am == null) return;
+            long t = android.os.SystemClock.uptimeMillis();
+            am.dispatchMediaKeyEvent(new android.view.KeyEvent(t, t, android.view.KeyEvent.ACTION_DOWN, android.view.KeyEvent.KEYCODE_MEDIA_PAUSE, 0));
+            am.dispatchMediaKeyEvent(new android.view.KeyEvent(t, t, android.view.KeyEvent.ACTION_UP, android.view.KeyEvent.KEYCODE_MEDIA_PAUSE, 0));
         } catch (Exception ignored) {}
     }
     private void releaseMedia() {
