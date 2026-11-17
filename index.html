@@ -8180,7 +8180,11 @@ details.tt-more summary{cursor:pointer;font-weight:700;font-size:13px;color:#0f7
 /* phone: the day list must never be wider than the screen; long titles wrap to two lines */
 .tt-ti{grid-template-columns:54px minmax(0,1fr)!important}
 .tt-tb{min-width:0}
-.tt-tb b{white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+.tt-tb b{white-space:normal!important;display:block!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere;line-height:1.3}
+.tt-tb{align-items:flex-start!important;flex-wrap:wrap}
+.tt-tb .sp{flex:1 1 100%!important}
+.tt-tb button{width:auto!important;height:34px!important;border-radius:999px!important;padding:0 14px!important;font:700 13px Inter,system-ui,sans-serif}
+.tt-tb button[data-tt=start]:after{content:' Start'}.tt-tb button[data-tt=done]:after{content:' Done'}.tt-tb button[data-tt=undone]:after{content:' Undo'}
 #page-timetable,#ttBody,#ttTab{max-width:100%;overflow-x:clip}
 #page-timetable .tt-tabs{min-width:0}
 #page-timetable .tt-tabs{display:flex!important}#page-timetable .tt-tabs button{flex:1 1 auto!important;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:6px!important;padding-right:6px!important}
