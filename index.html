@@ -7090,7 +7090,7 @@ function save(){try{persist()}catch(e){}}
 function DK(){try{var s=I()?I().state():(data.island=data.island||{});if(!s.decks)s.decks={};return s.decks}catch(e){return{}}}
 var FALLBACK_SUBS=['Mathematics','Biology','Chemistry','Physics','English','History','Geography','Economics','Computer Science'];
 function subjects(){var s=(P().subjects||[]).filter(Boolean);return s.length?s.slice(0,12):FALLBACK_SUBS}
-function level(){var p=P();return[p.grade,p.board||p.syllabus].filter(Boolean).join(' · ')||'secondary school'}
+function level(){var p=P(),C=window.sfCanon,g=p.grade,b=p.board||p.syllabus;try{if(C){b=C.board(b,g);g=C.grade(g)}}catch(e){}return[g,b].filter(Boolean).join(' · ')||'secondary school'}
 var R=null; // current run
 
 function open(){
