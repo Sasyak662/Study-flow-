@@ -4513,18 +4513,19 @@ setTimeout(function(){try{var p=data.profile||{};if(!p.onboarded||p.askedLogin||
 .sf-net>span{font-size:20px}.sf-net b{display:block}.sf-net small{display:block;opacity:.85;margin-top:2px}
 .sf-net button{margin-left:auto;border:0;background:rgba(255,255,255,.15);color:#fff;border-radius:8px;width:28px;height:28px;cursor:pointer}
 @media(max-width:900px){.sf-net{bottom:84px}}
-@media(prefers-reduced-motion:reduce){.sf-net{transition:none}.sf-net.mini{transform:none;opacity:1;pointer-events:auto;left:auto;right:10px;bottom:auto;top:calc(env(safe-area-inset-top) + 64px);padding:5px 10px;gap:6px;border-radius:999px;font-size:12px;background:#1f2937;max-width:none}.sf-net.mini small,.sf-net.mini button{display:none}.sf-net.mini>span{font-size:13px}.sf-net.mini b{font-size:12px;font-weight:700}.sf-net.mini div b::after{content:''}}
+@media(prefers-reduced-motion:reduce){.sf-net{transition:opacity .6s ease,transform .6s ease}.sf-net.mini{transform:none;opacity:1;pointer-events:auto;left:auto;right:10px;bottom:auto;top:calc(env(safe-area-inset-top) + 64px);padding:5px 10px;gap:6px;border-radius:999px;font-size:12px;background:#1f2937;max-width:none}.sf-net.mini small,.sf-net.mini button{display:none}.sf-net.mini>span{font-size:13px}.sf-net.mini b{font-size:12px;font-weight:700}.sf-net.mini div b::after{content:''}}
 
 </style><script id="sf-net-js">
 /* ===== Connection banner: clear message when the internet or StudyStarx's server drops ===== */
 (function(){
 var bar=null,hideT=0,downSince=0;
 function el(){if(bar)return bar;bar=document.createElement('div');bar.id='sfNet';bar.setAttribute('role','status');bar.setAttribute('aria-live','polite');document.body.appendChild(bar);return bar}
-function show(kind){var b=el();clearTimeout(hideT);
- if(kind==='off'){b.className='sf-net off';b.innerHTML='<span>📡</span><div><b>You are offline</b><small>Your notes, flashcards, StudyQuest and plans still work. AI and sync come back when you reconnect.</small></div><button type="button" aria-label="Close">✕</button>';b.querySelector('button').onclick=function(){b.className='sf-net mini'};
-  // after a few seconds it shrinks to a small "Offline" tag instead of covering the screen
-  hideT=setTimeout(function(){if(/off/.test(b.className))b.className='sf-net mini'},4000)}
- else if(kind==='server'){b.className='sf-net warn';b.innerHTML='<span>⚠️</span><div><b>StudyStarx is having trouble connecting</b><small>Your work is saved on this device. We will keep trying.</small></div><button type="button" aria-label="Close">✕</button>';b.querySelector('button').onclick=function(){b.className='sf-net'}}
+// the message fades away by itself after a few seconds, or as soon as the student taps the screen
+function fadeSoon(){var b=el();var go_=function(){clearTimeout(hideT);document.removeEventListener('pointerdown',go_,true);if(/off|warn/.test(b.className))b.className='sf-net'};hideT=setTimeout(go_,3500);setTimeout(function(){document.addEventListener('pointerdown',go_,true)},400)}
+var lastKind='';
+function show(kind){if(kind===lastKind&&kind!=='server')return;lastKind=kind;var b=el();clearTimeout(hideT);
+ if(kind==='off'){b.className='sf-net off';b.innerHTML='<span>📡</span><div><b>You are offline</b><small>Your notes, flashcards, StudyQuest and plans still work. AI and sync come back when you reconnect.</small></div>';fadeSoon()}
+ else if(kind==='server'){b.className='sf-net warn';b.innerHTML='<span>⚠️</span><div><b>StudyStarx is having trouble connecting</b><small>Your work is saved on this device. We will keep trying.</small></div>';fadeSoon()}
  else{b.className='sf-net ok';b.innerHTML='<span>✅</span><div><b>Back online</b></div>';hideT=setTimeout(function(){b.className='sf-net'},2500)}}
 window.addEventListener('offline',function(){downSince=Date.now();show('off')});
 window.addEventListener('online',function(){show('on');fails=0});
