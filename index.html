@@ -8176,6 +8176,14 @@ details.tt-more summary{cursor:pointer;font-weight:700;font-size:13px;color:#0f7
 [data-theme="dark"] .tq-pv i.hi,[data-theme="dark"] .tq-p.warn{background:#3b0d0d;border-color:#7f1d1d;color:#fecaca}
 [data-theme="dark"] .tq-pv i.sub{background:#052e24;border-color:#065f46;color:#a7f3d0}
 [data-theme="dark"] .tq-p button+button{background:transparent;color:#fecaca;border-color:#7f1d1d}
+
+/* phone: the day list must never be wider than the screen; long titles wrap to two lines */
+.tt-ti{grid-template-columns:54px minmax(0,1fr)!important}
+.tt-tb{min-width:0}
+.tt-tb b{white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+#page-timetable,#ttBody,#ttTab{max-width:100%;overflow-x:clip}
+#page-timetable .tt-tabs{min-width:0}
+#page-timetable .tt-tabs button{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style><script id="sf-tt-js">
 (function(){
 var $=function(id){return document.getElementById(id)};
@@ -8340,7 +8348,7 @@ function hero(t){var nn=nowNext(t),k=todayKey();
  return'<div class="tt-hero2"><div class="tt-h2top"><div><small>'+esc_(dt)+'</small><b>'+(todayMins?(todayDone>=todayMins?'All done for today 🎉':hm(todayMins-todayDone)+' of study left today'):'No study planned today')+'</b>'+(risk?'<span class="tt-h2risk">⚠️ '+risk+' task'+(risk===1?'':'s')+' at risk</span>':'')+'</div>'+
  '<div class="tt-ring"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="22" class="bg"/><circle cx="26" cy="26" r="22" class="fg" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pc/100)).toFixed(1)+'"/></svg><span>'+pc+'%</span></div></div>'+
  (focus?'<div class="tt-next" style="--c:'+subColor(focus.subject)+'"><div class="tt-next-i"><span>'+esc_(label)+' · '+esc_(when)+'</span><b>'+esc_(focus.title)+'</b><small>'+nice(toM(focus.start))+' – '+nice(toM(focus.end))+' · '+esc_(focus.subject)+'</small></div><div class="tt-next-a"><button class="tt-go" data-tt="start" data-id="'+focus.id+'" aria-label="Start focus">▶</button><button class="tt-ok" data-tt="done" data-id="'+focus.id+'" aria-label="Mark done">✓</button></div></div>':'')+heroAct(t)+'</div>'}
-function tabs(){var T=[['plan','🗓️ My week'],['tasks','📝 Homework'],['timetable','🏫 School times'],['more','⋯ More']];var cur=/^(routines|insights|settings|more)$/.test(TAB)?'more':TAB;return'<div class="tt-tabs tt-tabs4" role="tablist">'+T.map(function(x){return'<button role="tab" data-tt="tab" data-v="'+x[0]+'" class="'+(cur===x[0]?'on':'')+'">'+x[1]+'</button>'}).join('')+'</div>'}
+function tabs(){var T=[['plan','🗓️ Week'],['tasks','📝 Homework'],['timetable','🏫 School'],['more','⋯ More']];var cur=/^(routines|insights|settings|more)$/.test(TAB)?'more':TAB;return'<div class="tt-tabs tt-tabs4" role="tablist">'+T.map(function(x){return'<button role="tab" data-tt="tab" data-v="'+x[0]+'" class="'+(cur===x[0]?'on':'')+'">'+x[1]+'</button>'}).join('')+'</div>'}
 /* the less-used tools live together under More, each folded away */
 function viewMore(t){var S_=[['routines','🔁 Routines','Things you do every week, like sport or tuition'],['insights','📊 How I’m doing','Sessions kept, time per subject'],['settings','⚙️ Settings','Study hours, session length, reminders']];var open=/^(routines|insights|settings)$/.test(TAB)?TAB:'';
  return'<div class="tt-more">'+S_.map(function(x){var f={routines:viewRoutines,insights:viewInsights,settings:viewSettings}[x[0]];return'<details class="tt-card tt-fold"'+(open===x[0]?' open':'')+'><summary><b>'+x[1]+'</b><small>'+x[2]+'</small></summary><div class="tt-fold-b">'+f(t)+'</div></details>'}).join('')+'</div>'}
