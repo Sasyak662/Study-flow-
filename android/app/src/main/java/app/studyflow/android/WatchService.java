@@ -39,13 +39,15 @@ public class WatchService extends Service {
         if (now < w.graceUntil) return true;
         w.lastShow = now; if (!w.shieldUp) blocks++;
         w.ui.post(() -> w.showShield(pkg));
+        w.hushMedia();
         w.closeLater(pkg);
         return true;
     }
     /** Once the blocked app has been sent to the background, stop it so nothing keeps playing. */
     private void closeLater(String pkg) {
         if (h == null) return;
-        h.postDelayed(() -> { try { ((android.app.ActivityManager) getSystemService(ACTIVITY_SERVICE)).killBackgroundProcesses(pkg); } catch (Exception ignored) {} }, 1500);
+        Runnable k = () -> { try { ((android.app.ActivityManager) getSystemService(ACTIVITY_SERVICE)).killBackgroundProcesses(pkg); } catch (Exception ignored) {} };
+        h.postDelayed(k, 700); h.postDelayed(k, 1500); h.postDelayed(k, 4000);
     }
     static volatile long lastPoll = 0;
     static volatile int events = 0, blocks = 0;
@@ -120,6 +122,7 @@ public class WatchService extends Service {
         String blockedPkg = front;
         // 1) cover the blocked app at once (works even when Android refuses to switch screens)
         ui.post(() -> showShield(blockedPkg));
+        hushMedia();
         // 2) send the blocked app to the background, then stop it so nothing keeps playing
         goHome();
         closeLater(blockedPkg);
@@ -146,7 +149,31 @@ public class WatchService extends Service {
     private boolean shortcutMade = false;
 
     private void goHome() {
-        try { startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); } catch (Exception ignored) {}
+        // NO_USER_ACTION: the blocked app is not told "the user pressed Home", so it does not pop into a floating
+        // picture-in-picture video that keeps playing on top of everything
+        try { startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION)); } catch (Exception ignored) {}
+        hushMedia();
+    }
+    /** Take the phone's sound focus so any video or music the blocked app was playing pauses at once. */
+    private Object focusReq;
+    private void hushMedia() {
+        try {
+            android.media.AudioManager am = (android.media.AudioManager) getSystemService(AUDIO_SERVICE);
+            if (am == null) return;
+            if (Build.VERSION.SDK_INT >= 26) {
+                android.media.AudioFocusRequest r = new android.media.AudioFocusRequest.Builder(android.media.AudioManager.AUDIOFOCUS_GAIN)
+                        .setAudioAttributes(new android.media.AudioAttributes.Builder().setUsage(android.media.AudioAttributes.USAGE_MEDIA).setContentType(android.media.AudioAttributes.CONTENT_TYPE_MOVIE).build())
+                        .setOnAudioFocusChangeListener(fc -> {}).build();
+                am.requestAudioFocus(r); focusReq = r;
+            } else am.requestAudioFocus(null, android.media.AudioManager.STREAM_MUSIC, android.media.AudioManager.AUDIOFOCUS_GAIN);
+        } catch (Exception ignored) {}
+    }
+    private void releaseMedia() {
+        try {
+            android.media.AudioManager am = (android.media.AudioManager) getSystemService(AUDIO_SERVICE);
+            if (am != null && Build.VERSION.SDK_INT >= 26 && focusReq != null) am.abandonAudioFocusRequest((android.media.AudioFocusRequest) focusReq);
+            focusReq = null;
+        } catch (Exception ignored) {}
     }
 
     private int dp(int v) { return (int) (v * getResources().getDisplayMetrics().density); }
@@ -226,6 +253,6 @@ public class WatchService extends Service {
         } catch (Exception e) { gone.run(); }
     }
 
-    @Override public void onDestroy() { running = false; me = null; if (h != null) h.removeCallbacks(loop); if (th != null) th.quitSafely(); hideShield(); super.onDestroy(); }
+    @Override public void onDestroy() { releaseMedia(); running = false; me = null; if (h != null) h.removeCallbacks(loop); if (th != null) th.quitSafely(); hideShield(); super.onDestroy(); }
     @Override public IBinder onBind(Intent i) { return null; }
 }
