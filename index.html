@@ -544,6 +544,7 @@ window.sfInSyl=function(sub){try{var mine=(data.profile.subjects||[]).map(functi
 <style id="sf-prof-trim">#profileForm .field:has(#profileLevel),#profileForm .field:has(#studyGoal),#sfRerunSetup{display:none!important}</style>
 <style id="sf-qday-css">.iq-qday{border-radius:14px;padding:10px 12px;margin:0 0 10px;font-size:13.5px;background:#ecfdf5;color:#065f46;font-weight:600}.iq-qday.out{background:#eef2ff;color:#3730a3}.iq-qday:empty{display:none}.iq-go.iq-done{filter:grayscale(.85);opacity:.55;cursor:not-allowed;transform:none!important}</style>
 <style id="sf-sqday-css">.sq-qday{border-radius:14px;padding:10px 12px;margin:0 0 14px;font-size:13.5px;font-weight:600;background:rgba(16,185,129,.15);color:#a7f3d0;border:1px solid rgba(16,185,129,.35)}.sq-qday.out{background:rgba(99,102,241,.18);color:#c7d2fe;border-color:rgba(99,102,241,.4)}.sq-subj.sq-done{opacity:.45;filter:grayscale(.7)}</style>
+<style id="sf-signload-css">#sfSignLoad{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:linear-gradient(160deg,#1e1b4b,#4c1d95);color:#fff;font-family:Inter,system-ui,sans-serif;text-align:center}#sfSignLoad b{display:block;font-size:22px;margin-top:16px}#sfSignLoad small{display:block;margin-top:4px;color:#ddd6fe;font-size:14px}.sfsl-sp{width:44px;height:44px;margin:0 auto;border-radius:50%;border:4px solid rgba(255,255,255,.25);border-top-color:#fff;animation:sfslr .8s linear infinite}@keyframes sfslr{to{transform:rotate(360deg)}}</style>
 </head><body><div class="app">
 <aside class="side" id="sidebar"><div class="brand"><div class="logo" style="color:#fff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg></div><div>StudyStarx<small>YOUR PERSONAL STUDY COACH</small></div></div><div><div class="navlabel">WORKSPACE</div><nav class="nav" id="nav"><button class="active" data-page="dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></button><!--MX-NAV-START--><button data-page="director"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span>Today’s Plan</span></button><button data-page="mastery"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg><span>Mistake → Mastery</span></button><button data-page="examiner"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg><span>Exam Examiner</span></button><button data-page="upload"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg><span>Upload &amp; Study</span></button><!--MX-NAV-END--><button data-page="coach"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>AI Study Coach</span></button><button data-page="quest"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg><span>StudyQuest World</span></button><button data-page="planner"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Study Planner</span></button>
 <button data-page="focuslock"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Focus Lock</span></button><button data-page="quiz"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg><span>Quiz Studio</span></button><button data-page="flashcards"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg><span>Flashcards</span></button><button data-page="mistakes"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span>Mistake Bank</span></button><button data-page="library"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg><span>Study Library</span></button><button data-page="resources"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>Book Store</span></button><button data-page="cart"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span>Cart &amp; Library</span><span class="sfcart-count nav" hidden>0</span></button><button data-page="premium"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><span>Premium</span></button><button data-page="progress"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg><span>Progress Insights</span></button></nav></div><div><div class="navlabel">PREFERENCES</div><nav class="nav"><button data-page="settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg><span>Settings</span></button></nav></div><div class="sidefoot"><b> Small steps add up.</b><p>Your goal isn't perfect studying. It's showing up consistently.</p><button class="btn sm" data-goto="planner">Plan a session</button></div></aside>
@@ -3011,7 +3012,7 @@ async function pullIfNewer(){
     if(cloud&&cloud.v>(st.v||0)){
       if(st.dirty&&st.v)return showConflict(cloud);
       const d=await api('/api/account',{action:'pull'});
-      if(d.blob&&applyBlob(d.blob)){setSync({v:d.v,updated:d.updated,dirty:false});note('Loaded your latest study data from the cloud');setTimeout(()=>location.reload(),600);return}
+      if(d.blob&&applyBlob(d.blob)){setSync({v:d.v,updated:d.updated,dirty:false});window.__sfReloading=true;try{const L=document.createElement('div');L.id='sfSignLoad';L.innerHTML='<div><div class="sfsl-sp"></div><b>Welcome back!</b><small>Loading your study space…</small></div>';document.body.appendChild(L)}catch(_){}setTimeout(()=>location.reload(),120);return}
     } else if(!cloud||!cloud.v||st.dirty){await pushNow(false)}
     paintAccount();
   }catch(e){paintAccount(e.status===503?'':'Could not reach your account: '+e.message)}
@@ -4599,250 +4600,6 @@ if(document.body)start();else document.addEventListener('DOMContentLoaded',start
 }
 window.sfStartLang=function(l){var L=norm(l);if(!L||/^(english|en|eng)$/i.test(L)){if(started)location.reload();return}startTr(L)};
 startTr(lang());
-})();
-
-</script><style id="sf-ob-css">
-.ob2{position:fixed;inset:0;z-index:450;display:grid;place-items:center;padding:16px;background:#0b1020;font-family:inherit;animation:ob2in .45s ease}
-.ob2.out{animation:ob2in .35s reverse forwards}
-@keyframes ob2in{from{opacity:0}}
-.ob2-bg{position:absolute;inset:0;overflow:hidden}.ob2-bg i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.35;animation:ob2a 18s ease-in-out infinite alternate}
-.ob2-bg i:nth-child(1){background:#7c5cff;left:-20vmax;top:-25vmax}.ob2-bg i:nth-child(2){background:#22d3ee;right:-25vmax;bottom:-30vmax;animation-delay:-6s;opacity:.25}.ob2-bg i:nth-child(3){background:#f472b6;left:30vmax;top:40vmax;animation-delay:-12s;opacity:.18}
-@keyframes ob2a{to{transform:translate(6vmax,5vmax) scale(1.1)}}
-.ob2-card{position:relative;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;background:rgba(255,255,255,.97);color:#0f172a;border-radius:28px;padding:22px 26px 24px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);animation:ob2pop .6s cubic-bezier(.2,.9,.3,1.15)}
-html[data-dark] .ob2-card{background:#111827;color:#f1f5f9}
-@keyframes ob2pop{from{transform:translateY(30px) scale(.96);opacity:0}}
-.ob2-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
-.ob2-prog{flex:1;height:8px;border-radius:99px;background:rgba(124,92,255,.15);overflow:hidden}.ob2-prog span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#7c5cff,#22d3ee);transition:width .6s cubic-bezier(.2,.8,.2,1)}
-.ob2-skip{border:0;background:none;color:#64748b;font:inherit;font-weight:600;cursor:pointer;padding:6px}
-.ob2-view{position:relative;overflow:hidden}
-.ob2-pane{display:grid;gap:12px;animation:ob2r .45s cubic-bezier(.2,.8,.2,1)}
-.ob2-pane.from-l{animation-name:ob2l}
-@keyframes ob2r{from{transform:translateX(40px);opacity:0}}@keyframes ob2l{from{transform:translateX(-40px);opacity:0}}
-.ob2-hero{font-size:46px;line-height:1;animation:ob2bob 3s ease-in-out infinite}
-@keyframes ob2bob{50%{transform:translateY(-5px) rotate(-4deg)}}
-.ob2-k{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#7c5cff}
-.ob2 h2{margin:0;font-size:clamp(22px,4vw,28px);line-height:1.2;letter-spacing:-.02em}
-.ob2 p{margin:0;color:#64748b;line-height:1.5}
-html[data-dark] .ob2 p{color:#94a3b8}
-.ob2-f{display:grid;gap:6px}.ob2-f span,.ob2-lab{font-size:13.5px;font-weight:700;margin-top:4px}.ob2-f em,.ob2-lab em{font-weight:500;color:#94a3b8;font-style:normal}
-.ob2 input{width:100%;box-sizing:border-box;border:2px solid #e2e8f0;border-radius:14px;padding:13px 15px;font:inherit;font-size:16px;background:#fff;color:inherit;transition:border-color .2s,box-shadow .2s}
-html[data-dark] .ob2 input{background:#0b1222;border-color:#334155}
-.ob2 input:focus{outline:0;border-color:#7c5cff;box-shadow:0 0 0 4px rgba(124,92,255,.18)}
-.ob2-roles{display:flex;gap:8px;flex-wrap:wrap}
-.ob2-chip{border:2px solid #e2e8f0;background:#fff;color:inherit;border-radius:14px;padding:10px 14px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:transform .2s cubic-bezier(.3,1.6,.5,1),border-color .2s,background .2s}
-html[data-dark] .ob2-chip{background:#0b1222;border-color:#334155}
-.ob2-chip:hover{transform:translateY(-2px)}.ob2-chip.on{border-color:#7c5cff;background:rgba(124,92,255,.1);color:#5b3fe0}
-html[data-dark] .ob2-chip.on{color:#c4b5fd}
-.ob2-subin{display:flex;gap:8px}.ob2-subin button{border:0;border-radius:14px;padding:0 18px;background:#0f172a;color:#fff;font:inherit;font-weight:700;cursor:pointer}
-html[data-dark] .ob2-subin button{background:#7c5cff}
-.ob2-subs{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;border-radius:16px;background:rgba(124,92,255,.06);border:2px dashed rgba(124,92,255,.25)}
-.ob2-sub{display:inline-flex;align-items:center;gap:6px;padding:7px 8px 7px 12px;border-radius:12px;background:linear-gradient(135deg,#7c5cff,#5b8cff);color:#fff;font-weight:700;font-size:14px;animation:ob2chip .35s cubic-bezier(.3,1.6,.5,1) both}
-@keyframes ob2chip{from{transform:scale(.5);opacity:0}}
-.ob2-sub button{border:0;background:rgba(255,255,255,.25);color:#fff;width:22px;height:22px;border-radius:7px;cursor:pointer;font-size:15px;line-height:1}
-.ob2-ph{color:#94a3b8;font-size:14px;align-self:center}
-.ob2-exams{display:grid;gap:8px}.ob2-exams label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:600;font-size:14px}.ob2-exams input{width:auto;padding:9px 11px;font-size:14px}
-.ob2-err{color:#e11d48;font-size:13.5px;font-weight:600;min-height:1em}.ob2-err.shake{animation:ob2sh .4s}
-@keyframes ob2sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.ob2-nav{display:flex;justify-content:space-between;gap:10px;margin-top:6px}
-.ob2-next{border:0;border-radius:16px;padding:14px 22px;font:inherit;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#7c5cff,#5b8cff);box-shadow:0 12px 26px -12px rgba(124,92,255,.9);cursor:pointer;transition:transform .2s,filter .2s}
-.ob2-next:hover{transform:translateY(-2px);filter:brightness(1.06)}
-.ob2-back{border:2px solid #e2e8f0;border-radius:16px;padding:12px 18px;font:inherit;font-weight:700;background:transparent;color:inherit;cursor:pointer}
-html[data-dark] .ob2-back{border-color:#334155}
-.ob2-build{display:grid;justify-items:center;gap:12px;text-align:center;padding:8px 0}
-.ob2-orb{position:relative;width:96px;height:96px;display:grid;place-items:center;font-size:36px}
-.ob2-orb i{position:absolute;inset:0;border-radius:50%;border:4px solid transparent;border-top-color:#7c5cff;border-right-color:#22d3ee;animation:ob2spin 1.1s linear infinite}.ob2-orb i:nth-child(2){inset:12px;animation-duration:1.7s;animation-direction:reverse;border-top-color:#f472b6}
-@keyframes ob2spin{to{transform:rotate(360deg)}}
-.ob2-tasks{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:8px;width:100%;text-align:left}
-.ob2-tasks li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(124,92,255,.06);font-size:14px;animation:ob2r .4s both}
-.ob2-tasks .s{width:20px;height:20px;flex:0 0 20px;border-radius:50%;border:3px solid #c4b5fd;border-top-color:#7c5cff;animation:ob2spin .8s linear infinite}
-.ob2-tasks li.ok .s{animation:none;border:0;background:#10b981;position:relative}.ob2-tasks li.ok .s::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}
-.ob2-tasks li.no .s{animation:none;border:0;background:#f59e0b;position:relative}.ob2-tasks li.no .s::after{content:"!";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}
-.ob2-done{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;animation:ob2pop .5s both}.ob2-done[hidden]{display:none}
-@media (max-width:520px){.ob2-card{padding:18px 18px 20px;border-radius:24px}.ob2-nav{position:sticky;bottom:-20px;background:inherit;padding-top:8px}}
-.ob2-step{font-size:12.5px;font-weight:700;color:#94a3b8;min-width:42px;text-align:right}
-.ob2-tabs{display:flex;gap:6px;padding:5px;border-radius:16px;background:rgba(124,92,255,.08)}
-.ob2-tabs button{flex:1;border:0;border-radius:12px;padding:10px;font:inherit;font-weight:700;font-size:14px;background:transparent;color:#64748b;cursor:pointer;transition:background .25s,color .25s,box-shadow .25s}
-.ob2-tabs button.on{background:#fff;color:#5b3fe0;box-shadow:0 4px 14px -6px rgba(91,63,224,.5)}
-html[data-dark] .ob2-tabs button.on{background:#1e293b;color:#c4b5fd}
-.ob2-rec{display:grid;gap:6px;padding:14px;border-radius:16px;background:#ecfdf5;border:2px solid #34d399;animation:ob2pop .45s both}
-.ob2-rec code{font-size:20px;font-weight:800;letter-spacing:.06em;color:#065f46;user-select:all}
-.ob2-rec small{color:#047857;line-height:1.4}
-html[data-dark] .ob2-rec{background:#052e22}html[data-dark] .ob2-rec code{color:#6ee7b7}
-.ob2-fine{font-size:12.5px!important;text-align:center}
-.ob2-feats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.ob2-feat{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:16px;background:rgba(124,92,255,.06);border:1px solid rgba(124,92,255,.14);animation:ob2r .5s cubic-bezier(.2,.8,.2,1) both}
-.ob2-feat>span{font-size:22px;line-height:1}.ob2-feat b{display:block;font-size:14px}.ob2-feat small{display:block;color:#64748b;font-size:12.5px;line-height:1.4;margin-top:2px}
-.ob2-feats.why{grid-template-columns:1fr}
-.ob2-feats.why .ob2-feat{background:linear-gradient(135deg,rgba(124,92,255,.08),rgba(34,211,238,.08))}
-html[data-dark] .ob2-feat small{color:#94a3b8}
-.ob2-dots{display:flex;justify-content:center;gap:6px;margin-top:2px}.ob2-dots i{width:8px;height:8px;border-radius:99px;background:rgba(124,92,255,.25);transition:width .3s}.ob2-dots i.on{width:22px;background:#7c5cff}
-.ob2-next:disabled{opacity:.7;cursor:wait}
-@media (max-width:520px){.ob2-feats{grid-template-columns:1fr}}
-.ob2-perm{display:flex;gap:12px;align-items:center;text-align:left;border:1px solid var(--line,#e4e7ee);border-radius:16px;padding:14px;margin:10px 0;background:var(--card,#fff);transition:border-color .2s,background .2s}
-.ob2-perm.ok{border-color:#86efac;background:#f0fdf4}
-.ob2-perm .ic{font-size:24px;width:44px;height:44px;border-radius:12px;background:var(--pale,#eef0ff);display:grid;place-items:center;flex:0 0 auto}
-.ob2-perm .tx{flex:1;min-width:0}.ob2-perm b{display:block;font-size:15px}.ob2-perm small{display:block;color:var(--muted,#777891);font-size:13px;line-height:1.45;margin-top:2px}.ob2-perm small.warn{color:#b45309}
-.ob2-pb{border:0;border-radius:12px;padding:10px 16px;background:var(--p,#4338ca);color:#fff;font:700 14px Inter,system-ui,sans-serif;cursor:pointer;flex:0 0 auto}
-.ob2-perm .st{font-weight:700;color:#16a34a;font-size:13.5px;white-space:nowrap}.ob2-perm .st.off{color:var(--muted,#777891);font-weight:600}
-/* Fit every screen: the top bar and the Back/Continue buttons always stay visible; only the middle scrolls */
-.ob2{padding:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom))}
-.ob2-card{display:flex;flex-direction:column;max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px);overflow:hidden;box-sizing:border-box}
-.ob2-top,.ob2-nav{flex:0 0 auto}
-.ob2-view{flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:2px 2px 6px;margin:0 -2px}
-.ob2-nav{position:static!important;bottom:auto!important;padding-top:10px;border-top:1px solid rgba(148,163,184,.18)}
-.ob2-view *{min-width:0;box-sizing:border-box}
-.ob2-view input,.ob2-view textarea,.ob2-view select{max-width:100%}
-.ob2-nav button{min-height:46px}
-@media (max-width:380px){.ob2-card{padding:14px 14px 14px;border-radius:20px}.ob2-tabs button{font-size:13px;padding:9px 6px}.ob2-nav .ob2-next{flex:1}}
-@media (max-height:700px){.ob2-card h2{font-size:22px;margin-top:4px}}
-
-</style><script id="sf-ob-js">
-/* ===== StudyStarx setup v2: typed survey + personalised starter content ===== */
-(function(){
-var $=function(s,r){return(r||document).querySelector(s)};
-var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
-function D(){try{return data}catch(e){return null}}
-function save(){try{persist()}catch(e){}}
-function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
-var EMO={math:'📐',phys:'⚛️',chem:'🧪',bio:'🧬',hist:'🏛️',geo:'🌍',eng:'📖',lit:'📖',econ:'📈',bus:'💼',acc:'🧾',comp:'💻',psych:'🧠',art:'🎨',music:'🎵',fren:'🇫🇷',span:'🇪🇸',hind:'🇮🇳',ger:'🇩🇪',sci:'🔬',pol:'🗳️',env:'🌱'};
-function emo(s){s=String(s).toLowerCase();var k=Object.keys(EMO).find(function(k){return s.indexOf(k)>=0});return k?EMO[k]:'📚'}
-var ST={step:0,p:{},subs:[],exams:{},mins:45,aim:'grades'};
-var OFF=4,STEPS=10;
-var TOUR=[
- ['🚀','A tutor that teaches, not just tells','Ask any question and StudyStarx teaches the method step by step, gives hints first, checks your answer like an examiner and remembers your weak topics.',[['💬','AI Study Coach','Hints first, full working, exam-style marking'],['📸','Upload & Study','Turn notes, PDFs and photos into lessons'],['∑','Math Solver','Every step shown and checked'],['🧠','Flashcards & quizzes','Made for your exact syllabus']]],
- ['🎯','Built to make you actually study','Planning, focus and rewards work together, so studying becomes a habit instead of a fight.',[['🗓️','Smart Timetable','AI plans your week and reminds you on time'],['🔒','Focus Lock','Blocks distracting sites and apps while you study'],['🏝️','StudyQuest','A 3D world with 10 maps you build by studying']]],
- ['🏆','Why StudyStarx is different','',[['🧩','One app, not ten','Most study apps do one thing. StudyStarx combines tutor, planner, focus blocker, flashcards, classes and a game.'],['🎓','Built around you','Most apps are generic. Everything here follows your grade, syllabus, subjects and exam dates.'],['✍️','Learn the method','Many apps just hand over answers. StudyStarx coaches you to the answer and explains the marks.'],['📈','Proof you are improving','Readiness scores, mistake tracking and streaks show real progress.']]]];
-function open(){if($('#sfOb2'))return;var d=D()||{};var p=d.profile||{};
- ST={step:0,p:{name:p.name||'',role:p.role||'student',grade:p.grade||'',syll:p.syllabus||p.board||(p.curriculum&&p.curriculum!=='CBSE'?p.curriculum:'')||'',school:p.school||''},subs:(p.subjects||[]).slice(),exams:{},mins:p.goal||45,aim:p.aim||'grades',hard:p.hardest||''};
- (d.exams||[]).forEach(function(e){if(e.date>=today())ST.exams[e.subject]=e.date});
- var ov=document.createElement('div');ov.id='sfOb2';ov.className='ob2';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
- ov.innerHTML='<div class="ob2-bg"><i></i><i></i><i></i></div><div class="ob2-card"><div class="ob2-top"><div class="ob2-prog"><span id="ob2Bar"></span></div><span class="ob2-step" id="ob2Step"></span></div><div class="ob2-view" id="ob2View"></div><div class="ob2-nav" id="ob2Nav"><button type="button" class="ob2-back" id="ob2Back">Back</button><button type="button" class="ob2-next" id="ob2Next">Continue</button></div></div>';
- document.body.appendChild(ov);document.body.classList.add('sf-noscroll');
- $('#ob2Back').onclick=function(){if(ST.step>0)go_(ST.step-1,-1)};
- $('#ob2Next').onclick=next;
- ov.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id!=='ob2Sub'&&e.target.tagName!=='TEXTAREA'){e.preventDefault();next()}});
- ST.step=0;ST.am='signup';ST.acctOn=null;try{if(window.sfAccount&&sfAccount.configured)sfAccount.configured().then(function(on){ST.acctOn=on;if(ST.step===0&&(!on||sfAccount.signedIn())){ST.step=1;paint(1)}})}catch(e){}
- paint(1)}
-function close(){var o=$('#sfOb2');if(o){o.classList.add('out');setTimeout(function(){o.remove()},350)}document.body.classList.remove('sf-noscroll')}
-function go_(n,dir){collect();ST.step=n;paint(dir)}
-function collect(){var g=function(id){var e=$('#'+id);return e?e.value.trim():null};var v;
- if((v=g('ob2Name'))!=null)ST.p.name=v;if((v=g('ob2Lang'))!=null)ST.p.lang=v;if((v=g('ob2Grade'))!=null)ST.p.grade=v;if((v=g('ob2Syll'))!=null)ST.p.syll=v;if((v=g('ob2School'))!=null)ST.p.school=v;if((v=g('ob2Child'))!=null)ST.p.child=v;
- document.querySelectorAll('#ob2View [data-ex]').forEach(function(i){ST.exams[i.dataset.ex]=i.value})}
-function err(t){var e=$('#ob2Err');if(e){e.textContent=t;e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')}}
-
-/* ---------- permissions step: notifications (+ app blocking in the Android app) ---------- */
-function N_(){return window.SFNative||null}
-function notifState(){try{if(N_()&&N_().notifyOn)return N_().notifyOn()?'granted':'default';if(!('Notification' in window))return'none';return Notification.permission}catch(e){return'none'}}
-function blockState(){try{return N_()&&N_().blockerReady&&N_().blockerReady()?'granted':'default'}catch(e){return'default'}}
-function permRow(id,ic,t,why,state,btn){var ok=state==='granted',off=state==='denied'||state==='none';return'<div class="ob2-perm'+(ok?' ok':'')+'" id="'+id+'"><span class="ic">'+ic+'</span><div class="tx"><b>'+t+'</b><small>'+why+'</small>'+(state==='denied'?'<small class="warn">Blocked in your browser settings — you can turn it on later in the site settings.</small>':'')+'</div>'+(ok?'<span class="st">✓ On</span>':off?'<span class="st off">Not available</span>':'<button type="button" class="ob2-pb" data-perm="'+id+'">'+btn+'</button>')+'</div>'}
-function permHTML(){var r=RL(),kid=r==='parent'?(ST.p.child||'your child'):'you';
- var h='<div class="ob2-hero">🔔</div><span class="ob2-k">Almost done</span><h2>Let StudyStarx help '+(r==='teacher'?'you teach':'you stay on track')+'</h2><p>These are optional — you can change them any time. Here’s why we ask:</p>';
- h+=permRow('pNotif','🔔','Notifications',r==='teacher'?'So we can remind you when your class is about to start and when students hand in work.':'So we can remind '+kid+' when a study session starts, when the focus timer ends and before an exam. No ads, no spam.',notifState(),'Allow');
- if(N_())h+=permRow('pBlock','🔒','Block distracting apps',r==='teacher'?'So Focus Lock can pause apps like YouTube while you plan lessons.':'So Focus Lock can pause apps like YouTube or Instagram while '+kid+' study. StudyStarx only checks which app is open — it never reads messages or what is on the screen.',blockState(),'Allow');
- else if(/Android/i.test(navigator.userAgent))h+='<p class="ob2-fine">Want to block apps like YouTube while you study? Get the free StudyStarx Android app later from the Focus Lock page.</p>';
- return h}
-function permAsk(id){
- if(id==='pNotif'){try{if(N_()&&N_().askNotify){N_().askNotify();setTimeout(repaintPerm,1500);setTimeout(repaintPerm,4000);return}if('Notification' in window)Notification.requestPermission().then(function(){repaintPerm();if(Notification.permission==='granted')try{new Notification('StudyStarx',{body:'Reminders are on 🎉',icon:'icon-192.png'})}catch(e){}})}catch(e){}}
- if(id==='pBlock'){try{if(N_().openAccessibility)N_().openAccessibility();else N_().openBlocker()}catch(e){}}
-}
-function repaintPerm(){if(ST.step!==OFF+4)return;var v=$('#ob2View');if(!v)return;var w=v.querySelector('.ob2-q')||v;var html=permHTML();var keep=$('#ob2Err');var box=document.createElement('div');box.innerHTML=html;['pNotif','pBlock'].forEach(function(id){var a=document.getElementById(id),b=box.querySelector('#'+id);if(a&&b)a.outerHTML=b.outerHTML})}
-document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-perm]');if(!b)return;e.preventDefault();permAsk(b.dataset.perm)});
-document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(repaintPerm,300)});
-function next(){collect();var st=ST.step;
- if(st===0)return acctNext();
- if(st<OFF){go_(st+1,1);return}
- var s=st-OFF;
- if(s===0&&!ST.p.name){err('Tell us your first name');return}
- if(s===1&&RL()==='parent'&&!ST.p.child){err('Type your child\'s first name');return}
- if(s===1&&(!ST.p.grade||!ST.p.syll)){err(!ST.p.grade?'Type your grade, class or college year':'Type your syllabus, exam board or college course');return}
- if(s===2){var i=$('#ob2Sub');if(i&&i.value.trim())addSub(i.value);if(!ST.subs.length){err('Type at least one subject and press Enter');return}}
- if(s===4){finish();return}
- go_(st+1,1)}
-function acctNext(){if(ST.acctOK||ST.acctOn===false||(window.sfAccount&&sfAccount.signedIn&&sfAccount.signedIn())){go_(1,1);return}
- var em=($('#ob2Email')||{}).value||'',pw=($('#ob2Pass')||{}).value||'';em=em.trim();
- if(!/^\S+@\S+\.\S+$/.test(em)){err('Type a valid email address');return}if(pw.length<8){err('Your password needs at least 8 characters');return}
- if(!window.sfAccount||!sfAccount.auth){err('Accounts are not available right now. Please try again in a moment.');return}
- var b=$('#ob2Next');b.disabled=true;b.textContent='Please wait…';
- sfAccount.auth(ST.am,em,pw).then(function(r){ST.acctOK=true;ST.email=em;b.disabled=false;
-  var ee=$('#ob2Err');if(ee)ee.textContent='';if(r&&r.recoveryCode){$('#ob2Rec').innerHTML='<div class="ob2-rec"><b>Save your recovery code</b><code>'+esc(r.recoveryCode)+'</code><small>Write it down or take a screenshot. It is the only way to reset your password and it will not be shown again.</small></div>';b.textContent='I saved it — continue';$('#ob2Email').disabled=$('#ob2Pass').disabled=true;document.querySelectorAll('[data-am]').forEach(function(x){x.disabled=true})}
-  else{b.textContent='Continue';go_(1,1)}})
- .catch(function(e){b.disabled=false;b.textContent=ST.am==='login'?'Log in':'Create my account';err(e&&e.message||'Something went wrong. Please try again.')})}
-function chip(list,key){return list.map(function(x){return'<button type="button" class="ob2-chip'+(ST[key]===x[0]?' on':'')+'" data-'+key+'="'+x[0]+'">'+x[1]+'</button>'}).join('')}
-function paint(dir){var v=$('#ob2View'),st=ST.step,s=st-OFF,H='';$('#ob2Bar').style.width=((st+1)/STEPS*100)+'%';$('#ob2Step').textContent=(st+1)+' / '+STEPS;$('#ob2Back').style.visibility=st>1&&s<5?'visible':'hidden';$('#ob2Nav').style.display=s===5?'none':'';$('#ob2Next').disabled=false;$('#ob2Next').textContent=st===0?(ST.acctOK?'I saved it — continue':ST.am==='login'?'Log in':'Create my account'):st<OFF-1?'Next':st===OFF-1?'Let\'s personalise it':s===4?'Build my study space ✨':'Continue';
- if(st===0)H=acctHTML();
- else if(st<OFF)H=tourHTML(st-1);
- else if(s===0)H='<div class="ob2-hero">👋</div><span class="ob2-k">Welcome to StudyStarx</span><h2>Let\'s make StudyStarx yours</h2><p>Answer a few quick questions. Your flashcards, quizzes, study plan and AI tutor will all be built around your answers.</p><label class="ob2-f"><span>What\'s your first name?</span><input id="ob2Name" maxlength="40" autocomplete="given-name" placeholder="Type your name" value="'+esc(ST.p.name)+'"></label><label class="ob2-f"><span>Which language do you want StudyStarx in?</span><input id="ob2Lang" maxlength="30" list="ob2LangList" placeholder="e.g. English, Hindi, Telugu, Spanish" value="'+esc(ST.p.lang||'English')+'"><datalist id="ob2LangList">'+(window.sfLangList||['English','Hindi','Telugu','Tamil','Spanish','French']).map(function(x){return'<option value="'+x+'">'}).join('')+'</datalist></label>';
- else if(s===1)H=stepSchool();
- else if(s===2)H=stepSubjects();
- else if(s===3)H=stepGoals();
- else if(s===4)H=permHTML();
- else if(s===5)H='<div class="ob2-build"><div class="ob2-orb"><i></i><i></i><span>✨</span></div><h2 id="ob2BT">Building your study space…</h2><p id="ob2BS">Personalising everything for '+esc(ST.p.grade)+' · '+esc(ST.p.syll)+'</p><ul class="ob2-tasks" id="ob2Tasks"></ul><div class="ob2-done" id="ob2Done" hidden></div></div>';
- if(st===0){v.innerHTML='<div class="ob2-pane '+(dir<0?'from-l':'from-r')+'">'+H+'<p class="ob2-err" id="ob2Err" role="alert"></p></div>';try{if(window.sfGoogleButton&&$('#ob2G'))sfGoogleButton($('#ob2G'),function(r){ST.acctOK=true;ST.email=r.email;if(!ST.p.name&&r.name)ST.p.name=r.name;go_(1,1)},function(e){err(e&&e.message||'Google sign-in failed. Please try again.')})}catch(_){}v.querySelectorAll('[data-am]').forEach(function(b){b.onclick=function(){ST.am=b.dataset.am;v.querySelectorAll('[data-am]').forEach(function(x){x.classList.toggle('on',x===b)});$('#ob2Next').textContent=ST.am==='login'?'Log in':'Create my account';var p=$('#ob2Pass');if(p)p.autocomplete=ST.am==='login'?'current-password':'new-password';$('#ob2AH').textContent=ST.am==='login'?'Welcome back':'Create your free StudyStarx account'}});var f0=$('#ob2Email');if(f0&&!ST.acctOK)setTimeout(function(){try{f0.focus({preventScroll:true})}catch(e){}},260);return}
- if(st>0&&st<OFF){v.innerHTML='<div class="ob2-pane '+(dir<0?'from-l':'from-r')+'">'+H+'</div>';return}
- v.innerHTML='<div class="ob2-pane '+(dir<0?'from-l':'from-r')+'">'+H+'<p class="ob2-err" id="ob2Err" role="alert"></p></div>';
- v.querySelectorAll('[data-role],[data-aim],[data-mins],[data-size]').forEach(function(b){b.onclick=function(){if(b.dataset.size)ST.size=b.dataset.size;if(b.dataset.role)ST.role=ST.p.role=b.dataset.role;if(b.dataset.aim)ST.aim=b.dataset.aim;if(b.dataset.mins)ST.mins=+b.dataset.mins;b.parentNode.querySelectorAll('.ob2-chip').forEach(function(x){x.classList.toggle('on',x===b)})}});
- if(s===0){ST.role=ST.p.role;var rb=v.querySelector('[data-role="'+ST.p.role+'"]');if(rb)rb.classList.add('on')}
- if(s===2){paintSubs();var i=$('#ob2Sub');i.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===','){e.preventDefault();addSub(i.value);i.value=''}else if(e.key==='Backspace'&&!i.value&&ST.subs.length){ST.subs.pop();paintSubs()}});$('#ob2SubAdd').onclick=function(){addSub(i.value);i.value='';i.focus()}}
- var f=v.querySelector('input');if(f&&s<4)setTimeout(function(){try{f.focus({preventScroll:true})}catch(e){}},260)}
-function addSub(t){String(t||'').split(',').map(function(x){return x.trim().replace(/\s+/g,' ')}).filter(Boolean).forEach(function(x){x=x.charAt(0).toUpperCase()+x.slice(1);if(!ST.subs.some(function(y){return y.toLowerCase()===x.toLowerCase()}))ST.subs.push(x.slice(0,50))});paintSubs()}
-function paintSubs(){var b=$('#ob2Subs');if(!b)return;b.innerHTML=ST.subs.length?ST.subs.map(function(x,i){return'<span class="ob2-sub" style="animation-delay:'+(i*.03)+'s">'+emo(x)+' '+esc(x)+'<button type="button" data-rm="'+i+'" aria-label="Remove '+esc(x)+'">×</button></span>'}).join(''):'<span class="ob2-ph">Your subjects will appear here</span>';b.querySelectorAll('[data-rm]').forEach(function(x){x.onclick=function(){ST.subs.splice(+x.dataset.rm,1);paintSubs()}});
- var h=$('#ob2Hard');if(h)h.innerHTML=ST.subs.length>1?'<span class="ob2-lab">Which one feels hardest right now?</span><div class="ob2-roles">'+ST.subs.map(function(x){return'<button type="button" class="ob2-chip'+(ST.hard===x?' on':'')+'" data-hard="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>':'';
- if(h)h.querySelectorAll('[data-hard]').forEach(function(x){x.onclick=function(){ST.hard=x.dataset.hard;h.querySelectorAll('.ob2-chip').forEach(function(y){y.classList.toggle('on',y===x)})}})}
-
-/* ---------- save + build personalised content ---------- */
-function level(){return(ST.p.grade+' · '+ST.p.syll).trim()}
-function RL(){return 'student'}
-function fn(){return esc(ST.p.name.split(' ')[0]||'friend')}
-function stepSchool(){var r=RL();
- if(r==='teacher')return'<div class="ob2-hero">🧑‍🏫</div><span class="ob2-k">Step 2 of 4 · Your teaching</span><h2>What do you teach, '+fn()+'?</h2><p>We use this to make lesson quizzes and class material that match your board.</p><label class="ob2-f"><span>Which grades or classes do you teach?</span><input id="ob2Grade" maxlength="60" placeholder="e.g. Grades 9–10, Class 11, DP1" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus or exam board?</span><input id="ob2Syll" list="ob2SyllList" autocomplete="off" maxlength="60" placeholder="Pick from the list or type it — e.g. CBSE, Cambridge IGCSE" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>';
- if(r==='parent')return'<div class="ob2-hero">👪</div><span class="ob2-k">Step 2 of 4 · Your child</span><h2>Tell us about your child</h2><p>StudyStarx builds everything around your child\'s class and syllabus, and shows you how they are doing.</p><label class="ob2-f"><span>Your child\'s first name</span><input id="ob2Child" maxlength="40" placeholder="e.g. Aarav" value="'+esc(ST.p.child||'')+'"></label><label class="ob2-f"><span>Which grade or class are they in?</span><input id="ob2Grade" maxlength="40" placeholder="e.g. Class 8, Grade 10" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus or exam board?</span><input id="ob2Syll" maxlength="60" placeholder="e.g. CBSE, ICSE, IGCSE, IB" value="'+esc(ST.p.syll)+'"></label>';
- return'<div class="ob2-hero">🏫</div><span class="ob2-k">Step 2 of 4 · Your school</span><h2>Where are you studying, '+fn()+'?</h2><p>Type it exactly how your school says it — there\'s no wrong answer.</p><label class="ob2-f"><span>Which grade, class or college year are you in?</span><input id="ob2Grade" maxlength="40" placeholder="e.g. Class 10, Grade 11, DP1, B.Tech 2nd year" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus, exam board or college course?</span><input id="ob2Syll" list="ob2SyllList" autocomplete="off" maxlength="60" placeholder="Pick from the list or type it — e.g. CBSE, Telangana State Board, or your college course" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>'}
-function stepSubjects(){var r=RL(),h=r==='teacher'?'Which subjects do you teach?':r==='parent'?'Which subjects does '+esc(ST.p.child||'your child')+' study?':'Which subjects do you study?';
- return'<div class="ob2-hero">📚</div><span class="ob2-k">Step 3 of 4 · Subjects</span><h2>'+h+'</h2><p>Type each subject and press <b>Enter</b>. Add as many as you like.</p><div class="ob2-subin"><input id="ob2Sub" maxlength="50" placeholder="Type a subject, e.g. Physics" autocomplete="off"><button type="button" id="ob2SubAdd">Add</button></div><div class="ob2-subs" id="ob2Subs"></div>'+(r==='teacher'?'':'<div id="ob2Hard"></div>')}
-function stepGoals(){var r=RL();
- if(r==='teacher'){if(['marking','quizzes','track'].indexOf(ST.aim)<0)ST.aim='quizzes';if(['s30','s100','s200','s500'].indexOf(ST.size)<0)ST.size='s30';return'<div class="ob2-hero">🎯</div><span class="ob2-k">Step 4 of 4 · Your goals</span><h2>What do you want help with most?</h2><div class="ob2-roles">'+chip([['quizzes','🎮 Make lesson quizzes'],['marking','📝 Set & mark work'],['track','📈 Track student progress']],'aim')+'</div><span class="ob2-lab">How many students do you teach?</span><div class="ob2-roles">'+chip([['s30','Up to 30'],['s100','30–100'],['s200','100–200'],['s500','200+']],'size')+'</div>'}
- if(r==='parent'){if(['progress','homework','habits','exams'].indexOf(ST.aim)<0)ST.aim='progress';return'<div class="ob2-hero">🎯</div><span class="ob2-k">Step 4 of 4 · Your goals</span><h2>How can StudyStarx help your family?</h2><div class="ob2-roles">'+chip([['progress','📈 See how my child is doing'],['homework','📝 Help with homework'],['habits','⏰ Build daily study habits'],['exams','🏆 Prepare for exams']],'aim')+'</div><span class="ob2-lab">How long should '+esc(ST.p.child||'your child')+' study on a normal day?</span><div class="ob2-roles">'+[15,30,45,60,90,120].map(function(m){return'<button type="button" class="ob2-chip'+(ST.mins===m?' on':'')+'" data-mins="'+m+'">'+(m<60?m+' min':m===60?'1 hour':m/60+' hours')+'</button>'}).join('')+'</div><span class="ob2-lab">Next exam dates <em>(optional)</em></span><div class="ob2-exams">'+ST.subs.map(function(x){return'<label><span>'+emo(x)+' '+esc(x)+'</span><input type="date" data-ex="'+esc(x)+'" min="'+today()+'" value="'+esc(ST.exams[x]||'')+'"></label>'}).join('')+'</div>'}
- if(['grades','understand','homework','catchup'].indexOf(ST.aim)<0)ST.aim='grades';
- return'<div class="ob2-hero">🎯</div><span class="ob2-k">Step 4 of 4 · Your goals</span><h2>What are you aiming for?</h2><div class="ob2-roles">'+chip([['grades','🏆 Top exam grades'],['understand','💡 Really understand topics'],['homework','📝 Finish homework faster'],['catchup','🚀 Catch up quickly']],'aim')+'</div><span class="ob2-lab">How long can you study on a normal day?</span><div class="ob2-roles">'+[15,30,45,60,90,120].map(function(m){return'<button type="button" class="ob2-chip'+(ST.mins===m?' on':'')+'" data-mins="'+m+'">'+(m<60?m+' min':m===60?'1 hour':m/60+' hours')+'</button>'}).join('')+'</div><span class="ob2-lab">Next exam dates <em>(optional)</em></span><div class="ob2-exams">'+ST.subs.map(function(x){return'<label><span>'+emo(x)+' '+esc(x)+'</span><input type="date" data-ex="'+esc(x)+'" min="'+today()+'" value="'+esc(ST.exams[x]||'')+'"></label>'}).join('')+'</div>'}
-function acctHTML(){var on=!(window.sfAccount&&sfAccount.signedIn&&sfAccount.signedIn());return'<div class="ob2-hero">🔐</div><span class="ob2-k">Welcome to StudyStarx</span><h2 id="ob2AH">'+(ST.am==='login'?'Welcome back':'Create your free StudyStarx account')+'</h2><p>Your progress, notes, flashcards and StudyQuest world are saved to your account, so you can pick up on any phone, tablet or laptop.</p><div class="ob2-tabs"><button type="button" data-am="signup" class="'+(ST.am!=='login'?'on':'')+'">I\'m new</button><button type="button" data-am="login" class="'+(ST.am==='login'?'on':'')+'">I have an account</button></div>'+(ST.acctOK?'':'<div class="sf-gwrap" hidden><div class="sf-gbtn" id="ob2G"></div><div class="sf-gor"><span>or use email</span></div></div>')+'<label class="ob2-f"><span>Email</span><input id="ob2Email" type="email" autocomplete="email" placeholder="you@example.com" value="'+esc(ST.email||'')+'"'+(ST.acctOK?' disabled':'')+'></label><label class="ob2-f"><span>Password <em>(8+ characters)</em></span><input id="ob2Pass" type="password" autocomplete="'+(ST.am==='login'?'current-password':'new-password')+'" placeholder="Choose a password"'+(ST.acctOK?' disabled':'')+'></label><div id="ob2Rec"></div><p class="ob2-fine">Free forever. No card needed. By continuing you agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms</a> and <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>'}
-function tourHTML(i){var t=TOUR[i];return'<div class="ob2-hero">'+t[0]+'</div><span class="ob2-k">Quick tour · '+(i+1)+' of 3</span><h2>'+esc(t[1])+'</h2>'+(t[2]?'<p>'+esc(t[2])+'</p>':'')+'<div class="ob2-feats'+(i===2?' why':'')+'">'+t[3].map(function(f,k){return'<div class="ob2-feat" style="animation-delay:'+(k*90+120)+'ms"><span>'+f[0]+'</span><div><b>'+esc(f[1])+'</b><small>'+esc(f[2])+'</small></div></div>'}).join('')+'</div><div class="ob2-dots">'+[0,1,2].map(function(k){return'<i class="'+(k===i?'on':'')+'"></i>'}).join('')+'</div>'}
-function finish(){var d=D();if(!d){close();return}
- d.profile=Object.assign({},d.profile,{lang:(function(l){l=String(l||'').trim();return /^[\p{L} ()\-]{2,30}$/u.test(l)?l.charAt(0).toUpperCase()+l.slice(1).toLowerCase():'English'})(ST.p.lang),name:ST.p.name,role:ST.p.role||'student',grade:ST.p.grade,syllabus:(window.sfCanon?sfCanon.board(ST.p.syll,ST.p.grade):ST.p.syll),board:ST.p.syll,curriculum:ST.p.syll,school:ST.p.school,subjects:ST.subs.slice(),hardest:ST.hard||'',aim:ST.aim,goal:ST.mins,level:level(),child:ST.p.child||'',classSize:ST.size||'',onboarded:true});
- if(!Array.isArray(d.exams))d.exams=[];Object.keys(ST.exams).forEach(function(s){var dt=ST.exams[s];if(!dt)return;var ex=d.exams.find(function(x){return x.subject===s&&x.date>=today()});if(ex)ex.date=dt;else d.exams.push({id:uid(),subject:s,date:dt,name:s+' exam',weak:s===ST.hard?5:3})});
- try{var mx=window.StudyFlowMastery;if(mx&&mx.M){var M=mx.M();if(M.prefs)M.prefs.minutes=[15,30,45,60,90,120].indexOf(ST.mins)>=0?ST.mins:45}}catch(e){}
- try{var sel=document.getElementById('profileLevel');if(sel&&![].some.call(sel.options,function(o){return o.value===d.profile.level})){var o=document.createElement('option');o.textContent=d.profile.level;sel.appendChild(o)}sel&&(sel.value=d.profile.level)}catch(e){}
- try{document.querySelectorAll('.mx-subject-select').forEach(function(s){s.innerHTML=''});document.querySelectorAll('.mx-level-select').forEach(function(s){delete s.dataset.init})}catch(e){}
- save();ST.step=OFF+5;paint(1);build()}
-function openStarterQuiz(){try{go('quiz')}catch(e){}setTimeout(function(){var L=[];try{L=customQuizzes.filter(function(q){return q.starter})}catch(e){}if(!L.length||!window.StudyFlowQuiz)return;var q=StudyFlowQuiz.find(String(L[0].id));if(q)StudyFlowQuiz.choose(q)},350)}
-function openStarterCards(){try{go('flashcards')}catch(e){}setTimeout(function(){var d=D()||{},m=d.fcmeta||{};var k=Object.keys(m).filter(function(x){return m[x]&&m[x].starter}).sort(function(a,b){return(m[b].last||0)-(m[a].last||0)})[0];if(k&&window.StudyFlowCards){try{StudyFlowCards.open(k)}catch(e){}if(StudyFlowCards.flip)StudyFlowCards.flip(k)}},350)}
-window.sfOpenStarterQuiz=openStarterQuiz;window.sfOpenStarterCards=openStarterCards;
-function aiOn(){return typeof requestStudyAI==='function'&&(typeof aiAvailable!=='function'||aiAvailable())}
-function task(t){var ul=$('#ob2Tasks');var li=document.createElement('li');li.innerHTML='<span class="s"></span><b>'+esc(t)+'</b>';ul.appendChild(li);return{ok:function(x){li.classList.add('ok');if(x)li.querySelector('b').textContent=x},no:function(x){li.classList.add('no');if(x)li.querySelector('b').textContent=x}}}
-function parse(t){t=String(t||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'');var a=t.indexOf('{'),b=t.lastIndexOf('}');return JSON.parse(a>=0?t.slice(a,b+1):t)}
-function libFor(sub){try{var L=window.StudyFlowQuiz?StudyFlowQuiz.lib():[];var s=sub.toLowerCase();return L.filter(function(q){var x=(q.subject+' '+q.title+' '+(q.topic||'')).toLowerCase();return x.indexOf(s)>=0||s.indexOf(String(q.subject).toLowerCase())>=0})}catch(e){return[]}}
-function addCards(set,list,e){var d=D();if(!Array.isArray(d.flashcards))d.flashcards=[];list.forEach(function(x){d.flashcards.push({id:uid(),front:x.f,back:x.b,learned:false,lv:0,set:set})});if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};var m=d.fcmeta[set]||(d.fcmeta[set]={color:['#7c3aed','#0d9488','#e8475f','#d97706','#2563eb'][Object.keys(d.fcmeta).length%5],created:Date.now()});m.emoji=e;m.last=Date.now();m.keep=true;m.starter=true}
-function addQuiz(q){try{if(typeof customQuizzes==='undefined')return false;customQuizzes.unshift(q);saveCustomQuizzes();return true}catch(e){return false}}
-function oneSubject(sub){var t=task(RL()==='teacher'?'Making '+sub+' lesson quizzes & revision cards for '+ST.p.grade:'Making '+sub+' quizzes & flashcards for '+(RL()==='parent'&&ST.p.child?ST.p.child+' ('+ST.p.grade+')':ST.p.grade));
- var n=Math.max(1,Math.min(10,ST.subs.length)),k=window.SFStarter?SFStarter.split(n)(Math.max(0,ST.subs.indexOf(sub))):1;
- if(!window.SFStarter){t.no(sub+': will be made when you open the app');return Promise.resolve(0)}
- return SFStarter.subject(sub,k,{grade:ST.p.grade,syll:ST.p.syll,hard:ST.hard||'',aim:ST.aim,role:RL(),child:ST.p.child||''}).then(function(r){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}
-  if(r.quizzes){t.ok(sub+': '+r.quizzes+' quiz'+(r.quizzes>1?'zes':'')+' + '+r.cards+' flashcards'+(r.ai?' ✓':' (general level — the AI will add more for your level)'));return 1}
-  t.no(sub+': could not make quizzes right now');return 0})}
-function build(){var subs=ST.subs.slice(0,8),i=0,made=0;var tp=task('Saving your profile: '+level());setTimeout(function(){tp.ok()},400);
- var t2=task(RL()==='teacher'?'Getting Classes ready for '+({s30:'up to 30',s100:'30–100',s200:'100–200',s500:'200+'}[ST.size||'s30'])+' students'+((ST.size&&ST.size!=='s30')?' (big classes need StudyStarx Plus)':''):'Planning '+ST.mins+' minutes a day around '+(RL()==='parent'?(ST.p.child||'your child')+'\'s':'your')+' exams');setTimeout(function(){t2.ok()},800);
- (function nextS(){if(i>=subs.length){(window.SFStarter&&SFStarter.quest?SFStarter.quest(subs,task):Promise.resolve()).then(function(){done(made)});return}var s=subs[i++];oneSubject(s).then(function(r){made+=r||0;nextS()})})()}
-function done(made){document.querySelectorAll('#ob2Tasks li:not(.ok):not(.no)').forEach(function(l){l.classList.add('ok')});$('#ob2BT').textContent='Your study space is ready, '+(ST.p.name.split(' ')[0]||'')+'!';$('#ob2BS').textContent=made?'Everything below was made for '+level()+'.':'Your profile is saved — the AI tutor, quizzes and plan now use it.';var b=$('#ob2Done');b.hidden=false;b.innerHTML='<button type="button" class="ob2-next" id="ob2Cont">Continue</button>';$('#ob2Cont').onclick=function(){close();try{var lg=String(data.profile.lang||'');if(lg&&!/^english$/i.test(lg)&&window.sfStartLang){window.__sfLangSwitch=true;window.sfStartLang(lg)}}catch(e){}try{window.sfPlusIntro?sfPlusIntro():go('dashboard')}catch(e){try{go('dashboard')}catch(_){}}try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}};try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}try{renderAll()}catch(e){}}
-
-/* replace the old setup window whenever it opens */
-// right after setup: show the Plus plans first (free users only), with an easy way to keep using Free
-window.sfPlusIntro=function(){var plus=false;try{plus=!!((window.sfAccount&&sfAccount.isPlus&&sfAccount.isPlus())||(window.StudyFlowIsland&&StudyFlowIsland._I.plusOK()))}catch(e){}
- if(plus){go('dashboard');return}go('premium');var pg=document.getElementById('page-premium');if(!pg)return;var old=document.getElementById('sfPlusIntro');if(old)old.remove();
- var b=document.createElement('div');b.id='sfPlusIntro';b.innerHTML='<h2>🎉 Your study space is ready! Try StudyStarx Plus</h2><p>250 AI questions a day, the coach plans your timetable, all 10 StudyQuest worlds, every character and animated pets. The <b>Yearly plan</b> is the best deal — just ₹167 a month.</p><button type="button" id="sfPlusIntroSkip">Continue with Free →</button>';
- pg.insertBefore(b,pg.firstChild);document.getElementById('sfPlusIntroSkip').onclick=function(){b.remove();go('dashboard')};try{window.scrollTo(0,0)}catch(e){}};
-function swap(){var o=document.getElementById('sfOnb');if(o&&!o.dataset.ob2){o.dataset.ob2=1;o.style.display='none';o.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id')});if(!document.getElementById('sfOb2'))open();setTimeout(function(){o.remove()},400)}}
-new MutationObserver(swap).observe(document.body,{childList:true});swap();
-window.sfOpenOnboarding=open;window.StudyFlowSetup={open:open};
 })();
 
 </script><style id="sf-lib2-css">
@@ -11584,6 +11341,250 @@ if(typeof window.go==='function'&&!window.go.__fz){var og=window.go,w=function(p
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,400)});else setTimeout(boot,400);
 setTimeout(boot,2000);
 window.sfFocusLockDraw=draw;
+})();
+
+</script><style id="sf-ob-css">
+.ob2{position:fixed;inset:0;z-index:450;display:grid;place-items:center;padding:16px;background:#0b1020;font-family:inherit;animation:ob2in .45s ease}
+.ob2.out{animation:ob2in .35s reverse forwards}
+@keyframes ob2in{from{opacity:0}}
+.ob2-bg{position:absolute;inset:0;overflow:hidden}.ob2-bg i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.35;animation:ob2a 18s ease-in-out infinite alternate}
+.ob2-bg i:nth-child(1){background:#7c5cff;left:-20vmax;top:-25vmax}.ob2-bg i:nth-child(2){background:#22d3ee;right:-25vmax;bottom:-30vmax;animation-delay:-6s;opacity:.25}.ob2-bg i:nth-child(3){background:#f472b6;left:30vmax;top:40vmax;animation-delay:-12s;opacity:.18}
+@keyframes ob2a{to{transform:translate(6vmax,5vmax) scale(1.1)}}
+.ob2-card{position:relative;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;background:rgba(255,255,255,.97);color:#0f172a;border-radius:28px;padding:22px 26px 24px;box-shadow:0 40px 90px -30px rgba(0,0,0,.7);animation:ob2pop .6s cubic-bezier(.2,.9,.3,1.15)}
+html[data-dark] .ob2-card{background:#111827;color:#f1f5f9}
+@keyframes ob2pop{from{transform:translateY(30px) scale(.96);opacity:0}}
+.ob2-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.ob2-prog{flex:1;height:8px;border-radius:99px;background:rgba(124,92,255,.15);overflow:hidden}.ob2-prog span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#7c5cff,#22d3ee);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.ob2-skip{border:0;background:none;color:#64748b;font:inherit;font-weight:600;cursor:pointer;padding:6px}
+.ob2-view{position:relative;overflow:hidden}
+.ob2-pane{display:grid;gap:12px;animation:ob2r .45s cubic-bezier(.2,.8,.2,1)}
+.ob2-pane.from-l{animation-name:ob2l}
+@keyframes ob2r{from{transform:translateX(40px);opacity:0}}@keyframes ob2l{from{transform:translateX(-40px);opacity:0}}
+.ob2-hero{font-size:46px;line-height:1;animation:ob2bob 3s ease-in-out infinite}
+@keyframes ob2bob{50%{transform:translateY(-5px) rotate(-4deg)}}
+.ob2-k{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#7c5cff}
+.ob2 h2{margin:0;font-size:clamp(22px,4vw,28px);line-height:1.2;letter-spacing:-.02em}
+.ob2 p{margin:0;color:#64748b;line-height:1.5}
+html[data-dark] .ob2 p{color:#94a3b8}
+.ob2-f{display:grid;gap:6px}.ob2-f span,.ob2-lab{font-size:13.5px;font-weight:700;margin-top:4px}.ob2-f em,.ob2-lab em{font-weight:500;color:#94a3b8;font-style:normal}
+.ob2 input{width:100%;box-sizing:border-box;border:2px solid #e2e8f0;border-radius:14px;padding:13px 15px;font:inherit;font-size:16px;background:#fff;color:inherit;transition:border-color .2s,box-shadow .2s}
+html[data-dark] .ob2 input{background:#0b1222;border-color:#334155}
+.ob2 input:focus{outline:0;border-color:#7c5cff;box-shadow:0 0 0 4px rgba(124,92,255,.18)}
+.ob2-roles{display:flex;gap:8px;flex-wrap:wrap}
+.ob2-chip{border:2px solid #e2e8f0;background:#fff;color:inherit;border-radius:14px;padding:10px 14px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:transform .2s cubic-bezier(.3,1.6,.5,1),border-color .2s,background .2s}
+html[data-dark] .ob2-chip{background:#0b1222;border-color:#334155}
+.ob2-chip:hover{transform:translateY(-2px)}.ob2-chip.on{border-color:#7c5cff;background:rgba(124,92,255,.1);color:#5b3fe0}
+html[data-dark] .ob2-chip.on{color:#c4b5fd}
+.ob2-subin{display:flex;gap:8px}.ob2-subin button{border:0;border-radius:14px;padding:0 18px;background:#0f172a;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+html[data-dark] .ob2-subin button{background:#7c5cff}
+.ob2-subs{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;border-radius:16px;background:rgba(124,92,255,.06);border:2px dashed rgba(124,92,255,.25)}
+.ob2-sub{display:inline-flex;align-items:center;gap:6px;padding:7px 8px 7px 12px;border-radius:12px;background:linear-gradient(135deg,#7c5cff,#5b8cff);color:#fff;font-weight:700;font-size:14px;animation:ob2chip .35s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes ob2chip{from{transform:scale(.5);opacity:0}}
+.ob2-sub button{border:0;background:rgba(255,255,255,.25);color:#fff;width:22px;height:22px;border-radius:7px;cursor:pointer;font-size:15px;line-height:1}
+.ob2-ph{color:#94a3b8;font-size:14px;align-self:center}
+.ob2-exams{display:grid;gap:8px}.ob2-exams label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:600;font-size:14px}.ob2-exams input{width:auto;padding:9px 11px;font-size:14px}
+.ob2-err{color:#e11d48;font-size:13.5px;font-weight:600;min-height:1em}.ob2-err.shake{animation:ob2sh .4s}
+@keyframes ob2sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.ob2-nav{display:flex;justify-content:space-between;gap:10px;margin-top:6px}
+.ob2-next{border:0;border-radius:16px;padding:14px 22px;font:inherit;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#7c5cff,#5b8cff);box-shadow:0 12px 26px -12px rgba(124,92,255,.9);cursor:pointer;transition:transform .2s,filter .2s}
+.ob2-next:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.ob2-back{border:2px solid #e2e8f0;border-radius:16px;padding:12px 18px;font:inherit;font-weight:700;background:transparent;color:inherit;cursor:pointer}
+html[data-dark] .ob2-back{border-color:#334155}
+.ob2-build{display:grid;justify-items:center;gap:12px;text-align:center;padding:8px 0}
+.ob2-orb{position:relative;width:96px;height:96px;display:grid;place-items:center;font-size:36px}
+.ob2-orb i{position:absolute;inset:0;border-radius:50%;border:4px solid transparent;border-top-color:#7c5cff;border-right-color:#22d3ee;animation:ob2spin 1.1s linear infinite}.ob2-orb i:nth-child(2){inset:12px;animation-duration:1.7s;animation-direction:reverse;border-top-color:#f472b6}
+@keyframes ob2spin{to{transform:rotate(360deg)}}
+.ob2-tasks{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:8px;width:100%;text-align:left}
+.ob2-tasks li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(124,92,255,.06);font-size:14px;animation:ob2r .4s both}
+.ob2-tasks .s{width:20px;height:20px;flex:0 0 20px;border-radius:50%;border:3px solid #c4b5fd;border-top-color:#7c5cff;animation:ob2spin .8s linear infinite}
+.ob2-tasks li.ok .s{animation:none;border:0;background:#10b981;position:relative}.ob2-tasks li.ok .s::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}
+.ob2-tasks li.no .s{animation:none;border:0;background:#f59e0b;position:relative}.ob2-tasks li.no .s::after{content:"!";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}
+.ob2-done{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;animation:ob2pop .5s both}.ob2-done[hidden]{display:none}
+@media (max-width:520px){.ob2-card{padding:18px 18px 20px;border-radius:24px}.ob2-nav{position:sticky;bottom:-20px;background:inherit;padding-top:8px}}
+.ob2-step{font-size:12.5px;font-weight:700;color:#94a3b8;min-width:42px;text-align:right}
+.ob2-tabs{display:flex;gap:6px;padding:5px;border-radius:16px;background:rgba(124,92,255,.08)}
+.ob2-tabs button{flex:1;border:0;border-radius:12px;padding:10px;font:inherit;font-weight:700;font-size:14px;background:transparent;color:#64748b;cursor:pointer;transition:background .25s,color .25s,box-shadow .25s}
+.ob2-tabs button.on{background:#fff;color:#5b3fe0;box-shadow:0 4px 14px -6px rgba(91,63,224,.5)}
+html[data-dark] .ob2-tabs button.on{background:#1e293b;color:#c4b5fd}
+.ob2-rec{display:grid;gap:6px;padding:14px;border-radius:16px;background:#ecfdf5;border:2px solid #34d399;animation:ob2pop .45s both}
+.ob2-rec code{font-size:20px;font-weight:800;letter-spacing:.06em;color:#065f46;user-select:all}
+.ob2-rec small{color:#047857;line-height:1.4}
+html[data-dark] .ob2-rec{background:#052e22}html[data-dark] .ob2-rec code{color:#6ee7b7}
+.ob2-fine{font-size:12.5px!important;text-align:center}
+.ob2-feats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ob2-feat{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:16px;background:rgba(124,92,255,.06);border:1px solid rgba(124,92,255,.14);animation:ob2r .5s cubic-bezier(.2,.8,.2,1) both}
+.ob2-feat>span{font-size:22px;line-height:1}.ob2-feat b{display:block;font-size:14px}.ob2-feat small{display:block;color:#64748b;font-size:12.5px;line-height:1.4;margin-top:2px}
+.ob2-feats.why{grid-template-columns:1fr}
+.ob2-feats.why .ob2-feat{background:linear-gradient(135deg,rgba(124,92,255,.08),rgba(34,211,238,.08))}
+html[data-dark] .ob2-feat small{color:#94a3b8}
+.ob2-dots{display:flex;justify-content:center;gap:6px;margin-top:2px}.ob2-dots i{width:8px;height:8px;border-radius:99px;background:rgba(124,92,255,.25);transition:width .3s}.ob2-dots i.on{width:22px;background:#7c5cff}
+.ob2-next:disabled{opacity:.7;cursor:wait}
+@media (max-width:520px){.ob2-feats{grid-template-columns:1fr}}
+.ob2-perm{display:flex;gap:12px;align-items:center;text-align:left;border:1px solid var(--line,#e4e7ee);border-radius:16px;padding:14px;margin:10px 0;background:var(--card,#fff);transition:border-color .2s,background .2s}
+.ob2-perm.ok{border-color:#86efac;background:#f0fdf4}
+.ob2-perm .ic{font-size:24px;width:44px;height:44px;border-radius:12px;background:var(--pale,#eef0ff);display:grid;place-items:center;flex:0 0 auto}
+.ob2-perm .tx{flex:1;min-width:0}.ob2-perm b{display:block;font-size:15px}.ob2-perm small{display:block;color:var(--muted,#777891);font-size:13px;line-height:1.45;margin-top:2px}.ob2-perm small.warn{color:#b45309}
+.ob2-pb{border:0;border-radius:12px;padding:10px 16px;background:var(--p,#4338ca);color:#fff;font:700 14px Inter,system-ui,sans-serif;cursor:pointer;flex:0 0 auto}
+.ob2-perm .st{font-weight:700;color:#16a34a;font-size:13.5px;white-space:nowrap}.ob2-perm .st.off{color:var(--muted,#777891);font-weight:600}
+/* Fit every screen: the top bar and the Back/Continue buttons always stay visible; only the middle scrolls */
+.ob2{padding:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom))}
+.ob2-card{display:flex;flex-direction:column;max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px);overflow:hidden;box-sizing:border-box}
+.ob2-top,.ob2-nav{flex:0 0 auto}
+.ob2-view{flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:2px 2px 6px;margin:0 -2px}
+.ob2-nav{position:static!important;bottom:auto!important;padding-top:10px;border-top:1px solid rgba(148,163,184,.18)}
+.ob2-view *{min-width:0;box-sizing:border-box}
+.ob2-view input,.ob2-view textarea,.ob2-view select{max-width:100%}
+.ob2-nav button{min-height:46px}
+@media (max-width:380px){.ob2-card{padding:14px 14px 14px;border-radius:20px}.ob2-tabs button{font-size:13px;padding:9px 6px}.ob2-nav .ob2-next{flex:1}}
+@media (max-height:700px){.ob2-card h2{font-size:22px;margin-top:4px}}
+
+</style><script id="sf-ob-js">
+/* ===== StudyStarx setup v2: typed survey + personalised starter content ===== */
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+function D(){try{return data}catch(e){return null}}
+function save(){try{persist()}catch(e){}}
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+var EMO={math:'📐',phys:'⚛️',chem:'🧪',bio:'🧬',hist:'🏛️',geo:'🌍',eng:'📖',lit:'📖',econ:'📈',bus:'💼',acc:'🧾',comp:'💻',psych:'🧠',art:'🎨',music:'🎵',fren:'🇫🇷',span:'🇪🇸',hind:'🇮🇳',ger:'🇩🇪',sci:'🔬',pol:'🗳️',env:'🌱'};
+function emo(s){s=String(s).toLowerCase();var k=Object.keys(EMO).find(function(k){return s.indexOf(k)>=0});return k?EMO[k]:'📚'}
+var ST={step:0,p:{},subs:[],exams:{},mins:45,aim:'grades'};
+var OFF=4,STEPS=10;
+var TOUR=[
+ ['🚀','A tutor that teaches, not just tells','Ask any question and StudyStarx teaches the method step by step, gives hints first, checks your answer like an examiner and remembers your weak topics.',[['💬','AI Study Coach','Hints first, full working, exam-style marking'],['📸','Upload & Study','Turn notes, PDFs and photos into lessons'],['∑','Math Solver','Every step shown and checked'],['🧠','Flashcards & quizzes','Made for your exact syllabus']]],
+ ['🎯','Built to make you actually study','Planning, focus and rewards work together, so studying becomes a habit instead of a fight.',[['🗓️','Smart Timetable','AI plans your week and reminds you on time'],['🔒','Focus Lock','Blocks distracting sites and apps while you study'],['🏝️','StudyQuest','A 3D world with 10 maps you build by studying']]],
+ ['🏆','Why StudyStarx is different','',[['🧩','One app, not ten','Most study apps do one thing. StudyStarx combines tutor, planner, focus blocker, flashcards, classes and a game.'],['🎓','Built around you','Most apps are generic. Everything here follows your grade, syllabus, subjects and exam dates.'],['✍️','Learn the method','Many apps just hand over answers. StudyStarx coaches you to the answer and explains the marks.'],['📈','Proof you are improving','Readiness scores, mistake tracking and streaks show real progress.']]]];
+function open(){if($('#sfOb2'))return;var d=D()||{};var p=d.profile||{};
+ ST={step:0,p:{name:p.name||'',role:p.role||'student',grade:p.grade||'',syll:p.syllabus||p.board||(p.curriculum&&p.curriculum!=='CBSE'?p.curriculum:'')||'',school:p.school||''},subs:(p.subjects||[]).slice(),exams:{},mins:p.goal||45,aim:p.aim||'grades',hard:p.hardest||''};
+ (d.exams||[]).forEach(function(e){if(e.date>=today())ST.exams[e.subject]=e.date});
+ var ov=document.createElement('div');ov.id='sfOb2';ov.className='ob2';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');
+ ov.innerHTML='<div class="ob2-bg"><i></i><i></i><i></i></div><div class="ob2-card"><div class="ob2-top"><div class="ob2-prog"><span id="ob2Bar"></span></div><span class="ob2-step" id="ob2Step"></span></div><div class="ob2-view" id="ob2View"></div><div class="ob2-nav" id="ob2Nav"><button type="button" class="ob2-back" id="ob2Back">Back</button><button type="button" class="ob2-next" id="ob2Next">Continue</button></div></div>';
+ document.body.appendChild(ov);document.body.classList.add('sf-noscroll');
+ $('#ob2Back').onclick=function(){if(ST.step>0)go_(ST.step-1,-1)};
+ $('#ob2Next').onclick=next;
+ ov.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id!=='ob2Sub'&&e.target.tagName!=='TEXTAREA'){e.preventDefault();next()}});
+ ST.step=0;ST.am='signup';ST.acctOn=null;try{if(window.sfAccount&&sfAccount.configured)sfAccount.configured().then(function(on){ST.acctOn=on;if(ST.step===0&&(!on||sfAccount.signedIn())){ST.step=1;paint(1)}})}catch(e){}
+ paint(1)}
+function close(){var o=$('#sfOb2');if(o){o.classList.add('out');setTimeout(function(){o.remove()},350)}document.body.classList.remove('sf-noscroll')}
+function go_(n,dir){collect();ST.step=n;paint(dir)}
+function collect(){var g=function(id){var e=$('#'+id);return e?e.value.trim():null};var v;
+ if((v=g('ob2Name'))!=null)ST.p.name=v;if((v=g('ob2Lang'))!=null)ST.p.lang=v;if((v=g('ob2Grade'))!=null)ST.p.grade=v;if((v=g('ob2Syll'))!=null)ST.p.syll=v;if((v=g('ob2School'))!=null)ST.p.school=v;if((v=g('ob2Child'))!=null)ST.p.child=v;
+ document.querySelectorAll('#ob2View [data-ex]').forEach(function(i){ST.exams[i.dataset.ex]=i.value})}
+function err(t){var e=$('#ob2Err');if(e){e.textContent=t;e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')}}
+
+/* ---------- permissions step: notifications (+ app blocking in the Android app) ---------- */
+function N_(){return window.SFNative||null}
+function notifState(){try{if(N_()&&N_().notifyOn)return N_().notifyOn()?'granted':'default';if(!('Notification' in window))return'none';return Notification.permission}catch(e){return'none'}}
+function blockState(){try{return N_()&&N_().blockerReady&&N_().blockerReady()?'granted':'default'}catch(e){return'default'}}
+function permRow(id,ic,t,why,state,btn){var ok=state==='granted',off=state==='denied'||state==='none';return'<div class="ob2-perm'+(ok?' ok':'')+'" id="'+id+'"><span class="ic">'+ic+'</span><div class="tx"><b>'+t+'</b><small>'+why+'</small>'+(state==='denied'?'<small class="warn">Blocked in your browser settings — you can turn it on later in the site settings.</small>':'')+'</div>'+(ok?'<span class="st">✓ On</span>':off?'<span class="st off">Not available</span>':'<button type="button" class="ob2-pb" data-perm="'+id+'">'+btn+'</button>')+'</div>'}
+function permHTML(){var r=RL(),kid=r==='parent'?(ST.p.child||'your child'):'you';
+ var h='<div class="ob2-hero">🔔</div><span class="ob2-k">Almost done</span><h2>Let StudyStarx help '+(r==='teacher'?'you teach':'you stay on track')+'</h2><p>These are optional — you can change them any time. Here’s why we ask:</p>';
+ h+=permRow('pNotif','🔔','Notifications',r==='teacher'?'So we can remind you when your class is about to start and when students hand in work.':'So we can remind '+kid+' when a study session starts, when the focus timer ends and before an exam. No ads, no spam.',notifState(),'Allow');
+ if(N_())h+=permRow('pBlock','🔒','Block distracting apps',r==='teacher'?'So Focus Lock can pause apps like YouTube while you plan lessons.':'So Focus Lock can pause apps like YouTube or Instagram while '+kid+' study. StudyStarx only checks which app is open — it never reads messages or what is on the screen.',blockState(),'Allow');
+ else if(/Android/i.test(navigator.userAgent))h+='<p class="ob2-fine">Want to block apps like YouTube while you study? Get the free StudyStarx Android app later from the Focus Lock page.</p>';
+ return h}
+function permAsk(id){
+ if(id==='pNotif'){try{if(N_()&&N_().askNotify){N_().askNotify();setTimeout(repaintPerm,1500);setTimeout(repaintPerm,4000);return}if('Notification' in window)Notification.requestPermission().then(function(){repaintPerm();if(Notification.permission==='granted')try{new Notification('StudyStarx',{body:'Reminders are on 🎉',icon:'icon-192.png'})}catch(e){}})}catch(e){}}
+ if(id==='pBlock'){try{if(N_().openAccessibility)N_().openAccessibility();else N_().openBlocker()}catch(e){}}
+}
+function repaintPerm(){if(ST.step!==OFF+4)return;var v=$('#ob2View');if(!v)return;var w=v.querySelector('.ob2-q')||v;var html=permHTML();var keep=$('#ob2Err');var box=document.createElement('div');box.innerHTML=html;['pNotif','pBlock'].forEach(function(id){var a=document.getElementById(id),b=box.querySelector('#'+id);if(a&&b)a.outerHTML=b.outerHTML})}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-perm]');if(!b)return;e.preventDefault();permAsk(b.dataset.perm)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(repaintPerm,300)});
+function next(){collect();var st=ST.step;
+ if(st===0)return acctNext();
+ if(st<OFF){go_(st+1,1);return}
+ var s=st-OFF;
+ if(s===0&&!ST.p.name){err('Tell us your first name');return}
+ if(s===1&&RL()==='parent'&&!ST.p.child){err('Type your child\'s first name');return}
+ if(s===1&&(!ST.p.grade||!ST.p.syll)){err(!ST.p.grade?'Type your grade, class or college year':'Type your syllabus, exam board or college course');return}
+ if(s===2){var i=$('#ob2Sub');if(i&&i.value.trim())addSub(i.value);if(!ST.subs.length){err('Type at least one subject and press Enter');return}}
+ if(s===4){finish();return}
+ go_(st+1,1)}
+function acctNext(){if(ST.acctOK||ST.acctOn===false||(window.sfAccount&&sfAccount.signedIn&&sfAccount.signedIn())){go_(1,1);return}
+ var em=($('#ob2Email')||{}).value||'',pw=($('#ob2Pass')||{}).value||'';em=em.trim();
+ if(!/^\S+@\S+\.\S+$/.test(em)){err('Type a valid email address');return}if(pw.length<8){err('Your password needs at least 8 characters');return}
+ if(!window.sfAccount||!sfAccount.auth){err('Accounts are not available right now. Please try again in a moment.');return}
+ var b=$('#ob2Next');b.disabled=true;b.textContent='Please wait…';
+ sfAccount.auth(ST.am,em,pw).then(function(r){if(window.__sfReloading)return;ST.acctOK=true;ST.email=em;b.disabled=false;
+  var ee=$('#ob2Err');if(ee)ee.textContent='';if(r&&r.recoveryCode){$('#ob2Rec').innerHTML='<div class="ob2-rec"><b>Save your recovery code</b><code>'+esc(r.recoveryCode)+'</code><small>Write it down or take a screenshot. It is the only way to reset your password and it will not be shown again.</small></div>';b.textContent='I saved it — continue';$('#ob2Email').disabled=$('#ob2Pass').disabled=true;document.querySelectorAll('[data-am]').forEach(function(x){x.disabled=true})}
+  else{b.textContent='Continue';go_(1,1)}})
+ .catch(function(e){b.disabled=false;b.textContent=ST.am==='login'?'Log in':'Create my account';err(e&&e.message||'Something went wrong. Please try again.')})}
+function chip(list,key){return list.map(function(x){return'<button type="button" class="ob2-chip'+(ST[key]===x[0]?' on':'')+'" data-'+key+'="'+x[0]+'">'+x[1]+'</button>'}).join('')}
+function paint(dir){var v=$('#ob2View'),st=ST.step,s=st-OFF,H='';$('#ob2Bar').style.width=((st+1)/STEPS*100)+'%';$('#ob2Step').textContent=(st+1)+' / '+STEPS;$('#ob2Back').style.visibility=st>1&&s<5?'visible':'hidden';$('#ob2Nav').style.display=s===5?'none':'';$('#ob2Next').disabled=false;$('#ob2Next').textContent=st===0?(ST.acctOK?'I saved it — continue':ST.am==='login'?'Log in':'Create my account'):st<OFF-1?'Next':st===OFF-1?'Let\'s personalise it':s===4?'Build my study space ✨':'Continue';
+ if(st===0)H=acctHTML();
+ else if(st<OFF)H=tourHTML(st-1);
+ else if(s===0)H='<div class="ob2-hero">👋</div><span class="ob2-k">Welcome to StudyStarx</span><h2>Let\'s make StudyStarx yours</h2><p>Answer a few quick questions. Your flashcards, quizzes, study plan and AI tutor will all be built around your answers.</p><label class="ob2-f"><span>What\'s your first name?</span><input id="ob2Name" maxlength="40" autocomplete="given-name" placeholder="Type your name" value="'+esc(ST.p.name)+'"></label><label class="ob2-f"><span>Which language do you want StudyStarx in?</span><input id="ob2Lang" maxlength="30" list="ob2LangList" placeholder="e.g. English, Hindi, Telugu, Spanish" value="'+esc(ST.p.lang||'English')+'"><datalist id="ob2LangList">'+(window.sfLangList||['English','Hindi','Telugu','Tamil','Spanish','French']).map(function(x){return'<option value="'+x+'">'}).join('')+'</datalist></label>';
+ else if(s===1)H=stepSchool();
+ else if(s===2)H=stepSubjects();
+ else if(s===3)H=stepGoals();
+ else if(s===4)H=permHTML();
+ else if(s===5)H='<div class="ob2-build"><div class="ob2-orb"><i></i><i></i><span>✨</span></div><h2 id="ob2BT">Building your study space…</h2><p id="ob2BS">Personalising everything for '+esc(ST.p.grade)+' · '+esc(ST.p.syll)+'</p><ul class="ob2-tasks" id="ob2Tasks"></ul><div class="ob2-done" id="ob2Done" hidden></div></div>';
+ if(st===0){v.innerHTML='<div class="ob2-pane '+(dir<0?'from-l':'from-r')+'">'+H+'<p class="ob2-err" id="ob2Err" role="alert"></p></div>';try{if(window.sfGoogleButton&&$('#ob2G'))sfGoogleButton($('#ob2G'),function(r){if(window.__sfReloading)return;ST.acctOK=true;ST.email=r.email;if(!ST.p.name&&r.name)ST.p.name=r.name;go_(1,1)},function(e){err(e&&e.message||'Google sign-in failed. Please try again.')})}catch(_){}v.querySelectorAll('[data-am]').forEach(function(b){b.onclick=function(){ST.am=b.dataset.am;v.querySelectorAll('[data-am]').forEach(function(x){x.classList.toggle('on',x===b)});$('#ob2Next').textContent=ST.am==='login'?'Log in':'Create my account';var p=$('#ob2Pass');if(p)p.autocomplete=ST.am==='login'?'current-password':'new-password';$('#ob2AH').textContent=ST.am==='login'?'Welcome back':'Create your free StudyStarx account'}});var f0=$('#ob2Email');if(f0&&!ST.acctOK)setTimeout(function(){try{f0.focus({preventScroll:true})}catch(e){}},260);return}
+ if(st>0&&st<OFF){v.innerHTML='<div class="ob2-pane '+(dir<0?'from-l':'from-r')+'">'+H+'</div>';return}
+ v.innerHTML='<div class="ob2-pane '+(dir<0?'from-l':'from-r')+'">'+H+'<p class="ob2-err" id="ob2Err" role="alert"></p></div>';
+ v.querySelectorAll('[data-role],[data-aim],[data-mins],[data-size]').forEach(function(b){b.onclick=function(){if(b.dataset.size)ST.size=b.dataset.size;if(b.dataset.role)ST.role=ST.p.role=b.dataset.role;if(b.dataset.aim)ST.aim=b.dataset.aim;if(b.dataset.mins)ST.mins=+b.dataset.mins;b.parentNode.querySelectorAll('.ob2-chip').forEach(function(x){x.classList.toggle('on',x===b)})}});
+ if(s===0){ST.role=ST.p.role;var rb=v.querySelector('[data-role="'+ST.p.role+'"]');if(rb)rb.classList.add('on')}
+ if(s===2){paintSubs();var i=$('#ob2Sub');i.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===','){e.preventDefault();addSub(i.value);i.value=''}else if(e.key==='Backspace'&&!i.value&&ST.subs.length){ST.subs.pop();paintSubs()}});$('#ob2SubAdd').onclick=function(){addSub(i.value);i.value='';i.focus()}}
+ var f=v.querySelector('input');if(f&&s<4)setTimeout(function(){try{f.focus({preventScroll:true})}catch(e){}},260)}
+function addSub(t){String(t||'').split(',').map(function(x){return x.trim().replace(/\s+/g,' ')}).filter(Boolean).forEach(function(x){x=x.charAt(0).toUpperCase()+x.slice(1);if(!ST.subs.some(function(y){return y.toLowerCase()===x.toLowerCase()}))ST.subs.push(x.slice(0,50))});paintSubs()}
+function paintSubs(){var b=$('#ob2Subs');if(!b)return;b.innerHTML=ST.subs.length?ST.subs.map(function(x,i){return'<span class="ob2-sub" style="animation-delay:'+(i*.03)+'s">'+emo(x)+' '+esc(x)+'<button type="button" data-rm="'+i+'" aria-label="Remove '+esc(x)+'">×</button></span>'}).join(''):'<span class="ob2-ph">Your subjects will appear here</span>';b.querySelectorAll('[data-rm]').forEach(function(x){x.onclick=function(){ST.subs.splice(+x.dataset.rm,1);paintSubs()}});
+ var h=$('#ob2Hard');if(h)h.innerHTML=ST.subs.length>1?'<span class="ob2-lab">Which one feels hardest right now?</span><div class="ob2-roles">'+ST.subs.map(function(x){return'<button type="button" class="ob2-chip'+(ST.hard===x?' on':'')+'" data-hard="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>':'';
+ if(h)h.querySelectorAll('[data-hard]').forEach(function(x){x.onclick=function(){ST.hard=x.dataset.hard;h.querySelectorAll('.ob2-chip').forEach(function(y){y.classList.toggle('on',y===x)})}})}
+
+/* ---------- save + build personalised content ---------- */
+function level(){return(ST.p.grade+' · '+ST.p.syll).trim()}
+function RL(){return 'student'}
+function fn(){return esc(ST.p.name.split(' ')[0]||'friend')}
+function stepSchool(){var r=RL();
+ if(r==='teacher')return'<div class="ob2-hero">🧑‍🏫</div><span class="ob2-k">Step 2 of 4 · Your teaching</span><h2>What do you teach, '+fn()+'?</h2><p>We use this to make lesson quizzes and class material that match your board.</p><label class="ob2-f"><span>Which grades or classes do you teach?</span><input id="ob2Grade" maxlength="60" placeholder="e.g. Grades 9–10, Class 11, DP1" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus or exam board?</span><input id="ob2Syll" list="ob2SyllList" autocomplete="off" maxlength="60" placeholder="Pick from the list or type it — e.g. CBSE, Cambridge IGCSE" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>';
+ if(r==='parent')return'<div class="ob2-hero">👪</div><span class="ob2-k">Step 2 of 4 · Your child</span><h2>Tell us about your child</h2><p>StudyStarx builds everything around your child\'s class and syllabus, and shows you how they are doing.</p><label class="ob2-f"><span>Your child\'s first name</span><input id="ob2Child" maxlength="40" placeholder="e.g. Aarav" value="'+esc(ST.p.child||'')+'"></label><label class="ob2-f"><span>Which grade or class are they in?</span><input id="ob2Grade" maxlength="40" placeholder="e.g. Class 8, Grade 10" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus or exam board?</span><input id="ob2Syll" maxlength="60" placeholder="e.g. CBSE, ICSE, IGCSE, IB" value="'+esc(ST.p.syll)+'"></label>';
+ return'<div class="ob2-hero">🏫</div><span class="ob2-k">Step 2 of 4 · Your school</span><h2>Where are you studying, '+fn()+'?</h2><p>Type it exactly how your school says it — there\'s no wrong answer.</p><label class="ob2-f"><span>Which grade, class or college year are you in?</span><input id="ob2Grade" maxlength="40" placeholder="e.g. Class 10, Grade 11, DP1, B.Tech 2nd year" value="'+esc(ST.p.grade)+'"></label><label class="ob2-f"><span>Which syllabus, exam board or college course?</span><input id="ob2Syll" list="ob2SyllList" autocomplete="off" maxlength="60" placeholder="Pick from the list or type it — e.g. CBSE, Telangana State Board, or your college course" value="'+esc(ST.p.syll)+'"></label><label class="ob2-f"><span>School name <em>(optional)</em></span><input id="ob2School" maxlength="80" placeholder="Type your school" value="'+esc(ST.p.school)+'"></label>'}
+function stepSubjects(){var r=RL(),h=r==='teacher'?'Which subjects do you teach?':r==='parent'?'Which subjects does '+esc(ST.p.child||'your child')+' study?':'Which subjects do you study?';
+ return'<div class="ob2-hero">📚</div><span class="ob2-k">Step 3 of 4 · Subjects</span><h2>'+h+'</h2><p>Type each subject and press <b>Enter</b>. Add as many as you like.</p><div class="ob2-subin"><input id="ob2Sub" maxlength="50" placeholder="Type a subject, e.g. Physics" autocomplete="off"><button type="button" id="ob2SubAdd">Add</button></div><div class="ob2-subs" id="ob2Subs"></div>'+(r==='teacher'?'':'<div id="ob2Hard"></div>')}
+function stepGoals(){var r=RL();
+ if(r==='teacher'){if(['marking','quizzes','track'].indexOf(ST.aim)<0)ST.aim='quizzes';if(['s30','s100','s200','s500'].indexOf(ST.size)<0)ST.size='s30';return'<div class="ob2-hero">🎯</div><span class="ob2-k">Step 4 of 4 · Your goals</span><h2>What do you want help with most?</h2><div class="ob2-roles">'+chip([['quizzes','🎮 Make lesson quizzes'],['marking','📝 Set & mark work'],['track','📈 Track student progress']],'aim')+'</div><span class="ob2-lab">How many students do you teach?</span><div class="ob2-roles">'+chip([['s30','Up to 30'],['s100','30–100'],['s200','100–200'],['s500','200+']],'size')+'</div>'}
+ if(r==='parent'){if(['progress','homework','habits','exams'].indexOf(ST.aim)<0)ST.aim='progress';return'<div class="ob2-hero">🎯</div><span class="ob2-k">Step 4 of 4 · Your goals</span><h2>How can StudyStarx help your family?</h2><div class="ob2-roles">'+chip([['progress','📈 See how my child is doing'],['homework','📝 Help with homework'],['habits','⏰ Build daily study habits'],['exams','🏆 Prepare for exams']],'aim')+'</div><span class="ob2-lab">How long should '+esc(ST.p.child||'your child')+' study on a normal day?</span><div class="ob2-roles">'+[15,30,45,60,90,120].map(function(m){return'<button type="button" class="ob2-chip'+(ST.mins===m?' on':'')+'" data-mins="'+m+'">'+(m<60?m+' min':m===60?'1 hour':m/60+' hours')+'</button>'}).join('')+'</div><span class="ob2-lab">Next exam dates <em>(optional)</em></span><div class="ob2-exams">'+ST.subs.map(function(x){return'<label><span>'+emo(x)+' '+esc(x)+'</span><input type="date" data-ex="'+esc(x)+'" min="'+today()+'" value="'+esc(ST.exams[x]||'')+'"></label>'}).join('')+'</div>'}
+ if(['grades','understand','homework','catchup'].indexOf(ST.aim)<0)ST.aim='grades';
+ return'<div class="ob2-hero">🎯</div><span class="ob2-k">Step 4 of 4 · Your goals</span><h2>What are you aiming for?</h2><div class="ob2-roles">'+chip([['grades','🏆 Top exam grades'],['understand','💡 Really understand topics'],['homework','📝 Finish homework faster'],['catchup','🚀 Catch up quickly']],'aim')+'</div><span class="ob2-lab">How long can you study on a normal day?</span><div class="ob2-roles">'+[15,30,45,60,90,120].map(function(m){return'<button type="button" class="ob2-chip'+(ST.mins===m?' on':'')+'" data-mins="'+m+'">'+(m<60?m+' min':m===60?'1 hour':m/60+' hours')+'</button>'}).join('')+'</div><span class="ob2-lab">Next exam dates <em>(optional)</em></span><div class="ob2-exams">'+ST.subs.map(function(x){return'<label><span>'+emo(x)+' '+esc(x)+'</span><input type="date" data-ex="'+esc(x)+'" min="'+today()+'" value="'+esc(ST.exams[x]||'')+'"></label>'}).join('')+'</div>'}
+function acctHTML(){var on=!(window.sfAccount&&sfAccount.signedIn&&sfAccount.signedIn());return'<div class="ob2-hero">🔐</div><span class="ob2-k">Welcome to StudyStarx</span><h2 id="ob2AH">'+(ST.am==='login'?'Welcome back':'Create your free StudyStarx account')+'</h2><p>Your progress, notes, flashcards and StudyQuest world are saved to your account, so you can pick up on any phone, tablet or laptop.</p><div class="ob2-tabs"><button type="button" data-am="signup" class="'+(ST.am!=='login'?'on':'')+'">I\'m new</button><button type="button" data-am="login" class="'+(ST.am==='login'?'on':'')+'">I have an account</button></div>'+(ST.acctOK?'':'<div class="sf-gwrap" hidden><div class="sf-gbtn" id="ob2G"></div><div class="sf-gor"><span>or use email</span></div></div>')+'<label class="ob2-f"><span>Email</span><input id="ob2Email" type="email" autocomplete="email" placeholder="you@example.com" value="'+esc(ST.email||'')+'"'+(ST.acctOK?' disabled':'')+'></label><label class="ob2-f"><span>Password <em>(8+ characters)</em></span><input id="ob2Pass" type="password" autocomplete="'+(ST.am==='login'?'current-password':'new-password')+'" placeholder="Choose a password"'+(ST.acctOK?' disabled':'')+'></label><div id="ob2Rec"></div><p class="ob2-fine">Free forever. No card needed. By continuing you agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms</a> and <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>'}
+function tourHTML(i){var t=TOUR[i];return'<div class="ob2-hero">'+t[0]+'</div><span class="ob2-k">Quick tour · '+(i+1)+' of 3</span><h2>'+esc(t[1])+'</h2>'+(t[2]?'<p>'+esc(t[2])+'</p>':'')+'<div class="ob2-feats'+(i===2?' why':'')+'">'+t[3].map(function(f,k){return'<div class="ob2-feat" style="animation-delay:'+(k*90+120)+'ms"><span>'+f[0]+'</span><div><b>'+esc(f[1])+'</b><small>'+esc(f[2])+'</small></div></div>'}).join('')+'</div><div class="ob2-dots">'+[0,1,2].map(function(k){return'<i class="'+(k===i?'on':'')+'"></i>'}).join('')+'</div>'}
+function finish(){var d=D();if(!d){close();return}
+ d.profile=Object.assign({},d.profile,{lang:(function(l){l=String(l||'').trim();return /^[\p{L} ()\-]{2,30}$/u.test(l)?l.charAt(0).toUpperCase()+l.slice(1).toLowerCase():'English'})(ST.p.lang),name:ST.p.name,role:ST.p.role||'student',grade:ST.p.grade,syllabus:(window.sfCanon?sfCanon.board(ST.p.syll,ST.p.grade):ST.p.syll),board:ST.p.syll,curriculum:ST.p.syll,school:ST.p.school,subjects:ST.subs.slice(),hardest:ST.hard||'',aim:ST.aim,goal:ST.mins,level:level(),child:ST.p.child||'',classSize:ST.size||'',onboarded:true});
+ if(!Array.isArray(d.exams))d.exams=[];Object.keys(ST.exams).forEach(function(s){var dt=ST.exams[s];if(!dt)return;var ex=d.exams.find(function(x){return x.subject===s&&x.date>=today()});if(ex)ex.date=dt;else d.exams.push({id:uid(),subject:s,date:dt,name:s+' exam',weak:s===ST.hard?5:3})});
+ try{var mx=window.StudyFlowMastery;if(mx&&mx.M){var M=mx.M();if(M.prefs)M.prefs.minutes=[15,30,45,60,90,120].indexOf(ST.mins)>=0?ST.mins:45}}catch(e){}
+ try{var sel=document.getElementById('profileLevel');if(sel&&![].some.call(sel.options,function(o){return o.value===d.profile.level})){var o=document.createElement('option');o.textContent=d.profile.level;sel.appendChild(o)}sel&&(sel.value=d.profile.level)}catch(e){}
+ try{document.querySelectorAll('.mx-subject-select').forEach(function(s){s.innerHTML=''});document.querySelectorAll('.mx-level-select').forEach(function(s){delete s.dataset.init})}catch(e){}
+ save();ST.step=OFF+5;paint(1);build()}
+function openStarterQuiz(){try{go('quiz')}catch(e){}setTimeout(function(){var L=[];try{L=customQuizzes.filter(function(q){return q.starter})}catch(e){}if(!L.length||!window.StudyFlowQuiz)return;var q=StudyFlowQuiz.find(String(L[0].id));if(q)StudyFlowQuiz.choose(q)},350)}
+function openStarterCards(){try{go('flashcards')}catch(e){}setTimeout(function(){var d=D()||{},m=d.fcmeta||{};var k=Object.keys(m).filter(function(x){return m[x]&&m[x].starter}).sort(function(a,b){return(m[b].last||0)-(m[a].last||0)})[0];if(k&&window.StudyFlowCards){try{StudyFlowCards.open(k)}catch(e){}if(StudyFlowCards.flip)StudyFlowCards.flip(k)}},350)}
+window.sfOpenStarterQuiz=openStarterQuiz;window.sfOpenStarterCards=openStarterCards;
+function aiOn(){return typeof requestStudyAI==='function'&&(typeof aiAvailable!=='function'||aiAvailable())}
+function task(t){var ul=$('#ob2Tasks');var li=document.createElement('li');li.innerHTML='<span class="s"></span><b>'+esc(t)+'</b>';ul.appendChild(li);return{ok:function(x){li.classList.add('ok');if(x)li.querySelector('b').textContent=x},no:function(x){li.classList.add('no');if(x)li.querySelector('b').textContent=x}}}
+function parse(t){t=String(t||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'');var a=t.indexOf('{'),b=t.lastIndexOf('}');return JSON.parse(a>=0?t.slice(a,b+1):t)}
+function libFor(sub){try{var L=window.StudyFlowQuiz?StudyFlowQuiz.lib():[];var s=sub.toLowerCase();return L.filter(function(q){var x=(q.subject+' '+q.title+' '+(q.topic||'')).toLowerCase();return x.indexOf(s)>=0||s.indexOf(String(q.subject).toLowerCase())>=0})}catch(e){return[]}}
+function addCards(set,list,e){var d=D();if(!Array.isArray(d.flashcards))d.flashcards=[];list.forEach(function(x){d.flashcards.push({id:uid(),front:x.f,back:x.b,learned:false,lv:0,set:set})});if(!d.fcmeta||typeof d.fcmeta!=='object')d.fcmeta={};var m=d.fcmeta[set]||(d.fcmeta[set]={color:['#7c3aed','#0d9488','#e8475f','#d97706','#2563eb'][Object.keys(d.fcmeta).length%5],created:Date.now()});m.emoji=e;m.last=Date.now();m.keep=true;m.starter=true}
+function addQuiz(q){try{if(typeof customQuizzes==='undefined')return false;customQuizzes.unshift(q);saveCustomQuizzes();return true}catch(e){return false}}
+function oneSubject(sub){var t=task(RL()==='teacher'?'Making '+sub+' lesson quizzes & revision cards for '+ST.p.grade:'Making '+sub+' quizzes & flashcards for '+(RL()==='parent'&&ST.p.child?ST.p.child+' ('+ST.p.grade+')':ST.p.grade));
+ var n=Math.max(1,Math.min(10,ST.subs.length)),k=window.SFStarter?SFStarter.split(n)(Math.max(0,ST.subs.indexOf(sub))):1;
+ if(!window.SFStarter){t.no(sub+': will be made when you open the app');return Promise.resolve(0)}
+ return SFStarter.subject(sub,k,{grade:ST.p.grade,syll:ST.p.syll,hard:ST.hard||'',aim:ST.aim,role:RL(),child:ST.p.child||''}).then(function(r){try{data.profile.starterBuilt=Date.now();persist()}catch(e){}
+  if(r.quizzes){t.ok(sub+': '+r.quizzes+' quiz'+(r.quizzes>1?'zes':'')+' + '+r.cards+' flashcards'+(r.ai?' ✓':' (general level — the AI will add more for your level)'));return 1}
+  t.no(sub+': could not make quizzes right now');return 0})}
+function build(){var subs=ST.subs.slice(0,8),i=0,made=0;var tp=task('Saving your profile: '+level());setTimeout(function(){tp.ok()},400);
+ var t2=task(RL()==='teacher'?'Getting Classes ready for '+({s30:'up to 30',s100:'30–100',s200:'100–200',s500:'200+'}[ST.size||'s30'])+' students'+((ST.size&&ST.size!=='s30')?' (big classes need StudyStarx Plus)':''):'Planning '+ST.mins+' minutes a day around '+(RL()==='parent'?(ST.p.child||'your child')+'\'s':'your')+' exams');setTimeout(function(){t2.ok()},800);
+ (function nextS(){if(i>=subs.length){(window.SFStarter&&SFStarter.quest?SFStarter.quest(subs,task):Promise.resolve()).then(function(){done(made)});return}var s=subs[i++];oneSubject(s).then(function(r){made+=r||0;nextS()})})()}
+function done(made){document.querySelectorAll('#ob2Tasks li:not(.ok):not(.no)').forEach(function(l){l.classList.add('ok')});$('#ob2BT').textContent='Your study space is ready, '+(ST.p.name.split(' ')[0]||'')+'!';$('#ob2BS').textContent=made?'Everything below was made for '+level()+'.':'Your profile is saved — the AI tutor, quizzes and plan now use it.';var b=$('#ob2Done');b.hidden=false;b.innerHTML='<button type="button" class="ob2-next" id="ob2Cont">Continue</button>';$('#ob2Cont').onclick=function(){close();try{var lg=String(data.profile.lang||'');if(lg&&!/^english$/i.test(lg)&&window.sfStartLang){window.__sfLangSwitch=true;window.sfStartLang(lg)}}catch(e){}try{window.sfPlusIntro?sfPlusIntro():go('dashboard')}catch(e){try{go('dashboard')}catch(_){}}try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}};try{if(window.StudyFlowCards)StudyFlowCards.refresh()}catch(e){}try{renderAll()}catch(e){}}
+
+/* replace the old setup window whenever it opens */
+// right after setup: show the Plus plans first (free users only), with an easy way to keep using Free
+window.sfPlusIntro=function(){var plus=false;try{plus=!!((window.sfAccount&&sfAccount.isPlus&&sfAccount.isPlus())||(window.StudyFlowIsland&&StudyFlowIsland._I.plusOK()))}catch(e){}
+ if(plus){go('dashboard');return}go('premium');var pg=document.getElementById('page-premium');if(!pg)return;var old=document.getElementById('sfPlusIntro');if(old)old.remove();
+ var b=document.createElement('div');b.id='sfPlusIntro';b.innerHTML='<h2>🎉 Your study space is ready! Try StudyStarx Plus</h2><p>250 AI questions a day, the coach plans your timetable, all 10 StudyQuest worlds, every character and animated pets. The <b>Yearly plan</b> is the best deal — just ₹167 a month.</p><button type="button" id="sfPlusIntroSkip">Continue with Free →</button>';
+ pg.insertBefore(b,pg.firstChild);document.getElementById('sfPlusIntroSkip').onclick=function(){b.remove();go('dashboard')};try{window.scrollTo(0,0)}catch(e){}};
+function swap(){var o=document.getElementById('sfOnb');if(o&&!o.dataset.ob2){o.dataset.ob2=1;o.style.display='none';o.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id')});if(!document.getElementById('sfOb2'))open();setTimeout(function(){o.remove()},400)}}
+new MutationObserver(swap).observe(document.body,{childList:true});swap();
+window.sfOpenOnboarding=open;window.StudyFlowSetup={open:open};
 })();
 
 </script></body></html>
