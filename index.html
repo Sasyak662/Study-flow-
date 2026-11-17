@@ -1261,7 +1261,7 @@ function sfRenderResources(){
   body.innerHTML=`<div class="sfshelf-head"><div><h2>${hits.length} book${hits.length===1?'':'s'} found</h2><p class="muted tiny">${wide?'Nothing in this curriculum, so these are from all curricula. ':''}Ready books are shown first.</p></div></div>`+(hits.length?`<div class="sfbooks">${hits.slice(0,60).map(b=>sfBookRow(b,true)).join('')}</div>`:'<div class="empty">No book matches that search. Try a subject name such as Physics or Accountancy.</div>');return;}
  const sh=sfStore.shelf&&sfShelfOf(sfStore.shelf);
  if(sh){const rd=sh.books.filter(sfReady).length;
-  body.innerHTML=`<div class="sfshelf-head"><button type="button" class="btn line sm" data-shelf-back>← All subjects</button><div><span class="sfshelf-cur">${sfEscape(sfCurLabel(sh.cur))} · ${sfEscape(sh.code)}</span><h2>${sfEscape(sh.subject)}</h2><p class="muted tiny">${sh.books.length} books · ${rd} ready now. Each book has 10 units with a 10-mark question in every unit.</p></div>${/-b\d+$/.test(sh.books[0].id)?`<button type="button" class="btn sm sf-pv-btn" data-preview="${sfEscape(sh.books[0].id.replace(/-b\d+$/,''))}">📖 Free preview</button>`:''}</div><div class="sfbooks">${sh.books.map(b=>sfBookRow(b,false)).join('')}</div>`;return;}
+  body.innerHTML=`<div class="sfshelf-head"><button type="button" class="btn line sm" data-shelf-back>← All subjects</button><div><span class="sfshelf-cur">${sfEscape(sfCurLabel(sh.cur))} · ${sfEscape(sh.code)}</span><h2>${sfEscape(sh.subject)}</h2><p class="muted tiny">${sh.books.length} books · ${rd} ready now. Each book has 10 units with a 10-mark question in every unit.</p></div></div><div class="sfbooks">${sh.books.map(b=>sfBookRow(b,false)).join('')}</div>`;return;}
  const list=SF_SHELVES.filter(s=>sfStore.cur==='all'||s.cur===sfStore.cur);
  const groups=SF_CURRICULA.filter(c=>list.some(s=>s.cur===c.key));
  body.innerHTML=groups.map(c=>`<div class="sfgroup"><div class="sfgroup-head"><h2>${sfEscape(c.label)}</h2><span class="muted tiny">${sfEscape(c.sub)}</span></div><div class="sfshelves">${list.filter(s=>s.cur===c.key).map(s=>{const rd=s.books.filter(sfReady).length,pct=Math.round(rd/s.books.length*100);return `<button type="button" class="sfshelf" data-shelf="${s.id}"><span class="sfshelf-cover">${sfEscape(s.icon)}</span><span class="sfshelf-info"><span class="sfshelf-cur">${sfEscape(s.code)}</span><b>${sfEscape(s.subject)}</b><small>${s.books.length} books · ${rd?rd+' ready':'coming soon'}</small><span class="sfbar"><i style="width:${pct}%"></i></span></span></button>`;}).join('')}</div></div>`).join('');}
@@ -10665,66 +10665,6 @@ function reviewRound(){var B=window.SFQuestBank,Q=window.StudyFlowQuiz;if(!B||!Q
 setInterval(function(){try{paint()}catch(e){}},2000);
 })();
 
-</script><style id="sf-bk-css">
-#page-resources .monetization-note{display:none}
-#page-resources .sfcartbtn-lg{display:none!important}
-#page-resources > .card:last-child:not(.sfstore-bar){display:none}
-.bk-hero{position:relative;overflow:hidden;display:flex;gap:16px;align-items:center;border-radius:26px;padding:24px 22px;margin:0 0 16px;color:#fff;background:radial-gradient(120% 140% at 100% 0%,#f59e0b 0%,rgba(245,158,11,0) 45%),linear-gradient(135deg,#7c2d12 0%,#b45309 45%,#9333ea 100%);box-shadow:0 18px 40px -22px rgba(124,45,18,.8)}
-.bk-hero::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 2px,transparent 2px 22px);pointer-events:none}
-.bk-hl{position:relative;z-index:1;flex:1;min-width:0}
-.bk-k{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:5px 10px;border-radius:999px;margin-bottom:10px}
-.bk-hero h1{margin:0 0 8px;font-size:26px;line-height:1.15;color:#fff;font-weight:800}
-.bk-hero p{margin:0 0 14px;opacity:.92;font-size:14px;line-height:1.45;max-width:520px}
-.bk-chips{display:flex;flex-wrap:wrap;gap:7px}
-.bk-chips span{font-size:12px;font-weight:700;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.95);color:#7c2d12}
-.bk-stack{position:relative;z-index:1;width:120px;height:120px;flex:none}
-.bk-stack i{position:absolute;left:30px;top:6px;width:62px;height:88px;border-radius:6px 10px 10px 6px;display:grid;place-items:center;font-style:normal;font-size:28px;background:linear-gradient(150deg,var(--c1),var(--c2));transform:rotate(var(--r));box-shadow:inset -6px 0 0 rgba(0,0,0,.18),0 12px 22px -10px rgba(0,0,0,.6)}
-.bk-stack i:nth-child(1){left:6px;top:20px}.bk-stack i:nth-child(3){left:52px;top:22px}
-.bk-for{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;margin:0 0 14px;background:linear-gradient(135deg,#fff7ed,#fef3c7);border:1px solid #fcd34d;color:#78350f}
-.bk-for span{font-size:22px}.bk-for b{display:block;font-size:15px}.bk-for small{opacity:.8}
-#page-resources .sfstore-bar{border-radius:20px}
-#page-resources .sfcur{border-radius:999px;font-weight:700}
-#page-resources .sfgroup-head h2{font-size:20px;font-weight:800}
-/* subject shelves as book covers */
-#page-resources .sfshelves{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
-#page-resources .sfshelf.st{display:flex;flex-direction:column;align-items:stretch;text-align:left;padding:0;border-radius:20px;background:var(--card);border:1px solid var(--line);overflow:hidden;transition:transform .15s,box-shadow .15s}
-#page-resources .sfshelf.st::before{display:none}
-#page-resources .sfshelf.st:hover,#page-resources .sfshelf.st:active{transform:translateY(-2px);box-shadow:0 16px 30px -18px var(--s1)}
-#page-resources .sfshelf.st .sfshelf-cover{width:auto!important;height:118px!important;min-width:0!important;border-radius:0!important;margin:0!important;box-shadow:inset -10px 0 0 rgba(0,0,0,.14)!important}
-#page-resources .sfshelf.st .sfshelf-cover .st-em{font-size:42px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
-#page-resources .sfshelf.st .sfshelf-cover .st-code{font-size:11px;font-weight:800;letter-spacing:.1em;color:#fff;background:rgba(0,0,0,.18);padding:3px 8px;border-radius:999px}
-#page-resources .sfshelf.st .sfshelf-info{padding:11px 13px 13px;display:grid;gap:3px}
-#page-resources .sfshelf.st .sfshelf-info::after{display:none}
-#page-resources .sfshelf.st .sfshelf-info b{font-size:15px;line-height:1.2}
-#page-resources .sfshelf.st .sfshelf-cur{font-size:11px;font-weight:800;letter-spacing:.04em}
-#page-resources .sfshelf.st .sfbar{margin-top:6px}
-@media (max-width:600px){.bk-hero{padding:20px 18px}.bk-hero h1{font-size:22px}.bk-stack{display:none}#page-resources .sfshelves{grid-template-columns:1fr 1fr;gap:11px}#page-resources .sfshelf.st .sfshelf-cover{height:96px!important}}
-
-</style><script id="sf-bk-js">
-/* ===== Book Store: a nicer shop front, opens on the student's own course ===== */
-(function(){
-function P(){try{return data.profile||{}}catch(e){return{}}}
-function myCur(){var p=P(),C=window.sfCanon;var g=String(p.grade||p.level||''),b=String(p.board||p.curriculum||p.syllabus||'');var gb=C?C.board(b,g):b,gg=C?C.grade(g):g;var n=+((gg.match(/(\d+)/)||[])[1]||0);
- if(/^CBSE|NIOS|Delhi|Sikkim|Arunachal|AMU|Jamia/i.test(gb)&&n>=9&&n<=12)return'Class '+n;
- if(/IGCSE|International GCSE|OxfordAQA|British GCSE/i.test(gb))return'IGCSE';
- if(/A Level/i.test(gb))return'A Level';if(/IB Diploma|^IB$/i.test(gb)&&n>=11)return'IB DP';return null}
-function label(k){try{var c=SF_CURRICULA.filter(function(x){return x.key===k})[0];return c?c.label:k}catch(e){return k}}
-var picked=false;
-function hero(){var pg=document.getElementById('page-resources');if(!pg||pg.querySelector('.bk-hero'))return;var head=pg.querySelector('.pagehead');var n=0;try{n=SF_BOOKS.length}catch(e){}
- var h=document.createElement('div');h.className='bk-hero';
- h.innerHTML='<div class="bk-hl"><span class="bk-k">StudyStarx Books</span><h1>Exam-ready books for your syllabus</h1><p>Original StudyStarx books for your exact course — 10 units in each book, with an exam-style question in every unit.</p><div class="bk-chips"><span>₹199 a book</span><span>10 units each</span><span>📖 Free preview</span><span>'+(n||750)+' books</span></div></div><div class="bk-stack" aria-hidden="true"><i style="--r:-12deg;--c1:#f97316;--c2:#c2410c">📐</i><i style="--r:4deg;--c1:#0ea5e9;--c2:#1e40af">⚛️</i><i style="--r:16deg;--c1:#a855f7;--c2:#6b21a8">🧬</i></div>';
- if(head){head.style.display='none';head.insertAdjacentElement('afterend',h)}else pg.insertBefore(h,pg.firstChild)}
-function forYou(){var g=document.getElementById('resourceGrid');if(!g)return;var k=myCur();var old=g.querySelector('.bk-for');
- try{if(k&&sfStore.cur===k&&!sfStore.shelf&&!(document.getElementById('resourceSearch')||{}).value){if(!old){var d=document.createElement('div');d.className='bk-for';d.innerHTML='<span>⭐</span><div><b>Picked for you: '+label(k)+'</b><small>Your course from your profile. Tap “All” to see every course.</small></div>';g.insertBefore(d,g.firstChild)}}else if(old)old.remove()}catch(e){}}
-function start(){var pg=document.getElementById('page-resources');if(!pg)return;hero();
- if(!picked&&typeof sfStore!=='undefined'){picked=true;var k=myCur();if(k&&sfStore.cur==='all'){try{sfStore.cur=k;sfRenderResources()}catch(e){}}}
- forYou()}
-var mo=new MutationObserver(function(){try{forYou()}catch(e){}});
-function boot(){start();var g=document.getElementById('resourceGrid');if(g)mo.observe(g,{childList:true});
- if(typeof window.go==='function'&&!window.go.__bk){var o=window.go;window.go=function(p){var r=o.apply(this,arguments);if(p==='resources')setTimeout(start,30);return r};window.go.__bk=1;try{Object.keys(o).forEach(function(k){if(!(k in window.go))window.go[k]=o[k]})}catch(e){}}}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,700)});else setTimeout(boot,700);
-})();
-
 </script><style id="sf-mg-css">.sqlim-ov{position:fixed;inset:0;z-index:10050;background:rgba(15,23,42,.5);display:grid;place-items:center;padding:16px}.sqlim{background:var(--card,#fff);border-radius:24px;padding:24px 20px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(15,23,42,.3)}.sqlim-e{font-size:48px}.sqlim h3{margin:6px 0 8px;font-size:20px}.sqlim p{margin:0 0 10px;color:var(--muted,#5b6180);font-size:14px;line-height:1.45}.sqlim-s{background:#fffbeb;border-radius:14px;padding:10px 12px;color:#78350f!important}.sqlim-b{display:flex;gap:10px;margin-top:6px}.sqlim-b button{flex:1;border:0;border-radius:14px;padding:12px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff}.sqlim-b button.g{background:#eef0f8;color:#334155}
 .sfm-tabs{display:flex;gap:6px;margin:0 0 14px;padding:5px;background:var(--panel,#eef0f8);border-radius:14px;width:max-content;max-width:100%;overflow-x:auto}
 .sfm-tabs button{border:0;background:transparent;border-radius:10px;padding:9px 14px;font:inherit;font-weight:700;color:var(--muted,#5b6180);cursor:pointer;white-space:nowrap}
@@ -10812,6 +10752,72 @@ try{var tmo=new MutationObserver(function(){var n=document.getElementById('sfTab
 setTimeout(function(){document.documentElement.classList.add('sfm-ready')},1500);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,600)});else setTimeout(boot,600);
 setTimeout(boot,2500);setInterval(function(){try{nav();Object.keys(HOST).forEach(tabs);tabbar();markTabs()}catch(e){}},3000);
+})();
+
+</script><style id="sf-bk-css">
+#page-resources .monetization-note{display:none}
+#page-resources .sfcartbtn-lg{display:none!important}
+#page-resources > .card:last-child:not(.sfstore-bar){display:none}
+.bk-hero{position:relative;overflow:hidden;display:flex;gap:16px;align-items:center;border-radius:26px;padding:24px 22px;margin:0 0 16px;color:#fff;background:radial-gradient(120% 140% at 100% 0%,#f59e0b 0%,rgba(245,158,11,0) 45%),linear-gradient(135deg,#7c2d12 0%,#b45309 45%,#9333ea 100%);box-shadow:0 18px 40px -22px rgba(124,45,18,.8)}
+.bk-hero::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 2px,transparent 2px 22px);pointer-events:none}
+.bk-hl{position:relative;z-index:1;flex:1;min-width:0}
+.bk-k{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:5px 10px;border-radius:999px;margin-bottom:10px}
+.bk-hero h1{margin:0 0 8px;font-size:26px;line-height:1.15;color:#fff;font-weight:800}
+.bk-hero p{margin:0 0 14px;opacity:.92;font-size:14px;line-height:1.45;max-width:520px}
+.bk-chips{display:flex;flex-wrap:wrap;gap:7px}
+.bk-chips span{font-size:12px;font-weight:700;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.95);color:#7c2d12}
+.bk-stack{position:relative;z-index:1;width:120px;height:120px;flex:none}
+.bk-stack i{position:absolute;left:30px;top:6px;width:62px;height:88px;border-radius:6px 10px 10px 6px;display:grid;place-items:center;font-style:normal;font-size:28px;background:linear-gradient(150deg,var(--c1),var(--c2));transform:rotate(var(--r));box-shadow:inset -6px 0 0 rgba(0,0,0,.18),0 12px 22px -10px rgba(0,0,0,.6)}
+.bk-stack i:nth-child(1){left:6px;top:20px}.bk-stack i:nth-child(3){left:52px;top:22px}
+.bk-for{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;margin:0 0 14px;background:linear-gradient(135deg,#fff7ed,#fef3c7);border:1px solid #fcd34d;color:#78350f}
+.bk-for span{font-size:22px}.bk-for b{display:block;font-size:15px}.bk-for small{opacity:.8}
+#page-resources .sfstore-bar{border-radius:20px}
+#page-resources .sfcur{border-radius:999px;font-weight:700}
+#page-resources .sfgroup-head h2{font-size:20px;font-weight:800}
+/* subject shelves as book covers */
+#page-resources .sfshelves{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+#page-resources .sfshelf.st{display:flex;flex-direction:column;align-items:stretch;text-align:left;padding:0;border-radius:20px;background:var(--card);border:1px solid var(--line);overflow:hidden;transition:transform .15s,box-shadow .15s}
+#page-resources .sfshelf.st::before{display:none}
+#page-resources .sfshelf.st:hover,#page-resources .sfshelf.st:active{transform:translateY(-2px);box-shadow:0 16px 30px -18px var(--s1)}
+#page-resources .sfshelf.st .sfshelf-cover{width:auto!important;height:118px!important;min-width:0!important;border-radius:0!important;margin:0!important;box-shadow:inset -10px 0 0 rgba(0,0,0,.14)!important}
+#page-resources .sfshelf.st .sfshelf-cover .st-em{font-size:42px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
+#page-resources .sfshelf.st .sfshelf-cover .st-code{font-size:11px;font-weight:800;letter-spacing:.1em;color:#fff;background:rgba(0,0,0,.18);padding:3px 8px;border-radius:999px}
+#page-resources .sfshelf.st .sfshelf-info{padding:11px 13px 13px;display:grid;gap:3px}
+#page-resources .sfshelf.st .sfshelf-info::after{display:none}
+#page-resources .sfshelf.st .sfshelf-info b{font-size:15px;line-height:1.2}
+#page-resources .sfshelf.st .sfshelf-cur{font-size:11px;font-weight:800;letter-spacing:.04em}
+#page-resources .sfshelf.st .sfbar{margin-top:6px}
+@media (max-width:600px){.bk-hero{padding:20px 18px}.bk-hero h1{font-size:22px}.bk-stack{display:none}#page-resources .sfshelves{grid-template-columns:1fr 1fr;gap:11px}#page-resources .sfshelf.st .sfshelf-cover{height:96px!important}}
+/* subject header: back button on top, title full width, picture faded behind */
+#page-resources .sfshelf-head{flex-direction:column;align-items:flex-start;gap:10px;padding:16px 18px 18px}
+#page-resources .sfshelf-head>div{position:relative;z-index:1;padding-right:56px}
+#page-resources .sfshelf-head .btn{position:relative;z-index:1;width:auto!important;padding:7px 12px;font-size:13px;border-radius:999px}
+#page-resources .sfshelf-head h2{font-size:24px;line-height:1.15}
+#page-resources .sfshelf-head::after{right:14px;top:auto;bottom:10px;transform:rotate(-8deg);font-size:54px;opacity:.35}
+
+</style><script id="sf-bk-js">
+/* ===== Book Store: a nicer shop front, opens on the student's own course ===== */
+(function(){
+function P(){try{return data.profile||{}}catch(e){return{}}}
+function myCur(){var p=P(),C=window.sfCanon;var g=String(p.grade||p.level||''),b=String(p.board||p.curriculum||p.syllabus||'');var gb=C?C.board(b,g):b,gg=C?C.grade(g):g;var n=+((gg.match(/(\d+)/)||[])[1]||0);
+ if(/^CBSE|NIOS|Delhi|Sikkim|Arunachal|AMU|Jamia/i.test(gb)&&n>=9&&n<=12)return'Class '+n;
+ if(/IGCSE|International GCSE|OxfordAQA|British GCSE/i.test(gb))return'IGCSE';
+ if(/A Level/i.test(gb))return'A Level';if(/IB Diploma|^IB$/i.test(gb)&&n>=11)return'IB DP';return null}
+function label(k){try{var c=SF_CURRICULA.filter(function(x){return x.key===k})[0];return c?c.label:k}catch(e){return k}}
+var picked=false;
+function hero(){var pg=document.getElementById('page-resources');if(!pg||pg.querySelector('.bk-hero'))return;var head=pg.querySelector('.pagehead');var n=0;try{n=SF_BOOKS.length}catch(e){}
+ var h=document.createElement('div');h.className='bk-hero';
+ h.innerHTML='<div class="bk-hl"><span class="bk-k">StudyStarx Books</span><h1>Exam-ready books for your syllabus</h1><p>Original StudyStarx books for your exact course — 10 units in each book, with an exam-style question in every unit.</p><div class="bk-chips"><span>₹199 a book</span><span>10 units each</span><span>'+(n||750)+' books</span></div></div><div class="bk-stack" aria-hidden="true"><i style="--r:-12deg;--c1:#f97316;--c2:#c2410c">📐</i><i style="--r:4deg;--c1:#0ea5e9;--c2:#1e40af">⚛️</i><i style="--r:16deg;--c1:#a855f7;--c2:#6b21a8">🧬</i></div>';
+ if(head){head.style.display='none';head.insertAdjacentElement('afterend',h)}else pg.insertBefore(h,pg.firstChild)}
+function forYou(){var g=document.getElementById('resourceGrid');if(!g)return;var k=myCur();var old=g.querySelector('.bk-for');
+ try{if(k&&sfStore.cur===k&&!sfStore.shelf&&!(document.getElementById('resourceSearch')||{}).value){if(!old){var d=document.createElement('div');d.className='bk-for';d.innerHTML='<span>⭐</span><div><b>Picked for you: '+label(k)+'</b><small>Your course from your profile. Tap “All” to see every course.</small></div>';g.insertBefore(d,g.firstChild)}}else if(old)old.remove()}catch(e){}}
+function start(){var pg=document.getElementById('page-resources');if(!pg)return;hero();
+ if(!picked&&typeof sfStore!=='undefined'){picked=true;var k=myCur();if(k&&sfStore.cur==='all'){try{sfStore.cur=k;sfRenderResources()}catch(e){}}}
+ forYou()}
+var mo=new MutationObserver(function(){try{forYou()}catch(e){}});
+function boot(){start();var g=document.getElementById('resourceGrid');if(g)mo.observe(g,{childList:true});
+ if(typeof window.go==='function'&&!window.go.__bk){var o=window.go;window.go=function(p){var r=o.apply(this,arguments);if(p==='resources')setTimeout(start,30);return r};window.go.__bk=1;try{Object.keys(o).forEach(function(k){if(!(k in window.go))window.go[k]=o[k]})}catch(e){}}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,700)});else setTimeout(boot,700);
 })();
 
 </script></body></html>
