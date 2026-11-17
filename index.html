@@ -10901,6 +10901,13 @@ html[data-dark] .fz-wband{background:#2e1065}html[data-dark] .fz-wi.on,html[data
 .fz-top .fz-fine{margin:10px 0 0;text-align:center}
 [data-theme="dark"] .fz-top{background:#1e1b4b;border-color:#3730a3}[data-theme="dark"] .fz-tr{background:#111827;border-color:#374151}
 
+.fz-choose{width:100%;display:flex;align-items:center;gap:12px;text-align:left;border:1.5px dashed #a5b4fc;background:#f5f7ff;border-radius:16px;padding:14px;margin:12px 0 4px;cursor:pointer;font-family:inherit;color:inherit}
+.fz-choose .fz-ci{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:grid;place-items:center;font-size:20px;flex:none}
+.fz-choose b{display:block;font-size:15px;color:#3730a3}.fz-choose small{display:block;font-size:12.5px;color:#6b7280;margin-top:2px}
+.fz-choose span:nth-child(2){flex:1}.fz-choose i{font-style:normal;font-size:22px;color:#6366f1}
+.fz-clear{border:0;background:none;color:#6b7280;font:600 12.5px Inter,system-ui,sans-serif;text-decoration:underline;cursor:pointer;padding:4px 2px}
+[data-theme="dark"] .fz-choose{background:#1e1b4b;border-color:#4338ca}[data-theme="dark"] .fz-choose b{color:#c7d2fe}
+
 </style><script id="sf-fz-js">
 /* StudyStarx Focus Lock — clean phone screen (Regain-style): set up once, tap apps, pick a time, start.
    In the browser it only tidies the page (extra options folded away). */
@@ -10952,10 +10959,9 @@ function mainCard(ready){var inst=installed(),s=sel(),li=info();
   '<div class="fz-qd">'+DURS.map(function(m){return'<button type="button" class="fz-dur'+(m===st.mins?' on':'')+'" data-fz="dur" data-m="'+m+'">'+durLabel(m)+'</button>'}).join('')+'</div>'+
   '<button type="button" class="fz-start'+(ready?'':' off')+'" data-fz="start"><span>🔒</span> Start Focus Lock</button>'+(ready?'':'<p class="fz-fine fz-fl">Finish the quick setup below to start.</p>')+
  '</div>'+
- topCard()+'<div class="fz-card fz-blk"><div class="fz-bh"><div><b>Apps to block</b><small>'+(chosen.length||extra?(chosen.length+extra)+' app'+((chosen.length+extra)===1?'':'s')+' will be blocked':'Pick at least one app')+'</small></div><button type="button" class="fz-edit" data-fz="edit">'+(open?'Done':'Change')+'</button></div>'+
- (open?'<div class="fz-apps">'+list.map(function(a){var on=s.has(a[0]);return'<button type="button" class="fz-app'+(on?' on':'')+'" data-fz="app" data-k="'+a[0]+'" aria-pressed="'+on+'"><span class="fz-ai">'+a[2]+'</span><span class="fz-an">'+esc(a[1])+'</span>'+(on?'<span class="fz-ck">✓</span>':'')+'</button>'}).join('')+'</div><button type="button" class="fz-more-apps" data-fz="pick">＋ Other apps on my phone'+(extra?' <b>('+extra+')</b>':'')+'</button>':
-  '<div class="fz-chips">'+chosen.slice(0,8).map(function(a){return'<span class="fz-chip"><i>'+a[2]+'</i>'+esc(a[1])+'</span>'}).join('')+(chosen.length>8?'<span class="fz-chip">+'+(chosen.length-8)+'</span>':'')+(extra?'<span class="fz-chip">+'+extra+' more</span>':'')+'</div>')+
- '<label class="fz-sw fz-sw2"><span><b>Strict mode</b><small>No stopping early</small></span><input type="checkbox" id="fzStrict"'+(st.strict?' checked':'')+'><i></i></label>'+'<label class="fz-sw fz-sw2"><span><b>Can’t delete StudyStarx <em class="fz-pl">PLUS</em></b><small>The app can’t be uninstalled until the timer ends</small></span><input type="checkbox" id="fzGuard"'+(st.guard?' checked':'')+'><i></i></label>'+'<label class="fz-sw fz-sw2"><span><b>Earn a break <em class="fz-pl">PLUS</em></b><small>Finish homework or a quiz to open your apps for up to 45 min — the AI decides how long</small></span><input type="checkbox" id="fzEarn"'+(st.earn?' checked':'')+'><i></i></label>'+
+ topCard()+'<div class="fz-card fz-blk"><div class="fz-bh"><div><b>Apps to block</b><small>'+((chosen.length+extra)?(chosen.length+extra)+' app'+((chosen.length+extra)===1?'':'s')+' will be blocked':'No apps chosen yet')+'</small></div></div>'+
+ '<button type="button" class="fz-choose" data-fz="pick"><span class="fz-ci">📱</span><span><b>Choose which apps to block</b><small>Pick from the apps on your phone</small></span><i>›</i></button>'+
+ (chosen.length?'<button type="button" class="fz-clear" data-fz="clearsel">Clear my earlier picks ('+chosen.length+')</button>':'')+'<label class="fz-sw fz-sw2"><span><b>Strict mode</b><small>No stopping early</small></span><input type="checkbox" id="fzStrict"'+(st.strict?' checked':'')+'><i></i></label>'+'<label class="fz-sw fz-sw2"><span><b>Can’t delete StudyStarx <em class="fz-pl">PLUS</em></b><small>The app can’t be uninstalled until the timer ends</small></span><input type="checkbox" id="fzGuard"'+(st.guard?' checked':'')+'><i></i></label>'+'<label class="fz-sw fz-sw2"><span><b>Earn a break <em class="fz-pl">PLUS</em></b><small>Finish homework or a quiz to open your apps for up to 45 min — the AI decides how long</small></span><input type="checkbox" id="fzEarn"'+(st.earn?' checked':'')+'><i></i></label>'+
  '</div>'}
 function drawRun(r,li,p){var n=N();st.lastP=JSON.stringify(p||{});if(p&&p.v>=6&&p.usage&&p.overlay&&!p.watch&&n.ensureWatch){try{n.ensureWatch()}catch(_){}}
  var warn='';if(!p||!(p.v>=6))warn='<div class="fz-warn"><b>⚠️ Apps are not being blocked</b><p>This version of the app can’t block reliably. Install the new one — your data stays.</p><a class="fz-btn" href="/StudyStarx.apk" download>⬇ Download the new app</a></div>';
@@ -11024,6 +11030,7 @@ function onClick(e){var _b=e&&e.target&&e.target.closest?e.target.closest('[data
  if(k==='perm'){if(b.dataset.k==='popup'){st.popup=true;ls('fz-popup','1')}try{n.openPerm(b.dataset.k)}catch(_){}return}
  if(k==='app'){var s=sel();s.has(b.dataset.k)?s.delete(b.dataset.k):s.add(b.dataset.k);saveSel();draw();return}
  if(k==='pick'){try{n.openBlocker()}catch(_){}return}
+ if(k==='clearsel'){var s0=sel();s0.clear();saveSel();draw();return}
  if(k==='dur'){st.mins=+b.dataset.m;ls('fz-mins',st.mins);readOpts();draw();return}
  if(k==='custom'){var v=prompt('How many minutes? (5 – 720)',String(st.mins));v=Math.round(+v);if(v>=5&&v<=720){st.mins=v;ls('fz-mins',v);readOpts();draw()}return}
  if(k==='start'){readOpts();st.topMode=false;start(b);return}
@@ -11035,7 +11042,7 @@ function start(b){var n=N(),p=perms();
  var s=sel(),li=info(),T=top2();if(!st.topMode&&!s.size&&!(li.chosen>0)){tst('Tap at least one app to block.');return}
  if(st.guard&&!plus()){try{if(window.sfPlusGate)sfPlusGate('Uninstall protection','guard');else go('premium')}catch(_){}return}
  if(st.earn&&!plus()){try{if(window.sfPlusGate)sfPlusGate('Earn a break','Earn break time by finishing homework is part of StudyStarx Plus.');else go('premium')}catch(_){}return}
- var words=[];if(st.topMode&&T)words=T.map(function(t){return t.pkg});else APPS.forEach(function(a){if(s.has(a[0]))words=words.concat(a[3])});ls('fz-coins',covers(words,T)?'1':'0');if(!st.topMode&&T&&!covers(words,T))tst('Tip: lock '+T.map(function(t){return t.label}).join(' and ')+' to earn coins for this session');
+ var words=[];if(st.topMode&&T)words=T.map(function(t){return t.pkg});else APPS.forEach(function(a){if(s.has(a[0]))words=words.concat(a[3])});var cw=words.concat(li.apps||[]);ls('fz-coins',covers(cw,T)?'1':'0');if(!st.topMode&&T&&!covers(cw,T))tst('Tip: lock '+T.map(function(t){return t.label}).join(' and ')+' to earn coins for this session');
  if(st.strict&&!confirm('Strict mode: you will NOT be able to stop this lock for '+durLabel(st.mins)+'. Start?'))return;
  try{if(n.startBlockNames)n.startBlockNames(st.mins,JSON.stringify(words),!!st.strict);else n.startBlock(st.mins)}catch(_){}
  if(st.guard&&n.guardOn&&!n.guardOn()&&n.askGuard)try{n.askGuard()}catch(_){}
