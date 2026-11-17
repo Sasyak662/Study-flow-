@@ -338,6 +338,39 @@ public class MainActivity extends Activity {
                 return o.toString();
             } catch (Exception e) { return "{}"; }
         }
+        /** The phone's most-used apps over the last few days (needs Usage access): [{"label":"YouTube","pkg":"com.google...","mins":540},...] */
+        @JavascriptInterface public String topApps(int days) {
+            try {
+                android.app.usage.UsageStatsManager um = (android.app.usage.UsageStatsManager) getSystemService(android.content.Context.USAGE_STATS_SERVICE);
+                if (um == null) return "[]";
+                long end = System.currentTimeMillis(), start = end - Math.max(1, Math.min(30, days)) * 86400000L;
+                java.util.Map<String, android.app.usage.UsageStats> m = um.queryAndAggregateUsageStats(start, end);
+                if (m == null || m.isEmpty()) return "[]";
+                PackageManager pm = getPackageManager();
+                java.util.Set<String> launch = new java.util.HashSet<>(), homes = new java.util.HashSet<>();
+                for (android.content.pm.ResolveInfo r : pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER), 0)) launch.add(r.activityInfo.packageName);
+                for (android.content.pm.ResolveInfo r : pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME), 0)) homes.add(r.activityInfo.packageName);
+                java.util.List<android.app.usage.UsageStats> list = new java.util.ArrayList<>();
+                for (android.app.usage.UsageStats u : m.values()) {
+                    String pkg = u.getPackageName();
+                    if (pkg == null || !launch.contains(pkg) || homes.contains(pkg) || pkg.equals(getPackageName())) continue;
+                    if (pkg.equals("com.android.settings") || pkg.contains("dialer") || pkg.contains("contacts") || pkg.contains("camera") || pkg.contains("clock") || pkg.contains("calculator")) continue;
+                    if (u.getTotalTimeInForeground() < 60000) continue;
+                    list.add(u);
+                }
+                java.util.Collections.sort(list, (a, b) -> Long.compare(b.getTotalTimeInForeground(), a.getTotalTimeInForeground()));
+                org.json.JSONArray out = new org.json.JSONArray();
+                for (int i = 0; i < list.size() && i < 6; i++) {
+                    android.app.usage.UsageStats u = list.get(i);
+                    org.json.JSONObject o = new org.json.JSONObject();
+                    String label = u.getPackageName();
+                    try { label = pm.getApplicationLabel(pm.getApplicationInfo(u.getPackageName(), 0)).toString(); } catch (Exception ignored) {}
+                    o.put("label", label); o.put("pkg", u.getPackageName()); o.put("mins", u.getTotalTimeInForeground() / 60000L);
+                    out.put(o);
+                }
+                return out.toString();
+            } catch (Exception e) { return "[]"; }
+        }
         @JavascriptInterface public int blockedCount() { return Lock.blocked(MainActivity.this).size(); }
         @JavascriptInterface public void openBlocker() {
             if (!trusted()) return;
