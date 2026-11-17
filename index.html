@@ -11361,4 +11361,85 @@ function hook(){var Q=window.StudyFlowQuiz;if(!Q||Q.__m||typeof Q.play!=='functi
 hook();setTimeout(hook,1000);setTimeout(hook,4000);setInterval(hook,10000);
 })();
 
+</script><style id="sf-ex2-css">
+/* ===== Examiner — marked exam paper ===== */
+#page-examiner.ex2>.pagehead{display:none!important}
+#page-examiner.ex2 .grid.two.mx-top{display:grid;grid-template-columns:1fr!important;gap:14px}
+@media(min-width:900px){#page-examiner.ex2 .grid.two.mx-top{grid-template-columns:1.4fr 1fr!important}}
+.ex2-hero{position:relative;overflow:hidden;border-radius:26px;padding:22px 18px 18px;color:#fff;background:linear-gradient(140deg,#0f2a4a 0%,#1e3a8a 55%,#1d4ed8 100%);box-shadow:0 16px 30px -16px rgba(30,58,138,.7);margin-bottom:12px}
+.ex2-hero:before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(transparent 0 25px,rgba(255,255,255,.07) 25px 26px);pointer-events:none}
+.ex2-hero>*{position:relative}
+.ex2-k{font:900 11px Inter,system-ui,sans-serif;letter-spacing:.16em;color:#93c5fd}
+.ex2-hero h1{margin:4px 0 6px;font:900 27px/1.1 Nunito,Inter,sans-serif;color:#fff}
+.ex2-hero p{margin:0 96px 14px 0;font-size:13.5px;line-height:1.45;color:#dbeafe}
+.ex2-stamp{position:absolute!important;right:16px;top:18px;width:80px;height:80px;border-radius:50%;border:3px solid #f87171;color:#fca5a5;display:grid;place-content:center;text-align:center;transform:rotate(-14deg);box-shadow:inset 0 0 0 3px rgba(248,113,113,.25)}
+.ex2-stamp b{font:900 28px/1 Nunito,Inter,sans-serif;color:#fecaca}.ex2-stamp small{font:900 9px Inter,sans-serif;letter-spacing:.12em}
+.ex2-steps{display:flex;gap:6px;flex-wrap:wrap}
+.ex2-steps span{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:5px 10px 5px 5px}
+.ex2-steps i{font-style:normal;width:20px;height:20px;border-radius:50%;background:#ef4444;display:grid;place-items:center;font-size:11px;font-weight:900}
+.ex2-note{font-size:12.5px;color:#475569;background:#f1f5f9;border-radius:14px;padding:10px 12px;margin-bottom:14px;line-height:1.45}
+#page-examiner.ex2 #mxExForm{display:grid;gap:12px}
+#page-examiner.ex2 .mx-top>.card:first-child{background:transparent;border:0;box-shadow:none;padding:0}
+.ex2-step{position:relative;background:#fffef9;border:1px solid #e7e2d3;border-radius:20px;padding:14px 14px 14px 26px;box-shadow:0 8px 20px -16px rgba(0,0,0,.35)}
+.ex2-step:before{content:"";position:absolute;left:14px;top:0;bottom:0;width:2px;background:#fca5a5;border-radius:2px}
+.ex2-sh{display:flex;align-items:center;gap:10px;margin-bottom:12px;list-style:none;cursor:default}
+.ex2-sh::-webkit-details-marker{display:none}
+.ex2-sh i{font-style:normal;flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;display:grid;place-items:center;font:900 14px Nunito,Inter,sans-serif;box-shadow:0 4px 10px -4px rgba(220,38,38,.7)}
+.ex2-sh b{display:block;font:900 16px Nunito,Inter,sans-serif;color:#0f172a}.ex2-sh b em{font-style:normal;font:700 11px Inter,sans-serif;color:#64748b;background:#f1f5f9;border-radius:999px;padding:2px 7px;margin-left:4px;vertical-align:2px}
+.ex2-sh small{display:block;font-size:12px;color:#64748b}
+.ex2-ms .ex2-sh{margin-bottom:0;cursor:pointer}.ex2-ms[open] .ex2-sh{margin-bottom:12px}
+.ex2-chev{margin-left:auto;font-size:18px;color:#94a3b8;transition:transform .2s}.ex2-ms[open] .ex2-chev{transform:rotate(180deg)}
+.ex2-step label{font:800 12.5px Inter,system-ui,sans-serif!important;color:#334155!important}
+.ex2-step input,.ex2-step select,.ex2-step textarea{border-radius:12px!important;border:1.5px solid #e2e8f0!important;background:#fff!important}
+.ex2-step input:focus,.ex2-step select:focus,.ex2-step textarea:focus{border-color:#3b82f6!important;box-shadow:0 0 0 3px rgba(59,130,246,.15)!important;outline:0}
+#page-examiner.ex2 #mxExQuestion{min-height:92px}
+#page-examiner.ex2 #mxExAnswer{min-height:170px;background:#fff repeating-linear-gradient(transparent 0 27px,#e0e7ff 27px 28px)!important;background-attachment:local!important;line-height:28px!important;padding-top:4px!important}
+#page-examiner.ex2 #mxExWords{display:inline-block;margin-top:6px;font-weight:700;background:#eff6ff;color:#1d4ed8;border-radius:999px;padding:3px 9px}
+.ex2-num{display:flex;align-items:center;gap:6px}
+.ex2-num button{flex:none;width:40px;height:44px;border-radius:12px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#0f172a}
+.ex2-num input{text-align:center;font-weight:800;min-width:0}
+#page-examiner.ex2 #mxExFile{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.ex2-photo{display:flex!important;align-items:center;gap:12px;border:2px dashed #93c5fd!important;background:#eff6ff;border-radius:16px;padding:12px 14px;cursor:pointer;margin:0!important}
+.ex2-photo>span:first-child{font-size:24px}.ex2-photo b{display:block;color:#1d4ed8;font-size:14px}.ex2-photo small{display:block;font-weight:600;color:#64748b;font-size:12px;margin-top:2px}
+#page-examiner.ex2 .tool-action-row{display:flex;gap:10px}
+#page-examiner.ex2 #mxExBtn{flex:1;border:0;border-radius:16px;padding:15px;background:linear-gradient(135deg,#ef4444,#be123c);color:#fff;font:900 16px Nunito,Inter,sans-serif;box-shadow:0 10px 22px -10px rgba(190,18,60,.8)}
+#page-examiner.ex2 [data-mx="ex-clear"]{flex:none!important;width:auto!important;border-radius:16px;padding:15px 18px;font-weight:800}
+#page-examiner.ex2 #mxExBtn{white-space:nowrap}
+.ex2-cmd .list{display:flex!important;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:4px;scrollbar-width:none}
+.ex2-cmd .list::-webkit-scrollbar{display:none}
+.ex2-cmd .list>*{flex:0 0 200px;scroll-snap-align:start;border-radius:16px!important;background:linear-gradient(160deg,#fff,#f8fafc)!important;border:1px solid #e2e8f0!important;margin:0!important}
+@media(min-width:900px){.ex2-cmd .list{display:grid!important;overflow:visible}.ex2-cmd .list>*{flex:none}}
+.ex2-cmd,.ex2-hist,#page-examiner.ex2 #mxExResult{border-radius:22px!important}
+#page-examiner.ex2 #mxExResult{background:#fffef9!important;border:1px solid #e7e2d3!important}
+[data-theme="dark"] .ex2-step,[data-theme="dark"] #page-examiner.ex2 #mxExResult{background:#151a24!important;border-color:#2a3242!important}[data-theme="dark"] .ex2-sh b{color:#f1f5f9}[data-theme="dark"] .ex2-note{background:#1e293b;color:#cbd5e1}
+
+</style><script id="sf-ex2-js">
+/* ===== Examiner redesign: a marked-exam-paper look with 3 clear steps ===== */
+(function(){
+function build(){var pg=document.getElementById('page-examiner'),f=document.getElementById('mxExForm');if(!pg||!f)return false;if(pg.classList.contains('ex2'))return true;
+ var q=function(s){return f.querySelector(s)},fld=function(id){var e=document.getElementById(id);return e&&e.closest('.field')},row=function(id){var e=document.getElementById(id);return e&&e.closest('.formrow')};
+ var r1=row('mxExBoard'),r2=row('mxExMarks'),fq=fld('mxExQuestion'),fa=fld('mxExAnswer'),ff=fld('mxExFile'),r3=row('mxExMsSource'),fms=document.getElementById('mxExMsField'),act=q('.tool-action-row');
+ if(!r1||!r2||!fq||!fa||!ff||!r3||!act)return false;
+ pg.classList.add('ex2');
+ var hero=document.createElement('div');hero.className='ex2-hero';hero.innerHTML='<div class="ex2-stamp" aria-hidden="true"><b>A*</b><small>MARKED</small></div><small class="ex2-k">EXAM EXAMINER</small><h1>Mark my answer</h1><p>Paste a past-paper question and your answer. Get every marking point, what you missed and a stronger answer.</p><div class="ex2-steps"><span><i>1</i>Question</span><span><i>2</i>Your answer</span><span><i>3</i>Get marked</span></div>';
+ var tabs=pg.querySelector(':scope>.sfm-tabs');if(tabs)tabs.after(hero);else pg.prepend(hero);
+ var note=pg.querySelector(':scope>.notice');if(note){note.className='ex2-note';note.innerHTML='ⓘ With the official mark scheme, StudyStarx marks line by line. Without one, you get an <b>AI estimate</b> with a range.';hero.after(note)}
+ function step(n,title,sub,nodes,cls){var s=document.createElement('div');s.className='ex2-step '+(cls||'');s.innerHTML='<div class="ex2-sh"><i>'+n+'</i><div><b>'+title+'</b><small>'+sub+'</small></div></div>';nodes.forEach(function(x){if(x)s.appendChild(x)});return s}
+ var s1=step(1,'The question','Which exam, how many marks, and the question',[r1,r2,fq]);
+ var s2=step(2,'Your answer','Type it, or add a photo of your handwriting',[fa,ff]);
+ var det=document.createElement('details');det.className='ex2-step ex2-ms';det.innerHTML='<summary class="ex2-sh"><i>3</i><div><b>Mark scheme <em>optional</em></b><small>Paste the official one for exact marking</small></div><span class="ex2-chev">⌄</span></summary>';det.appendChild(r3);if(fms)det.appendChild(fms);
+ f.insertBefore(s1,f.firstChild);s1.after(s2);s2.after(det);det.after(act);
+ var btn=document.getElementById('mxExBtn');if(btn)btn.innerHTML='🖍️ Mark my answer';
+ // command words: swipe row
+ var cg=document.getElementById('mxCmdGuide');if(cg){var card=cg.closest('.card');if(card)card.classList.add('ex2-cmd')}
+ var hist=document.getElementById('mxExHistory');if(hist){var hc=hist.closest('.card');if(hc)hc.classList.add('ex2-hist')}
+ return true}
+function deco(){var mk=document.getElementById('mxExMarks');if(mk&&!mk.parentNode.classList.contains('ex2-num')){var w=document.createElement('div');w.className='ex2-num';mk.parentNode.insertBefore(w,mk);var mi=document.createElement('button');mi.type='button';mi.textContent='−';mi.setAttribute('aria-label','Fewer marks');var pl=document.createElement('button');pl.type='button';pl.textContent='+';pl.setAttribute('aria-label','More marks');w.appendChild(mi);w.appendChild(mk);w.appendChild(pl);var bump=function(d){mk.value=Math.max(1,Math.min(40,(+mk.value||6)+d));mk.dispatchEvent(new Event('input',{bubbles:true}));mk.dispatchEvent(new Event('change',{bubbles:true}))};mi.onclick=function(){bump(-1)};pl.onclick=function(){bump(1)}}
+ var fi=document.getElementById('mxExFile'),ff=fi&&fi.closest('.field'),lb=ff&&ff.querySelector('label');if(lb&&!lb.classList.contains('ex2-photo')){lb.className='ex2-photo';lb.innerHTML='<span>📷</span><span><b>Add a photo or PDF</b><small id="ex2FileName">Optional — of your handwritten answer</small></span>'}
+ if(fi&&!fi.__ex2){fi.__ex2=1;fi.addEventListener('change',function(){var n=document.getElementById('ex2FileName');if(n)n.textContent=fi.files&&fi.files[0]?'✓ '+fi.files[0].name:'Optional — of your handwritten answer'})}
+ var btn=document.getElementById('mxExBtn');if(btn&&btn.textContent.indexOf('🖍')<0&&/Mark my answer/.test(btn.textContent))btn.textContent='🖍️ Mark my answer'}
+function go(){if(!build()){setTimeout(go,500);return}deco();var f=document.getElementById('mxExForm');new MutationObserver(function(){deco()}).observe(f,{childList:true,subtree:true});var pg=document.getElementById('page-examiner');new MutationObserver(function(){if(pg.classList.contains('active'))deco()}).observe(pg,{attributes:true,attributeFilter:['class']})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(go,400)});else setTimeout(go,400);
+})();
+
 </script></body></html>
