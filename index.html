@@ -11539,6 +11539,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 .iq-docked .iq-zoom{display:none!important}
 .iq-docked .iq-hintw{max-width:92%!important}
 .iq-docked #iqAct{bottom:150px!important}
+/* when a building/shop panel is open, the dock steps aside so the panel can scroll to the very bottom */
+.iq-docked.iq-pan-open .iq-dock,.iq-docked:has(#iqPanel:not([hidden])) .iq-dock{opacity:0;pointer-events:none;transform:translateY(20px)}
+.iq-dock{transition:opacity .2s,transform .2s}
 
 </style><script id="sf-rail-js">
 /* ===== Island HUD: glass top bar + a labelled dock at the bottom (Quests, Earn, Shop, Map, Study Run) — everything visible, nothing hidden ===== */
@@ -11550,7 +11553,8 @@ function tidy(){var w=document.getElementById('iqWrap');if(!w)return;var hud=w.q
  DOCK.forEach(function(m){var b=document.getElementById(m[0]);if(b&&b.parentNode===d)d.appendChild(b)});
  var st=document.getElementById('iqStreakC');if(st&&st.parentNode===hud)hud.appendChild(st);
  var f=document.getElementById('iqFull');if(f&&f.parentNode===hud&&hud.lastElementChild!==f)hud.appendChild(f);
- var old=w.querySelector('.iq-rail');if(old)old.remove()}
+ var old=w.querySelector('.iq-rail');if(old)old.remove();
+ var pn=document.getElementById('iqPanel');if(pn&&!pn.__dk){pn.__dk=1;var up=function(){w.classList.toggle('iq-pan-open',!pn.hidden)};up();new MutationObserver(up).observe(pn,{attributes:true,attributeFilter:['hidden']})}}
 var n=0;(function loop(){tidy();if(++n<40)setTimeout(loop,500)})();
 new MutationObserver(function(){var w=document.getElementById('iqWrap');if(w){var hud=w.querySelector('.iq-hud');if(hud&&hud.querySelector('#sqRunBtn,#iqQ,#iqMap,#iqShop,#iqEarn'))tidy()}}).observe(document.documentElement,{childList:true,subtree:true});
 })();
