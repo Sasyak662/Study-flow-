@@ -2480,7 +2480,7 @@ function closePlayer(){const el=$('#mxPlayer');if(el){el.classList.remove('open'
 function renderWorlds(){
  const host=$('#mxWorlds');if(!host)return;
  const subs=subjectsWithData();const m=M();
- if(!subs.length){host.innerHTML=`<div class="head"><div><h2>Subject worlds</h2><p class="tiny muted">Each subject becomes a world and each topic a location. You only earn progress by answering questions correctly, so it reflects real learning, not time spent in the app.</p></div></div><div class="empty">Answer your first questions (a diagnostic, a mock, the Mastery Engine or the Examiner) to reveal your first world.</div>`;return}
+ if(!subs.length){host.innerHTML=`<div class="head"><div><h2>Subject worlds</h2><p class="tiny muted">Each subject becomes a world and each topic a location. You only earn progress by answering questions correctly, so it reflects real learning, not time spent in the app.</p></div></div><div class="empty">🌱 Play your first StudyQuest quizzes to reveal your first subject world.</div>`;return}
  host.innerHTML=`<div class="head"><div><h2>Subject worlds</h2><p class="tiny muted">Correct answers earn mastery points. Locations become <b>mastered</b> at 85%+, which needs a correct answer after a gap of 2+ days. Each mock exam unlocks a challenge built from that subject's weak spots.</p></div></div>`+subs.map(s=>{
   const ts=topicsFor(s).filter(t=>t.h.length),syl=(m.syllabus[s]||[]).filter(x=>!ts.some(t=>t.topic.toLowerCase()===x.toLowerCase()));
   const pts=ts.reduce((a,t)=>a+t.h.filter(e=>e.ok).reduce((b,e)=>b+Math.round(10*(e.w||1)),0),0);
@@ -11303,5 +11303,59 @@ function hook(){if(typeof window.renderNotes==='function'&&!window.renderNotes._
 function init(){var pg=document.getElementById('page-library');if(!pg){setTimeout(init,400);return}hook();render();new MutationObserver(function(){if(pg.classList.contains('active')){hook();render()}}).observe(pg,{attributes:true,attributeFilter:['class']})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,300)});else setTimeout(init,300);
 })();
+
+</script><style id="sf-qd-css">
+/* ===== StudyQuest page below the island: compact, playful, easy to scan ===== */
+#page-quest .iq-legend{grid-template-columns:1fr 1fr!important;gap:10px!important;margin:14px 0 16px!important}
+#page-quest .iq-legend>div{flex-direction:column;align-items:flex-start;gap:8px!important;padding:12px!important;border-radius:20px!important;border-width:0!important;box-shadow:0 8px 20px -14px rgba(30,27,75,.4);background:linear-gradient(160deg,#fff,#f5f7ff)!important;min-width:0}
+#page-quest .iq-legend>div:nth-child(2){background:linear-gradient(160deg,#fff,#f0fdf4)!important}
+#page-quest .iq-legend>div:nth-child(3){background:linear-gradient(160deg,#fff,#fff1f2)!important}
+#page-quest .iq-legend>div:nth-child(4){background:linear-gradient(160deg,#fff,#fffbeb)!important}
+#page-quest .iq-legend .e{width:38px!important;height:38px!important;flex:none!important;font-size:20px!important;border-radius:12px!important}
+#page-quest .iq-legend b{font-size:14px!important;line-height:1.2}
+#page-quest .iq-legend small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:11.5px!important;line-height:1.35}
+/* subject worlds */
+#mxWorlds{border-radius:24px!important;padding:16px!important}
+#mxWorlds>.head h2{font-size:18px}
+#mxWorlds>.head p{display:none}
+#mxWorlds>.head:after{content:"Answer questions right to master each topic. 85% = mastered ⭐";display:block;font-size:12.5px;color:var(--muted,#6b7280);margin-top:2px}
+#page-quest .mx-world{border:0!important;border-radius:20px!important;padding:14px 0 12px!important;margin-bottom:12px!important;background:linear-gradient(135deg,#eef2ff,#faf5ff)!important;overflow:hidden}
+#page-quest .mx-world:nth-of-type(3n+2){background:linear-gradient(135deg,#ecfdf5,#f0f9ff)!important}
+#page-quest .mx-world:nth-of-type(3n){background:linear-gradient(135deg,#fff7ed,#fef2f2)!important}
+#page-quest .mx-world-head{padding:0 14px;flex-wrap:nowrap!important}
+#page-quest .mx-world-head>div:first-child{min-width:0}
+#page-quest .mx-world-head b{font-size:16px!important;font-weight:900}
+#page-quest .mx-world-head b:before{content:"🌍 "}
+#page-quest .mx-world-head .tiny{font-size:11.5px!important}
+#page-quest .mx-world-head>div:last-child{display:none!important}
+#page-quest .mx-locs{display:flex!important;gap:8px!important;overflow-x:auto;scroll-snap-type:x proximity;padding:2px 14px 4px!important;margin-top:10px!important;scrollbar-width:none}
+#page-quest .mx-locs::-webkit-scrollbar{display:none}
+#page-quest .mx-loc{flex:0 0 132px;scroll-snap-align:start;border:0!important;border-radius:16px!important;padding:10px!important;background:#fff!important;box-shadow:0 4px 12px -8px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:6px;font-size:12px!important}
+#page-quest .mx-loc b{font-size:12.5px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:31px}
+#page-quest .mx-loc .mx-pill{align-self:flex-start}
+#page-quest .mx-loc .tiny{display:none}
+#page-quest .mx-loc.locked{background:rgba(255,255,255,.55)!important;box-shadow:none;border:1.5px dashed rgba(99,102,241,.3)!important}
+#page-quest .mx-loc.locked>span{font-size:11px}
+#page-quest .mx-loc .link{font-weight:800;font-size:12px;padding:0}
+#page-quest .mx-loc.mas{background:linear-gradient(160deg,#fffbeb,#fef3c7)!important}
+/* earn coins card: 2-column tiles */
+#neCard{border-radius:24px!important;padding:16px!important}
+#neCard .ne-hd h2{font-size:18px;margin:0}
+#neCard .ne-hd p{font-size:12.5px;margin:2px 0 12px}
+#neCard .ne-list{grid-template-columns:1fr 1fr!important;gap:10px!important}
+#neCard .ne-it{flex-direction:column!important;align-items:flex-start!important;gap:8px!important;padding:12px!important;border-radius:18px!important;border:0!important;background:linear-gradient(160deg,#fff,#f8fafc)!important;box-shadow:0 6px 16px -12px rgba(0,0,0,.35),inset 0 0 0 1.5px #eef0f6;position:relative;min-width:0}
+#neCard .ne-it.full{background:linear-gradient(160deg,#f0fdf4,#dcfce7)!important;box-shadow:inset 0 0 0 1.5px #bbf7d0}
+#neCard .ne-e{width:38px!important;height:38px!important;font-size:20px!important}
+#neCard .ne-t{width:100%}
+#neCard .ne-t b{font-size:13.5px!important;line-height:1.2}
+#neCard .ne-t small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:11px!important;line-height:1.35}
+#neCard .ne-n{position:absolute;top:12px;right:12px;font-size:11.5px!important;background:#fff7ed;border-radius:999px;padding:3px 8px}
+#neCard .ne-it.full .ne-n{background:#fff;color:#15803d}
+[data-theme="dark"] #page-quest .iq-legend>div,[data-theme="dark"] #neCard .ne-it,[data-theme="dark"] #page-quest .mx-world,[data-theme="dark"] #page-quest .mx-loc{background:#1e2235!important}
+#mxWorlds>.head{display:block!important;margin-bottom:12px}
+#page-quest .mx-locs:before,#page-quest .mx-locs:after{content:"";flex:0 0 6px}
+
+</style><script id="sf-qd-js">
+/* layout only (qd) */
 
 </script></body></html>
