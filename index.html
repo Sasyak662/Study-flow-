@@ -11748,6 +11748,9 @@ body.cz-shade:after{content:"";position:fixed;inset:0;z-index:9400;background:rg
 #page-coach.cz .bubble.cq-c .cq-acts{margin-top:8px!important}
 }
 @media(max-width:480px){#page-coach.cz #clearChat{font-size:0!important;color:transparent!important;overflow:hidden}#page-coach.cz #clearChat *{display:none!important}#page-coach.cz #clearChat:before{content:"＋";font:900 20px/1 Inter,sans-serif;color:#4338ca}}
+#page-coach.cz #chatText{max-height:140px!important;resize:none;line-height:1.4!important;overflow-y:auto}
+#page-coach.cz #chatText:placeholder-shown{height:42px!important;min-height:0!important}
+#page-coach.cz .chatinput{align-items:flex-end!important}
 
 </style><script id="sf-cz-js">
 /* ===== AI Coach redesign: aurora chat — glowing orb coach, gradient bubbles, floating composer, settings in a sheet ===== */
@@ -11762,7 +11765,9 @@ function tidy(){var pg=document.getElementById('page-coach');if(!pg)return;if(!p
 }
 document.addEventListener('click',function(e){var s=document.querySelector('#page-coach .sf-cset.cz-sheet');if(!s)return;if(e.target.closest('.cz-gear'))return;
  if(!e.target.closest('.sf-cset')||e.target.closest('.cz-done')||e.target.closest('.sf-cset-sum')){s.classList.remove('cz-sheet');document.body.classList.remove('cz-shade');if(!s.classList.contains('sf-closed')){var b=s.querySelector('.sf-cset-sum');if(b&&!e.target.closest('.sf-cset-sum'))b.click()}}},true);
-function fit(){var pg=document.getElementById('page-coach');if(!pg||!pg.classList.contains('active')||innerWidth>900)return;var cb=pg.querySelector('.chatbox');if(!cb)return;var top=cb.getBoundingClientRect().top+(window.scrollY||0);var bot=innerHeight;var nav=document.querySelector('#sfTabs');if(nav){var r=nav.getBoundingClientRect();if(r.height&&r.top<innerHeight&&r.top>top)bot=r.top}var h=Math.round(bot-top-10);if(h<330)h=330;if(cb.dataset.czh!=h){cb.dataset.czh=h;cb.style.setProperty('height',h+'px','important');cb.style.setProperty('min-height','0','important')}}
+function grow(){var t=document.getElementById('chatText');if(!t||t.offsetWidth<60)return;t.style.height='auto';var h=Math.min(140,Math.max(42,t.scrollHeight));t.style.height=h+'px'}
+document.addEventListener('input',function(e){if(e.target&&e.target.id==='chatText')grow()},true);
+function fit(){grow();var pg=document.getElementById('page-coach');if(!pg||!pg.classList.contains('active')||innerWidth>900)return;var cb=pg.querySelector('.chatbox');if(!cb)return;var top=cb.getBoundingClientRect().top+(window.scrollY||0);var bot=innerHeight;var nav=document.querySelector('#sfTabs');if(nav){var r=nav.getBoundingClientRect();if(r.height&&r.top<innerHeight&&r.top>top)bot=r.top}var h=Math.round(bot-top-10);if(h<330)h=330;if(cb.dataset.czh!=h){cb.dataset.czh=h;cb.style.setProperty('height',h+'px','important');cb.style.setProperty('min-height','0','important')}}
 window.addEventListener('resize',function(){setTimeout(fit,60)});if(window.visualViewport)visualViewport.addEventListener('resize',function(){setTimeout(fit,60)});
 var n=0;(function loop(){try{tidy();fit()}catch(e){}if(++n<30)setTimeout(loop,500)})();
 var mt=0;new MutationObserver(function(){if(mt)return;mt=setTimeout(function(){mt=0},200);var pg=document.getElementById('page-coach');if(pg&&pg.classList.contains('active'))try{tidy();setTimeout(fit,50)}catch(e){}}).observe(document.documentElement,{attributes:true,subtree:true,attributeFilter:['class']});
