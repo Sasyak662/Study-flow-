@@ -246,7 +246,10 @@ module.exports = async function handler(req, res) {
   const maxOutputTokens = Math.max(1024, Math.min(32768, Number(body.maxTokens) || 8192));
   const payload = { contents, generationConfig: { temperature, maxOutputTokens } };
   if (body.json && !body.search && !body.codeExecution) payload.generationConfig.responseMimeType = 'application/json';
-  if (system.trim()) payload.systemInstruction = { parts: [{ text: system }] };
+  // Maths must be readable by school children in a plain app screen (no LaTeX)
+  const MATH_RULE = '\n\nMATHS FORMAT (always): write every formula, number and symbol in plain text a school student can read on a phone. Use symbols like x², x³, √, ×, ÷, ±, π, ≤, ≥, ≠, °, ½, ¼, ¾ and fractions written as 3/4 or (x+1)/(x−2). NEVER use LaTeX, $ signs, \\frac, \\sqrt or any backslash commands. In explanations, work through maths step by step on separate short lines, the way a good teacher writes on the board, and say each step in simple words.';
+  if (system.trim() && !syl) payload.systemInstruction = { parts: [{ text: system + MATH_RULE }] };
+  else if (system.trim()) payload.systemInstruction = { parts: [{ text: system }] };
 
   // Search wins if both are requested (the two tools are not reliably combinable on one call).
   if (body.search) payload.tools = [{ google_search: {} }];

@@ -6269,7 +6269,7 @@ window.StudyFlowIsland3D=R;
 </style><script id="sf-fc-js">
 (function(){
 var $=function(id){return document.getElementById(id)};
-function esc_(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function esc_(x){if(window.sfMath&&x!=null)x=sfMath(String(x));return String(x==null?'':x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function toast_(m){try{toast(m)}catch(e){}}
 function D(){try{return data}catch(e){return null}}
 function save(){try{persist()}catch(e){}}
@@ -10245,7 +10245,7 @@ function D(){try{return data}catch(e){return{}}}
 function P(){return D().profile||{}}
 var clean=function(x){try{return window.sfClean?sfClean(x):x}catch(e){return x}};
 var B1='\u0001',B2='\u0002',I1='\u0003',I2='\u0004',C1='\u0005',C2='\u0006';
-function inl(x){x=String(x).replace(/\*\*([^*\n]+)\*\*/g,B1+'$1'+B2).replace(/__([^_\n]+)__/g,B1+'$1'+B2).replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,;:!?]|$)/g,'$1'+I1+'$2'+I2).replace(/`([^`\n]+)`/g,C1+'$1'+C2);
+function inl(x){x=String(x);if(window.sfMath)x=sfMath(x);x=x.replace(/\*\*([^*\n]+)\*\*/g,B1+'$1'+B2).replace(/__([^_\n]+)__/g,B1+'$1'+B2).replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,;:!?]|$)/g,'$1'+I1+'$2'+I2).replace(/`([^`\n]+)`/g,C1+'$1'+C2);
  var c=esc(clean(x));return c.split(B1).join('<b>').split(B2).join('</b>').split(I1).join('<i>').split(I2).join('</i>').split(C1).join('<code>').split(C2).join('</code>')}
 function figure(svg){var s=String(svg||'').trim();if(!/^<svg[\s>]/i.test(s))return'';return'<figure class="cx-fig cq-fig"><img alt="Diagram" src="data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)+'"><figcaption>Diagram by StudyStarx Coach</figcaption></figure>'}
 function fileCard(name,body){name=(name||'notes.md').trim().replace(/[^\w.\- ]/g,'').slice(0,60)||'notes.md';if(!/\.(md|txt|csv)$/i.test(name))name+='.md';body=String(body||'').replace(/\s+$/,'');
@@ -10818,6 +10818,53 @@ var mo=new MutationObserver(function(){try{forYou()}catch(e){}});
 function boot(){start();var g=document.getElementById('resourceGrid');if(g)mo.observe(g,{childList:true});
  if(typeof window.go==='function'&&!window.go.__bk){var o=window.go;window.go=function(p){var r=o.apply(this,arguments);if(p==='resources')setTimeout(start,30);return r};window.go.__bk=1;try{Object.keys(o).forEach(function(k){if(!(k in window.go))window.go[k]=o[k]})}catch(e){}}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,700)});else setTimeout(boot,700);
+})();
+
+</script><style id="sf-mth-css">
+
+</style><script id="sf-mth-js">
+/* ===== Maths that children can read: turns LaTeX-style AI output ($x^2$, \frac{a}{b}, \sqrt{x}) into normal symbols (x², a/b, √x) ===== */
+(function(){
+var SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','+':'⁺','-':'⁻','−':'⁻','=':'⁼','(':'⁽',')':'⁾','n':'ⁿ','i':'ⁱ','x':'ˣ','y':'ʸ','a':'ᵃ','b':'ᵇ','c':'ᶜ','d':'ᵈ','e':'ᵉ','k':'ᵏ','m':'ᵐ','o':'ᵒ','p':'ᵖ','t':'ᵗ','°':'°'};
+var SUB={'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','+':'₊','-':'₋','=':'₌','(':'₍',')':'₎','a':'ₐ','e':'ₑ','o':'ₒ','x':'ₓ','n':'ₙ','i':'ᵢ','r':'ᵣ','m':'ₘ','k':'ₖ','t':'ₜ'};
+var SYM={times:'×',div:'÷',cdot:'·',pm:'±',mp:'∓',le:'≤',leq:'≤',ge:'≥',geq:'≥',ne:'≠',neq:'≠',approx:'≈',equiv:'≡',sim:'~',propto:'∝',infty:'∞',pi:'π',theta:'θ',alpha:'α',beta:'β',gamma:'γ',delta:'δ',Delta:'Δ',lambda:'λ',mu:'μ',sigma:'σ',Sigma:'Σ',omega:'ω',Omega:'Ω',phi:'φ',rho:'ρ',epsilon:'ε',tau:'τ',angle:'∠',triangle:'△',degree:'°',circ:'°',perp:'⊥',parallel:'∥',therefore:'∴',because:'∵',rightarrow:'→',to:'→',leftarrow:'←',Rightarrow:'⇒',implies:'⇒',iff:'⇔',in:'∈',notin:'∉',subset:'⊂',cup:'∪',cap:'∩',emptyset:'∅',sum:'Σ',int:'∫',partial:'∂',nabla:'∇',ldots:'…',dots:'…',cdots:'⋯',quad:'  ',qquad:'   ',percent:'%',prime:'′'};
+function sup(t){t=String(t);var o='';for(var i=0;i<t.length;i++){var c=t[i];if(SUP[c]==null)return null;o+=SUP[c]}return o}
+function sub(t){t=String(t);var o='';for(var i=0;i<t.length;i++){var c=t[i];if(SUB[c]==null)return null;o+=SUB[c]}return o}
+function grp(s,i){/* read {...} or a single token starting at i; returns [text,next] */while(s[i]===' ')i++;if(s[i]==='{'){var d=1,j=i+1;for(;j<s.length&&d;j++){if(s[j]==='{')d++;else if(s[j]==='}')d--}return[s.slice(i+1,j-1),j]}if(s[i]==='\\'){var m=/^\\[a-zA-Z]+/.exec(s.slice(i));if(m)return[m[0],i+m[0].length]}return[s[i]||'',i+1]}
+function wrap(t){t=t.trim();return /^[\w.√π²³⁰-⁹]+$/.test(t)?t:'('+t+')'}
+function tex(s){var out='',i=0,n=0;
+ while(i<s.length&&n++<20000){var c=s[i];
+  if(c==='\\'){var m=/^\\([a-zA-Z]+|.)/.exec(s.slice(i));var name=m?m[1]:'';i+=m?m[0].length:1;
+   if(name==='frac'||name==='dfrac'||name==='tfrac'){var a=grp(s,i);var b=grp(s,a[1]);i=b[1];var A=tex(a[0]),B=tex(b[0]);var VF={'1/2':'½','1/3':'⅓','2/3':'⅔','1/4':'¼','3/4':'¾','1/5':'⅕','2/5':'⅖','3/5':'⅗','4/5':'⅘','1/6':'⅙','5/6':'⅚','1/8':'⅛','3/8':'⅜','5/8':'⅝','7/8':'⅞'};var k2=A.trim()+'/'+B.trim();out+=VF[k2]?VF[k2]:(/^\d+$/.test(A)&&/^\d+$/.test(B)&&A.length<=3&&B.length<=3)?A+'/'+B:wrap(A)+'/'+wrap(B);continue}
+   if(name==='sqrt'){var rt='';if(s[i]==='['){var e=s.indexOf(']',i);rt=s.slice(i+1,e);i=e+1}var g=grp(s,i);i=g[1];var G=tex(g[0]);out+=(rt?(sup(rt)||rt):'')+'√'+wrap(G);continue}
+   if(name==='text'||name==='mathrm'||name==='mathbf'||name==='textbf'||name==='mathit'||name==='operatorname'||name==='boxed'||name==='overline'||name==='hat'||name==='vec'||name==='bar'){var g2=grp(s,i);i=g2[1];out+=(name==='vec'?'':'')+tex(g2[0]);continue}
+   if(name==='left'||name==='right'||name==='big'||name==='Big'||name==='displaystyle'||name==='limits'||name==='nolimits'){continue}
+   if(name===','||name===';'||name==='!'||name===' '||name===':'){out+=' ';continue}
+   if(name==='{'||name==='}'||name==='%'||name==='$'||name==='#'||name==='&'||name==='_'){out+=name;continue}
+   if(name==='\\'){out+='\n';continue}
+   if(/^(sin|cos|tan|log|ln|exp|lim|max|min|sec|csc|cot)$/.test(name)){out+=name;continue}
+   if(SYM[name]!=null){out+=SYM[name];continue}
+   out+=name;continue}
+  if(c==='^'||c==='_'){var g3=grp(s,i+1);i=g3[1];var T=tex(g3[0]).replace(/\s+/g,'');if(T==='\\circ'||T==='°'){out+='°';continue}var u=c==='^'?sup(T):sub(T);out+=u!=null?u:(c==='^'?'^('+T+')':'_'+T);continue}
+  if(c==='{'||c==='}'){i++;continue}
+  if(c==='~'){out+=' ';i++;continue}
+  out+=c;i++}
+ return out.replace(/[ \t]{2,}/g,' ')}
+function sfMath(t){if(t==null)return t;t=String(t);if(!/[\\$^_]/.test(t))return t;
+ // $$...$$, \[...\], \(...\), $...$
+ t=t.replace(/\$\$([\s\S]+?)\$\$/g,function(m,x){return tex(x)}).replace(/\\\[([\s\S]+?)\\\]/g,function(m,x){return tex(x)}).replace(/\\\(([\s\S]+?)\\\)/g,function(m,x){return tex(x)})
+  .replace(/(^|[^\\$])\$(?!\s)([^$\n]{1,200}?)\$(?!\d)/g,function(m,p,x){return p+tex(x)});
+ // leftover commands outside $ (e.g. "\frac{1}{2}" or "x^2" written plainly)
+ if(/\\[a-zA-Z]+/.test(t))t=t.replace(/\\(frac|dfrac|tfrac|sqrt|times|div|cdot|pm|le|leq|ge|geq|neq|ne|approx|pi|theta|alpha|beta|infty|degree|circ|angle|triangle|Delta|sigma|mu|lambda|text|left|right)\b(\{[^{}]*\}|\[[^\]]*\]|)(\{[^{}]*\}|)/g,function(m){return tex(m)});
+ t=t.replace(/([A-Za-z0-9)\]])\^(\{[^{}]{1,12}\}|[0-9a-z+\-]{1,3}\b|°)/g,function(m,b,e){var x=e.replace(/^\{|\}$/g,'');var u=sup(x);return b+(u!=null?u:'^('+x+')')});
+ t=t.replace(/([A-Za-z])_(\{\d{1,3}\}|\d{1,3})(?![\w])/g,function(m,b,e){var u=sub(e.replace(/[{}]/g,''));return u!=null?b+u:m});
+ return t}
+window.sfMath=sfMath;
+// apply to every quiz before it is played (Quiz Studio, StudyQuest, starter quizzes)
+function fixQuiz(q){if(!q||!q.questions)return q;q.questions.forEach(function(x){if(!x)return;['text','q','explain','why'].forEach(function(k){if(typeof x[k]==='string')x[k]=sfMath(x[k])});if(Array.isArray(x.options))x.options=x.options.map(function(o){return typeof o==='string'?sfMath(o):o})});if(q.title)q.title=sfMath(q.title);return q}
+window.sfMathQuiz=fixQuiz;
+function hook(){var Q=window.StudyFlowQuiz;if(!Q||Q.__m||typeof Q.play!=='function')return;var o=Q.play;Q.play=function(quiz,opts){try{fixQuiz(quiz)}catch(e){}return o.apply(this,arguments)};Q.__m=1}
+hook();setTimeout(hook,1000);setTimeout(hook,4000);setInterval(hook,10000);
 })();
 
 </script></body></html>
