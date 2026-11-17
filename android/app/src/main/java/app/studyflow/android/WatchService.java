@@ -178,7 +178,8 @@ public class WatchService extends Service {
             graceUntil = System.currentTimeMillis() + 1500;
             goHome();
             try { startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP)); } catch (Exception ignored) {}
-            hideShield();
+            // StudyStarx comes to the front first, then the focus screen fades away smoothly on top of it
+            hideShieldSmooth();
         });
         root.addView(back, new android.widget.LinearLayout.LayoutParams(-2, -2));
         android.view.WindowManager.LayoutParams lp = new android.view.WindowManager.LayoutParams(-1, -1,
@@ -189,7 +190,9 @@ public class WatchService extends Service {
         lp.windowAnimations = 0; // appears at once, so the blocked app is hidden immediately
         if (Build.VERSION.SDK_INT >= 28) lp.layoutInDisplayCutoutMode = android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         if (Build.VERSION.SDK_INT >= 30) lp.setFitInsetsTypes(0);
-        try { wm.addView(root, lp); shield = root; tickShield(); } catch (Exception e) { shield = null; shieldUp = false; }
+        try { wm.addView(root, lp); shield = root; tickShield(); } catch (Exception e) { shield = null; shieldUp = false; return; }
+        // the purple background covers the app at once; the lock, words and button glide in softly
+        try { for (int i = 0; i < root.getChildCount(); i++) { android.view.View c = root.getChildAt(i); c.setAlpha(0f); c.setTranslationY(dp(18)); c.animate().alpha(1f).translationY(0f).setStartDelay(40L * i).setDuration(320).setInterpolator(new android.view.animation.DecelerateInterpolator()).start(); } } catch (Exception ignored) {}
     }
 
     private void tickShield() {
@@ -206,6 +209,21 @@ public class WatchService extends Service {
         final Runnable gone = () -> { try { ((android.view.WindowManager) getSystemService(WINDOW_SERVICE)).removeView(v); } catch (Exception ignored) {} };
         // removed at once: a fade would let the blocked app show through the focus screen
         gone.run();
+    }
+
+    private void hideShieldSmooth() {
+        shieldUp = false;
+        if (shield == null) return;
+        final android.view.View v = shield;
+        shield = null; shieldTimer = null; shieldMsg = null;
+        final boolean[] done = {false};
+        final Runnable gone = () -> { if (done[0]) return; done[0] = true; try { ((android.view.WindowManager) getSystemService(WINDOW_SERVICE)).removeView(v); } catch (Exception ignored) {} };
+        try {
+            if (v instanceof android.view.ViewGroup) { android.view.ViewGroup g = (android.view.ViewGroup) v; for (int i = 0; i < g.getChildCount(); i++) g.getChildAt(i).animate().alpha(0f).translationY(-dp(12)).setDuration(200).start(); }
+            // wait a moment so StudyStarx is already showing underneath, then fade the whole screen out
+            v.animate().alpha(0f).scaleX(1.04f).scaleY(1.04f).setStartDelay(260).setDuration(280).setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator()).withEndAction(gone).start();
+            ui.postDelayed(gone, 900);
+        } catch (Exception e) { gone.run(); }
     }
 
     @Override public void onDestroy() { running = false; me = null; if (h != null) h.removeCallbacks(loop); if (th != null) th.quitSafely(); hideShield(); super.onDestroy(); }
