@@ -84,12 +84,21 @@ function poolKey(lv, sub) {
   const t = String(lv || '').trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 80) + '|' + subjCanon(sub);
   return 'sf:qp:' + require('crypto').createHash('sha1').update(t).digest('hex').slice(0, 24);
 }
+// junk an AI sometimes leaves behind: "6.1ot", LaTeX, US coins in an Indian/Cambridge course
+const UNITS = /^(cm|mm|m|km|g|kg|mg|l|ml|s|h|hr|hrs|min|mins|am|pm|st|nd|rd|th|x|y|n|grams?|metres?|meters?|litres?|liters?|kilograms?|hours?|minutes?|seconds?|days?|years?)$/i;
+function badQ(text, opts) {
+  const all = text + ' ' + opts.join(' ');
+  if (/\\(frac|sqrt|times|div|cdot|left|right)|\$[^$\d][^$]*\$/.test(all)) return true;
+  if (/\b(nickels?|dimes?|pennies)\b/i.test(all) || /\$\s?\d/.test(all)) return true;
+  return opts.some(o => { const m = /^[\d.,]+\s?([a-z]+)$/i.exec(o.trim()); return !!(m && !UNITS.test(m[1])); });
+}
 function poolItem(q) {
   if (!q || typeof q !== 'object') return null;
   const text = String(q.q || q.question || q.text || '').trim();
   const opts = Array.isArray(q.options) ? q.options.map(o => String(o || '').trim()) : [];
   const c = Number(q.correct != null ? q.correct : q.correctIndex);
   if (!text || opts.length !== 4 || opts.some(o => !o) || !(c >= 0 && c < 4)) return null;
+  if (badQ(text, opts)) return null;
   return { q: text.slice(0, 300), options: opts.map(o => o.slice(0, 160)), correct: c, why: String(q.why || q.explanation || '').slice(0, 300), topic: String(q.topic || '').slice(0, 60), pic: String(q.pic || '').slice(0, 80) };
 }
 async function poolGet(req, res) {
@@ -100,7 +109,7 @@ async function poolGet(req, res) {
   try {
     const k = poolKey(lv, sub);
     const [rows, total] = await Promise.all([S.cmd('LRANGE', k, from, from + n - 1), S.cmd('LLEN', k)]);
-    const qs = (rows || []).map(r => { try { return JSON.parse(r) } catch (e) { return null } }).filter(Boolean);
+    const qs = (rows || []).map(r => { try { return JSON.parse(r) } catch (e) { return null } }).filter(q => q && !badQ(String(q.q || ''), Array.isArray(q.options) ? q.options.map(String) : []));
     return send(res, 200, { qs, total: Number(total) || 0 });
   } catch (e) { return send(res, 200, { qs: [], total: 0 }); }
 }

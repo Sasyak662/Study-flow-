@@ -6985,7 +6985,7 @@ function aiTopUp0(sub,force,count,SO){count=Math.max(8,Math.min(25,+count||25));
  if(e.qs.length>=100)return Promise.resolve(false);
  busy[sub]=1;e.calls++;save();
  var p=P(),have=e.qs.slice(-40).map(function(q){return q.text});
- var body={purpose:'quest',first:firstDay(),temperature:0.5,search:false,system:'You write accurate multiple-choice quiz questions for a school revision game. Return ONLY JSON: {"questions":[{"q":"question (max 25 words)","options":["A","B","C","D"],"work":"short working or reason that proves the answer (max 30 words)","correct":0,"why":"one short sentence","topic":"short topic name","pic":"English Wikipedia article title of a real thing that illustrates the question (e.g. Mitochondrion, Mount Everest, Photosynthesis) — must NOT reveal the answer; empty string for pure maths/grammar"}]}. Exactly '+count+' questions. Exactly 4 options, only one correct. For every question, first solve it yourself in "work", then check that the option at index "correct" matches your working exactly. Vary the position of the correct option. Wrong options must be plausible. Plain text (no LaTeX). Only facts that are certainly true.',
+ var body={purpose:'quest',first:firstDay(),temperature:0.5,search:false,system:'You write accurate multiple-choice quiz questions for a school revision game. Return ONLY JSON: {"questions":[{"q":"question (max 25 words)","options":["A","B","C","D"],"work":"short working or reason that proves the answer (max 30 words)","correct":0,"why":"one short sentence","topic":"short topic name","pic":"English Wikipedia article title of a real thing that illustrates the question (e.g. Mitochondrion, Mount Everest, Photosynthesis) — must NOT reveal the answer; empty string for pure maths/grammar"}]}. Exactly '+count+' questions. Exactly 4 options, only one correct. For every question, first solve it yourself in "work", then check that the option at index "correct" matches your working exactly. Vary the position of the correct option. Wrong options must be plausible. Plain text (no LaTeX): write powers as x², fractions as 3/4, roots as √. Use simple words a child of this grade understands. Use metric units and Indian rupees (₹) for money — never dollars, cents, quarters, dimes or nickels. Each option must be clean text with no stray letters. Only facts that are certainly true.',
   pool:{lv:level(),subs:[sub]},user:'Subject: '+sub+'\nStudent: '+level()+sylText(SO)+'\nCover different topics from this syllabus for exactly this grade. Mix easy, medium and a few hard questions.'+(have.length?'\nDo not repeat these questions: '+have.join(' | ').slice(-1400):'')};
  return fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})}).then(function(x){
   busy[sub]=0;if(!x.ok){lastErr=x.j&&x.j.limit?'limit':'fail';return false}lastErr='';var t=String(x.j.answer||x.j.text||'');var a=t.indexOf('{'),b=t.lastIndexOf('}');if(a<0)return false;
@@ -6999,7 +6999,7 @@ function topUpMulti(subs,count){subs=subs.filter(function(x){return!busy[x]&&ent
 function aiTopUpMulti(subs,count){return Promise.all(subs.map(function(x){return syllabus(x)})).then(function(L){var SM={};subs.forEach(function(x,i){SM[x]=L[i]});return aiTopUpMulti0(subs,count,SM)})}
 function aiTopUpMulti0(subs,count,SM){count=Math.max(8,Math.min(25,+count||20));subs=subs.filter(function(x){return!busy[x]&&entry(x).qs.length<100});if(!subs.length)return Promise.resolve(0);if(subs.length===1)return topUp(subs[0],true,count).then(function(ok){return ok?1:0});
  subs.forEach(function(x){busy[x]=1;entry(x)});var p=P();
- var body={purpose:'quest',first:firstDay(),temperature:0.5,search:false,system:'You write accurate multiple-choice quiz questions for a school revision game. Return ONLY JSON: {"questions":[{"subject":"one of the subject names exactly as given","q":"question (max 25 words)","options":["A","B","C","D"],"work":"short working or reason that proves the answer (max 30 words)","correct":0,"why":"one short sentence","topic":"short topic name","pic":"English Wikipedia article title of a real thing that illustrates the question (e.g. Mitochondrion, Mount Everest, Photosynthesis) — must NOT reveal the answer; empty string for pure maths/grammar"}]}. Exactly '+count+' questions in total, shared evenly between the subjects. Exactly 4 options, only one correct. For every question, first solve it yourself in "work", then check that the option at index "correct" matches your working exactly. Vary the position of the correct option. Wrong options must be plausible. Plain text (no LaTeX). Only facts that are certainly true.',
+ var body={purpose:'quest',first:firstDay(),temperature:0.5,search:false,system:'You write accurate multiple-choice quiz questions for a school revision game. Return ONLY JSON: {"questions":[{"subject":"one of the subject names exactly as given","q":"question (max 25 words)","options":["A","B","C","D"],"work":"short working or reason that proves the answer (max 30 words)","correct":0,"why":"one short sentence","topic":"short topic name","pic":"English Wikipedia article title of a real thing that illustrates the question (e.g. Mitochondrion, Mount Everest, Photosynthesis) — must NOT reveal the answer; empty string for pure maths/grammar"}]}. Exactly '+count+' questions in total, shared evenly between the subjects. Exactly 4 options, only one correct. For every question, first solve it yourself in "work", then check that the option at index "correct" matches your working exactly. Vary the position of the correct option. Wrong options must be plausible. Plain text (no LaTeX): write powers as x², fractions as 3/4, roots as √. Use simple words a child of this grade understands. Use metric units and Indian rupees (₹) for money — never dollars, cents, quarters, dimes or nickels. Each option must be clean text with no stray letters. Only facts that are certainly true.',
   pool:{lv:level(),subs:subs},user:'Subjects: '+subs.join(' | ')+'\nStudent: '+level()+subs.map(function(x){return SM[x]?'\n['+x+']'+sylText(SM[x],true):''}).join('')+'\nFor each subject cover different topics from ITS syllabus list only, for exactly this grade. Mix easy, medium and a few hard questions.'+(function(){var h=[];subs.forEach(function(x){entry(x).qs.slice(-8).forEach(function(q){h.push(q.text)})});return h.length?'\nDo not repeat these questions: '+h.join(' | ').slice(-900):''})()};
  return fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})}).then(function(x){
   subs.forEach(function(s_){busy[s_]=0});if(!x.ok){lastErr=x.j&&x.j.limit?'limit':'fail';return 0}lastErr='';var t=String(x.j.text||'');var a=t.indexOf('{'),b=t.lastIndexOf('}');if(a<0)return 0;var arr=[];try{arr=JSON.parse(t.slice(a,b+1)).questions||[];if(window.sfCleanData)arr=sfCleanData(arr)}catch(err){return 0}
@@ -10590,53 +10590,6 @@ function boot(){start();var g=document.getElementById('resourceGrid');if(g)mo.ob
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,700)});else setTimeout(boot,700);
 })();
 
-</script><style id="sf-mth-css">
-
-</style><script id="sf-mth-js">
-/* ===== Maths that children can read: turns LaTeX-style AI output ($x^2$, \frac{a}{b}, \sqrt{x}) into normal symbols (x², a/b, √x) ===== */
-(function(){
-var SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','+':'⁺','-':'⁻','−':'⁻','=':'⁼','(':'⁽',')':'⁾','n':'ⁿ','i':'ⁱ','x':'ˣ','y':'ʸ','a':'ᵃ','b':'ᵇ','c':'ᶜ','d':'ᵈ','e':'ᵉ','k':'ᵏ','m':'ᵐ','o':'ᵒ','p':'ᵖ','t':'ᵗ','°':'°'};
-var SUB={'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','+':'₊','-':'₋','=':'₌','(':'₍',')':'₎','a':'ₐ','e':'ₑ','o':'ₒ','x':'ₓ','n':'ₙ','i':'ᵢ','r':'ᵣ','m':'ₘ','k':'ₖ','t':'ₜ'};
-var SYM={times:'×',div:'÷',cdot:'·',pm:'±',mp:'∓',le:'≤',leq:'≤',ge:'≥',geq:'≥',ne:'≠',neq:'≠',approx:'≈',equiv:'≡',sim:'~',propto:'∝',infty:'∞',pi:'π',theta:'θ',alpha:'α',beta:'β',gamma:'γ',delta:'δ',Delta:'Δ',lambda:'λ',mu:'μ',sigma:'σ',Sigma:'Σ',omega:'ω',Omega:'Ω',phi:'φ',rho:'ρ',epsilon:'ε',tau:'τ',angle:'∠',triangle:'△',degree:'°',circ:'°',perp:'⊥',parallel:'∥',therefore:'∴',because:'∵',rightarrow:'→',to:'→',leftarrow:'←',Rightarrow:'⇒',implies:'⇒',iff:'⇔',in:'∈',notin:'∉',subset:'⊂',cup:'∪',cap:'∩',emptyset:'∅',sum:'Σ',int:'∫',partial:'∂',nabla:'∇',ldots:'…',dots:'…',cdots:'⋯',quad:'  ',qquad:'   ',percent:'%',prime:'′'};
-function sup(t){t=String(t);var o='';for(var i=0;i<t.length;i++){var c=t[i];if(SUP[c]==null)return null;o+=SUP[c]}return o}
-function sub(t){t=String(t);var o='';for(var i=0;i<t.length;i++){var c=t[i];if(SUB[c]==null)return null;o+=SUB[c]}return o}
-function grp(s,i){/* read {...} or a single token starting at i; returns [text,next] */while(s[i]===' ')i++;if(s[i]==='{'){var d=1,j=i+1;for(;j<s.length&&d;j++){if(s[j]==='{')d++;else if(s[j]==='}')d--}return[s.slice(i+1,j-1),j]}if(s[i]==='\\'){var m=/^\\[a-zA-Z]+/.exec(s.slice(i));if(m)return[m[0],i+m[0].length]}return[s[i]||'',i+1]}
-function wrap(t){t=t.trim();return /^[\w.√π²³⁰-⁹]+$/.test(t)?t:'('+t+')'}
-function tex(s){var out='',i=0,n=0;
- while(i<s.length&&n++<20000){var c=s[i];
-  if(c==='\\'){var m=/^\\([a-zA-Z]+|.)/.exec(s.slice(i));var name=m?m[1]:'';i+=m?m[0].length:1;
-   if(name==='frac'||name==='dfrac'||name==='tfrac'){var a=grp(s,i);var b=grp(s,a[1]);i=b[1];var A=tex(a[0]),B=tex(b[0]);var VF={'1/2':'½','1/3':'⅓','2/3':'⅔','1/4':'¼','3/4':'¾','1/5':'⅕','2/5':'⅖','3/5':'⅗','4/5':'⅘','1/6':'⅙','5/6':'⅚','1/8':'⅛','3/8':'⅜','5/8':'⅝','7/8':'⅞'};var k2=A.trim()+'/'+B.trim();out+=VF[k2]?VF[k2]:(/^\d+$/.test(A)&&/^\d+$/.test(B)&&A.length<=3&&B.length<=3)?A+'/'+B:wrap(A)+'/'+wrap(B);continue}
-   if(name==='sqrt'){var rt='';if(s[i]==='['){var e=s.indexOf(']',i);rt=s.slice(i+1,e);i=e+1}var g=grp(s,i);i=g[1];var G=tex(g[0]);out+=(rt?(sup(rt)||rt):'')+'√'+wrap(G);continue}
-   if(name==='text'||name==='mathrm'||name==='mathbf'||name==='textbf'||name==='mathit'||name==='operatorname'||name==='boxed'||name==='overline'||name==='hat'||name==='vec'||name==='bar'){var g2=grp(s,i);i=g2[1];out+=(name==='vec'?'':'')+tex(g2[0]);continue}
-   if(name==='left'||name==='right'||name==='big'||name==='Big'||name==='displaystyle'||name==='limits'||name==='nolimits'){continue}
-   if(name===','||name===';'||name==='!'||name===' '||name===':'){out+=' ';continue}
-   if(name==='{'||name==='}'||name==='%'||name==='$'||name==='#'||name==='&'||name==='_'){out+=name;continue}
-   if(name==='\\'){out+='\n';continue}
-   if(/^(sin|cos|tan|log|ln|exp|lim|max|min|sec|csc|cot)$/.test(name)){out+=name;continue}
-   if(SYM[name]!=null){out+=SYM[name];continue}
-   out+=name;continue}
-  if(c==='^'||c==='_'){var g3=grp(s,i+1);i=g3[1];var T=tex(g3[0]).replace(/\s+/g,'');if(T==='\\circ'||T==='°'){out+='°';continue}var u=c==='^'?sup(T):sub(T);out+=u!=null?u:(c==='^'?'^('+T+')':'_'+T);continue}
-  if(c==='{'||c==='}'){i++;continue}
-  if(c==='~'){out+=' ';i++;continue}
-  out+=c;i++}
- return out.replace(/[ \t]{2,}/g,' ')}
-function sfMath(t){if(t==null)return t;t=String(t);if(!/[\\$^_]/.test(t))return t;
- // $$...$$, \[...\], \(...\), $...$
- t=t.replace(/\$\$([\s\S]+?)\$\$/g,function(m,x){return tex(x)}).replace(/\\\[([\s\S]+?)\\\]/g,function(m,x){return tex(x)}).replace(/\\\(([\s\S]+?)\\\)/g,function(m,x){return tex(x)})
-  .replace(/(^|[^\\$])\$(?!\s)([^$\n]{1,200}?)\$(?!\d)/g,function(m,p,x){return p+tex(x)});
- // leftover commands outside $ (e.g. "\frac{1}{2}" or "x^2" written plainly)
- if(/\\[a-zA-Z]+/.test(t))t=t.replace(/\\(frac|dfrac|tfrac|sqrt|times|div|cdot|pm|le|leq|ge|geq|neq|ne|approx|pi|theta|alpha|beta|infty|degree|circ|angle|triangle|Delta|sigma|mu|lambda|text|left|right)\b(\{[^{}]*\}|\[[^\]]*\]|)(\{[^{}]*\}|)/g,function(m){return tex(m)});
- t=t.replace(/([A-Za-z0-9)\]])\^(\{[^{}]{1,12}\}|[0-9a-z+\-]{1,3}\b|°)/g,function(m,b,e){var x=e.replace(/^\{|\}$/g,'');var u=sup(x);return b+(u!=null?u:'^('+x+')')});
- t=t.replace(/([A-Za-z])_(\{\d{1,3}\}|\d{1,3})(?![\w])/g,function(m,b,e){var u=sub(e.replace(/[{}]/g,''));return u!=null?b+u:m});
- return t}
-window.sfMath=sfMath;
-// apply to every quiz before it is played (Quiz Studio, StudyQuest, starter quizzes)
-function fixQuiz(q){if(!q||!q.questions)return q;q.questions.forEach(function(x){if(!x)return;['text','q','explain','why'].forEach(function(k){if(typeof x[k]==='string')x[k]=sfMath(x[k])});if(Array.isArray(x.options))x.options=x.options.map(function(o){return typeof o==='string'?sfMath(o):o})});if(q.title)q.title=sfMath(q.title);return q}
-window.sfMathQuiz=fixQuiz;
-function hook(){var Q=window.StudyFlowQuiz;if(!Q||Q.__m||typeof Q.play!=='function')return;var o=Q.play;Q.play=function(quiz,opts){try{fixQuiz(quiz)}catch(e){}return o.apply(this,arguments)};Q.__m=1}
-hook();setTimeout(hook,1000);setTimeout(hook,4000);setInterval(hook,10000);
-})();
-
 </script><style id="sf-mg-css">
 .sfm-tabs{display:flex;gap:6px;margin:0 0 14px;padding:5px;background:var(--panel,#eef0f8);border-radius:14px;width:max-content;max-width:100%;overflow-x:auto}
 .sfm-tabs button{border:0;background:transparent;border-radius:10px;padding:9px 14px;font:inherit;font-weight:700;color:var(--muted,#5b6180);cursor:pointer;white-space:nowrap}
@@ -11358,5 +11311,54 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 </style><script id="sf-qd-js">
 /* layout only (qd) */
+
+</script><style id="sf-mth-css">
+
+
+
+</style><script id="sf-mth-js">
+/* ===== Maths that children can read: turns LaTeX-style AI output ($x^2$, \frac{a}{b}, \sqrt{x}) into normal symbols (x², a/b, √x) ===== */
+(function(){
+var SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','+':'⁺','-':'⁻','−':'⁻','=':'⁼','(':'⁽',')':'⁾','n':'ⁿ','i':'ⁱ','x':'ˣ','y':'ʸ','a':'ᵃ','b':'ᵇ','c':'ᶜ','d':'ᵈ','e':'ᵉ','k':'ᵏ','m':'ᵐ','o':'ᵒ','p':'ᵖ','t':'ᵗ','°':'°'};
+var SUB={'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','+':'₊','-':'₋','=':'₌','(':'₍',')':'₎','a':'ₐ','e':'ₑ','o':'ₒ','x':'ₓ','n':'ₙ','i':'ᵢ','r':'ᵣ','m':'ₘ','k':'ₖ','t':'ₜ'};
+var SYM={times:'×',div:'÷',cdot:'·',pm:'±',mp:'∓',le:'≤',leq:'≤',ge:'≥',geq:'≥',ne:'≠',neq:'≠',approx:'≈',equiv:'≡',sim:'~',propto:'∝',infty:'∞',pi:'π',theta:'θ',alpha:'α',beta:'β',gamma:'γ',delta:'δ',Delta:'Δ',lambda:'λ',mu:'μ',sigma:'σ',Sigma:'Σ',omega:'ω',Omega:'Ω',phi:'φ',rho:'ρ',epsilon:'ε',tau:'τ',angle:'∠',triangle:'△',degree:'°',circ:'°',perp:'⊥',parallel:'∥',therefore:'∴',because:'∵',rightarrow:'→',to:'→',leftarrow:'←',Rightarrow:'⇒',implies:'⇒',iff:'⇔',in:'∈',notin:'∉',subset:'⊂',cup:'∪',cap:'∩',emptyset:'∅',sum:'Σ',int:'∫',partial:'∂',nabla:'∇',ldots:'…',dots:'…',cdots:'⋯',quad:'  ',qquad:'   ',percent:'%',prime:'′'};
+function sup(t){t=String(t);var o='';for(var i=0;i<t.length;i++){var c=t[i];if(SUP[c]==null)return null;o+=SUP[c]}return o}
+function sub(t){t=String(t);var o='';for(var i=0;i<t.length;i++){var c=t[i];if(SUB[c]==null)return null;o+=SUB[c]}return o}
+function grp(s,i){/* read {...} or a single token starting at i; returns [text,next] */while(s[i]===' ')i++;if(s[i]==='{'){var d=1,j=i+1;for(;j<s.length&&d;j++){if(s[j]==='{')d++;else if(s[j]==='}')d--}return[s.slice(i+1,j-1),j]}if(s[i]==='\\'){var m=/^\\[a-zA-Z]+/.exec(s.slice(i));if(m)return[m[0],i+m[0].length]}return[s[i]||'',i+1]}
+function wrap(t){t=t.trim();return /^[\w.√π²³⁰-⁹]+$/.test(t)?t:'('+t+')'}
+function tex(s){var out='',i=0,n=0;
+ while(i<s.length&&n++<20000){var c=s[i];
+  if(c==='\\'){var m=/^\\([a-zA-Z]+|.)/.exec(s.slice(i));var name=m?m[1]:'';i+=m?m[0].length:1;
+   if(name==='frac'||name==='dfrac'||name==='tfrac'){var a=grp(s,i);var b=grp(s,a[1]);i=b[1];var A=tex(a[0]),B=tex(b[0]);var VF={'1/2':'½','1/3':'⅓','2/3':'⅔','1/4':'¼','3/4':'¾','1/5':'⅕','2/5':'⅖','3/5':'⅗','4/5':'⅘','1/6':'⅙','5/6':'⅚','1/8':'⅛','3/8':'⅜','5/8':'⅝','7/8':'⅞'};var k2=A.trim()+'/'+B.trim();out+=VF[k2]?VF[k2]:(/^\d+$/.test(A)&&/^\d+$/.test(B)&&A.length<=3&&B.length<=3)?A+'/'+B:wrap(A)+'/'+wrap(B);continue}
+   if(name==='sqrt'){var rt='';if(s[i]==='['){var e=s.indexOf(']',i);rt=s.slice(i+1,e);i=e+1}var g=grp(s,i);i=g[1];var G=tex(g[0]);out+=(rt?(sup(rt)||rt):'')+'√'+wrap(G);continue}
+   if(name==='text'||name==='mathrm'||name==='mathbf'||name==='textbf'||name==='mathit'||name==='operatorname'||name==='boxed'||name==='overline'||name==='hat'||name==='vec'||name==='bar'){var g2=grp(s,i);i=g2[1];out+=(name==='vec'?'':'')+tex(g2[0]);continue}
+   if(name==='left'||name==='right'||name==='big'||name==='Big'||name==='displaystyle'||name==='limits'||name==='nolimits'){continue}
+   if(name===','||name===';'||name==='!'||name===' '||name===':'){out+=' ';continue}
+   if(name==='{'||name==='}'||name==='%'||name==='$'||name==='#'||name==='&'||name==='_'){out+=name;continue}
+   if(name==='\\'){out+='\n';continue}
+   if(/^(sin|cos|tan|log|ln|exp|lim|max|min|sec|csc|cot)$/.test(name)){out+=name;continue}
+   if(SYM[name]!=null){out+=SYM[name];continue}
+   out+=name;continue}
+  if(c==='^'||c==='_'){var g3=grp(s,i+1);i=g3[1];var T=tex(g3[0]).replace(/\s+/g,'');if(T==='\\circ'||T==='°'){out+='°';continue}var u=c==='^'?sup(T):sub(T);out+=u!=null?u:(c==='^'?'^('+T+')':'_'+T);continue}
+  if(c==='{'||c==='}'){i++;continue}
+  if(c==='~'){out+=' ';i++;continue}
+  out+=c;i++}
+ return out.replace(/[ \t]{2,}/g,' ')}
+function sfMath(t){if(t==null)return t;t=String(t).replace(/\s?-->\s?/g,' → ').replace(/\s?<--\s?/g,' ← ').replace(/\s?=>\s?/g,' ⇒ ');if(!/[\\$^_]/.test(t))return t;
+ // $$...$$, \[...\], \(...\), $...$
+ t=t.replace(/\$\$([\s\S]+?)\$\$/g,function(m,x){return tex(x)}).replace(/\\\[([\s\S]+?)\\\]/g,function(m,x){return tex(x)}).replace(/\\\(([\s\S]+?)\\\)/g,function(m,x){return tex(x)})
+  .replace(/(^|[^\\$])\$(?!\s)([^$\n]{1,200}?)\$(?!\d)/g,function(m,p,x){return p+tex(x)});
+ // leftover commands outside $ (e.g. "\frac{1}{2}" or "x^2" written plainly)
+ if(/\\[a-zA-Z]+/.test(t))t=t.replace(/\\(frac|dfrac|tfrac|sqrt|times|div|cdot|pm|le|leq|ge|geq|neq|ne|approx|pi|theta|alpha|beta|infty|degree|circ|angle|triangle|Delta|sigma|mu|lambda|text|left|right)\b(\{[^{}]*\}|\[[^\]]*\]|)(\{[^{}]*\}|)/g,function(m){return tex(m)});
+ t=t.replace(/([A-Za-z0-9)\]])\^(\{[^{}]{1,12}\}|[0-9a-z+\-]{1,3}\b|°)/g,function(m,b,e){var x=e.replace(/^\{|\}$/g,'');var u=sup(x);return b+(u!=null?u:'^('+x+')')});
+ t=t.replace(/([A-Za-z])_(\{\d{1,3}\}|\d{1,3})(?![\w])/g,function(m,b,e){var u=sub(e.replace(/[{}]/g,''));return u!=null?b+u:m});
+ return t}
+window.sfMath=sfMath;
+// apply to every quiz before it is played (Quiz Studio, StudyQuest, starter quizzes)
+function fixQuiz(q){if(!q||!q.questions)return q;q.questions.forEach(function(x){if(!x)return;['text','q','explain','why'].forEach(function(k){if(typeof x[k]==='string')x[k]=sfMath(x[k])});if(Array.isArray(x.options))x.options=x.options.map(function(o){return typeof o==='string'?sfMath(o):o})});if(q.title)q.title=sfMath(q.title);return q}
+window.sfMathQuiz=fixQuiz;
+function hook(){var Q=window.StudyFlowQuiz;if(!Q||Q.__m||typeof Q.play!=='function')return;var o=Q.play;Q.play=function(quiz,opts){try{fixQuiz(quiz)}catch(e){}return o.apply(this,arguments)};Q.__m=1}
+hook();setTimeout(hook,1000);setTimeout(hook,4000);setInterval(hook,10000);
+})();
 
 </script></body></html>
