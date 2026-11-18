@@ -11986,6 +11986,8 @@ body.zh-on .zh-pl{min-width:0;flex:0 1 auto;gap:5px;overflow:hidden}
 .zh-pl svg{width:15px!important;height:15px!important;flex:none}
 
 
+#sxHome .sxh-tile.zh-hide{display:none!important}
+
 </style><script id="sf-zh-js">
 /* ===== Home redesign (zh): indigo hero with book stack, card missions, textbook subjects, tool cards ===== */
 (function(){
@@ -12024,7 +12026,8 @@ function deco(){
  H.querySelectorAll('.sxh-item').forEach(function(it){var e=it.querySelector('.sxh-ie');if(e)tile(e,pick((it.querySelector('b')||it).textContent+' '+((it.querySelector('.sxh-go')||{}).dataset||{}).sxgo))});
  // tools
  H.querySelectorAll('.sxh-tile').forEach(function(tl){var e=tl.querySelector('.sxh-te');if(!e)return;if(tl.classList.contains('sxh-add')){if(e.dataset.zk!=='add'){e.dataset.zk='add';e.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg>'}return}var k=pick((tl.dataset.sxgo||'')+' '+((tl.querySelector('b')||tl).textContent));tile(e,k);tl.classList.toggle('zh-feat',k==='coach')});
- var bk=H.querySelector('.sxh-be');if(bk)tile(bk,'books');
+ var shown=0;H.querySelectorAll('.sxh-tile').forEach(function(tl){var e=tl.querySelector('.sxh-te'),k=e&&e.dataset.zk;var hide=tl.classList.contains('sxh-add')||k==='books'||k==='quest'||k==='exam';if(!hide&&!tl.classList.contains('zh-feat')){shown++;if(shown>4)hide=true}tl.classList.toggle('zh-hide',hide)});
+var bk=H.querySelector('.sxh-be');if(bk)tile(bk,'books');
  var th=H.querySelector('.sxh-th h2');if(th&&th.textContent!=='Study tools')th.textContent='Study tools';
  // subjects as covers
  var subj=H.querySelector('.sxh-subj');
