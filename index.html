@@ -8762,7 +8762,7 @@ var ALL=[
  ['progress','📈','Progress','See how you’re doing','sxc4'],
  ['math','➗','Maths helper','Step-by-step maths','sxc5']
 ];
-var DEF=['coach','quiz','flashcards','quest','timetable','examiner','focuslock','resources'];
+var DEF=['coach','quiz','flashcards','timetable','focuslock'];try{if(!localStorage.getItem('sx-tiles-v2')){var _o=JSON.parse(localStorage.getItem('sx-tiles')||'null');if(Array.isArray(_o))localStorage.setItem('sx-tiles',JSON.stringify(_o.filter(function(x){return x!=='quest'&&x!=='examiner'&&x!=='resources'})));localStorage.setItem('sx-tiles-v2','1')}}catch(e){}
 function lsG(k,d){try{var v=JSON.parse(localStorage.getItem(k)||'null');return v==null?d:v}catch(e){return d}}
 function lsS(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function own(){var o=lsG('sx-own',[]);return Array.isArray(o)?o.filter(function(x){return x&&x.n}).slice(0,8):[]}
@@ -12026,7 +12026,7 @@ function deco(){
  H.querySelectorAll('.sxh-item').forEach(function(it){var e=it.querySelector('.sxh-ie');if(e)tile(e,pick((it.querySelector('b')||it).textContent+' '+((it.querySelector('.sxh-go')||{}).dataset||{}).sxgo))});
  // tools
  H.querySelectorAll('.sxh-tile').forEach(function(tl){var e=tl.querySelector('.sxh-te');if(!e)return;if(tl.classList.contains('sxh-add')){if(e.dataset.zk!=='add'){e.dataset.zk='add';e.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg>'}return}var k=pick((tl.dataset.sxgo||'')+' '+((tl.querySelector('b')||tl).textContent));tile(e,k);tl.classList.toggle('zh-feat',k==='coach')});
- var shown=0;H.querySelectorAll('.sxh-tile').forEach(function(tl){var e=tl.querySelector('.sxh-te'),k=e&&e.dataset.zk;var hide=tl.classList.contains('sxh-add')||k==='books'||k==='quest'||k==='exam';if(!hide&&!tl.classList.contains('zh-feat')){shown++;if(shown>4)hide=true}tl.classList.toggle('zh-hide',hide)});
+ H.querySelectorAll('.sxh-tile').forEach(function(tl){tl.classList.toggle('zh-hide',tl.classList.contains('sxh-add'))});
 var bk=H.querySelector('.sxh-be');if(bk)tile(bk,'books');
  var th=H.querySelector('.sxh-th h2');if(th&&th.textContent!=='Study tools')th.textContent='Study tools';
  // subjects as covers
