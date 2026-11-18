@@ -11980,11 +11980,11 @@ body.zh-on #sfTabs button.on,body.zh-on #sfTabs button.active{color:#fff!importa
 body.zh-on header.top{gap:8px!important}
 body.zh-on header.top>div:first-child{flex:none!important;min-width:0}
 body.zh-on header.top>div:last-child{flex:1 1 auto!important;min-width:0;justify-content:flex-end;gap:6px!important}
-body.zh-on .zh-pl{min-width:0;flex:0 1 auto;gap:5px}
-.zh-pl button{height:34px!important;padding:0 9px 0 7px!important;font-size:13px!important;flex:none;max-width:84px}
+body.zh-on .zh-pl{min-width:0;flex:0 1 auto;gap:5px;overflow:hidden}
+.zh-pl button{height:34px!important;padding:0 8px 0 6px!important;gap:4px!important;font-size:12.5px!important;flex:none}
 .zh-pl button b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .zh-pl svg{width:15px!important;height:15px!important;flex:none}
-@media(max-width:360px){.zh-pl button:nth-child(3){display:none}}
+
 
 </style><script id="sf-zh-js">
 /* ===== Home redesign (zh): indigo hero with book stack, card missions, textbook subjects, tool cards ===== */
@@ -12000,7 +12000,9 @@ function gems(){try{var I=window.StudyFlowIsland;return (I&&I.state&&+I.state.ge
 function coins(){try{var I=window.StudyFlowIsland;return (I&&I.state&&+I.state.coins)||(+(((window.data||{}).island||{}).coins)||0)}catch(e){return 0}}
 var FIRE='<svg viewBox="0 0 24 24"><path d="M12 2c1 4 5 5.5 5 10.5A5 5 0 0 1 7 12.5c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5 1-9z" fill="#ff7a1a"/><path d="M12 13c1 1.5 2.5 2 2.5 3.8a2.5 2.5 0 0 1-5 0c0-1.3.9-2 1.5-2.6 0 .8.4 1.3 1 1.3z" fill="#ffd23f"/></svg>',COIN='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#ffc83d"/><circle cx="12" cy="12" r="6.2" fill="none" stroke="#e09b00" stroke-width="1.6"/><path d="M12 8.5v7" stroke="#e09b00" stroke-width="1.8" stroke-linecap="round"/></svg>',GEM='<svg viewBox="0 0 24 24"><path d="M6 4h12l3 5-9 11L3 9z" fill="#38bdf8"/><path d="M3 9h18M9 4l3 16 3-16" fill="none" stroke="#0ea5e9" stroke-width="1.2"/></svg>';
 var HOUSE='<path d="M3.5 11 12 4l8.5 7v8.5a1.5 1.5 0 0 1-1.5 1.5h-4.5v-6h-5v6H5a1.5 1.5 0 0 1-1.5-1.5z"/>',GRID='<rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/>';
-function cp(v){v=+(String(v).replace(/[^\d.]/g,''))||0;if(v>=1e6)return (Math.floor(v/1e5)/10).toString().replace(/\.0$/,'')+'M';if(v>=1e4)return Math.floor(v/1e3)+'k';if(v>=1e3)return (Math.floor(v/100)/10).toString().replace(/\.0$/,'')+'k';return String(v)}
+function cp(v){return String(+(String(v).replace(/[^\d.]/g,''))||0)}
+function fitPl(top,pl){var g=pl.children[2];if(!g)return;g.style.display='';var m=top.querySelector('#menu'),f=pl.children[0];var c=top.querySelector('.sfcartbtn');if((m&&f&&f.getBoundingClientRect().left<m.getBoundingClientRect().right+6)||(c&&g.getBoundingClientRect().right>c.getBoundingClientRect().left-4)||pl.scrollWidth>pl.clientWidth+1)g.style.display='none'}
+window.addEventListener('resize',function(){var t=document.querySelector('header.top'),p=t&&t.querySelector('.zh-pl');if(p)fitPl(t,p)});
 function deco(){
  var on=!!document.querySelector('#page-dashboard.active');if(document.body.classList.contains('zh-on')!==on)document.body.classList.toggle('zh-on',on);
  var t=document.getElementById('sfTabs');if(t&&!t.dataset.zh){t.dataset.zh=1;var hb=t.querySelector('[data-tab="dashboard"] svg');if(hb)hb.innerHTML=HOUSE;var mb=t.querySelector('#sfMore svg');if(mb)mb.innerHTML=GRID}
@@ -12017,7 +12019,7 @@ function deco(){
  // header pills
  var top=document.querySelector('header.top');
  if(top){var pl=top.querySelector('.zh-pl');var cart=top.querySelector('.sfcartbtn');if(!pl&&cart){pl=document.createElement('div');pl.className='zh-pl';cart.parentNode.insertBefore(pl,cart)}
-  if(pl){var sc=H.querySelector('.sxh-chips b');var st=sc?sc.textContent:'0';var h='<button type="button" data-zgo="progress">'+FIRE+'<b>'+cp(st)+'</b></button><button type="button" data-zgo="quest">'+COIN+'<b>'+cp(((((H.querySelectorAll('.sxh-chips button')[1]||{}).textContent||'').match(/🪙\s*([\d,]+)/))||[0,coins()])[1])+'</b></button><button type="button" data-zgo="quest">'+GEM+'<b>'+cp(gems())+'</b></button>';if(pl.dataset.h!==h){pl.dataset.h=h;pl.innerHTML=h;pl.querySelectorAll('[data-zgo]').forEach(function(b){b.onclick=function(){try{go(b.dataset.zgo)}catch(e){}}})}}}
+  if(pl){var sc=H.querySelector('.sxh-chips b');var st=sc?sc.textContent:'0';var h='<button type="button" data-zgo="progress">'+FIRE+'<b>'+cp(st)+'</b></button><button type="button" data-zgo="quest">'+COIN+'<b>'+cp(((((H.querySelectorAll('.sxh-chips button')[1]||{}).textContent||'').match(/🪙\s*([\d,]+)/))||[0,coins()])[1])+'</b></button><button type="button" data-zgo="quest">'+GEM+'<b>'+cp(gems())+'</b></button>';if(pl.dataset.h!==h){pl.dataset.h=h;pl.innerHTML=h;pl.querySelectorAll('[data-zgo]').forEach(function(b){b.onclick=function(){try{go(b.dataset.zgo)}catch(e){}}})}fitPl(top,pl)}}
  // mission
  H.querySelectorAll('.sxh-item').forEach(function(it){var e=it.querySelector('.sxh-ie');if(e)tile(e,pick((it.querySelector('b')||it).textContent+' '+((it.querySelector('.sxh-go')||{}).dataset||{}).sxgo))});
  // tools
