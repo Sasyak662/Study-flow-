@@ -7639,7 +7639,7 @@ function tidy(){
  var pg=document.getElementById('page-timetable');if(!pg)return;
  pg.querySelectorAll('.tt-tabs > *, .tt-actions .tt-b').forEach(function(b){var t=b.textContent.trim();MAP.forEach(function(m){if(m[0].test(t)&&b.childElementCount===0&&b.textContent!==m[1])b.textContent=m[1]})});
  var on=pg.querySelector('.tt-tabs .on');var st=!!(on&&/More|Settings/.test(on.textContent));
- var bd=document.getElementById('ttBody');['remCard','ppMorn'].forEach(function(id){var el=document.getElementById(id);if(el&&bd&&el.parentNode===bd.parentNode&&bd.nextElementSibling!==el&&!el.dataset.tsMoved){el.dataset.tsMoved='1';bd.parentNode.insertBefore(el,bd.nextSibling)}});if(pg.classList.contains('tt-on-settings')!==st)pg.classList.toggle('tt-on-settings',st);
+ var bd=document.getElementById('ttBody');['remCard'].forEach(function(id){var el=document.getElementById(id);if(el&&bd&&el.parentNode===bd.parentNode&&bd.nextElementSibling!==el&&!el.dataset.tsMoved){el.dataset.tsMoved='1';bd.parentNode.insertBefore(el,bd.nextSibling)}});if(pg.classList.contains('tt-on-settings')!==st)pg.classList.toggle('tt-on-settings',st);
  var h=pg.querySelector('.tt-hint');if(h&&h.textContent!=='Tip: drag a study block to move it. Click it to mark done or delete.')h.textContent='Tip: drag a study block to move it. Click it to mark done or delete.';
  var pm=pg.querySelector('.pagehead .muted');if(pm&&pm.dataset.ts!=='1'){pm.dataset.ts='1';pm.textContent='Add your school times and homework, press “Make my plan”, and StudyStarx fits study time into your free hours.'}
  if(st&&!pg.querySelector('.ts-simple')){var t=pg.querySelector('#ttTab');if(t)t.insertAdjacentHTML('afterbegin','<p class="ts-simple">Reminders and the morning plan are further down this page.</p>')}
@@ -12202,6 +12202,29 @@ window.addEventListener('popstate',function(){shut(top())});
 #page-timetable .tt-set{display:grid!important;grid-template-columns:1fr 1fr;gap:10px}
 #page-timetable div.tt-more>.tt-fold .tt-fold-b .tt-card{border:0!important;box-shadow:none!important;background:transparent!important;padding:10px 0 0!important;margin:0!important}
 #page-timetable div.tt-more>.tt-fold .tt-grid2{gap:6px!important}
+/* ---- polish v2 ---- */
+#page-timetable div.tt-more .tt-fold-b h3{display:none}
+#page-timetable div.tt-more .tt-fold-b p.s{font-size:12.5px!important;color:#8a88a3!important;margin:2px 0 10px!important}
+#page-timetable div.tt-more .field label{font:700 11.5px 'Plus Jakarta Sans',sans-serif!important;color:#6b6987!important;letter-spacing:0;text-transform:none;margin-bottom:5px}
+#page-timetable div.tt-more .field input,#page-timetable div.tt-more .field select{height:46px!important;border:1.5px solid transparent!important;border-radius:14px!important;background:#f4f3fa!important;box-shadow:none!important;font:600 14px 'Plus Jakarta Sans',sans-serif!important;color:#16142e!important;padding:0 12px!important}
+#page-timetable div.tt-more .field input:focus,#page-timetable div.tt-more .field select:focus{border-color:#7c8cff!important;background:#fff!important;outline:none}
+#page-timetable div.tt-more .tt-days{gap:6px!important;flex-wrap:wrap}
+#page-timetable div.tt-more .tt-days button{width:auto!important;min-width:42px;height:36px!important;border:0!important;border-radius:999px!important;background:#f1f0fb!important;color:#5b5a78!important;font:700 12.5px 'Plus Jakarta Sans',sans-serif!important;padding:0 10px}
+#page-timetable div.tt-more .tt-days button.on{background:linear-gradient(135deg,#6366f1,#3b3fd6)!important;color:#fff!important;box-shadow:0 6px 12px -6px rgba(59,63,214,.7)}
+#page-timetable div.tt-more .tt-b.p{background:linear-gradient(135deg,#6366f1,#3b3fd6)!important;box-shadow:0 10px 18px -10px rgba(59,63,214,.8)!important;border:0!important;border-radius:14px!important;height:46px;padding:0 18px!important;font:700 14.5px 'Plus Jakarta Sans',sans-serif!important;color:#fff!important}
+#page-timetable div.tt-more .tt-b.d{background:#fff1f2!important;color:#e11d48!important;border:0!important;border-radius:14px!important;font:700 13.5px 'Plus Jakarta Sans',sans-serif!important;box-shadow:none!important;width:100%;height:44px;margin-top:6px}
+#page-timetable div.tt-more .kq-empty{border:1.5px dashed #dcdaf0!important;background:#faf9ff!important;border-radius:14px!important;padding:14px!important;text-align:center;color:#8a88a3!important;font-size:13px}
+#page-timetable div.tt-more .tt-fold-b .tt-card+.tt-card{border-top:1px solid #f1f0f6!important;margin-top:8px!important;padding-top:14px!important}
+#page-timetable div.tt-more .tt-fold-b .tt-card h3.ttm-keep{display:block;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#16142e;margin:0 0 8px}
+#page-timetable div.tt-more .tt-bars{height:150px!important;gap:8px!important;padding-top:4px!important}
+#page-timetable div.tt-more .tt-bars span{transform:scaleY(.72);transform-origin:bottom;left:10%!important;right:10%!important;border-radius:10px!important}
+#page-timetable div.tt-more .tt-bars .f{background:#eceaf8!important}
+#page-timetable div.tt-more .tt-bars .s{background:linear-gradient(180deg,#8b93ff,#3b3fd6)!important}
+#page-timetable div.tt-more .tt-bars b{font:700 12px 'Plus Jakarta Sans',sans-serif!important;color:#16142e}
+#page-timetable div.tt-more .tt-bars small{font-size:11px!important;color:#8a88a3!important}
+.ttm-sec{font:700 13px 'Plus Jakarta Sans',sans-serif;color:#6b6987;margin:18px 4px 0}
+#page-timetable .ttm-card .ttm-ctl .rem-sw{order:-1!important;margin-left:0!important}#page-timetable #ppMorn .ttm-ctl input[type=time]{margin-left:0!important}
+#page-timetable #remCard.ttm-card{position:relative;margin-top:40px!important;overflow:visible}#page-timetable #remCard.ttm-card:before{content:'Notifications';position:absolute;top:-26px;left:4px;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#6b6987}
 
 </style><script id="sf-ttm-js">
 /* ===== Timetable tools (More tab) redesign ===== */
@@ -12215,16 +12238,16 @@ function trim(mo){if(!mo)return;
  var KEEP=/Weekday study from|Weekday study until|Weekend from|Weekend until|Longest session|Day off/i;
  mo.querySelectorAll('.tt-set .field').forEach(function(f){var l=f.querySelector('label');if(l&&!KEEP.test(l.textContent))f.style.display='none'});
  mo.querySelectorAll('summary small').forEach(function(sm){if(/Study hours/.test(sm.textContent))sm.textContent='Study hours, session length, day off';if(/Sessions kept/.test(sm.textContent))sm.textContent='How busy your next 7 days are'});
- var rt=document.getElementById('remTest');if(rt)rt.style.display='none';
+ mo.querySelectorAll('.tt-fold-b .tt-card>h3').forEach(function(h){if(/Your routines/i.test(h.textContent))h.className='ttm-keep'});mo.querySelectorAll('.tt-fold-b p.s').forEach(function(p){if(/Grey = free/.test(p.textContent))p.innerHTML='<span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:#eceaf8;margin-right:5px"></span>Free time &nbsp; <span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:#3b3fd6;margin-right:5px"></span>Planned study'});var os=document.querySelector('.ttm-sec');if(os)os.remove();var rt=document.getElementById('remTest');if(rt)rt.style.display='none';
 }
 function deco(){var pg=document.getElementById('page-timetable');if(!pg)return;
  var mo=pg.querySelector('div.tt-more');var nt=pg.querySelector('.ts-simple');if(nt&&/further down/.test(nt.textContent))nt.style.display='none';if(mo){if(!mo.querySelector('.ttm-h')){var h=document.createElement('div');h.className='ttm-h';h.innerHTML='<h3>Tools</h3><span>Make the timetable work your way</span>';mo.prepend(h)}
   mo.querySelectorAll(':scope>.tt-fold>summary').forEach(function(sm){if(sm.dataset.ttm)return;sm.dataset.ttm=1;var b=sm.querySelector('b'),t=b?b.textContent:'';if(b)b.textContent=t.replace(/^[^A-Za-z]+/,'');var w=document.createElement('span');w.className='ttm-t';while(sm.firstChild)w.appendChild(sm.firstChild);sm.innerHTML=tile(pick(t));sm.appendChild(w);sm.insertAdjacentHTML('beforeend',CHEV)})}
- trim(mo);[['remCard','bell'],['ppMorn','sun']].forEach(function(x){var c=document.getElementById(x[0]);if(!c||c.dataset.ttm)return;c.dataset.ttm=1;c.classList.add('ttm-card');var ic=c.querySelector('.ic');if(ic)ic.outerHTML=tile(x[1]);var row=document.createElement('div');row.className='ttm-ctl';[].slice.call(c.children).forEach(function(ch){if(!ch.classList.contains('ttm-i')&&!ch.classList.contains('tx'))row.appendChild(ch)});c.appendChild(row);
+ trim(mo);[['remCard','bell'],['ppMorn','sun']].forEach(function(x){var c=document.getElementById(x[0]);if(!c||c.querySelector('.ttm-ctl'))return;c.classList.add('ttm-card');var ic=c.querySelector('.ic');if(ic)ic.outerHTML=tile(x[1]);var row=document.createElement('div');row.className='ttm-ctl';[].slice.call(c.children).forEach(function(ch){if(!ch.classList.contains('ttm-i')&&!ch.classList.contains('tx'))row.appendChild(ch)});c.appendChild(row);
   var sw=row.querySelector('.rem-sw');if(sw){sw.parentNode.insertBefore(sw,row.firstChild)}});
 }
-var n=0;(function loop(){try{deco()}catch(e){}if(++n<30)setTimeout(loop,500)})();
-var mt=0;new MutationObserver(function(){if(mt)return;mt=setTimeout(function(){mt=0;var pg=document.getElementById('page-timetable');if(pg&&pg.classList.contains('active'))try{deco()}catch(e){}},120)}).observe(document.documentElement,{childList:true,subtree:true});
+setInterval(function(){var pg=document.getElementById('page-timetable');if(pg&&pg.offsetParent!==null)try{deco()}catch(e){console.log('ttm',e)}},600);try{deco()}catch(e){}
+var mt=0;new MutationObserver(function(){if(mt)return;mt=setTimeout(function(){mt=0;var pg=document.getElementById('page-timetable');if(pg&&pg.offsetParent!==null)try{deco()}catch(e){}},120)}).observe(document.documentElement,{childList:true,subtree:true});
 })();
 
 </script></body></html>
