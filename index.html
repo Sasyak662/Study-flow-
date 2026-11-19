@@ -12179,7 +12179,7 @@ window.addEventListener('popstate',function(){shut(top())});
 
 </script><style id="sf-ttm-css">
 /* ===== Timetable tools redesign ===== */
-#page-timetable .tt-more{display:flex;flex-direction:column;gap:10px}
+#page-timetable div.tt-more{display:flex;flex-direction:column;gap:10px}
 .ttm-h{margin:4px 2px 2px}.ttm-h h3{font:700 18px 'Sora','Plus Jakarta Sans',sans-serif;letter-spacing:-.02em;color:#16142e;margin:0}.ttm-h span{font-size:12.5px;color:#7a7894}
 #page-timetable .tt-more>.tt-fold{border:0!important;border-radius:22px!important;background:#fff!important;box-shadow:0 18px 30px -24px rgba(22,20,46,.5)!important;padding:0!important;overflow:hidden;margin:0!important}
 #page-timetable .tt-more>.tt-fold>summary{display:flex!important;align-items:center;gap:12px;padding:12px 14px!important;list-style:none;cursor:pointer}
@@ -12199,6 +12199,9 @@ window.addEventListener('popstate',function(){shut(top())});
 .ttm-ctl .rem-sw{margin:0!important}
 .ttm-ctl>*:last-child{margin-left:auto!important}
 #page-timetable #remCard.ttm-card+#ppMorn.ttm-card{margin-top:10px!important}
+#page-timetable .tt-set{display:grid!important;grid-template-columns:1fr 1fr;gap:10px}
+#page-timetable div.tt-more>.tt-fold .tt-fold-b .tt-card{border:0!important;box-shadow:none!important;background:transparent!important;padding:10px 0 0!important;margin:0!important}
+#page-timetable div.tt-more>.tt-fold .tt-grid2{gap:6px!important}
 
 </style><script id="sf-ttm-js">
 /* ===== Timetable tools (More tab) redesign ===== */
@@ -12206,10 +12209,18 @@ window.addEventListener('popstate',function(){shut(top())});
 function tile(k){return '<span class="ttm-i" style="background:'+GR[k]+';color:'+GR[k].split(',').pop().replace(')','')+'">'+IC[k]+'</span>'}
 var CHEV='<span class="ttm-ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
 function pick(t){return /routine/i.test(t)?'rout':/doing|stat/i.test(t)?'stat':'gear'}
+function trim(mo){if(!mo)return;
+ mo.querySelectorAll('.tt-card>h3').forEach(function(h){if(/Coach tips|Time by subject/i.test(h.textContent))h.parentNode.style.display='none'});
+ mo.querySelectorAll('.tt-presets').forEach(function(x){x.style.display='none'});
+ var KEEP=/Weekday study from|Weekday study until|Weekend from|Weekend until|Longest session|Day off/i;
+ mo.querySelectorAll('.tt-set .field').forEach(function(f){var l=f.querySelector('label');if(l&&!KEEP.test(l.textContent))f.style.display='none'});
+ mo.querySelectorAll('summary small').forEach(function(sm){if(/Study hours/.test(sm.textContent))sm.textContent='Study hours, session length, day off';if(/Sessions kept/.test(sm.textContent))sm.textContent='How busy your next 7 days are'});
+ var rt=document.getElementById('remTest');if(rt)rt.style.display='none';
+}
 function deco(){var pg=document.getElementById('page-timetable');if(!pg)return;
- var mo=pg.querySelector('.tt-more');if(mo){if(!mo.querySelector('.ttm-h')){var h=document.createElement('div');h.className='ttm-h';h.innerHTML='<h3>Tools</h3><span>Make the timetable work your way</span>';mo.prepend(h)}
-  mo.querySelectorAll('summary').forEach(function(sm){if(sm.dataset.ttm)return;sm.dataset.ttm=1;var b=sm.querySelector('b'),t=b?b.textContent:'';if(b)b.textContent=t.replace(/^[^A-Za-z]+/,'');var w=document.createElement('span');w.className='ttm-t';while(sm.firstChild)w.appendChild(sm.firstChild);sm.innerHTML=tile(pick(t));sm.appendChild(w);sm.insertAdjacentHTML('beforeend',CHEV)})}
- [['remCard','bell'],['ppMorn','sun']].forEach(function(x){var c=document.getElementById(x[0]);if(!c||c.dataset.ttm)return;c.dataset.ttm=1;c.classList.add('ttm-card');var ic=c.querySelector('.ic');if(ic)ic.outerHTML=tile(x[1]);var row=document.createElement('div');row.className='ttm-ctl';[].slice.call(c.children).forEach(function(ch){if(!ch.classList.contains('ttm-i')&&!ch.classList.contains('tx'))row.appendChild(ch)});c.appendChild(row);
+ var mo=pg.querySelector('div.tt-more');var nt=pg.querySelector('.ts-simple');if(nt&&/further down/.test(nt.textContent))nt.style.display='none';if(mo){if(!mo.querySelector('.ttm-h')){var h=document.createElement('div');h.className='ttm-h';h.innerHTML='<h3>Tools</h3><span>Make the timetable work your way</span>';mo.prepend(h)}
+  mo.querySelectorAll(':scope>.tt-fold>summary').forEach(function(sm){if(sm.dataset.ttm)return;sm.dataset.ttm=1;var b=sm.querySelector('b'),t=b?b.textContent:'';if(b)b.textContent=t.replace(/^[^A-Za-z]+/,'');var w=document.createElement('span');w.className='ttm-t';while(sm.firstChild)w.appendChild(sm.firstChild);sm.innerHTML=tile(pick(t));sm.appendChild(w);sm.insertAdjacentHTML('beforeend',CHEV)})}
+ trim(mo);[['remCard','bell'],['ppMorn','sun']].forEach(function(x){var c=document.getElementById(x[0]);if(!c||c.dataset.ttm)return;c.dataset.ttm=1;c.classList.add('ttm-card');var ic=c.querySelector('.ic');if(ic)ic.outerHTML=tile(x[1]);var row=document.createElement('div');row.className='ttm-ctl';[].slice.call(c.children).forEach(function(ch){if(!ch.classList.contains('ttm-i')&&!ch.classList.contains('tx'))row.appendChild(ch)});c.appendChild(row);
   var sw=row.querySelector('.rem-sw');if(sw){sw.parentNode.insertBefore(sw,row.firstChild)}});
 }
 var n=0;(function loop(){try{deco()}catch(e){}if(++n<30)setTimeout(loop,500)})();
