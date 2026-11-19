@@ -3015,16 +3015,16 @@ async function pushNow(force){
   try{const r=await api('/api/account',{action:'push',blob:blob(),baseV:st.v||0,force:!!force});setSync({v:r.v,updated:r.updated,dirty:false});paintAccount('Synced '+new Date(r.updated).toLocaleTimeString())}
   catch(e){if(e.status===409)showConflict(e.body);else{setSync({dirty:true});paintAccount('Not synced: '+e.message)}}
 }
-function queuePush(){if(applyingRemote||!token())return;setSync({dirty:true});clearTimeout(pushTimer);pushTimer=setTimeout(()=>pushNow(false),4000)}
-async function pullIfNewer(){
+function queuePush(){if(applyingRemote||!token())return;setSync({dirty:true});clearTimeout(pushTimer);pushTimer=setTimeout(()=>pushNow(false),1500)}
+async function pullIfNewer(pre){
   if(!token())return;
   try{
-    me=await api('/api/account',{action:'me'});
+    me=(pre&&pre.cloud!==undefined)?pre:await api('/api/account',{action:'me'});
     const st=syncState(),cloud=me.cloud;
     if(cloud&&cloud.v>(st.v||0)){
       if(st.dirty&&st.v)return showConflict(cloud);
       const d=await api('/api/account',{action:'pull'});
-      if(d.blob&&applyBlob(d.blob)){setSync({v:d.v,updated:d.updated,dirty:false});window.__sfReloading=true;try{window.sfSyncBar&&sfSyncBar('load');sessionStorage.setItem('sf-synced','1')}catch(_){}setTimeout(()=>location.reload(),300);return}
+      if(d.blob&&applyBlob(d.blob)){setSync({v:d.v,updated:d.updated,dirty:false});window.__sfReloading=true;try{window.sfSyncBar&&sfSyncBar('load');sessionStorage.setItem('sf-synced','1')}catch(_){}setTimeout(()=>location.reload(),60);return}
     } else if(!cloud||!cloud.v||st.dirty){await pushNow(false)}
     paintAccount();
   }catch(e){paintAccount(e.status===503?'':'Could not reach your account: '+e.message)}
@@ -3073,9 +3073,13 @@ async function initAccount(){
   const card=q('#aiConnectionStatus')?.closest('.card');
   if(card&&!q('#sfAcct'))card.insertAdjacentHTML('afterend',accountCardHTML());
   if(location.protocol==='file:'){acctConfigured=false;paintAccount();return}
+  // signed in: start syncing straight away instead of waiting for the setup check
+  const early=token()?pullIfNewer().catch(()=>{}):null;
   try{const r=await realFetch('/api/account');const j=await r.json();acctConfigured=!!j.configured}catch(e){acctConfigured=false}
   paintAccount();
-  if(acctConfigured&&token())await pullIfNewer();
+  if(early)await early;
+  /* keep devices in step: save the moment the app is put away, check for news when it comes back */
+  document.addEventListener('visibilitychange',()=>{try{if(!token()||!acctConfigured)return;if(document.visibilityState==='hidden'){if(syncState().dirty){clearTimeout(pushTimer);pushNow(false)}}else{const n=Date.now();if(n-(window.__sfLastPull||0)>15000){window.__sfLastPull=n;pullIfNewer()}}}catch(e){}});
   if(acctConfigured)await verifyPlusReturn();
   paintPremium();
 }
@@ -3084,7 +3088,7 @@ if(typeof window.persist==='function'&&!window.persist.__sf){
   const o=window.persist;const w=function(){const r=o.apply(this,arguments);try{queuePush()}catch(e){}return r};w.__sf=true;window.persist=w;try{persist=w}catch(e){}
 }
 
-window.sfAccount={isPlus:function(){try{if(me&&ownMail&&me.email&&String(me.email).toLowerCase()===ownMail)return true;return!!(me&&me.plan==='plus'&&(!me.plusUntil||new Date(me.plusUntil)>new Date()))}catch(e){return false}},ready:function(){try{return!token()||!!me||performance.now()>15000}catch(e){return true}},start:function(p,b){return startPlus(p,b)},signedIn:function(){return!!token()},email:function(){return me&&me.email||''},configured:async function(){if(location.protocol==='file:')return false;if(acctConfigured!==null)return acctConfigured;try{const r=await realFetch('/api/account');const j=await r.json();acctConfigured=!!j.configured}catch(e){acctConfigured=false}return acctConfigured},auth:async function(act,email,password,recoveryCode){const r=await api('/api/account',{action:act,email:email,password:password,recoveryCode:recoveryCode||''});ls.set(TOKEN_KEY,r.token);me=r;setSync({v:0,dirty:true});try{paintAccount(r.recoveryCode?undefined:'Signed in.')}catch(_){}try{await pullIfNewer()}catch(_){}return r},google:async function(cred){const r=await api('/api/account',{action:'google',credential:cred});ls.set(TOKEN_KEY,r.token);me=r;setSync({v:0,dirty:true});try{paintAccount('Signed in with Google.')}catch(_){}try{await pullIfNewer()}catch(_){}return r},appCode:async function(){return api('/api/account',{action:'appcode'})},appRedeem:async function(code){const r=await api('/api/account',{action:'appredeem',code:code});ls.set(TOKEN_KEY,r.token);me=r;setSync({v:0,dirty:true});try{paintAccount('Signed in with Google.')}catch(_){}try{await pullIfNewer()}catch(_){}return r},googleId:async function(){if(location.protocol==='file:')return'';try{const r=await realFetch('/api/account');const j=await r.json();return String(j.google||'')}catch(e){return''}}};
+window.sfAccount={isPlus:function(){try{if(me&&ownMail&&me.email&&String(me.email).toLowerCase()===ownMail)return true;return!!(me&&me.plan==='plus'&&(!me.plusUntil||new Date(me.plusUntil)>new Date()))}catch(e){return false}},ready:function(){try{return!token()||!!me||performance.now()>15000}catch(e){return true}},start:function(p,b){return startPlus(p,b)},signedIn:function(){return!!token()},email:function(){return me&&me.email||''},configured:async function(){if(location.protocol==='file:')return false;if(acctConfigured!==null)return acctConfigured;try{const r=await realFetch('/api/account');const j=await r.json();acctConfigured=!!j.configured}catch(e){acctConfigured=false}return acctConfigured},auth:async function(act,email,password,recoveryCode){const r=await api('/api/account',{action:act,email:email,password:password,recoveryCode:recoveryCode||''});ls.set(TOKEN_KEY,r.token);me=r;setSync({v:0,dirty:true});try{paintAccount(r.recoveryCode?undefined:'Signed in.')}catch(_){}try{await pullIfNewer(r)}catch(_){}return r},google:async function(cred){const r=await api('/api/account',{action:'google',credential:cred});ls.set(TOKEN_KEY,r.token);me=r;setSync({v:0,dirty:true});try{paintAccount('Signed in with Google.')}catch(_){}try{await pullIfNewer(r)}catch(_){}return r},appCode:async function(){return api('/api/account',{action:'appcode'})},appRedeem:async function(code){const r=await api('/api/account',{action:'appredeem',code:code});ls.set(TOKEN_KEY,r.token);me=r;setSync({v:0,dirty:true});try{paintAccount('Signed in with Google.')}catch(_){}try{await pullIfNewer(r)}catch(_){}return r},googleId:async function(){if(location.protocol==='file:')return'';try{const r=await realFetch('/api/account');const j=await r.json();return String(j.google||'')}catch(e){return''}}};
 function paintPremium(){
   const pg=q('#page-premium');if(!pg)return;
   const n=pg.querySelector('.monetization-note');
