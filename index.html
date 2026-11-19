@@ -3015,7 +3015,7 @@ async function pushNow(force){
   try{const r=await api('/api/account',{action:'push',blob:blob(),baseV:st.v||0,force:!!force});setSync({v:r.v,updated:r.updated,dirty:false});paintAccount('Synced '+new Date(r.updated).toLocaleTimeString())}
   catch(e){if(e.status===409)showConflict(e.body);else{setSync({dirty:true});paintAccount('Not synced: '+e.message)}}
 }
-function queuePush(){if(applyingRemote||!token())return;setSync({dirty:true});clearTimeout(pushTimer);pushTimer=setTimeout(()=>pushNow(false),1500)}
+function queuePush(){if(applyingRemote||!token())return;setSync({dirty:true,edited:Date.now()});clearTimeout(pushTimer);pushTimer=setTimeout(()=>pushNow(false),1500)}
 async function pullIfNewer(pre){
   if(!token())return;
   try{
@@ -3029,11 +3029,34 @@ async function pullIfNewer(pre){
     paintAccount();
   }catch(e){paintAccount(e.status===503?'':'Could not reach your account: '+e.message)}
 }
-function showConflict(info){
-  const box=q('#sfAcctMsg');if(!box)return;
-  box.innerHTML=`<div class="mx-fb info"><b>Your data changed on another device</b>${info&&info.updated?' ('+new Date(info.updated).toLocaleString()+')':''}. Which copy do you want to keep?<div class="tool-action-row" style="margin-top:8px"><button class="btn sm" type="button" id="sfKeepCloud">Use the cloud copy</button><button class="btn line sm" type="button" id="sfKeepLocal">Keep this device's copy</button></div></div>`;
-  q('#sfKeepCloud').onclick=async()=>{try{const d=await api('/api/account',{action:'pull'});if(applyBlob(d.blob)){setSync({v:d.v,updated:d.updated,dirty:false});location.reload()}}catch(e){box.textContent=e.message}};
-  q('#sfKeepLocal').onclick=()=>pushNow(true);
+/* Both phones changed things: join the two copies together instead of asking the student */
+function sfMerge(a,b,bNewer){
+  if(a===undefined)return b;if(b===undefined)return a;
+  if(Array.isArray(a)&&Array.isArray(b)){
+    const keyOf=x=>x&&typeof x==='object'?(x.id!=null?'id:'+x.id:'j:'+JSON.stringify(x)):'p:'+JSON.stringify(x);
+    const out=[],pos={};
+    (bNewer?[a,b]:[b,a]).forEach(list=>list.forEach(x=>{const k=keyOf(x);if(k in pos)out[pos[k]]=(x&&typeof x==='object'&&out[pos[k]]&&typeof out[pos[k]]==='object'&&!Array.isArray(x))?sfMerge(out[pos[k]],x,true):x;else{pos[k]=out.length;out.push(x)}}));
+    return out;
+  }
+  if(a&&b&&typeof a==='object'&&typeof b==='object'&&!Array.isArray(a)&&!Array.isArray(b)){
+    const o={};new Set([...Object.keys(a),...Object.keys(b)]).forEach(k=>{o[k]=sfMerge(a[k],b[k],bNewer)});return o;
+  }
+  return bNewer?b:a;
+}
+let merging=false;
+async function showConflict(info){
+  if(merging)return;merging=true;
+  try{
+    const d=await api('/api/account',{action:'pull'});
+    const cloud=d.blob||{},local=blob(),st=syncState();
+    const cloudNewer=(Date.parse(d.updated||(info&&info.updated)||0)||0)>(st.edited||0);
+    const mergedExtra=sfMerge(local.extra||{},cloud.extra||{},cloudNewer);
+    try{const oa=JSON.parse((local.extra||{}).sfOwned||'{}'),ob=JSON.parse((cloud.extra||{}).sfOwned||'{}');mergedExtra.sfOwned=JSON.stringify(Object.assign({},oa,ob))}catch(e){}
+    const merged={data:sfMerge(local.data||{},cloud.data||{},cloudNewer),quizzes:sfMerge(local.quizzes||[],cloud.quizzes||[],cloudNewer),extra:mergedExtra,app:'studyflow',saved:Date.now()};
+    const r=await api('/api/account',{action:'push',blob:merged,baseV:d.v||0,force:true});
+    setSync({v:r.v,updated:r.updated,dirty:false});
+    if(applyBlob(merged)){try{window.sfSyncBar&&sfSyncBar('load');sessionStorage.setItem('sf-synced','1')}catch(_){}window.__sfReloading=true;setTimeout(()=>location.reload(),60)}
+  }catch(e){merging=false;setSync({dirty:true});try{paintAccount('Not synced yet — will try again')}catch(_){}}
 }
 function accountCardHTML(){
   return `<div class="card" id="sfAcct" style="margin-top:17px"><div class="head"><div><h2>Account and sync</h2><p class="tiny muted">Sign in to back up your study data and use it on your phone, tablet and laptop.</p></div><span class="tag" id="sfAcctPlan">Not signed in</span></div><div id="sfAcctBody"></div><div id="sfAcctMsg" class="tiny" aria-live="polite" style="margin-top:8px"></div></div>`;
@@ -8351,7 +8374,7 @@ var $=function(s,r){return(r||document).querySelector(s)};
 function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function D(){try{return data||{}}catch(e){return window.data||{}}}
 function dev(){try{return /[?&]dev=1/.test(location.search)||localStorage.getItem('sx-dev')==='1'}catch(e){return false}}
-var ORDER=[['acct','👤','Account & sync',/Account and sync/],['prof','🎓','Your profile',/Your profile/],['look','🎨','Appearance',/Appearance/],['lang','🌐','Language',/Language/],['quest','🏝️','StudyQuest quizzes',/StudyQuest quizzes/],['data','💾','Your data',/Your data/],['help','💬','Help us improve',/Help us improve/],['dev','🛠️','Server & AI (owner only)',/Secure StudyStarx/]];
+var ORDER=[['acct','👤','Account & sync',/Account and sync/],['prof','🎓','Your profile',/Your profile/],['look','🎨','Appearance',/Appearance/],['lang','🌐','Language',/Language/],['quest','🏝️','StudyQuest quizzes',/StudyQuest quizzes/],['help','💬','Help us improve',/Help us improve/],['dev','🛠️','Server & AI (owner only)',/Secure StudyStarx/]];
 var SHORT={quest:'StudyQuest makes new quiz questions for your subjects when you run low. Each batch uses 1 of your daily AI questions.',look:'',data:'Your tasks, notes, flashcards and results are saved on this device.',acct:'Sign in to back up your work and use it on your phone and laptop.',lang:'StudyStarx, the AI Coach, quizzes and flashcards will use this language.',help:'Tell us what helped and what didn’t. Every message is read.'};
 function sum(k){var p=D().profile||{};try{
  if(k==='acct'){var em=window.sfAccount&&sfAccount.email&&sfAccount.email();if(!em){var t=$('#sfAcct .tag');return t&&/signed in/i.test(t.textContent)&&!/not/i.test(t.textContent)?'Signed in':'Not signed in — tap to sign in'}return em}
