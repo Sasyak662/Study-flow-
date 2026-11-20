@@ -12329,4 +12329,15 @@ var n=0;(function loop(){try{deco()}catch(e){}if(++n<40)setTimeout(loop,400)})()
 var mt=0,zob=new MutationObserver(function(){if(mt)return;mt=1;try{deco()}catch(e){}zob.takeRecords();mt=0});zob.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
 })();
 
+</script><style id="sf-qhide-css">
+/* qhide */
+
+</style><script id="sf-qhide-js">
+/* ===== Leaving StudyQuest: hide the 3D island at once so it can't flash over the next page ===== */
+(function(){
+function apply(){var keep=document.body.dataset.sfpage==='quest'||!!document.querySelector('.iq-wrap.full');
+ document.querySelectorAll('.iq3-cv').forEach(function(c){if(!keep){if(c.style.visibility!=='hidden'){c.dataset.qh='1';c.style.visibility='hidden'}}else if(c.dataset.qh==='1'){c.dataset.qh='';c.style.visibility=''}})}
+new MutationObserver(apply).observe(document.body,{attributes:true,attributeFilter:['data-sfpage']});
+})();
+
 </script></body></html>
