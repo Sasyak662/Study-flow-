@@ -3004,6 +3004,11 @@ function applyBlob(b){
   if(b.extra&&typeof b.extra==='object')SYNC_EXTRA.forEach(k=>{if(typeof b.extra[k]!=='string')return;try{if(k==='sfOwned'){let a={},c={};try{a=JSON.parse(localStorage.getItem(k)||'{}')}catch(e){}try{c=JSON.parse(b.extra[k]||'{}')}catch(e){}__sfSet.call(localStorage,k,JSON.stringify(Object.assign({},a,c)))}else __sfSet.call(localStorage,k,b.extra[k])}catch(e){}});
   return true;
 }
+/* put new data into the open app without reloading (keeps you on the same page) */
+function sfAssign(t,src){Object.keys(src).forEach(k=>{const a=t[k],v=src[k];if(a&&v&&typeof a==='object'&&typeof v==='object'&&Array.isArray(a)===Array.isArray(v)){if(Array.isArray(v))a.splice(0,a.length,...v);else sfAssign(a,v)}else t[k]=v})}
+function applyLive(b){if(!applyBlob(b)){applyingRemote=false;return false}let ok=true;try{sfAssign(data,b.data)}catch(e){ok=false}applyingRemote=false;if(!ok)return false;try{renderAll()}catch(e){}try{window.dispatchEvent(new Event('sf-data-sync'))}catch(e){}return true}
+function reloadKeepPage(){try{sessionStorage.setItem('sf-synced','1');sessionStorage.setItem('sf-page',document.body.dataset.sfpage||'')}catch(_){}window.__sfReloading=true;try{window.sfSyncBar&&sfSyncBar('load')}catch(_){}setTimeout(()=>location.reload(),60)}
+try{const pg=sessionStorage.getItem('sf-page');if(pg){sessionStorage.removeItem('sf-page');const t0=Date.now();(function back(){if(typeof go==='function'&&document.getElementById('page-'+pg)){try{if(document.body.dataset.sfpage!==pg)go(pg)}catch(e){}}else if(Date.now()-t0<4000)setTimeout(back,100)})()}}catch(e){}
 /* save these extra things to the account too, as soon as they change */
 const __sfSet=Storage.prototype.setItem;
 try{Storage.prototype.setItem=function(k,v){__sfSet.call(this,k,v);try{if(this===localStorage&&SYNC_EXTRA.indexOf(k)>=0&&!applyingRemote)queuePush()}catch(e){}}}catch(e){}
@@ -3015,7 +3020,7 @@ async function pushNow(force){
   try{const r=await api('/api/account',{action:'push',blob:blob(),baseV:st.v||0,force:!!force});setSync({v:r.v,updated:r.updated,dirty:false});paintAccount('Synced '+new Date(r.updated).toLocaleTimeString())}
   catch(e){if(e.status===409)showConflict(e.body);else{setSync({dirty:true});paintAccount('Not synced: '+e.message)}}
 }
-function queuePush(){if(applyingRemote||!token())return;setSync({dirty:true,edited:Date.now()});clearTimeout(pushTimer);pushTimer=setTimeout(()=>pushNow(false),1500)}
+function queuePush(){if(applyingRemote||!token())return;setSync({dirty:true,edited:Date.now()});clearTimeout(pushTimer);pushTimer=setTimeout(()=>{if(document.hidden)return;pushNow(false)},1500)}
 async function pullIfNewer(pre){
   if(!token())return;
   try{
@@ -3024,7 +3029,7 @@ async function pullIfNewer(pre){
     if(cloud&&cloud.v>(st.v||0)){
       if(st.dirty&&st.v)return showConflict(cloud);
       const d=await api('/api/account',{action:'pull'});
-      if(d.blob&&applyBlob(d.blob)){setSync({v:d.v,updated:d.updated,dirty:false});window.__sfReloading=true;try{window.sfSyncBar&&sfSyncBar('load');sessionStorage.setItem('sf-synced','1')}catch(_){}setTimeout(()=>location.reload(),60);return}
+      if(d.blob){if(st.v&&applyLive(d.blob)){setSync({v:d.v,updated:d.updated,dirty:false});paintAccount();return}if(applyBlob(d.blob)){setSync({v:d.v,updated:d.updated,dirty:false});reloadKeepPage();return}}
     } else if(!cloud||!cloud.v||st.dirty){await pushNow(false)}
     paintAccount();
   }catch(e){paintAccount(e.status===503?'':'Could not reach your account: '+e.message)}
@@ -3055,7 +3060,7 @@ async function showConflict(info){
     const merged={data:sfMerge(local.data||{},cloud.data||{},cloudNewer),quizzes:sfMerge(local.quizzes||[],cloud.quizzes||[],cloudNewer),extra:mergedExtra,app:'studyflow',saved:Date.now()};
     const r=await api('/api/account',{action:'push',blob:merged,baseV:d.v||0,force:true});
     setSync({v:r.v,updated:r.updated,dirty:false});
-    if(applyBlob(merged)){try{window.sfSyncBar&&sfSyncBar('load');sessionStorage.setItem('sf-synced','1')}catch(_){}window.__sfReloading=true;setTimeout(()=>location.reload(),60)}
+    merging=false;if(!applyLive(merged)&&applyBlob(merged))reloadKeepPage()
   }catch(e){merging=false;setSync({dirty:true});try{paintAccount('Not synced yet — will try again')}catch(_){}}
 }
 function accountCardHTML(){
