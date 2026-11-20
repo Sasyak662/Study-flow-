@@ -12009,7 +12009,7 @@ var mt=0;new MutationObserver(function(){if(mt)return;mt=setTimeout(function(){m
 function $(s,r){return(r||document).querySelector(s)}
 function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 var cache={},R={page:0,pages:1,fs:+(localStorage.getItem('sfbk-fs')||17),th:localStorage.getItem('sfbk-th')||'paper'};
-function price(){return 299}
+function price(){return 99}
 function board(sub){var s=sub||'';return/IGCSE/i.test(s)?'Cambridge IGCSE':/A Level|AS & A|AS and A/i.test(s)?'Cambridge AS & A Level':/IB/i.test(s)?'IB Diploma':/Class|CBSE|NCERT/i.test(s)?'CBSE / NCERT':'your exam'}
 function helps(d){var b=board(d.subject),n=d.books.length,units=d.books.reduce(function(a,x){return a+(x.units.length||10)},0);return[
  ['🎯','Follows your syllabus, in order',n+' books split the whole '+b+' course into '+units+' short units, in the same order your teacher teaches it. You always know exactly what to read next.'],
