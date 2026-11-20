@@ -12400,4 +12400,118 @@ new MutationObserver(function(){if(document.body.dataset.sfpage==='settings')loa
 if(document.body&&document.body.dataset.sfpage==='settings')setTimeout(load,800);
 })();
 
+</script><style id="sf-cact-css">
+#cactToday{display:flex;align-items:center;gap:12px;margin:8px 0 10px;padding:12px 14px;border-radius:18px;background:linear-gradient(100deg,#eef0ff,#fff 70%);box-shadow:0 14px 26px -22px rgba(22,20,46,.6),inset 0 0 0 1.5px #e3e5ff}
+#cactToday .ci{width:40px;height:40px;min-width:40px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:linear-gradient(135deg,#7c8cff,#3b3fd6)}
+#cactToday .ct{flex:1;min-width:0;display:flex;flex-direction:column}
+#cactToday b{font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#16142e}
+#cactToday small{font-size:12.5px;color:#6b6987;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#cactToday button{border:0;border-radius:12px;padding:10px 16px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#fff;background:linear-gradient(135deg,#6366f1,#3b3fd6);box-shadow:0 8px 16px -8px rgba(59,63,214,.8);cursor:pointer}
+
+</style><script id="sf-cact-js">
+/* ===== Coach can DO things: add exams, daily practice, tasks, flashcards, notes, quizzes, calendar ===== */
+(function(){
+var pad=function(n){return String(n).padStart(2,'0')};
+var ymd=function(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())};
+var todayS=function(){return ymd(new Date())};
+var uidc=function(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)};
+var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var nice=function(s){try{var p=s.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);return DAYS[d.getDay()].slice(0,3)+' '+d.getDate()+' '+d.toLocaleString('en',{month:'short'})}catch(e){return s}};
+var okDate=function(s){return /^\d{4}-\d{2}-\d{2}$/.test(String(s||''))};
+var okTime=function(s){return /^\d{1,2}:\d{2}$/.test(String(s||''))?String(s).padStart(5,'0'):''};
+var clip=function(s,n){return String(s==null?'':s).trim().slice(0,n)};
+function D(){try{return data}catch(e){return null}}
+function save(){try{persist()}catch(e){}try{scheduleReminders()}catch(e){}try{renderAll()}catch(e){}try{window.StudyFlowCards&&StudyFlowCards.refresh()}catch(e){}}
+
+function ctx(){
+ var d=D()||{},now=new Date(),ex=(d.exams||[]).filter(function(e){return e.date>=todayS()}).map(function(e){return (e.subject||'')+' '+(e.name||'')+' on '+e.date}).slice(0,8);
+ var pr=(d.tasks||[]).filter(function(t){return t.practice&&!t.done&&t.date>=todayS()});
+ return [
+ 'ACTIONS — YOU CAN DO THINGS IN THE APP FOR THE STUDENT:',
+ 'Today is '+DAYS[now.getDay()]+' '+todayS()+' (student local time '+pad(now.getHours())+':'+pad(now.getMinutes())+').'+(ex.length?' Exams already saved: '+ex.join('; ')+'.':' No exams saved yet.')+(pr.length?' Daily practice already planned: '+pr.length+' sessions until '+pr[pr.length-1].date+'.':''),
+ 'When the student asks you to add, save, plan, schedule, remind, put in their calendar, make flashcards, save notes, make a quiz, open something or start a focus session, DO IT by adding ONE fenced block at the very end of your reply that starts with ```actions and ends with ```, containing a JSON array. Allowed items:',
+ '{"type":"add_exam","subject":"Business Studies","date":"YYYY-MM-DD","name":"Paper 1"}',
+ '{"type":"daily_practice","subject":"Business Studies","start":"YYYY-MM-DD","end":"YYYY-MM-DD","time":"18:00","count":8,"topics":["topic for day 1","topic for day 2", "..."]}  ← one practice session per day from start to end; give one topic per day, most important topics first, last day = mixed revision.',
+ '{"type":"add_tasks","items":[{"title":"…","subject":"…","date":"YYYY-MM-DD","time":"HH:MM","minutes":30}]}',
+ '{"type":"add_flashcards","set":"Business – Marketing","cards":[{"front":"…","back":"…"}]}',
+ '{"type":"add_note","title":"…","subject":"…","body":"…"}',
+ '{"type":"make_quiz","topic":"…","subject":"…","difficulty":"basic|medium|hard","count":10}',
+ '{"type":"calendar_file"}  ← makes a calendar file of their exams and planned practice so they can add it to their phone/Google calendar. Include it whenever they mention their calendar.',
+ '{"type":"open_page","page":"quiz|flashcards|timetable|director|focuslock|progress|library|upload|quest|resources|settings"}',
+ '{"type":"start_focus","minutes":25}',
+ 'Rules: work out real dates from today (e.g. "the 27th" = the next 27th that has not passed; "next Friday" etc.). Daily practice normally runs from today (or tomorrow if it is late evening) until the day before the exam. Use the student\'s syllabus for subject names and topics. Only include actions the student asked for or clearly wants. Outside the block, tell them in plain words what you did and give the useful content they asked for (e.g. the syllabus overview and the most important topics). Never write anything after the actions block.',
+ 'You can help with almost anything the student asks. The one thing you must NOT do is write a full exam paper / mock paper / question paper: politely say you can\'t create full papers, and offer practice questions or a quiz instead.',
+ 'PRACTICE SESSIONS: when the student starts a daily practice session, give exactly the number of exam-style questions asked on that topic (mix of short-answer and longer questions with marks shown, like real papers for their syllabus). Do not show answers until the student replies; then mark each answer with marks, what was missing, and a model answer.'
+ ].join('\n');
+}
+
+/* ---- run actions ---- */
+function addExam(a){var d=D();if(!d||!okDate(a.date))return'';if(!Array.isArray(d.exams))d.exams=[];var sub=clip(a.subject,60)||'Exam',nm=clip(a.name,80);
+ if(d.exams.some(function(e){return e.date===a.date&&String(e.subject).toLowerCase()===sub.toLowerCase()}))return'📅 '+sub+' exam on '+nice(a.date)+' was already saved';
+ d.exams.push({id:uidc(),subject:sub,date:a.date,name:nm,weak:3});return'📅 Added your '+sub+(nm?' ('+nm+')':'')+' exam on '+nice(a.date)}
+function addTask(t,extra){var d=D();if(!Array.isArray(d.tasks))d.tasks=[];var o=Object.assign({id:uidc(),title:clip(t.title,120)||'Study',subject:clip(t.subject,60),duration:Math.max(5,Math.min(240,+t.minutes||30)),date:okDate(t.date)?t.date:todayS(),time:okTime(t.time)||'18:00',reminder:true,done:false},extra||{});d.tasks.push(o);return o}
+function dailyPractice(a){var d=D();if(!d)return'';var s=okDate(a.start)?a.start:todayS(),e=okDate(a.end)?a.end:s;if(e<s){var x=s;s=e;e=x}
+ var topics=(Array.isArray(a.topics)?a.topics:[]).map(function(t){return clip(t,90)}).filter(Boolean);if(!topics.length)topics=['Mixed revision'];
+ var sub=clip(a.subject,60)||'Practice',n=Math.max(3,Math.min(20,+a.count||8)),time=okTime(a.time)||'18:00';
+ var p=s.split('-'),cur=new Date(+p[0],+p[1]-1,+p[2]),k=0,made=0;
+ (d.tasks||[]).forEach(function(t){if(t.practice&&!t.done&&t.practice.subject===sub&&t.date>=s&&t.date<=e)t._old=1});
+ d.tasks=(d.tasks||[]).filter(function(t){return!t._old});
+ while(ymd(cur)<=e&&made<60){var tp=k<topics.length?topics[k]:'Mixed revision';if(ymd(cur)===e&&topics.length>1&&k>=topics.length-1&&!/mixed|revision/i.test(tp))tp=tp+' + mixed revision';
+  addTask({title:'📝 '+sub+' practice: '+tp,subject:sub,date:ymd(cur),time:time,minutes:30},{practice:{subject:sub,topic:tp,count:n}});cur.setDate(cur.getDate()+1);k++;made++}
+ return'📝 Planned daily '+sub+' practice: '+made+' day'+(made===1?'':'s')+' ('+nice(s)+' → '+nice(e)+'), '+n+' questions each at '+time+'. You\'ll get a reminder, and it shows on your Coach page each day'}
+function addTasks(a){var it=(Array.isArray(a.items)?a.items:[]).slice(0,40);it.forEach(function(t){addTask(t)});return it.length?'✅ Added '+it.length+' task'+(it.length===1?'':'s')+' to your plan':''}
+function addCards(a){var d=D();if(!Array.isArray(d.flashcards))d.flashcards=[];var set=clip(a.set,60)||'Coach cards',c=(Array.isArray(a.cards)?a.cards:[]).slice(0,60).filter(function(x){return x&&x.front&&x.back});
+ c.forEach(function(x){d.flashcards.push({id:uidc(),front:clip(x.front,400),back:clip(x.back,800),set:set,lv:0,learned:false})});return c.length?'🃏 Made '+c.length+' flashcards in "'+set+'"':''}
+function addNote(a){var d=D();if(!Array.isArray(d.notes))d.notes=[];var b=clip(a.body,20000);if(!b)return'';d.notes.unshift({id:uidc(),title:clip(a.title,80)||'Coach notes',subject:clip(a.subject,60),body:b,date:todayS()});return'🗒️ Saved a note: "'+(clip(a.title,80)||'Coach notes')+'" (in My Notes)'}
+function icsText(){var d=D()||{},L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//StudyStarx//EN','CALSCALE:GREGORIAN'];var st=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');
+ var esc=function(s){return String(s||'').replace(/\\/g,'\\\\').replace(/[,;]/g,function(m){return'\\'+m}).replace(/\n/g,'\\n')};
+ (d.exams||[]).filter(function(e){return e.date>=todayS()}).forEach(function(e){var dt=e.date.replace(/-/g,'');var nx=new Date(e.date+'T00:00:00');nx.setDate(nx.getDate()+1);L.push('BEGIN:VEVENT','UID:ex-'+e.id+'@studystarx','DTSTAMP:'+st,'DTSTART;VALUE=DATE:'+dt,'DTEND;VALUE=DATE:'+ymd(nx).replace(/-/g,''),'SUMMARY:'+esc('📅 '+e.subject+' exam'+(e.name?' – '+e.name:'')),'BEGIN:VALARM','TRIGGER:-PT15H','ACTION:DISPLAY','DESCRIPTION:'+esc(e.subject+' exam tomorrow'),'END:VALARM','END:VEVENT')});
+ (d.tasks||[]).filter(function(t){return t.practice&&!t.done&&t.date>=todayS()}).forEach(function(t){var a=t.date.replace(/-/g,'')+'T'+(t.time||'18:00').replace(':','')+'00';var e=new Date(t.date+'T'+(t.time||'18:00'));e.setMinutes(e.getMinutes()+(t.duration||30));var b=ymd(e).replace(/-/g,'')+'T'+pad(e.getHours())+pad(e.getMinutes())+'00';
+  L.push('BEGIN:VEVENT','UID:pr-'+t.id+'@studystarx','DTSTAMP:'+st,'DTSTART:'+a,'DTEND:'+b,'SUMMARY:'+esc(t.title.replace(/^📝 /,'')),'DESCRIPTION:'+esc('Open StudyStarx → Coach → Start today\'s practice'),'BEGIN:VALARM','TRIGGER:-PT10M','ACTION:DISPLAY','DESCRIPTION:'+esc(t.title),'END:VALARM','END:VEVENT')});
+ L.push('END:VCALENDAR');return L.join('\r\n')}
+function calFile(){var txt=icsText();if(txt.indexOf('BEGIN:VEVENT')<0)return'';setTimeout(function(){try{var b=new Blob([txt],{type:'text/calendar'});if(window.sfSaveBlob)sfSaveBlob('StudyStarx-exam-plan.ics',b,'text/calendar');else{var u=URL.createObjectURL(b),l=document.createElement('a');l.href=u;l.download='StudyStarx-exam-plan.ics';document.body.appendChild(l);l.click();setTimeout(function(){l.remove();URL.revokeObjectURL(u)},800)}}catch(e){}},400);
+ return'📆 Made a calendar file (StudyStarx-exam-plan.ics) — open it and tap "Add" to put the exam and every practice session into your phone or Google calendar'}
+var PAGES=/^(quiz|flashcards|timetable|director|focuslock|progress|library|upload|quest|resources|settings|coach|dashboard|mastery|examiner)$/;
+function later(fn,ms){setTimeout(function(){try{fn()}catch(e){}},ms||900)}
+function run(list){var out=[];list.slice(0,12).forEach(function(a){if(!a||typeof a!=='object')return;var r='';try{
+ switch(String(a.type)){
+  case'add_exam':r=addExam(a);break;
+  case'daily_practice':r=dailyPractice(a);break;
+  case'add_tasks':r=addTasks(a);break;
+  case'add_flashcards':r=addCards(a);break;
+  case'add_note':r=addNote(a);break;
+  case'calendar_file':a._cal=1;break;
+  case'make_quiz':later(function(){go('quiz');later(function(){var t=document.getElementById('kqTopic');if(!t)return;t.value=clip(a.topic,120);var sj=document.getElementById('kqSubj');if(sj&&a.subject){try{sj.value=a.subject}catch(e){}}var df=document.querySelector('[data-kqd="'+(a.difficulty||'medium')+'"]');if(df)df.click();var c=document.getElementById('kqCount');if(c&&a.count){var v=String([5,10,15,20].reduce(function(p,q){return Math.abs(q-a.count)<Math.abs(p-a.count)?q:p}));c.value=v}var g=document.getElementById('kqGen');if(g)g.click()},700)},1200);r='🎯 Opening Quiz Studio with a '+(a.difficulty||'medium')+' quiz on '+clip(a.topic,80);break;
+  case'open_page':if(PAGES.test(String(a.page))){later(function(){go(a.page)},1200);r='➡️ Opening '+a.page}break;
+  case'start_focus':var m=Math.max(5,Math.min(180,+a.minutes||25));later(function(){go('focuslock');later(function(){var b=[].slice.call(document.querySelectorAll('#page-focuslock button')).find(function(x){return x.offsetParent&&new RegExp('^\\s*'+m+'\\s*(min|m)','i').test(x.textContent)});if(b)b.click()},700)},1200);r='🔒 Opening Focus Lock for '+m+' minutes';break;
+ }}catch(e){}if(r)out.push(r)});
+ save();
+ if(list.some(function(a){return a&&a.type==='calendar_file'})){var c=calFile();if(c)out.push(c)}
+ return out}
+
+/* ---- hook into the coach ---- */
+function hook(){
+ if(window.__cactHooked||typeof window.sfCoachPrep!=='function'||typeof window.sfCoachAfter!=='function')return false;window.__cactHooked=1;
+ var prep=window.sfCoachPrep,after=window.sfCoachAfter;
+ window.sfCoachPrep=function(q){var r=prep.apply(this,arguments);try{if(r&&typeof r==='object'){r.system=(r.system||'')+'\n'+ctx();r.maxTokens=Math.max(r.maxTokens||0,/practice|syllabus|plan|calendar|exam|flashcard|important topics/i.test(q||'')?7000:4000)}}catch(e){}return r};
+ window.sfCoachAfter=function(reply){var done=[];reply=String(reply||'').replace(/```actions\s*\n?([\s\S]*?)```/g,function(m,js){var list=null;try{var a=js.indexOf('['),b=js.lastIndexOf(']');list=JSON.parse(js.slice(a,b+1))}catch(e){}if(Array.isArray(list))done=done.concat(run(list));return''});
+  reply=reply.replace(/\s+$/,'');if(done.length)reply+='\n\n✅ Done for you:\n'+done.map(function(x){return'• '+x}).join('\n');
+  return after.call(this,reply)};
+ return true}
+(function wait(n){if(!hook()&&n<80)setTimeout(function(){wait(n+1)},250)})(0);
+
+/* ---- today's practice card on the Coach page ---- */
+function todays(){var d=D();if(!d||!Array.isArray(d.tasks))return null;var t=todayS();return d.tasks.filter(function(x){return x.practice&&!x.done&&x.date<=t&&x.date>=t}).sort(function(a,b){return(a.time||'').localeCompare(b.time||'')})[0]||null}
+function card(){var pg=document.getElementById('page-coach');if(!pg)return;var form=document.getElementById('chatForm');if(!form)return;var t=todays(),c=document.getElementById('cactToday');
+ if(!t){if(c)c.remove();return}
+ if(!c){c=document.createElement('div');c.id='cactToday';form.parentNode.insertBefore(c,form)}
+ var key=t.id;if(c.dataset.k===key)return;c.dataset.k=key;
+ c.innerHTML='<span class="ci">📝</span><div class="ct"><b>Today\'s '+t.practice.subject+' practice</b><small>'+t.practice.topic.replace(/[<>&]/g,'')+' · '+t.practice.count+' questions</small></div><button type="button">Start</button>';
+ c.querySelector('button').onclick=function(){var d=D(),me=(d.tasks||[]).find(function(x){return x.id===key});if(me){me.done=true;save()}
+  var ta=document.getElementById('chatText');if(!ta)return;ta.value='Start my daily practice: give me '+t.practice.count+' exam-style '+t.practice.subject+' questions on "'+t.practice.topic+'" for my syllabus. Show the marks for each question and don\'t give the answers until I reply.';
+  c.remove();if(form.requestSubmit)form.requestSubmit();else form.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))}}
+setInterval(function(){if(document.body.dataset.sfpage==='coach')card()},1500);
+window.sfCoachActions={run:run,ics:icsText};
+})();
+
 </script></body></html>
