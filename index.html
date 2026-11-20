@@ -8898,6 +8898,7 @@ body.kq-arena #page-quiz #practiceArena{display:block!important}
 .kq-ai b{font-size:16px}
 .kq-ai input,.kq-ai select{width:100%;border-radius:12px;border:0;padding:12px 13px;font-weight:600;font-size:14px;font-family:inherit;color:#1e1b4b;background:#fff}
 .kq-ai .row{display:grid;grid-template-columns:1fr 110px;gap:8px}
+.kq-diff{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:rgba(255,255,255,.14);padding:4px;border-radius:14px}.kq-diff button{border:0;border-radius:11px;padding:9px 6px;font:700 13px inherit;font-family:inherit;color:#fff;background:transparent;cursor:pointer;white-space:nowrap}.kq-diff button.on{background:#fff;color:#7c1d9e;box-shadow:0 6px 14px -8px rgba(0,0,0,.45)}.kq-diff button:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .kq-ai small{opacity:.8;font-size:12px}
 .kq-modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 6px}
 .kq-mode{border:0;text-align:left;border-radius:20px;padding:16px;color:#fff;cursor:pointer;font-family:inherit;display:grid;gap:6px;min-height:112px;align-content:space-between;box-shadow:0 6px 0 rgba(0,0,0,.18);transition:transform .12s}
@@ -9348,14 +9349,21 @@ function finish(){clearInterval(G.t);G.answering=false;var n=G.quiz.questions.le
  G.mode='done';if(cb)try{cb(res)}catch(e){}}
 
 /* ---------- AI quiz ---------- */
-function aiQuiz(topic,count,subject){
+function aiQuiz(topic,count,subject,diff){
+ var DIFF={basic:'DIFFICULTY: BASIC. Simple recall and the key facts and definitions; clear, friendly wording; obvious-but-plausible wrong options.',medium:'DIFFICULTY: MEDIUM. A mix of recall and understanding, with some application questions.',hard:'DIFFICULTY: HARD. Mostly application, multi-step reasoning and tricky cases; close distractors based on common mistakes; include harder numericals where the topic allows.'};
  if(typeof requestStudyAI!=='function'||!(typeof aiAvailable==='function'&&aiAvailable()))return Promise.reject(new Error(location.protocol==='file:'?'AI quizzes work on the published website, not a local file.':'The AI is not reachable right now.'));
  var lvl=(D()&&D().profile&&D().profile.level)||'Grade 10';
- return requestStudyAI({system:'You are an educational quiz writer for a fast multiple-choice quiz game. Return ONLY valid JSON, no Markdown: {"questions":[{"question":"...","options":["A","B","C","D"],"correctIndex":0,"explanation":"one short sentence"}]}. Questions must be accurate, specific, distinct, at most 120 characters; options at most 60 characters; exactly four options with one correct answer; vary the position of the correct answer. Match the difficulty to the student level given: for upper secondary (Grade 11–12, A Level, IB) most questions should test understanding or application, not just recall. If the topic mentions calculations, numericals, problems or equations, at least half the questions must be short numerical problems with worked numbers in the options (use realistic values and correct units, e.g. using the Nernst equation or Faraday\'s laws). Wrong options should be common mistakes. Never use LaTeX; use plain symbols like ×, ÷, √, ², °, Δ, log.',user:'Make exactly '+count+' multiple-choice questions about: '+topic+(subject?' (subject: '+subject+')':'')+'. Student level: '+lvl+'.',temperature:.3}).then(function(txt){
+ return requestStudyAI({system:'You are an educational quiz writer for a fast multiple-choice quiz game. Return ONLY valid JSON, no Markdown: {"questions":[{"question":"...","options":["A","B","C","D"],"correctIndex":0,"explanation":"one short sentence"}]}. Questions must be accurate, specific, distinct, at most 120 characters; options at most 60 characters; exactly four options with one correct answer; vary the position of the correct answer. Match the difficulty to the student level given: for upper secondary (Grade 11–12, A Level, IB) most questions should test understanding or application, not just recall. If the topic mentions calculations, numericals, problems or equations, at least half the questions must be short numerical problems with worked numbers in the options (use realistic values and correct units, e.g. using the Nernst equation or Faraday\'s laws). Wrong options should be common mistakes. Never use LaTeX; use plain symbols like ×, ÷, √, ², °, Δ, log.',user:'Make exactly '+count+' multiple-choice questions about: '+topic+(subject?' (subject: '+subject+')':'')+'. Student level: '+lvl+'. '+(DIFF[diff]||DIFF.medium),temperature:.3}).then(function(txt){
   var t=String(txt||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'');var j=JSON.parse(t);var arr=Array.isArray(j)?j:j.questions;if(!Array.isArray(arr)||!arr.length)throw new Error('The AI reply had no questions');
   var qs=arr.slice(0,count).map(function(q){var o=(q.options||[]).map(String).slice(0,4);var c=Number.isInteger(q.correctIndex)?q.correctIndex:o.indexOf(q.answer);return{text:String(q.question||q.text||'').trim(),options:o,correct:c,explain:String(q.explanation||''),time:20}}).filter(function(q){return q.text&&q.options.length===4&&q.correct>=0&&q.correct<4});
   if(!qs.length)throw new Error('The AI reply was incomplete');
-  return{id:'ai-'+uid_(),title:topic.slice(0,60),subject:subject||'',topic:topic,emoji:'✨',color:'#7c3aed',questions:qs,ai:true}})}
+  return{id:'ai-'+uid_(),title:topic.slice(0,60),subject:subject||'',topic:topic,difficulty:diff||'medium',emoji:'✨',color:'#7c3aed',questions:qs,ai:true}})}
+/* ---------- shared quiz bank: same topic -> same saved quiz, and Plus quizzes get saved for everyone ---------- */
+function qbLevel(){try{var p=(D()&&D().profile)||{};return String(p.level||p.grade||'')+(p.board?' '+p.board:'')}catch(e){return''}}
+function qbTok(){try{return localStorage.getItem('sf-session')||''}catch(e){return''}}
+function qbCall(o){var h={'Content-Type':'application/json'};var t=qbTok();if(t)h.Authorization='Bearer '+t;var ctl=window.AbortController?new AbortController():null;var tm=ctl?setTimeout(function(){ctl.abort()},5000):0;return fetch('/api/quizbank',{method:'POST',headers:h,body:JSON.stringify(o),signal:ctl?ctl.signal:undefined}).then(function(r){clearTimeout(tm);return r.ok?r.json():{}}).catch(function(){clearTimeout(tm);return{}})}
+function qbGet(topic,count,subject,diff){if(location.protocol==='file:')return Promise.resolve(null);return qbCall({action:'get',topic:topic,subject:subject||'',difficulty:diff,level:qbLevel(),count:count}).then(function(j){if(!j||!j.hit||!j.quiz)return null;var z=j.quiz;var qs=(z.questions||[]).filter(function(q){return q&&q.text&&q.options&&q.options.length===4});if(!qs.length)return null;return{id:'ai-'+uid_(),title:String(z.title||topic).slice(0,60),subject:z.subject||subject||'',topic:topic,difficulty:diff,emoji:'✨',color:'#7c3aed',questions:qs,ai:true,fromBank:true}})}
+function qbPut(q,topic,subject,diff){if(location.protocol==='file:'||!qbTok())return;qbCall({action:'put',topic:topic,subject:subject||'',difficulty:diff,level:qbLevel(),quiz:{title:q.title,questions:q.questions}})}
 function saveAsMine(q){try{var copy={id:uid_(),title:q.title,questions:q.questions.map(function(x){return{id:uid_(),text:x.text,options:x.options.slice(),correct:x.correct,time:x.time||20,explain:x.explain||''}})};customQuizzes.unshift(copy);saveCustomQuizzes();return copy}catch(e){return null}}
 
 /* ---------- mode chooser ---------- */
@@ -9380,7 +9388,7 @@ function renderHome(){var h=$('kqHome');if(!h)return;
  var wk=weakTopics();
  var st=(D()&&D().quiz)||{};var acc=st.attempted?Math.round((st.correct||0)/st.attempted*100):null;
  h.innerHTML='<div class="kq-hero"><div><div class="kq-shapes">'+SH.map(function(s,k){return'<i style="background:'+COLORS[k]+'">'+s+'</i>'}).join('')+'</div><h2>Quiz Studio</h2><p>Play fast, colourful quiz games solo or against bots. '+(st.attempted?'You’ve answered <b>'+st.attempted+'</b> questions'+(acc!=null?' with <b>'+acc+'%</b> accuracy':'')+'.':'Every answer also updates your topic mastery.')+'</p></div>'+
- '<div class="kq-ai"><b>✨ Make a quiz with AI '+(window.StudyFlowQuizEditor&&StudyFlowQuizEditor.isPlus()?'':'<span class="ke-plus">PLUS</span>')+'</b><input id="kqTopic" maxlength="120" placeholder="Any topic, e.g. Photosynthesis, WW1 causes, Quadratics"><div class="row"><select id="kqSubj"><option value="">Subject (optional)</option>'+(typeof SUBJECTS!=='undefined'?SUBJECTS:[]).map(function(s){return'<option>'+esc_(s)+'</option>'}).join('')+'</select><select id="kqCount"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div><button class="kq-btn w" id="kqGen">Generate & play</button><small id="kqGenMsg">The AI writes original questions in seconds.</small></div></div>'+
+ '<div class="kq-ai"><b>✨ Make a quiz with AI '+(window.StudyFlowQuizEditor&&StudyFlowQuizEditor.isPlus()?'':'<span class="ke-plus">PLUS</span>')+'</b><input id="kqTopic" maxlength="120" placeholder="Any topic, e.g. Photosynthesis, WW1 causes, Quadratics"><div class="row"><select id="kqSubj"><option value="">Subject (optional)</option>'+(typeof SUBJECTS!=='undefined'?SUBJECTS:[]).map(function(s){return'<option>'+esc_(s)+'</option>'}).join('')+'</select><select id="kqCount"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div><div class="kq-diff" role="radiogroup" aria-label="Difficulty">'+[['basic','🌱 Basic'],['medium','🔥 Medium'],['hard','🚀 Hard']].map(function(d){var cur=(function(){try{return localStorage.getItem('kq-diff')||'medium'}catch(e){return'medium'}})();return'<button type="button" role="radio" aria-checked="'+(cur===d[0])+'" data-kqd="'+d[0]+'" class="'+(cur===d[0]?'on':'')+'">'+d[1]+'</button>'}).join('')+'</div><button class="kq-btn w" id="kqGen">Generate & play</button><small id="kqGenMsg">The AI writes original questions in seconds.</small></div></div>'+
  '<div class="kq-modes"><button class="kq-mode" style="background:#e21b3c" data-qm="bots"><span class="e">🤖</span><b>Battle bots</b><small>Random quiz vs 5 rivals</small></button><button class="kq-mode" style="background:#d89e00" data-qm="create"><span class="e">✏️</span><b>Create your own</b><small>Write questions and timers</small></button><button class="kq-mode" style="background:#26890c" data-qm="arena"><span class="e">🏟️</span><b>Practice Arena</b><small>Adaptive question drills</small></button></div>'+
  (wk.length?'<div class="kq-sec"><h3>🎯 Fix your weak topics</h3><span class="sp"></span><small class="muted">Built by AI from your mastery data</small></div><div class="kq-grid">'+wk.map(function(t){return'<button class="kq-card" data-kqweak="'+esc_(t.topic)+'" data-kqsub="'+esc_(t.subject)+'"><div class="kq-cover" style="--c:#be123c"><span>🎯</span><em>'+(t.score||0)+'%</em></div><div class="t"><b>'+esc_(t.topic)+'</b><small>'+esc_(t.subject)+' · weak</small></div></button>'}).join('')+'</div>':'')+
  '<div class="kq-sec"><h3>Your quizzes</h3><span class="sp"></span>'+(mine.filter(function(q){return!q.questions.length}).length?'<button type="button" class="kq-clean" data-kqclean="1">\ud83e\uddf9 Remove '+mine.filter(function(q){return!q.questions.length}).length+' empty</button>':'')+'<small class="muted">'+mine.length+' saved</small></div><div class="kq-grid"><button class="kq-card new" data-qm="create"><span>＋</span>Create a quiz</button>'+mine.map(function(q){return'<div class="kq-cardw">'+card(q,q.questions.length?q.questions.length+' question'+(q.questions.length===1?'':'s'):'Empty \u2014 tap \u22ee to edit or delete')+'<button type="button" class="kq-cm" data-kqm="'+esc_(q.id)+'" aria-label="Options for '+esc_(q.title)+'">\u22ee</button></div>'}).join('')+'</div>'+
@@ -9390,8 +9398,12 @@ function renderHome(){var h=$('kqHome');if(!h)return;
 function bindHome(){
  var h=$('kqHome');
  ;
- $('kqGen').onclick=function(){var t=$('kqTopic').value.trim();if(!t){$('kqTopic').focus();$('kqGenMsg').textContent='Type a topic first.';return}var b=this;if(window.KQ_AIGATE&&!b.__ok){KQ_AIGATE(function(){b.__ok=1;b.click();b.__ok=0},'AI Quiz Builder');return}b.disabled=true;b.textContent='Writing questions…';$('kqGenMsg').textContent='This usually takes a few seconds.';
-  aiQuiz(t,+$('kqCount').value,$('kqSubj').value).then(function(q){b.disabled=false;b.textContent='Generate & play';$('kqGenMsg').textContent='Ready! Saved to your quizzes.';var saved=saveAsMine(q);if(saved){q.id=saved.id;q.mine=true}renderHome();choose(q)}).catch(function(e){b.disabled=false;b.textContent='Generate & play';var m=$('kqGenMsg');if(m)m.textContent=e.message+' Try a featured quiz below meanwhile.'})};
+ [].slice.call(h.querySelectorAll('[data-kqd]')).forEach(function(x){x.onclick=function(){try{localStorage.setItem('kq-diff',x.dataset.kqd)}catch(e){}[].slice.call(h.querySelectorAll('[data-kqd]')).forEach(function(y){var on=y===x;y.classList.toggle('on',on);y.setAttribute('aria-checked',on)})}});
+ $('kqGen').onclick=function(){var t=$('kqTopic').value.trim();if(!t){$('kqTopic').focus();$('kqGenMsg').textContent='Type a topic first.';return}var b=this;var n=+$('kqCount').value,sj=$('kqSubj').value,df=(h.querySelector('[data-kqd].on')||{dataset:{kqd:'medium'}}).dataset.kqd;
+  var done=function(q,msg){b.disabled=false;b.textContent='Generate & play';$('kqGenMsg').textContent=msg;var saved=saveAsMine(q);if(saved){q.id=saved.id;q.mine=true}renderHome();choose(q)};
+  var write=function(){b.disabled=true;b.textContent='Writing questions…';$('kqGenMsg').textContent='This usually takes a few seconds.';
+  return aiQuiz(t,n,sj,df).then(function(q){qbPut(q,t,sj,df);done(q,'Ready! Saved to your quizzes.')}).catch(function(e){b.disabled=false;b.textContent='Generate & play';var m=$('kqGenMsg');if(m)m.textContent=e.message+' Try a featured quiz below meanwhile.'})};
+  b.disabled=true;b.textContent='Finding your quiz…';qbGet(t,n,sj,df).then(function(q){if(q){done(q,'Ready! Saved to your quizzes.');return}b.disabled=false;b.textContent='Generate & play';if(window.KQ_AIGATE)KQ_AIGATE(write,'AI Quiz Builder');else write()})};
  $('kqTopic').onkeydown=function(e){if(e.key==='Enter')$('kqGen').click()};
 }
 function quizMenu(btn){var old=document.querySelector('.ke-menu.kqmenu');if(old){var same=old.dataset.id===btn.dataset.kqm;old.remove();if(same)return}var id=btn.dataset.kqm;var m=document.createElement('div');m.className='ke-menu kqmenu';m.dataset.id=id;m.innerHTML='<button data-kqa="play" data-id="'+esc_(id)+'">\u25b6 Play</button><button data-kqa="edit" data-id="'+esc_(id)+'">\u270f\ufe0f Edit</button><button data-kqa="dup" data-id="'+esc_(id)+'">\u29c9 Duplicate</button><button data-kqa="rename" data-id="'+esc_(id)+'">\ud83c\udff7\ufe0f Rename</button><hr><button class="danger" data-kqa="del" data-id="'+esc_(id)+'">\ud83d\uddd1 Delete quiz</button>';document.body.appendChild(m);var r=btn.getBoundingClientRect();var lx=r.right-200;m.style.left=Math.max(8,Math.min(innerWidth-208,lx))+'px';m.style.top=Math.min(innerHeight-240,r.bottom+6)+'px'}
@@ -12338,6 +12350,39 @@ var mt=0,zob=new MutationObserver(function(){if(mt)return;mt=1;try{deco()}catch(
 function apply(){var keep=document.body.dataset.sfpage==='quest'||!!document.querySelector('.iq-wrap.full');
  document.querySelectorAll('.iq3-cv').forEach(function(c){if(!keep){if(c.style.visibility!=='hidden'){c.dataset.qh='1';c.style.visibility='hidden'}}else if(c.dataset.qh==='1'){c.dataset.qh='';c.style.visibility=''}})}
 new MutationObserver(apply).observe(document.body,{attributes:true,attributeFilter:['data-sfpage']});
+})();
+
+</script><style id="sf-qbs-css">
+#qbStats{margin-top:16px;background:#fff;border-radius:22px;padding:18px;box-shadow:0 18px 30px -24px rgba(22,20,46,.5)}
+#qbStats h3{margin:0 0 2px;font:700 17px 'Plus Jakarta Sans',sans-serif;color:#16142e}
+#qbStats p.s{margin:0 0 12px;font-size:12.5px;color:#7a7894}
+#qbStats .qb-sec{font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#6b6987;margin:14px 0 6px}
+#qbStats .qb-row{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:8px;align-items:center;margin:5px 0;font-size:13.5px;color:#16142e}
+#qbStats .qb-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#qbStats .qb-bar{grid-column:1/-1;height:6px;border-radius:99px;background:#efeefb;overflow:hidden;margin-top:-2px}
+#qbStats .qb-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#7c8cff,#3b3fd6)}
+#qbStats b.n{text-align:right;font-variant-numeric:tabular-nums}
+#qbStats .qb-pills{display:flex;gap:8px;flex-wrap:wrap}
+#qbStats .qb-pills span{background:#f4f3fa;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:#3b3fd6}
+#qbStats .qb-empty{font-size:13px;color:#8a88a3;padding:10px 0}
+
+</style><script id="sf-qbs-js">
+/* ===== Owner only: which subjects and topics students ask for in Quiz Studio ===== */
+(function(){
+var busy=false,last=0;
+function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function rows(list,max){if(!list||!list.length)return'<div class="qb-empty">No requests yet.</div>';var top=list[0].n||1;return list.slice(0,max).map(function(x){return'<div class="qb-row"><span title="'+esc(x.name)+'">'+esc(x.name)+'</span><b class="n">'+x.n+'</b><div class="qb-bar"><i style="width:'+Math.max(4,Math.round(x.n/top*100))+'%"></i></div></div>'}).join('')}
+function load(){var pg=document.getElementById('page-settings');if(!pg||busy||Date.now()-last<20000)return;var t='';try{t=localStorage.getItem('sf-session')||''}catch(e){}if(!t){var o=document.getElementById('qbStats');if(o)o.remove();return}
+ busy=true;last=Date.now();fetch('/api/quizbank',{headers:{Authorization:'Bearer '+t}}).then(function(r){return r.ok?r.json():null}).then(function(j){busy=false;var c=document.getElementById('qbStats');if(!j){if(c)c.remove();return}
+  if(!c){c=document.createElement('section');c.id='qbStats';pg.appendChild(c)}
+  var d={};(j.difficulty||[]).forEach(function(x){d[x.name]=x.n});
+  c.innerHTML='<h3>📊 What students ask for</h3><p class="s">Quiz Studio requests · only you can see this · '+(j.saved||0)+' quizzes saved for reuse</p>'+
+   '<div class="qb-sec">Subjects</div>'+rows(j.subjects,10)+
+   '<div class="qb-sec">Top topics</div>'+rows(j.topics,15)+
+   '<div class="qb-sec">Difficulty</div><div class="qb-pills"><span>🌱 Basic '+(d.basic||0)+'</span><span>🔥 Medium '+(d.medium||0)+'</span><span>🚀 Hard '+(d.hard||0)+'</span></div>';
+ }).catch(function(){busy=false})}
+new MutationObserver(function(){if(document.body.dataset.sfpage==='settings')load()}).observe(document.body,{attributes:true,attributeFilter:['data-sfpage']});
+if(document.body&&document.body.dataset.sfpage==='settings')setTimeout(load,800);
 })();
 
 </script></body></html>
