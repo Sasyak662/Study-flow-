@@ -861,7 +861,7 @@ async function askQuest(question){
      } catch(err) { reply=sfGeminiDown(err); if(err&&err.limit)lim=err; }
    } else reply=sfGeminiDown();
    const down=/^StudyStarx could not be reached/.test(reply);
-   if(lim){const plus=lim.plan==='plus';board.innerHTML='<div class="sx-lim"><div class="sx-lim-i">'+(plus?'⏳':'✨')+'</div><b>'+(plus?'You have used all of today’s AI questions':'You have used today’s free AI questions')+'</b><p>'+(plus?'Great work today! Your questions come back tomorrow.':'You get '+(lim.freeLimit||5)+' free questions a day, and they come back tomorrow. StudyStarx Plus gives you '+(lim.plusLimit||250)+' a day.')+'</p>'+(plus?'':'<button type="button" class="btn" onclick="go(\'premium\')">See Plus plans</button>')+'</div>';window.lastTutorReply='';boardWrap.style.opacity='1';speech.textContent=plus?'That’s all of today’s questions. See you tomorrow!':'You’ve used today’s free questions. They come back tomorrow.';}
+   if(lim){const plus=lim.plan==='plus';board.innerHTML='<div class="sx-lim"><div class="sx-lim-i">'+(plus?'⏳':'✨')+'</div><b>'+(plus?'You have used all of today’s AI questions':'You have used today’s free AI questions')+'</b><p>'+(plus?'Great work today! Your questions come back tomorrow.':'You get '+(lim.freeLimit||5)+' free questions a day, and they come back tomorrow. StudyStarx Plus gives you '+(lim.plusLimit||150)+' a day.')+'</p>'+(plus?'':'<button type="button" class="btn" onclick="go(\'premium\')">See Plus plans</button>')+'</div>';window.lastTutorReply='';boardWrap.style.opacity='1';speech.textContent=plus?'That’s all of today’s questions. See you tomorrow!':'You’ve used today’s free questions. They come back tomorrow.';}
    else{board.textContent=formatBoard(reply);window.lastTutorReply=reply;boardWrap.style.opacity='1';speech.textContent=down?'I couldn’t reach the AI. Check your internet and try again.':'Your explanation is ready. Read the board, then try the check question.';}bot.textContent='';speak.disabled=!reply||!!lim||down;status.textContent=lim?'Daily AI limit reached.':down?'StudyStarx did not answer. Press Explain my question to retry.':'Explanation ready.';
    const q=questState();if(lim||down){renderQuest();}else if(activeMission&&!q.completed.includes(activeMission)){q.completed.push(activeMission);q.xp+=35;q.mastered+=1;q.currentMission='';persist();}else if(!q.completed.includes('first-question')){q.completed.push('first-question');q.xp+=15;q.mastered+=1;persist();}else renderQuest();
  } catch(err) {
@@ -4142,7 +4142,7 @@ try{if(!Array.isArray(data.notes))data.notes=[];var sub=(document.getElementById
 k.classList.add('done');k.innerHTML='<span>✓</span> Saved · <u>open Study Library</u>'}catch(err){k.textContent='Could not save'}})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();setTimeout(init,1500)})();</script>
 <style>.sf-save{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:1px solid var(--line,#e2e8f0);background:var(--card,#fff);color:var(--p,#7c3aed);border-radius:10px;padding:6px 11px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:transform .2s,background .2s}.sf-save:hover{transform:translateY(-1px)}.sf-save.done{color:#059669;border-color:#a7f3d0;background:#ecfdf5;cursor:default}.sf-save.done u{cursor:pointer}</style>
-<script>window.sfLimitModal=function(j){j=j||{};if(document.getElementById('sfLimitM'))return;var plus=j.plan==='plus';var o=document.createElement('div');o.id='sfLimitM';o.className='ppg';o.innerHTML='<div class="ppg-c" role="dialog" aria-modal="true"><div class="ppg-gem">'+(plus?'⏳':'✦')+'</div><div class="ppg-k">'+(j.budget?'FREE AI RESTING':plus?'DAILY LIMIT REACHED':'FREE LIMIT REACHED')+'</div><h3>'+(j.budget?'Free AI is used up for this month':plus?'You used all of today\'s AI questions':'Your free AI limit for today is over')+'</h3><p>'+(j.budget?'Free AI comes back on the 1st of next month. StudyStarx Plus keeps the AI working now. You can still earn coins with the games that don\'t need AI.':plus?'Great work today! Your '+(j.plusLimit||250)+' questions come back tomorrow.':'You have used your '+(j.freeLimit||5)+' free AI questions for today. StudyStarx Plus gives you '+(j.plusLimit||250)+' a day, plus premium tools.')+'</p><div class="ppg-a">'+(plus?'':'<button type="button" class="ppg-go">See Plus plans</button>')+'<button type="button" class="ppg-x">'+(plus?'OK':j.budget?'OK':'Maybe tomorrow')+'</button></div></div>';document.body.appendChild(o);requestAnimationFrame(function(){o.classList.add('in')});function close(){o.classList.remove('in');setTimeout(function(){o.remove()},300)}o.onclick=function(e){if(e.target===o||e.target.closest('.ppg-x'))close();if(e.target.closest('.ppg-go')){close();try{go('premium')}catch(_){}}}};
+<script>window.sfLimitModal=function(j){j=j||{};if(document.getElementById('sfLimitM'))return;var plus=j.plan==='plus';var o=document.createElement('div');o.id='sfLimitM';o.className='ppg';o.innerHTML='<div class="ppg-c" role="dialog" aria-modal="true"><div class="ppg-gem">'+(plus?'⏳':'✦')+'</div><div class="ppg-k">'+(j.budget?'FREE AI RESTING':plus?'DAILY LIMIT REACHED':'FREE LIMIT REACHED')+'</div><h3>'+(j.budget?'Free AI is used up for this month':plus?'You used all of today\'s AI questions':'Your free AI limit for today is over')+'</h3><p>'+(j.budget?'Free AI comes back on the 1st of next month. StudyStarx Plus keeps the AI working now. You can still earn coins with the games that don\'t need AI.':plus?'Great work today! Your '+(j.plusLimit||150)+' questions come back tomorrow.':'You have used your '+(j.freeLimit||5)+' free AI questions for today. StudyStarx Plus gives you '+(j.plusLimit||150)+' a day, plus premium tools.')+'</p><div class="ppg-a">'+(plus?'':'<button type="button" class="ppg-go">See Plus plans</button>')+'<button type="button" class="ppg-x">'+(plus?'OK':j.budget?'OK':'Maybe tomorrow')+'</button></div></div>';document.body.appendChild(o);requestAnimationFrame(function(){o.classList.add('in')});function close(){o.classList.remove('in');setTimeout(function(){o.remove()},300)}o.onclick=function(e){if(e.target===o||e.target.closest('.ppg-x'))close();if(e.target.closest('.ppg-go')){close();try{go('premium')}catch(_){}}}};
 (function(){var m=document.getElementById('messages');if(!m)return;new MutationObserver(function(){m.querySelectorAll('.bubble:not(.user)').forEach(function(b){if(b.querySelector('.sf-upg'))return;if(/free AI limit for today is over/.test(b.textContent)){var k=document.createElement('button');k.type='button';k.className='btn sf-upg';k.style.marginTop='10px';k.textContent='✦ See Plus plans';k.onclick=function(){go('premium')};b.appendChild(k)}})}).observe(m,{childList:true,subtree:true})})();</script>
 <style>.sf-cls-del{border:1px solid var(--line,#e2e8f0);background:transparent;border-radius:10px;width:38px;height:38px;cursor:pointer;font-size:16px;flex:0 0 auto;transition:background .2s,transform .2s}.sf-cls-del:hover{background:#fee2e2;transform:translateY(-1px)}</style>
 <script>(function(){try{var g=new URLSearchParams(location.search).get('go');if(g&&/^[a-z]+$/.test(g))window.addEventListener('load',function(){setTimeout(function(){try{go(g)}catch(e){}},600)})}catch(e){}})();</script>
@@ -4311,7 +4311,7 @@ var FEATS=[
  ['📈','Readiness trends','Accuracy, weak topics and next steps from your real practice.'],
  ['⏱️','Extended mock exams','Longer timed papers with full review.'],
  ['📄','Bigger uploads','Analyse longer notes and documents.']];
-var CMP=[['AI tutor & questions','5 a day','250 a day'],['Quiz Studio, flashcards, StudyQuest','✓','✓'],['StudyQuest worlds','5 worlds','All 10'],['AI Quiz Builder','1 free try','✓'],['Session reminders','✓','✓ + Morning plan'],['Focus Lock','Manual locks','+ Daily schedules'],['Quiz-game themes','Classic','12 themes']];
+var CMP=[['AI tutor & questions','5 a day','150 a day'],['Quiz Studio, flashcards, StudyQuest','✓','✓'],['StudyQuest worlds','5 worlds','All 10'],['AI Quiz Builder','1 free try','✓'],['Session reminders','✓','✓ + Morning plan'],['Focus Lock','Manual locks','+ Daily schedules'],['Quiz-game themes','Classic','12 themes']];
 function setupPerks(){var pg=$('#page-premium');if(!pg||$('#ppPerks'))return;
  var old=$$('.card',pg).filter(function(c){return /Premium tools included/.test(c.textContent)})[0];
  var w=document.createElement('div');w.id='ppPerks';w.className='card pp-perks';
@@ -4452,7 +4452,7 @@ function openSheet(){
  '<div class="pm-body" id="pmBody">'+
  '<div class="pm-sec pm-quick"><div class="pm-sh"><b>Most used</b></div><div class="pm-grid">'+'<button type="button" class="pm-t" data-pmgo="dashboard" style="--c:#4338ca"><span class="pm-ti">🏠</span><span class="pm-tl">Home</span></button>'+quick.slice(0,5).map(function(i){return tile(i,i.c)}).join('')+'</div></div>'+
  G.map(function(g){return'<div class="pm-sec" data-g="'+g.k+'"><div class="pm-sh"><span class="pm-se" style="background:'+g.c+'">'+g.e+'</span><div><b>'+esc(g.t)+'</b><small>'+esc(g.d)+'</small></div></div><div class="pm-grid">'+g.list.map(function(i){return tile(i,g.c)}).join('')+'</div></div>'}).join('')+
- (plus()?'':'<button type="button" class="pm-plus" data-pmgo="premium"><span>✦</span><div><b>Get StudyStarx Plus</b><small>250 AI questions a day, bigger classes and more</small></div></button>')+
+ (plus()?'':'<button type="button" class="pm-plus" data-pmgo="premium"><span>✦</span><div><b>Get StudyStarx Plus</b><small>150 AI questions a day, bigger classes and more</small></div></button>')+
  '<div class="pm-empty" id="pmEmpty" hidden>No feature found.</div></div></div>';
  document.body.appendChild(o);lock(true);
  o.querySelectorAll('[data-pmgo="'+cur+'"]').forEach(function(b){b.classList.add('on')});
@@ -4488,7 +4488,7 @@ document.addEventListener('click',function(e){var b=e.target.closest('[data-tour
 function maybeTour(){var p=P();if(!phone()||!p.onboarded||p.ptour||document.getElementById('sfOb2')||$('#pmTour')||$('.ppg')||$('#pmPlus'))return;tour()}
 
 /* ---------- Plus guide after buying ---------- */
-var PERKS=[['💬','250 AI questions a day','Ask the AI Coach as much as you need.','coach'],['📎','More files in the AI Coach','Attach up to 40 files and make up to 40 notes files a day.','coach'],['▶️','Study videos in Focus Lock','Lessons on YouTube still play while everything else is blocked.','focuslock'],['🛡️','Uninstall protection','The Android app can stop you deleting it during a lock.','focuslock'],['⏰','Scheduled locks','Block distractions automatically every school day.','focuslock'],['🌅','Morning plan','Today’s sessions in one notification each morning.','timetable']];
+var PERKS=[['💬','150 AI questions a day','Ask the AI Coach as much as you need.','coach'],['📎','More files in the AI Coach','Attach up to 40 files and make up to 40 notes files a day.','coach'],['▶️','Study videos in Focus Lock','Lessons on YouTube still play while everything else is blocked.','focuslock'],['🛡️','Uninstall protection','The Android app can stop you deleting it during a lock.','focuslock'],['⏰','Scheduled locks','Block distractions automatically every school day.','focuslock'],['🌅','Morning plan','Today’s sessions in one notification each morning.','timetable']];
 function plusGuide(){
  if($('#pmPlus'))return;var o=document.createElement('div');o.className='pm-ov pm-plusov';o.id='pmPlus';
  o.innerHTML='<div class="pm-sheet pm-pg" role="dialog" aria-modal="true"><div class="pm-grab"><span></span></div><div class="pm-pgh"><div class="pm-gem">✦</div><h2>You unlocked StudyStarx Plus</h2><p>Here’s everything that’s new for you. Tap one to try it.</p></div><div class="pm-body">'+
@@ -10505,7 +10505,7 @@ function plusOn(){try{return!!((window.sfAccount&&sfAccount.isPlus&&sfAccount.is
 var MO=null,MOK='';
 function moreHTML(c){return'<div class="sfm-sheet" role="dialog" aria-modal="true" aria-label="More"><div class="sfm-grab"></div><div class="sfm-top"><h3>More</h3><button type="button" class="sfm-x" aria-label="Close">✕</button></div><div class="sfm-grid">'+
  MORE.map(function(x){return'<button type="button" class="sfm-card'+(x[0]===c?' on':'')+'" data-sfmgo="'+x[0]+'"><span class="sfm-ic" style="background:linear-gradient(135deg,'+x[4]+','+x[5]+')">'+x[3]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small></button>'}).join('')+'</div>'+
- (plusOn()?'':'<button type="button" class="sfm-plus" data-sfmgo="premium"><span>✦</span><div><b>Get StudyStarx Plus</b><small>250 AI questions a day, all 10 worlds and every character</small></div><i>›</i></button>')+'</div>'}
+ (plusOn()?'':'<button type="button" class="sfm-plus" data-sfmgo="premium"><span>✦</span><div><b>Get StudyStarx Plus</b><small>150 AI questions a day, all 10 worlds and every character</small></div><i>›</i></button>')+'</div>'}
 function moreEl(){if(MO&&MO.isConnected)return MO;var o=document.createElement('div');o.className='sfm-ov sfm-idle';o.setAttribute('aria-hidden','true');document.body.appendChild(o);MO=o;MOK='';
  o.addEventListener('click',function(e){var g=e.target.closest('[data-sfmgo]');if(g){closeMore();setTimeout(function(){try{go(g.dataset.sfmgo)}catch(_){}try{window.scrollTo({top:0})}catch(_){}},10);return}if(e.target===o||e.target.closest('.sfm-x'))closeMore()});
  o.addEventListener('touchmove',function(e){if(!e.target.closest('.sfm-sheet'))e.preventDefault()},{passive:false});
@@ -11635,7 +11635,7 @@ function done(made){document.querySelectorAll('#ob2Tasks li:not(.ok):not(.no)').
 // right after setup: show the Plus plans first (free users only), with an easy way to keep using Free
 window.sfPlusIntro=function(){var plus=false;try{plus=!!((window.sfAccount&&sfAccount.isPlus&&sfAccount.isPlus())||(window.StudyFlowIsland&&StudyFlowIsland._I.plusOK()))}catch(e){}
  if(plus){go('dashboard');return}go('premium');var pg=document.getElementById('page-premium');if(!pg)return;var old=document.getElementById('sfPlusIntro');if(old)old.remove();
- var b=document.createElement('div');b.id='sfPlusIntro';b.innerHTML='<h2>🎉 Your study space is ready! Try StudyStarx Plus</h2><p>250 AI questions a day, the coach plans your timetable, all 10 StudyQuest worlds, every character and animated pets. The <b>Yearly plan</b> is the best deal — just ₹167 a month.</p><button type="button" id="sfPlusIntroSkip">Continue with Free →</button>';
+ var b=document.createElement('div');b.id='sfPlusIntro';b.innerHTML='<h2>🎉 Your study space is ready! Try StudyStarx Plus</h2><p>150 AI questions a day, the coach plans your timetable, all 10 StudyQuest worlds, every character and animated pets. The <b>Yearly plan</b> is the best deal — just ₹167 a month.</p><button type="button" id="sfPlusIntroSkip">Continue with Free →</button>';
  pg.insertBefore(b,pg.firstChild);document.getElementById('sfPlusIntroSkip').onclick=function(){b.remove();go('dashboard')};try{window.scrollTo(0,0)}catch(e){}};
 function swap(){var o=document.getElementById('sfOnb');if(o&&!o.dataset.ob2){o.dataset.ob2=1;o.style.display='none';o.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id')});if(!document.getElementById('sfOb2'))open();setTimeout(function(){o.remove()},400)}}
 new MutationObserver(swap).observe(document.body,{childList:true});swap();
@@ -12365,6 +12365,13 @@ new MutationObserver(apply).observe(document.body,{attributes:true,attributeFilt
 #qbStats .qb-pills{display:flex;gap:8px;flex-wrap:wrap}
 #qbStats .qb-pills span{background:#f4f3fa;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:#3b3fd6}
 #qbStats .qb-empty{font-size:13px;color:#8a88a3;padding:10px 0}
+#qbStats .qb-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:6px 0 4px}
+#qbStats .qb-t{background:#f4f3fa;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column}
+#qbStats .qb-t.g{background:linear-gradient(135deg,#e3f7f1,#f3fbf8)}
+#qbStats .qb-t b{font:800 24px 'Sora','Plus Jakarta Sans',sans-serif;color:#16142e;font-variant-numeric:tabular-nums}
+#qbStats .qb-t.g b{color:#0e8f7a}
+#qbStats .qb-t span{font-weight:700;font-size:13px;color:#16142e}
+#qbStats .qb-t small{font-size:11.5px;color:#8a88a3}
 
 </style><script id="sf-qbs-js">
 /* ===== Owner only: which subjects and topics students ask for in Quiz Studio ===== */
@@ -12376,9 +12383,12 @@ function load(){var pg=document.getElementById('page-settings');if(!pg||busy||Da
  busy=true;last=Date.now();fetch('/api/quizbank',{headers:{Authorization:'Bearer '+t}}).then(function(r){return r.ok?r.json():null}).then(function(j){busy=false;var c=document.getElementById('qbStats');if(!j){if(c)c.remove();return}
   if(!c){c=document.createElement('section');c.id='qbStats';pg.appendChild(c)}
   var d={};(j.difficulty||[]).forEach(function(x){d[x.name]=x.n});
-  c.innerHTML='<h3>📊 What students ask for</h3><p class="s">Quiz Studio requests · only you can see this · '+(j.saved||0)+' quizzes saved for reuse</p>'+
-   '<div class="qb-sec">Subjects</div>'+rows(j.subjects,10)+
-   '<div class="qb-sec">Top topics</div>'+rows(j.topics,15)+
+  var pct=j.asks?Math.round(j.hits/j.asks*100):0;
+  c.innerHTML='<h3>📊 Quiz Studio report</h3><p class="s">Only you can see this</p>'+
+   '<div class="qb-tiles"><div class="qb-t g"><b>'+(j.hits||0)+'</b><span>AI requests saved</span><small>quizzes given from the saved bank</small></div><div class="qb-t"><b>'+(j.made||0)+'</b><span>Made with AI</span><small>by Plus students</small></div><div class="qb-t"><b>'+(j.saved||0)+'</b><span>Quizzes saved</span><small>ready to reuse</small></div><div class="qb-t"><b>'+pct+'%</b><span>Reuse rate</span><small>of '+(j.asks||0)+' requests</small></div></div>'+
+   '<div class="qb-sec">What Plus students create most</div>'+rows(j.created,10)+
+   '<div class="qb-sec">Most asked subjects</div>'+rows(j.subjects,10)+
+   '<div class="qb-sec">Most asked topics</div>'+rows(j.topics,15)+
    '<div class="qb-sec">Difficulty</div><div class="qb-pills"><span>🌱 Basic '+(d.basic||0)+'</span><span>🔥 Medium '+(d.medium||0)+'</span><span>🚀 Hard '+(d.hard||0)+'</span></div>';
  }).catch(function(){busy=false})}
 new MutationObserver(function(){if(document.body.dataset.sfpage==='settings')load()}).observe(document.body,{attributes:true,attributeFilter:['data-sfpage']});
