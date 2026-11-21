@@ -12555,6 +12555,38 @@ window.sfCoachActions={run:run,ics:icsText};
 #kqHome.kqz .kq-card.new span{font-size:20px!important;line-height:1}
 .kqz-lbl{grid-column:1/-1;display:flex;align-items:center;gap:8px;margin:8px 2px 0;font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#3b3fd6}
 .kqz-lbl small{background:#eef0ff;color:#3b3fd6;border-radius:999px;padding:1px 8px;font-size:11.5px}
+/* ===== v2: calm study look (matches home) ===== */
+#kqHome.kqz .kq-hero{background:radial-gradient(circle at 92% 8%,rgba(255,255,255,.18),transparent 38%),radial-gradient(circle at 0% 100%,rgba(124,140,255,.45),transparent 50%),linear-gradient(135deg,#4338ca,#3b3fd6 55%,#5b5ff0)!important;box-shadow:0 24px 40px -26px rgba(59,63,214,.9)!important;color:#fff}
+#kqHome.kqz .kq-hero h2{color:#fff!important}
+#kqHome.kqz .kq-ai{background:#fff!important;color:#16142e!important;box-shadow:0 18px 30px -22px rgba(22,20,46,.55)!important}
+#kqHome.kqz .kq-ai>b{color:#16142e!important;font:700 15px 'Plus Jakarta Sans',sans-serif!important}
+#kqHome.kqz .kq-ai .ke-plus{background:linear-gradient(135deg,#ffb35c,#f08a3c)!important;color:#fff!important}
+#kqHome.kqz .kq-ai input,#kqHome.kqz .kq-ai select{background:#f4f3fa!important;color:#16142e!important;font-weight:600!important;box-shadow:inset 0 0 0 1.5px transparent!important}
+#kqHome.kqz .kq-ai input:focus,#kqHome.kqz .kq-ai select:focus{background:#fff!important;box-shadow:inset 0 0 0 1.5px #7c8cff!important;outline:none}
+#kqHome.kqz .kq-diff{background:#f4f3fa!important}
+#kqHome.kqz .kq-diff button{color:#5b5a78!important}
+#kqHome.kqz .kq-diff button.on{background:#fff!important;color:#3b3fd6!important;box-shadow:0 6px 12px -8px rgba(22,20,46,.5)!important}
+#kqHome.kqz #kqGen{background:linear-gradient(135deg,#6366f1,#3b3fd6)!important;color:#fff!important;box-shadow:0 10px 18px -10px rgba(59,63,214,.9)!important;font:700 15px 'Plus Jakarta Sans',sans-serif!important}
+#kqHome.kqz #kqGenMsg{color:#8a88a3!important;opacity:1}
+/* modes: white tiles with soft icon circles */
+#kqHome.kqz .kq-mode{background:#fff!important;color:#16142e!important;box-shadow:0 14px 26px -22px rgba(22,20,46,.6)!important}
+#kqHome.kqz .kq-mode .e{width:42px;height:42px;border-radius:14px;display:grid!important;place-items:center;font-size:22px!important;margin-bottom:2px}
+#kqHome.kqz .kq-mode:nth-child(1) .e{background:linear-gradient(135deg,#eceeff,#dfe3ff)}
+#kqHome.kqz .kq-mode:nth-child(2) .e{background:linear-gradient(135deg,#fff1e3,#ffe2c7)}
+#kqHome.kqz .kq-mode:nth-child(3) .e{background:linear-gradient(135deg,#e3f7f1,#c9efe3)}
+#kqHome.kqz .kq-mode b{color:#16142e!important;font:700 13px 'Plus Jakarta Sans',sans-serif!important}
+/* quiz cards: white with a soft tinted top */
+#kqHome.kqz .kq-card{background:#fff!important}
+#kqHome.kqz .kq-card .kq-cover{background:color-mix(in srgb,var(--c,#3b3fd6) 13%,#fff)!important;height:70px!important}
+#kqHome.kqz .kq-card .kq-cover::after{display:none!important}
+#kqHome.kqz .kq-card .kq-cover span{filter:none!important;font-size:30px!important}
+#kqHome.kqz .kq-card .kq-cover em{background:#fff!important;color:color-mix(in srgb,var(--c,#3b3fd6) 80%,#16142e)!important;box-shadow:0 4px 10px -6px rgba(22,20,46,.5)}
+#kqHome.kqz .kq-card .t b{color:#16142e!important}
+#kqHome.kqz .kq-card .t small{color:#7a7894!important}
+#kqHome.kqz .kq-cm{background:rgba(255,255,255,.9)!important;color:#3b3fd6!important;width:30px!important;height:30px!important;font-size:16px!important;box-shadow:0 4px 10px -6px rgba(22,20,46,.6)}
+#kqHome.kqz .kq-card.new{background:#fff!important;border:1.5px dashed #c9cbf5!important;color:#3b3fd6!important;font:700 14px 'Plus Jakarta Sans',sans-serif!important}
+#kqHome.kqz .kq-card:hover{transform:translateY(-2px)!important}
+#kqHome.kqz .kq-sec small.muted{color:#8a88a3!important}
 
 </style><script id="sf-kqz-js">
 /* ===== Quiz Studio: tidy layout + sort every quiz into subjects ===== */
@@ -12568,6 +12600,8 @@ function canon(s){s=String(s||'').trim();var l=s.toLowerCase();
  if(/^psych/.test(l))return'Psychology';if(/general knowledge/.test(l))return'General Knowledge';if(/^(evs|evm|environment)/.test(l))return'EVS';
  return s.replace(/\b\w/g,function(c){return c.toUpperCase()}).slice(0,24)}
 function cardSubj(c){var s=c.querySelector('.t small');if(!s)return'';var f=s.textContent.split('·')[0].trim();if(/^\d+\s+question|^empty/i.test(f))return'';return canon(f)}
+var COL={Business:'#0e8f7a',English:'#3b3fd6',Maths:'#e8613c',Physics:'#7c3aed',Chemistry:'#0891b2',Biology:'#16a34a',Economics:'#d97706',History:'#b45309',Geography:'#059669','Computer Science':'#2563eb',Accounting:'#0f766e',Psychology:'#db2777','General Knowledge':'#6366f1'};
+function tint(c){var sj=cardSubj(c),col=COL[sj];var cv=c.querySelector('.kq-cover');if(cv&&col&&cv.style.getPropertyValue('--c')!==col)cv.style.setProperty('--c',col)}
 function box(c){return c.closest('.kq-cardw')||c}
 function disp(el,show){var v=show?'':'none';if(el.style.display!==v)el.style.display=v}
 function get(){try{return localStorage.getItem(KEY)||'All'}catch(e){return'All'}}
@@ -12596,7 +12630,7 @@ function apply(){
   if(/featured/i.test(t)){if(!x.el.classList.contains('kqz-feat'))x.el.classList.add('kqz-feat');var chips=[].slice.call(x.el.querySelectorAll('.kq-chips button'));var want=cur==='All'?chips[0]:chips.find(function(b){return canon(b.textContent)===cur});
    if(want&&!want.classList.contains('on')){want.click();return}
    disp(x.el,!!want);disp(x.grid,!!want);return}
-  var cards=[].slice.call(x.grid.querySelectorAll('.kq-card'));var vis=0;
+  var cards=[].slice.call(x.grid.querySelectorAll('.kq-card'));var vis=0;cards.forEach(tint);
   cards.forEach(function(c){if(c.classList.contains('new'))return;var ok=cur==='All'||cardSubj(c)===cur;disp(box(c),ok);if(ok)vis++});
   if(/your quizzes/i.test(t)){
    var groups={};cards.forEach(function(c){if(c.classList.contains('new'))return;var sj=cardSubj(c)||'Other';(groups[sj]=groups[sj]||[]).push(box(c))});
