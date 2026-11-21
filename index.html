@@ -9396,7 +9396,7 @@ function renderHome(){var h=$('kqHome');if(!h)return;
  '<div class="kq-ai"><b>✨ Make a quiz with AI '+(window.StudyFlowQuizEditor&&StudyFlowQuizEditor.isPlus()?'':'<span class="ke-plus">PLUS</span>')+'</b><input id="kqTopic" maxlength="120" placeholder="Any topic, e.g. Photosynthesis, WW1 causes, Quadratics"><div class="row"><select id="kqSubj"><option value="">Subject (optional)</option>'+(typeof SUBJECTS!=='undefined'?SUBJECTS:[]).map(function(s){return'<option>'+esc_(s)+'</option>'}).join('')+'</select><select id="kqCount"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div><div class="kq-diff" role="radiogroup" aria-label="Difficulty">'+[['basic','🌱 Basic'],['medium','🔥 Medium'],['hard','🚀 Hard']].map(function(d){var cur=(function(){try{return localStorage.getItem('kq-diff')||'medium'}catch(e){return'medium'}})();return'<button type="button" role="radio" aria-checked="'+(cur===d[0])+'" data-kqd="'+d[0]+'" class="'+(cur===d[0]?'on':'')+'">'+d[1]+'</button>'}).join('')+'</div><button class="kq-btn w" id="kqGen">Generate & play</button><small id="kqGenMsg">The AI writes original questions in seconds.</small></div></div>'+
  '<div class="kq-modes"><button class="kq-mode" style="background:#e21b3c" data-qm="bots"><span class="e">🤖</span><b>Battle bots</b><small>Random quiz vs 5 rivals</small></button><button class="kq-mode" style="background:#d89e00" data-qm="create"><span class="e">✏️</span><b>Create your own</b><small>Write questions and timers</small></button><button class="kq-mode" style="background:#26890c" data-qm="arena"><span class="e">🏟️</span><b>Practice Arena</b><small>Adaptive question drills</small></button></div>'+
  (wk.length?'<div class="kq-sec"><h3>🎯 Fix your weak topics</h3><span class="sp"></span><small class="muted">Built by AI from your mastery data</small></div><div class="kq-grid">'+wk.map(function(t){return'<button class="kq-card" data-kqweak="'+esc_(t.topic)+'" data-kqsub="'+esc_(t.subject)+'"><div class="kq-cover" style="--c:#be123c"><span>🎯</span><em>'+(t.score||0)+'%</em></div><div class="t"><b>'+esc_(t.topic)+'</b><small>'+esc_(t.subject)+' · weak</small></div></button>'}).join('')+'</div>':'')+
- '<div class="kq-sec"><h3>Your quizzes</h3><span class="sp"></span>'+(mine.filter(function(q){return!q.questions.length}).length?'<button type="button" class="kq-clean" data-kqclean="1">\ud83e\uddf9 Remove '+mine.filter(function(q){return!q.questions.length}).length+' empty</button>':'')+'<small class="muted">'+mine.length+' saved</small></div><div class="kq-grid"><button class="kq-card new" data-qm="create"><span>＋</span>Create a quiz</button>'+mine.map(function(q){return'<div class="kq-cardw">'+card(q,q.questions.length?q.questions.length+' question'+(q.questions.length===1?'':'s'):'Empty \u2014 tap \u22ee to edit or delete')+'<button type="button" class="kq-cm" data-kqm="'+esc_(q.id)+'" aria-label="Options for '+esc_(q.title)+'">\u22ee</button></div>'}).join('')+'</div>'+
+ '<div class="kq-sec"><h3>Your quizzes</h3><span class="sp"></span>'+(mine.filter(function(q){return!q.questions.length}).length?'<button type="button" class="kq-clean" data-kqclean="1">\ud83e\uddf9 Remove '+mine.filter(function(q){return!q.questions.length}).length+' empty</button>':'')+'<small class="muted">'+mine.length+' saved</small></div><div class="kq-grid"><button class="kq-card new" data-qm="create"><span>＋</span>Create a quiz</button>'+mine.map(function(q){return'<div class="kq-cardw">'+card(q,(q.subject?q.subject+' · ':'')+(q.questions.length?q.questions.length+' question'+(q.questions.length===1?'':'s'):'Empty \u2014 tap \u22ee to edit or delete'))+'<button type="button" class="kq-cm" data-kqm="'+esc_(q.id)+'" aria-label="Options for '+esc_(q.title)+'">\u22ee</button></div>'}).join('')+'</div>'+
  '<div class="kq-sec"><h3>⚡ Quick maths</h3><span class="sp"></span><small class="muted">New questions every time</small></div><div class="kq-grid">'+['mental','tables','algebra','percent'].map(function(k){return card(genMaths(k),'Mathematics · endless')}).join('')+'</div>'+
  '<div class="kq-sec"><h3>Featured quizzes</h3><span class="sp"></span><div class="kq-chips">'+subs.map(function(s){return'<button data-kqf="'+esc_(s)+'" class="'+(s===FILTER?'on':'')+'">'+esc_(s)+'</button>'}).join('')+'</div></div><div class="kq-grid">'+lib.map(function(q){return card(q)}).join('')+'</div>';
  bindHome()}
@@ -12512,6 +12512,105 @@ function card(){var pg=document.getElementById('page-coach');if(!pg)return;var f
   c.remove();if(form.requestSubmit)form.requestSubmit();else form.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))}}
 setInterval(function(){if(document.body.dataset.sfpage==='coach')card()},1500);
 window.sfCoachActions={run:run,ics:icsText};
+})();
+
+</script><style id="sf-kqz-css">
+/* ===== Quiz Studio tidy (kqz) ===== */
+#kqHome.kqz .kq-hero{padding:18px!important;border-radius:26px!important;box-shadow:0 22px 40px -28px rgba(91,33,182,.9)!important;gap:12px!important}
+#kqHome.kqz .kq-shapes{display:none!important}
+#kqHome.kqz .kq-hero h2{font:800 26px 'Sora','Plus Jakarta Sans',sans-serif!important;letter-spacing:-.02em;margin:0!important}
+#kqHome.kqz .kq-hero>div:first-child p{font-size:13.5px!important;line-height:1.45!important;margin:4px 0 0!important;opacity:.92}
+#kqHome.kqz .kq-ai{padding:14px!important;border-radius:20px!important;gap:10px!important;background:rgba(255,255,255,.16)!important;box-shadow:none!important}
+#kqHome.kqz .kq-ai>b{font-size:15px!important}
+#kqHome.kqz .kq-ai input,#kqHome.kqz .kq-ai select{height:44px!important;border-radius:13px!important;border:0!important;font-size:14px!important}
+#kqHome.kqz .kq-ai .row{grid-template-columns:1fr 84px!important}
+#kqHome.kqz .kq-diff{padding:3px!important;border-radius:13px!important}
+#kqHome.kqz .kq-diff button{padding:8px 4px!important;font-size:13px!important;font-weight:700!important;border-radius:10px!important}
+#kqHome.kqz #kqGen{height:46px!important;border-radius:14px!important;box-shadow:0 8px 18px -10px rgba(0,0,0,.5)!important}
+#kqHome.kqz #kqGenMsg{font-size:12px!important;opacity:.85}
+/* modes: one compact row */
+#kqHome.kqz .kq-modes{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;margin:12px 0 4px!important}
+#kqHome.kqz .kq-mode{min-height:0!important;padding:12px 8px!important;border-radius:18px!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:4px!important;text-align:center!important;box-shadow:0 12px 22px -18px rgba(22,20,46,.7)!important}
+#kqHome.kqz .kq-mode::before,#kqHome.kqz .kq-mode::after{display:none!important}
+#kqHome.kqz .kq-mode .e{font-size:24px!important;line-height:1}
+#kqHome.kqz .kq-mode b{font-size:13px!important;line-height:1.2;white-space:nowrap}
+#kqHome.kqz .kq-mode small{display:none!important}
+/* subject bar */
+.kqz-bar{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 2px 6px;margin:6px -2px 0;position:sticky;top:0;z-index:3;background:linear-gradient(var(--bg,#eeedf6) 80%,transparent)}
+.kqz-bar::-webkit-scrollbar{display:none}
+.kqz-bar button{flex:none;border:0;border-radius:999px;padding:9px 14px;font:700 13px 'Plus Jakarta Sans',sans-serif;background:#fff;color:#4b4a68;box-shadow:0 6px 14px -12px rgba(22,20,46,.6),inset 0 0 0 1px #e7e6f3;cursor:pointer;white-space:nowrap}
+.kqz-bar button.on{background:linear-gradient(135deg,#6366f1,#3b3fd6);color:#fff;box-shadow:0 8px 16px -10px rgba(59,63,214,.8)}
+.kqz-bar button:focus-visible{outline:2px solid #3b3fd6;outline-offset:2px}
+/* sections and cards */
+#kqHome.kqz .kq-sec{margin-top:18px!important}
+#kqHome.kqz .kq-sec h3{font:700 17px 'Sora','Plus Jakarta Sans',sans-serif!important;letter-spacing:-.01em}
+#kqHome.kqz .kqz-feat .kq-chips{display:none!important}
+#kqHome.kqz .kq-grid{gap:10px!important}
+#kqHome.kqz .kq-card{box-shadow:0 14px 26px -22px rgba(22,20,46,.6)!important;border:0!important;border-radius:18px!important}
+#kqHome.kqz .kq-card .kq-cover{height:74px!important}
+#kqHome.kqz .kq-card .kq-cover span{font-size:34px!important}
+#kqHome.kqz .kq-card .t{padding:10px 12px 12px!important}
+#kqHome.kqz .kq-card .t b{font-size:13.5px!important}
+#kqHome.kqz .kq-card.new{min-height:0!important;padding:14px!important;flex-direction:row!important;gap:8px!important;border-radius:16px!important;grid-column:1/-1}
+#kqHome.kqz .kq-card.new span{font-size:20px!important;line-height:1}
+.kqz-lbl{grid-column:1/-1;display:flex;align-items:center;gap:8px;margin:8px 2px 0;font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#3b3fd6}
+.kqz-lbl small{background:#eef0ff;color:#3b3fd6;border-radius:999px;padding:1px 8px;font-size:11.5px}
+
+</style><script id="sf-kqz-js">
+/* ===== Quiz Studio: tidy layout + sort every quiz into subjects ===== */
+(function(){
+var KEY='kqz-subj';
+function canon(s){s=String(s||'').trim();var l=s.toLowerCase();
+ if(!l||/^(other|general|mixed|endless|weak)$/.test(l))return'';
+ if(/^bus/.test(l))return'Business';if(/^eng/.test(l))return'English';if(/^(math|maths|mathematics)/.test(l)||/^further math/.test(l))return'Maths';
+ if(/^econ/.test(l))return'Economics';if(/^bio/.test(l))return'Biology';if(/^chem/.test(l))return'Chemistry';if(/^phys/.test(l))return'Physics';
+ if(/^comp|^ict|^cs\b/.test(l))return'Computer Science';if(/^hist/.test(l))return'History';if(/^geo/.test(l))return'Geography';if(/^acc/.test(l))return'Accounting';
+ if(/^psych/.test(l))return'Psychology';if(/general knowledge/.test(l))return'General Knowledge';if(/^(evs|evm|environment)/.test(l))return'EVS';
+ return s.replace(/\b\w/g,function(c){return c.toUpperCase()}).slice(0,24)}
+function cardSubj(c){var s=c.querySelector('.t small');if(!s)return'';var f=s.textContent.split('·')[0].trim();if(/^\d+\s+question|^empty/i.test(f))return'';return canon(f)}
+function box(c){return c.closest('.kq-cardw')||c}
+function disp(el,show){var v=show?'':'none';if(el.style.display!==v)el.style.display=v}
+function get(){try{return localStorage.getItem(KEY)||'All'}catch(e){return'All'}}
+function set(v){try{localStorage.setItem(KEY,v)}catch(e){}}
+function profileSubs(){try{return((data.profile||{}).subjects||[]).map(canon).filter(Boolean)}catch(e){return[]}}
+function secs(h){return[].slice.call(h.querySelectorAll(':scope>.kq-sec')).map(function(s){var h3=s.querySelector('h3');var g=s.nextElementSibling;return{el:s,title:h3?h3.textContent.trim():'',grid:g&&g.classList.contains('kq-grid')?g:null}})}
+function apply(){
+ var h=document.getElementById('kqHome');if(!h||!h.offsetParent)return;
+ if(!h.classList.contains('kqz'))h.classList.add('kqz');
+ var S=secs(h),cur=get();
+ // collect subjects
+ var found={};profileSubs().forEach(function(s){found[s]=2});
+ S.forEach(function(x){if(!x.grid)return;[].slice.call(x.grid.querySelectorAll('.kq-card:not(.new)')).forEach(function(c){var s=cardSubj(c);if(s&&!found[s])found[s]=1})});
+ var feat=S.find(function(x){return/featured/i.test(x.title)});
+ if(feat){[].slice.call(feat.el.querySelectorAll('.kq-chips button')).forEach(function(b){var s=canon(b.textContent);if(s&&!found[s])found[s]=1})}
+ var list=Object.keys(found).sort(function(a,b){return(found[b]-found[a])||a.localeCompare(b)});
+ if(cur!=='All'&&list.indexOf(cur)<0)cur='All';
+ // subject bar
+ var bars=h.querySelectorAll('.kqz-bar');for(var bi=1;bi<bars.length;bi++)bars[bi].remove();var bar=bars[0];var sig=['All'].concat(list).join('|')+'#'+cur;
+ if(!bar){bar=document.createElement('div');bar.className='kqz-bar';bar.setAttribute('role','tablist');var anchor=h.querySelector('.kq-modes')||h.firstChild;anchor.parentNode.insertBefore(bar,anchor.nextSibling)}
+ if(bar.dataset.sig!==sig){bar.dataset.sig=sig;bar.innerHTML=['All'].concat(list).map(function(s){return'<button type="button" role="tab" aria-selected="'+(s===cur)+'" class="'+(s===cur?'on':'')+'" data-s="'+s.replace(/"/g,'')+'">'+(s==='All'?'All subjects':s)+'</button>'}).join('');
+  [].slice.call(bar.querySelectorAll('button')).forEach(function(b){b.onclick=function(){set(b.dataset.s);bar.dataset.sig='';apply();try{b.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'})}catch(e){}}})}
+ // filter each section
+ S.forEach(function(x){if(!x.grid)return;var t=x.title;
+  if(/quick maths/i.test(t)){var show=cur==='All'||cur==='Maths';disp(x.el,show);disp(x.grid,show);return}
+  if(/featured/i.test(t)){if(!x.el.classList.contains('kqz-feat'))x.el.classList.add('kqz-feat');var chips=[].slice.call(x.el.querySelectorAll('.kq-chips button'));var want=cur==='All'?chips[0]:chips.find(function(b){return canon(b.textContent)===cur});
+   if(want&&!want.classList.contains('on')){want.click();return}
+   disp(x.el,!!want);disp(x.grid,!!want);return}
+  var cards=[].slice.call(x.grid.querySelectorAll('.kq-card'));var vis=0;
+  cards.forEach(function(c){if(c.classList.contains('new'))return;var ok=cur==='All'||cardSubj(c)===cur;disp(box(c),ok);if(ok)vis++});
+  if(/your quizzes/i.test(t)){
+   var groups={};cards.forEach(function(c){if(c.classList.contains('new'))return;var sj=cardSubj(c)||'Other';(groups[sj]=groups[sj]||[]).push(box(c))});
+   var names=Object.keys(groups).sort(function(a,b){return a==='Other'?1:b==='Other'?-1:a.localeCompare(b)});
+   var want2=(cur==='All'&&names.length>1)?names.map(function(n){return n+':'+groups[n].length}).join('|'):'';
+   if(x.grid.dataset.kqzSig!==want2){x.grid.dataset.kqzSig=want2;[].slice.call(x.grid.querySelectorAll('.kqz-lbl')).forEach(function(l){l.remove()});
+    if(want2)names.forEach(function(n){var l=document.createElement('div');l.className='kqz-lbl';l.innerHTML='<span>'+n+'</span><small>'+groups[n].length+'</small>';x.grid.appendChild(l);groups[n].forEach(function(c){x.grid.appendChild(c)})})}
+   var sm=x.el.querySelector('small.muted');if(sm){if(!sm.dataset.o)sm.dataset.o=sm.textContent;var tx=cur==='All'?sm.dataset.o:vis+' in '+cur;if(sm.textContent!==tx)sm.textContent=tx}
+   return}
+  disp(x.el,vis>0);disp(x.grid,vis>0);
+ });
+}
+var t=0,mo=new MutationObserver(function(){if(t||document.body.dataset.sfpage!=='quiz')return;t=requestAnimationFrame(function(){t=0;try{apply()}catch(e){}mo.takeRecords()})});mo.observe(document.documentElement,{childList:true,subtree:true});
+setInterval(function(){if(document.body.dataset.sfpage==='quiz')try{apply()}catch(e){}},1500);
 })();
 
 </script></body></html>
