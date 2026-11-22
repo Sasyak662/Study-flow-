@@ -12714,91 +12714,57 @@ setInterval(function(){if(document.body.dataset.sfpage==='quiz')try{apply()}catc
 })();
 
 </script><style id="sf-dkx-css">
-/* ===== Animated dock icons ===== */
-#sfTabs button{overflow:visible}
-#sfTabs .dkx{overflow:visible}
-.dkx *{transform-box:fill-box}
-/* home: door opens, light on, smoke puffs */
-.dkx .dk-door{transform-origin:left center;transition:transform .25s ease}
-.dkx .dk-doorin{opacity:0;transition:opacity .2s}
-.dkx .dk-win{transition:fill .2s,stroke .2s}
-.dkx .dk-smoke{opacity:0}
-.dk-p .dkx .dk-door{transform:perspective(20px) rotateY(-70deg)}
-.dk-p .dkx .dk-doorin{opacity:.25}
-.dk-p .dkx .dk-win{fill:#ffd36b;stroke:#f5a10b}
-.dk-p .dkx .dk-smoke{animation:dkSmoke .9s ease-out infinite}
-@keyframes dkSmoke{0%{opacity:0;transform:translateY(3px) scale(.6)}30%{opacity:.7}100%{opacity:0;transform:translateY(-4px) scale(1.3)}}
-/* coach: bubble squish + typing dots */
-.dkx .dk-bub{transform-origin:center bottom;transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
-.dkx .dk-d1,.dkx .dk-d2,.dkx .dk-d3{opacity:0;transform-origin:center}
-.dk-p .dkx .dk-bub{transform:scale(1.12)}
-.dk-p .dkx .dk-d1,.dk-p .dkx .dk-d2,.dk-p .dkx .dk-d3{opacity:1;animation:dkDot .7s ease-in-out infinite}
-.dk-p .dkx .dk-d2{animation-delay:.12s}.dk-p .dkx .dk-d3{animation-delay:.24s}
-@keyframes dkDot{0%,100%{transform:translateY(0)}40%{transform:translateY(-2.5px)}}
-/* quest: dragon breathes fire */
-.dkx-drag .dk-jaw{transform-origin:14.3px 13.4px;transform-box:view-box;transition:transform .15s ease;transform:rotate(7deg)}
-.dkx-drag .dk-fire{transform-origin:20.4px 13.1px;transform-box:view-box;transform:scaleX(0) scaleY(.4);opacity:0;transition:transform .18s ease-in,opacity .18s}
-.dk-p .dkx-drag .dk-jaw{transform:rotate(18deg)}
-.dk-p .dkx-drag .dk-fire{opacity:1;transform:scaleX(1.7) scaleY(1.35);transition:transform .14s cubic-bezier(.2,1.4,.4,1),opacity .08s;animation:dkFlick .16s ease-in-out .14s infinite alternate}
-@keyframes dkFlick{from{transform:scaleX(1.7) scaleY(1.35)}to{transform:scaleX(1.9) scaleY(1.1)}}
-/* timetable: page flips, tick draws */
-.dkx .dk-page{transform-origin:center 5px;transform-box:view-box;transition:transform .3s ease}
-.dkx .dk-tick{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .3s ease .1s}
-.dk-p .dkx .dk-page{transform:perspective(30px) rotateX(-60deg)}
-.dk-p .dkx .dk-tick{stroke-dashoffset:0}
-/* more: squares burst out and spin */
-.dkx .dk-s1,.dkx .dk-s2,.dkx .dk-s3,.dkx .dk-s4{transition:transform .25s cubic-bezier(.3,1.6,.5,1);transform-origin:center}
-.dkx .dk-spark{opacity:0;transform-origin:center;transition:opacity .2s,transform .3s}
-.dk-p .dkx .dk-s1{transform:translate(-2px,-2px) rotate(-12deg)}.dk-p .dkx .dk-s2{transform:translate(2px,-2px) rotate(12deg)}
-.dk-p .dkx .dk-s3{transform:translate(-2px,2px) rotate(12deg)}.dk-p .dkx .dk-s4{transform:translate(2px,2px) rotate(-12deg)}
-.dk-p .dkx .dk-spark{opacity:1;transform:rotate(45deg) scale(1.1)}
-#sfTabs button.dk-p{transform:scale(.94);transition:transform .12s}
-@media (prefers-reduced-motion:reduce){.dkx *{animation:none!important;transition:none!important}}
-#sfTabs button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
-#sfTabs .dkx-drag{width:26px!important;height:26px!important;margin:-2px 0}
+/* ===== 3D dock icons ===== */
+#sfTabs button{overflow:visible;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+#sfTabs button>svg{display:none}
+.dk3{position:relative;display:block;width:34px;height:34px;margin:-6px auto -2px;pointer-events:none}
+.dk3 img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .12s,transform .25s cubic-bezier(.3,1.7,.5,1);filter:drop-shadow(0 3px 3px rgba(30,20,80,.25))}
+.dk3 img.p{opacity:0}
+.dk-p .dk3 img{opacity:0}.dk-p .dk3 img.p{opacity:1}
+.dk-p .dk3-home img{transform:translateY(-3px) scale(1.12)}
+.dk-p .dk3-coach img{transform:scale(1.15) rotate(-6deg)}
+.dk-p .dk3-timetable img{transform:rotate(8deg) scale(1.12)}
+.dk-p .dk3-more img{transform:scale(1.15) rotate(10deg)}
+.dk-p .dk3-coach img.p{animation:dk3Wob .5s ease-in-out infinite}
+@keyframes dk3Wob{0%,100%{transform:scale(1.15) rotate(-6deg)}50%{transform:scale(1.15) rotate(4deg)}}
+/* dragon: always flapping, looking at you */
+.dk3-quest{width:42px;height:42px;margin:-11px auto -3px}
+.dk3-drag{position:absolute;inset:0;background:url(/dock/dragon.webp) 0 0/1200% 100% no-repeat;animation:dk3Flap 1.5s steps(12) infinite;filter:drop-shadow(0 3px 3px rgba(80,10,0,.3))}
+@keyframes dk3Flap{to{background-position:109.0909% 0}}
+.dk-p .dk3-drag{animation-duration:.8s}
+/* fire breath: flames shoot out of the mouth towards you */
+.dk3-fire{position:absolute;left:50%;top:46%;width:0;height:0;z-index:2}
+.dk3-fire b{position:absolute;left:0;top:0;width:10px;height:22px;margin-left:-5px;border-radius:50% 50% 50% 50%/30% 30% 70% 70%;
+ background:linear-gradient(180deg,#fffbe0 0%,#ffe066 22%,#ffa22e 50%,#ff4d1f 78%,rgba(220,30,20,0) 100%);
+ transform-origin:50% 0;transform:rotate(var(--r,0deg)) scaleY(0);opacity:0;filter:blur(.2px)}
+.dk3-fire b:nth-child(1){--r:0deg;width:12px;margin-left:-6px;height:26px}
+.dk3-fire b:nth-child(2){--r:28deg}
+.dk3-fire b:nth-child(3){--r:-28deg}
+#sfTabs button:not(.dk-p) .dk3-fire b{transition:transform .18s ease-in,opacity .18s}
+.dk-p .dk3-fire b{opacity:1;transform:rotate(var(--r)) scaleY(1);transition:transform .1s cubic-bezier(.2,1.5,.4,1),opacity .05s;animation:dk3Burn .12s ease-in-out .1s infinite alternate}
+.dk-p .dk3-fire b:nth-child(2){animation-delay:.14s}.dk-p .dk3-fire b:nth-child(3){animation-delay:.17s}
+@keyframes dk3Burn{from{transform:rotate(var(--r)) scaleY(1) scaleX(1)}to{transform:rotate(calc(var(--r) + 6deg)) scaleY(1.25) scaleX(.8)}}
+.dk-p .dk3-quest::after{content:'';position:absolute;left:50%;top:58%;width:30px;height:24px;margin-left:-15px;border-radius:50%;background:radial-gradient(circle,rgba(255,170,60,.55),rgba(255,90,30,0) 70%);animation:dk3Glow .2s ease-in-out infinite alternate;z-index:1}
+@keyframes dk3Glow{to{opacity:.6;transform:scale(1.2)}}
+#sfTabs button.dk-p{transform:scale(.95);transition:transform .12s}
+#sfTabs button.on .dk3 img,#sfTabs button.active .dk3 img{filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}
+@media (prefers-reduced-motion:reduce){.dk3-drag{animation:none}.dk3 *{transition:none!important;animation:none!important}}
+.dk3-coach img{transform:scale(1.18)}.dk-p .dk3-coach img{transform:scale(1.3) rotate(-6deg)}@keyframes dk3Wob{0%,100%{transform:scale(1.3) rotate(-6deg)}50%{transform:scale(1.3) rotate(4deg)}}
 
 </style><script id="sf-dkx-js">
-var DKX={
-home:'<svg class="dkx" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
- '<g class="dk-smoke"><circle cx="17" cy="3" r="1.3" fill="currentColor" stroke="none"/><circle cx="18.5" cy="0.5" r="1" fill="currentColor" stroke="none"/></g>'+
- '<path d="M16 6.2V4.2h2.4v4" />'+
- '<path d="M3.5 11 12 4l8.5 7v8.5a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/>'+
- '<rect class="dk-win" x="6.5" y="12" width="3.2" height="3.2" rx=".6" stroke-width="1.6"/>'+
- '<g class="dk-door"><path d="M13 21v-6.5h4.5V21" /></g><rect class="dk-doorin" x="13" y="14.5" width="4.5" height="6.5" fill="currentColor" stroke="none"/></svg>',
-coach:'<svg class="dkx" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
- '<g class="dk-bub"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'+
- '<circle class="dk-d1" cx="8" cy="10" r="1.25" fill="currentColor" stroke="none"/><circle class="dk-d2" cx="12" cy="10" r="1.25" fill="currentColor" stroke="none"/><circle class="dk-d3" cx="16" cy="10" r="1.25" fill="currentColor" stroke="none"/></g></svg>',
-quest:'<svg class="dkx dkx-drag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
- '<defs><linearGradient id="dkFl" x1="0" x2="1"><stop offset="0" stop-color="#fff3a3"/><stop offset=".35" stop-color="#ffb02e"/><stop offset=".75" stop-color="#ff5a1f"/><stop offset="1" stop-color="#e3261b" stop-opacity=".25"/></linearGradient></defs>'+
- '<g class="dk-fire"><path d="M20.4 12.7c2.2-2.1 4.8-2.7 8.4-1.4-1.3.5-1.8 1.1-1.3 1.8.5.6 1.2.9 2.2 1.1-1 .4-1.8.7-2.2 1.2-.5.7 0 1.3 1.3 1.8-3.6 1.3-6.2.6-8.4-1.5z" fill="url(#dkFl)" stroke="none"/>'+
- '<path d="M20.6 13.4c1.5-.9 3.1-1.1 4.9-.4-.6.4-.7.8 0 1.1-1.8.6-3.4.4-4.9-.7z" fill="#fff7c2" stroke="none"/></g>'+
- '<path d="M7.4 6.4C6.4 4.6 4.8 3.4 2.8 3M10.2 6.1C9.8 4.3 8.8 2.9 7.4 2"/>'+
- '<path d="M4.6 9.3 2.3 9.9l2.4 1.1M4.9 12.6l-2.2.9 2.6.8" stroke-width="1.5"/>'+
- '<path class="dk-up" d="M4.5 10.5C4.5 7.6 6.6 6 9.2 6c2.3 0 4.6.9 6.6 1.6l3.6 1.1c1 .3 1.6 1.1 1.4 1.9l-.2.9-6.9.8"/>'+
- '<path d="M16 11.5l.4 1 .5-1.1M17.9 11.3l.4.9.4-1" stroke-width="1.1"/>'+
- '<g class="dk-jaw"><path d="M14.3 13.4l5.6.9-.4 1.3c-.3.9-1.1 1.5-2 1.6l-4.6.6c-2 .2-3.8-.4-5.2-1.6"/></g>'+
- '<path d="M4.5 10.5c0 2.6.9 4.8 2.4 6.2L6 20.5M8.5 17.6l1 2.9"/>'+
- '<path d="M10 9.4c.8-.7 1.8-.8 2.6-.2" stroke-width="1.4"/><circle cx="11.3" cy="10.1" r=".85" fill="currentColor" stroke="none"/>'+
- '<circle cx="18.7" cy="9.3" r=".55" fill="currentColor" stroke="none"/></svg>',
-timetable:'<svg class="dkx" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
- '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4"/>'+
- '<g class="dk-page"><path d="M3 10h18"/><rect x="3" y="5" width="18" height="5" rx="2" fill="currentColor" fill-opacity=".18" stroke="none"/></g>'+
- '<path class="dk-tick" d="M8.5 15.2l2.4 2.4 4.6-4.6" pathLength="1"/></svg>',
-more:'<svg class="dkx" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">'+
- '<g class="dk-grid"><rect class="dk-s1" x="4" y="4" width="6.5" height="6.5" rx="2"/><rect class="dk-s2" x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect class="dk-s3" x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect class="dk-s4" x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/></g>'+
- '<path class="dk-spark" d="M12 9.6v4.8M9.6 12h4.8" stroke-width="1.8"/></svg>'
-};
-
+/* ===== 3D dock icons: flapping fire dragon for Quest, 3D house / chat / calendar / blocks ===== */
 (function(){
 var MAP={dashboard:'home',coach:'coach',quest:'quest',timetable:'timetable'};
+function html(k){if(k==='quest')return'<span class="dk3 dk3-quest" aria-hidden="true"><i class="dk3-drag"></i><i class="dk3-fire"><b></b><b></b><b></b></i></span>';
+ return'<span class="dk3 dk3-'+k+'" aria-hidden="true"><img alt="" src="/dock/'+k+'.webp" draggable="false"><img alt="" class="p" src="/dock/'+k+'_p.webp" draggable="false"></span>'}
 function install(){var n=document.getElementById('sfTabs');if(!n)return;
- [].slice.call(n.querySelectorAll('button')).forEach(function(b){var k=b.id==='sfMore'?'more':MAP[b.dataset.tab];if(!k||!DKX[k])return;
-  var cur=b.querySelector('svg');if(cur&&cur.classList.contains('dkx')&&cur.dataset.k===k)return;
-  var t=document.createElement('div');t.innerHTML=DKX[k];var s=t.firstChild;s.dataset.k=k;
-  if(cur)cur.replaceWith(s);else b.insertBefore(s,b.firstChild);
+ [].slice.call(n.querySelectorAll('button')).forEach(function(b){var k=b.id==='sfMore'?'more':MAP[b.dataset.tab];if(!k)return;
+  var cur=b.querySelector('.dk3');if(cur&&cur.dataset.k===k){var stray=b.querySelector(':scope>svg');if(stray)stray.remove();return}
+  var t=document.createElement('div');t.innerHTML=html(k);var s=t.firstChild;s.dataset.k=k;
+  [].slice.call(b.querySelectorAll(':scope>svg,:scope>.dk3')).forEach(function(x){x.remove()});b.insertBefore(s,b.firstChild);
   if(!b.dataset.dkx){b.dataset.dkx=1;var t0=0,tm=0;
    var down=function(){clearTimeout(tm);t0=Date.now();b.classList.add('dk-p')};
-   var up=function(){var held=Date.now()-t0;clearTimeout(tm);tm=setTimeout(function(){b.classList.remove('dk-p')},Math.max(0,420-held))};
+   var up=function(){var held=Date.now()-t0;clearTimeout(tm);tm=setTimeout(function(){b.classList.remove('dk-p')},Math.max(0,450-held))};
    b.addEventListener('pointerdown',down);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);b.addEventListener('pointerleave',function(){if(b.classList.contains('dk-p'))up()});
    b.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){down();setTimeout(up,60)}});
    b.addEventListener('contextmenu',function(e){e.preventDefault()});}
