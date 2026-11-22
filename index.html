@@ -12624,6 +12624,28 @@ window.sfCoachActions={run:run,ics:icsText};
 .kqz-mode b{font:800 15px 'Sora','Plus Jakarta Sans',sans-serif;line-height:1.2}
 .kqz-mode small{display:block;font-size:11.5px;opacity:.9;margin-top:2px}
 #kqHome.kqz .kqz-hide{display:none!important}
+/* ---- v4 polish: book-style quiz cards, tidy hero ---- */
+.kqz-art{transform:scale(.78);transform-origin:top right;right:8px!important;top:8px!important}
+#kqHome.kqz .kq-hero h2::after{content:'Any topic · any level';display:block;font:600 13px 'Plus Jakarta Sans',sans-serif;opacity:.8;margin-top:6px;text-shadow:none}
+#kqHome.kqz .kq-ai{margin-top:14px!important}
+#kqHome.kqz .kq-card{position:relative;height:184px;display:block;padding:0!important;border-radius:16px 20px 20px 16px!important;
+ background:radial-gradient(90% 60% at 100% 0%,rgba(255,255,255,.28),transparent 60%),linear-gradient(165deg,color-mix(in srgb,var(--c,#7c3aed) 82%,#fff),var(--c,#7c3aed) 55%,color-mix(in srgb,var(--c,#7c3aed) 70%,#000))!important;
+ box-shadow:0 18px 26px -16px color-mix(in srgb,var(--c,#7c3aed) 70%,#000),inset 0 1px 0 rgba(255,255,255,.3)!important}
+#kqHome.kqz .kq-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:10px;background:rgba(0,0,0,.16);border-radius:16px 0 0 16px;z-index:1}
+#kqHome.kqz .kq-card::after{content:'';position:absolute;right:-34px;bottom:-34px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.12)}
+#kqHome.kqz .kq-card .kq-cover{position:absolute!important;inset:0;height:auto!important;background:none!important;border-radius:inherit}
+#kqHome.kqz .kq-card .kq-cover::after{display:none!important}
+#kqHome.kqz .kq-card .kq-cover span{position:absolute!important;left:22px;top:16px;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:24px!important;background:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.35);filter:none!important}
+#kqHome.kqz .kq-card .kq-cover em{position:absolute!important;right:10px!important;top:12px!important;left:auto!important;bottom:auto!important;font-size:11px!important;padding:3px 8px!important}
+#kqHome.kqz .kq-card .t{position:absolute!important;left:22px;right:12px;bottom:14px;padding:0!important;background:none!important;z-index:2;text-align:left}
+#kqHome.kqz .kq-card .t b{color:#fff!important;font:800 15px/1.2 'Sora','Plus Jakarta Sans',sans-serif!important;text-shadow:0 1px 3px rgba(0,0,0,.2)}
+#kqHome.kqz .kq-card .t small{color:rgba(255,255,255,.82)!important;font-size:11.5px!important;display:block;margin-top:3px}
+#kqHome.kqz .kq-cardw{position:relative}
+#kqHome.kqz .kq-cardw .kq-cm{top:52px!important;right:10px!important;z-index:3;background:rgba(255,255,255,.25)!important;color:#fff!important;box-shadow:none!important}
+#kqHome.kqz .kq-grid>.kq-card.new{height:184px;display:flex!important}
+#kqHome.kqz .kq-grid>.kq-card.new::before,#kqHome.kqz .kq-grid>.kq-card.new::after{display:none}
+.kqz-mode{min-height:184px;border-radius:16px 20px 20px 16px}
+.kqz-mode span{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:24px!important;background:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.35);filter:none!important;margin-left:8px}.kqz-mode div{padding-left:8px}.kqz-mode::before{content:'';position:absolute;left:0;top:0;bottom:0;width:10px;background:rgba(0,0,0,.16)}
 
 </style><script id="sf-kqz-js">
 /* ===== Quiz Studio: tidy layout + sort every quiz into subjects ===== */
@@ -12638,7 +12660,7 @@ function canon(s){s=String(s||'').trim();var l=s.toLowerCase();
  return s.replace(/\b\w/g,function(c){return c.toUpperCase()}).slice(0,24)}
 function cardSubj(c){var s=c.querySelector('.t small');if(!s)return'';var f=s.textContent.split('·')[0].trim();if(/^\d+\s+question|^empty/i.test(f))return'';return canon(f)}
 var COL={Business:'#0e8f7a',English:'#3b3fd6',Maths:'#e8613c',Physics:'#7c3aed',Chemistry:'#0891b2',Biology:'#16a34a',Economics:'#d97706',History:'#b45309',Geography:'#059669','Computer Science':'#2563eb',Accounting:'#0f766e',Psychology:'#db2777','General Knowledge':'#6366f1'};
-function tint(c){var sj=cardSubj(c),col=COL[sj];var cv=c.querySelector('.kq-cover');if(cv&&col&&cv.style.getPropertyValue('--c')!==col)cv.style.setProperty('--c',col)}
+function tint(c){var sj=cardSubj(c),cv=c.querySelector('.kq-cover');var col=COL[sj]||(cv&&cv.style.getPropertyValue('--c'))||'#7c3aed';if(cv&&cv.style.getPropertyValue('--c')!==col)cv.style.setProperty('--c',col);if(c.style.getPropertyValue('--c')!==col)c.style.setProperty('--c',col)}
 function box(c){return c.closest('.kq-cardw')||c}
 function disp(el,show){if(el.classList.contains('kqz-hide')===!show)return;el.classList.toggle('kqz-hide',!show)}
 function get(){try{return localStorage.getItem(KEY)||'All'}catch(e){return'All'}}
