@@ -13019,70 +13019,6 @@ function tick(){if(document.visibilityState!=='visible')return;var home=document
 setInterval(tick,1500);setTimeout(tick,600);document.addEventListener('visibilitychange',tick);
 })();
 
-</script><style id="sf-sqx-css">
-/* ===== StudyQuest: game-world look for the whole page ===== */
-body[data-sfpage="quest"]{background:#1b1146!important}
-body[data-sfpage="quest"] main,body[data-sfpage="quest"] .main{background:transparent!important}
-#page-quest{position:relative;color:#fff}
-#page-quest::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
- background:radial-gradient(2px 2px at 12% 18%,#fff8,transparent 60%),radial-gradient(1.5px 1.5px at 72% 12%,#fff9,transparent 60%),radial-gradient(2px 2px at 40% 64%,#fff6,transparent 60%),radial-gradient(1.5px 1.5px at 86% 46%,#fff8,transparent 60%),radial-gradient(1.5px 1.5px at 24% 86%,#fff7,transparent 60%),
- radial-gradient(70% 45% at 100% 0%,rgba(255,111,181,.35),transparent 60%),radial-gradient(60% 45% at 0% 70%,rgba(34,211,197,.25),transparent 60%),linear-gradient(180deg,#2a1a7a,#1b1146 55%,#140c38)}
-body[data-sfpage="quest"] header.top{background:rgba(27,17,70,.75)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-color:rgba(255,255,255,.08)!important}
-body[data-sfpage="quest"] header.top .title,body[data-sfpage="quest"] header.top h1,body[data-sfpage="quest"] header.top .pg-t{color:#fff!important}
-/* island frame */
-#page-quest .iq-wrap{border-radius:30px!important;box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.12),0 0 40px -6px rgba(124,92,255,.55)!important}
-#page-quest .iq-dock{background:rgba(20,10,60,.55)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-radius:22px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.15)!important}
-#page-quest .iq-dock .iq-btn{border-radius:16px!important;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.25)!important;transition:transform .15s cubic-bezier(.3,1.7,.5,1)!important}
-#page-quest .iq-dock .iq-btn:active{transform:translateY(3px) scale(.96)!important}
-#page-quest .iq-dock .iq-btn:nth-child(1){background:linear-gradient(160deg,#6d7bff,#3b3fd6)!important}
-#page-quest .iq-dock .iq-btn:nth-child(3){background:linear-gradient(160deg,#ff6b8b,#d92a55)!important}
-#page-quest .iq-dock .iq-btn:nth-child(4){background:linear-gradient(160deg,#3ee0a1,#0f9f6e)!important}
-#page-quest .iq-dock .iq-btn:nth-child(5){background:linear-gradient(160deg,#b07cff,#7c3aed)!important}
-#page-quest .iq-dock .iq-dl{color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.35);font-weight:800!important;letter-spacing:.02em}
-#page-quest .iq-hud .iq-chip{background:rgba(20,10,60,.55)!important;color:#fff!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 6px 14px -8px rgba(0,0,0,.6)!important;border:0!important}
-#page-quest .iq3-l .pill{box-shadow:0 6px 14px -6px rgba(0,0,0,.6)!important;border:1.5px solid rgba(255,255,255,.35)!important;font-weight:800!important}
-#page-quest .iq3-l.lock .pill{background:rgba(20,10,60,.78)!important;color:#fff!important}
-#page-quest .iq-hint{background:rgba(255,255,255,.95)!important;color:#1a1240!important;box-shadow:0 12px 24px -12px rgba(0,0,0,.6)!important}
-/* info tiles */
-#page-quest .iq-legend{margin-top:16px!important}
-#page-quest .iq-legend>div,#page-quest .iq-legend>div:nth-child(n){background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.12)!important;border-bottom-width:1px!important;color:#fff!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 14px 26px -18px rgba(0,0,0,.8)!important}
-#page-quest .iq-legend b{color:#fff!important}#page-quest .iq-legend small{color:rgba(255,255,255,.72)!important}
-#page-quest .iq-legend div:nth-child(1) .e{background:linear-gradient(135deg,#ff6b8b,#d92a55)!important}
-#page-quest .iq-legend div:nth-child(2) .e{background:linear-gradient(135deg,#ffcf4d,#f59e0b)!important}
-#page-quest .iq-legend div:nth-child(3) .e{background:linear-gradient(135deg,#3ee0a1,#0f9f6e)!important}
-#page-quest .iq-legend div:nth-child(4) .e{background:linear-gradient(135deg,#7c8cff,#3b3fd6)!important}
-#page-quest .iq-legend .e{box-shadow:inset 0 -4px 0 rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.3)}
-/* panels */
-#page-quest>.card,#page-quest .card.ne-card,#page-quest #mxWorlds{background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.12)!important;color:#fff!important;border-radius:26px!important;box-shadow:0 20px 40px -26px rgba(0,0,0,.9)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-#page-quest .card h2{color:#fff!important;font-family:'Sora','Plus Jakarta Sans',sans-serif!important}
-#page-quest .card p,#page-quest .card .muted,#page-quest .card .tiny{color:rgba(255,255,255,.72)!important}
-#page-quest #mxWorlds .empty{background:rgba(255,255,255,.05)!important;border:1.5px dashed rgba(255,255,255,.22)!important;color:rgba(255,255,255,.8)!important;border-radius:18px!important}
-#page-quest .ne-it{background:linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.04))!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 14px 24px -18px rgba(0,0,0,.8)!important;color:#fff!important}
-#page-quest .ne-it b{color:#fff!important}#page-quest .ne-it small,#page-quest .ne-it p{color:rgba(255,255,255,.7)!important}
-#page-quest .ne-it .ne-n{background:linear-gradient(135deg,#ffd166,#f59e0b)!important;color:#3b1d00!important;font-weight:800!important;box-shadow:0 4px 10px -4px rgba(245,158,11,.8)}
-#page-quest .ne-it.full{background:linear-gradient(160deg,rgba(62,224,161,.28),rgba(15,159,110,.18))!important;box-shadow:inset 0 0 0 1.5px rgba(62,224,161,.6)!important}
-#page-quest .ne-it.full .ne-n{background:#3ee0a1!important;color:#053b28!important}
-#page-quest .ne-it [class*="bar"],#page-quest .ne-it .ne-p{background:rgba(255,255,255,.14)!important;border-radius:99px}
-#page-quest .ne-it [class*="bar"] i,#page-quest .ne-it .ne-p i,#page-quest .ne-it .ne-p span{background:linear-gradient(90deg,#ffd166,#ff8a3d)!important;border-radius:99px}
-#page-quest .ne-it .ne-ic,#page-quest .ne-it>span:first-child{filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
-/* only the island: the cards under it are hidden (the Earn button has its own popup) */
-#page-quest .iq-legend,#page-quest #mxWorlds,#page-quest #neCard,#page-quest>.card{display:none!important}
-
-</style><script id="sf-sqx-js">
-(function(){
-/* StudyQuest opens straight into full screen; ✕ takes you back Home */
-function W(){return document.getElementById('iqWrap')}
-function onQuest(){var p=document.getElementById('page-quest');return p&&p.classList.contains('active')}
-var leaving=false;
-function sync(){var w=W(),b=document.getElementById('iqFull');if(!w||!b)return;var full=w.classList.contains('full');
- if(onQuest()&&!full&&!leaving){b.click()}
- else if(!onQuest()&&full){b.click()}
- if(!onQuest())leaving=false}
-document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('#iqFull');if(!b||!onQuest())return;var w=W();if(w&&w.classList.contains('full')&&e.isTrusted){leaving=true;setTimeout(function(){try{go('dashboard')}catch(x){}},0)}},true);
-var og=window.go;if(typeof og==='function'&&!og.__sqx){var ng=function(p){var r=og.apply(this,arguments);setTimeout(sync,60);setTimeout(sync,400);return r};ng.__sqx=1;for(var k in og)ng[k]=og[k];window.go=ng}
-setInterval(function(){if(document.visibilityState==='visible')sync()},400);
-})();
-
 </script><style id="sf-sqq-css">
 /* Study Run (quizzes inside StudyQuest): bright game look, matches Play with friends */
 .sq-ov{background:radial-gradient(90% 55% at 100% 0%,rgba(255,111,181,.55) 0,transparent 55%),radial-gradient(80% 50% at 0% 100%,rgba(34,211,197,.45) 0,transparent 55%),linear-gradient(165deg,#3b1fb8,#4c1d95 55%,#2a1680)!important;color:#fff!important;font-family:'Plus Jakarta Sans',system-ui,sans-serif!important;padding-top:calc(16px + env(safe-area-inset-top))!important}
@@ -13241,8 +13177,11 @@ function pick(n){var list=quizzes();var o=shell('<h3 class="qp-h">Pick a quiz</h
    off=j.now-Date.now();S={code:j.code,pid:j.pid,hostKey:j.hostKey,name:n};try{window.sfTrack&&sfTrack('party_host')}catch(e){}live()})}})}
 
 /* ---- live game ---- */
-function live(){clearInterval(poll);clearInterval(tick);lastSig='';shell('<div id="qpLive"><div class="qp-load">Connecting…</div></div>',S.code?'Game '+S.code:'');refresh();poll=setInterval(refresh,1200);tick=setInterval(timer,200)}
-function refresh(){if(!S.code)return;api({action:'party_state',code:S.code,pid:S.pid,hostKey:S.hostKey||''}).then(function(j){if(!S.code)return;if(j.__s===404){draw({phase:'gone'});return}if(j.now)off=j.now-Date.now();S.st=j;draw(j)}).catch(function(){})}
+function live(){clearInterval(poll);clearTimeout(nextT);clearInterval(tick);lastSig='';shell('<div id="qpLive"><div class="qp-load">Connecting…</div></div>',S.code?'Game '+S.code:'');refresh();tick=setInterval(timer,200)}
+var nextT=0;function later(ms){clearTimeout(nextT);nextT=setTimeout(refresh,Math.max(250,ms))}
+function refresh(){clearTimeout(nextT);if(!S.code)return;if(document.visibilityState==='hidden'){later(3000);return}api({action:'party_state',code:S.code,pid:S.pid,hostKey:S.hostKey||''}).then(function(j){if(!S.code)return;if(j.__s===404){draw({phase:'gone'});return}if(j.now)off=j.now-Date.now();S.st=j;draw(j);
+ /* poll only as often as needed: the timer runs on the phone, so ask the server again just after each phase ends */
+ var left=j.endsAt?j.endsAt-j.now+200:0;if(j.phase==='done')return;if(j.phase==='lobby')later(2500);else if(j.phase==='question')later(Math.min(left,3000));else later(Math.min(left||2000,6000))}).catch(function(){later(3000)})}
 function timer(){var st=S.st;if(!st)return;var el=document.querySelector('.qp-time i'),tx=document.querySelector('.qp-sec');var left=Math.max(0,(st.endsAt||0)-now());
  if(el&&st.phase==='question')el.style.width=Math.min(100,left/200)+'%';if(tx)tx.textContent=Math.ceil(left/1000);
  if(st.phase==='question'&&left<=0)refresh();if(st.phase==='countdown'&&left<=0)refresh();if(st.phase==='reveal'&&left<=0)refresh()}
@@ -13287,5 +13226,102 @@ var pm=(location.search.match(/[?&]party=([A-Za-z0-9]{5})/)||[])[1];if(pm)setTim
  box.parentNode.insertBefore(d,box.nextSibling)}
  document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-qpb]');if(!b)return;e.preventDefault();window.sfQuizParty('');setTimeout(function(){var i=document.getElementById(b.dataset.qpb==='join'?'qpCode':'qpName');if(b.dataset.qpb==='join'&&document.getElementById('qpName').value)i=document.getElementById('qpCode');i&&i.focus()},150)});
  setInterval(function(){if(document.visibilityState==='visible')put()},800);put()})();
+
+</script><style id="sf-sqx-css">
+/* ===== StudyQuest: game-world look for the whole page ===== */
+body[data-sfpage="quest"]{background:#1b1146!important}
+body[data-sfpage="quest"] main,body[data-sfpage="quest"] .main{background:transparent!important}
+#page-quest{position:relative;color:#fff}
+#page-quest::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(2px 2px at 12% 18%,#fff8,transparent 60%),radial-gradient(1.5px 1.5px at 72% 12%,#fff9,transparent 60%),radial-gradient(2px 2px at 40% 64%,#fff6,transparent 60%),radial-gradient(1.5px 1.5px at 86% 46%,#fff8,transparent 60%),radial-gradient(1.5px 1.5px at 24% 86%,#fff7,transparent 60%),
+ radial-gradient(70% 45% at 100% 0%,rgba(255,111,181,.35),transparent 60%),radial-gradient(60% 45% at 0% 70%,rgba(34,211,197,.25),transparent 60%),linear-gradient(180deg,#2a1a7a,#1b1146 55%,#140c38)}
+body[data-sfpage="quest"] header.top{background:rgba(27,17,70,.75)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-color:rgba(255,255,255,.08)!important}
+body[data-sfpage="quest"] header.top .title,body[data-sfpage="quest"] header.top h1,body[data-sfpage="quest"] header.top .pg-t{color:#fff!important}
+/* island frame */
+#page-quest .iq-wrap{border-radius:30px!important;box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.12),0 0 40px -6px rgba(124,92,255,.55)!important}
+#page-quest .iq-dock{background:rgba(20,10,60,.55)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-radius:22px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.15)!important}
+#page-quest .iq-dock .iq-btn{border-radius:16px!important;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.25)!important;transition:transform .15s cubic-bezier(.3,1.7,.5,1)!important}
+#page-quest .iq-dock .iq-btn:active{transform:translateY(3px) scale(.96)!important}
+#page-quest .iq-dock .iq-btn:nth-child(1){background:linear-gradient(160deg,#6d7bff,#3b3fd6)!important}
+#page-quest .iq-dock .iq-btn:nth-child(3){background:linear-gradient(160deg,#ff6b8b,#d92a55)!important}
+#page-quest .iq-dock .iq-btn:nth-child(4){background:linear-gradient(160deg,#3ee0a1,#0f9f6e)!important}
+#page-quest .iq-dock .iq-btn:nth-child(5){background:linear-gradient(160deg,#b07cff,#7c3aed)!important}
+#page-quest .iq-dock .iq-dl{color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.35);font-weight:800!important;letter-spacing:.02em}
+#page-quest .iq-hud .iq-chip{background:rgba(20,10,60,.55)!important;color:#fff!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 6px 14px -8px rgba(0,0,0,.6)!important;border:0!important}
+#page-quest .iq3-l .pill{box-shadow:0 6px 14px -6px rgba(0,0,0,.6)!important;border:1.5px solid rgba(255,255,255,.35)!important;font-weight:800!important}
+#page-quest .iq3-l.lock .pill{background:rgba(20,10,60,.78)!important;color:#fff!important}
+#page-quest .iq-hint{background:rgba(255,255,255,.95)!important;color:#1a1240!important;box-shadow:0 12px 24px -12px rgba(0,0,0,.6)!important}
+/* info tiles */
+#page-quest .iq-legend{margin-top:16px!important}
+#page-quest .iq-legend>div,#page-quest .iq-legend>div:nth-child(n){background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.12)!important;border-bottom-width:1px!important;color:#fff!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 14px 26px -18px rgba(0,0,0,.8)!important}
+#page-quest .iq-legend b{color:#fff!important}#page-quest .iq-legend small{color:rgba(255,255,255,.72)!important}
+#page-quest .iq-legend div:nth-child(1) .e{background:linear-gradient(135deg,#ff6b8b,#d92a55)!important}
+#page-quest .iq-legend div:nth-child(2) .e{background:linear-gradient(135deg,#ffcf4d,#f59e0b)!important}
+#page-quest .iq-legend div:nth-child(3) .e{background:linear-gradient(135deg,#3ee0a1,#0f9f6e)!important}
+#page-quest .iq-legend div:nth-child(4) .e{background:linear-gradient(135deg,#7c8cff,#3b3fd6)!important}
+#page-quest .iq-legend .e{box-shadow:inset 0 -4px 0 rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.3)}
+/* panels */
+#page-quest>.card,#page-quest .card.ne-card,#page-quest #mxWorlds{background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.12)!important;color:#fff!important;border-radius:26px!important;box-shadow:0 20px 40px -26px rgba(0,0,0,.9)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+#page-quest .card h2{color:#fff!important;font-family:'Sora','Plus Jakarta Sans',sans-serif!important}
+#page-quest .card p,#page-quest .card .muted,#page-quest .card .tiny{color:rgba(255,255,255,.72)!important}
+#page-quest #mxWorlds .empty{background:rgba(255,255,255,.05)!important;border:1.5px dashed rgba(255,255,255,.22)!important;color:rgba(255,255,255,.8)!important;border-radius:18px!important}
+#page-quest .ne-it{background:linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.04))!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 14px 24px -18px rgba(0,0,0,.8)!important;color:#fff!important}
+#page-quest .ne-it b{color:#fff!important}#page-quest .ne-it small,#page-quest .ne-it p{color:rgba(255,255,255,.7)!important}
+#page-quest .ne-it .ne-n{background:linear-gradient(135deg,#ffd166,#f59e0b)!important;color:#3b1d00!important;font-weight:800!important;box-shadow:0 4px 10px -4px rgba(245,158,11,.8)}
+#page-quest .ne-it.full{background:linear-gradient(160deg,rgba(62,224,161,.28),rgba(15,159,110,.18))!important;box-shadow:inset 0 0 0 1.5px rgba(62,224,161,.6)!important}
+#page-quest .ne-it.full .ne-n{background:#3ee0a1!important;color:#053b28!important}
+#page-quest .ne-it [class*="bar"],#page-quest .ne-it .ne-p{background:rgba(255,255,255,.14)!important;border-radius:99px}
+#page-quest .ne-it [class*="bar"] i,#page-quest .ne-it .ne-p i,#page-quest .ne-it .ne-p span{background:linear-gradient(90deg,#ffd166,#ff8a3d)!important;border-radius:99px}
+#page-quest .ne-it .ne-ic,#page-quest .ne-it>span:first-child{filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
+/* only the island: the cards under it are hidden (the Earn button has its own popup) */
+#page-quest .iq-legend,#page-quest #mxWorlds,#page-quest #neCard,#page-quest>.card{display:none!important}
+/* full screen as soon as the Quest page shows, before any script runs */
+#page-quest.active .iq-wrap{position:fixed!important;inset:0!important;height:auto!important;border-radius:0!important;z-index:205!important;margin:0!important}
+/* ===== new top bar: separate glass pills ===== */
+#iqWrap .iq-hud{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:calc(10px + env(safe-area-inset-top)) 12px 0!important;gap:6px!important;align-items:center!important;flex-wrap:nowrap!important}
+#iqWrap .iq-hud .iq-sp{flex:1!important;min-width:0}
+#iqWrap .iq-hud .iq-lv{display:flex!important;align-items:center!important;gap:8px!important;background:rgba(22,12,64,.62)!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:999px!important;padding:4px 12px 4px 4px!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 8px 18px -10px rgba(0,0,0,.7)!important;min-width:0;max-width:44%;flex:0 1 auto!important}
+#iqWrap .iq-hud .iq-lv .b{width:38px!important;height:38px!important;flex:none!important;border-radius:50%!important;clip-path:none!important;display:grid!important;place-items:center!important;background:linear-gradient(145deg,#ffd166,#f59e0b)!important;color:#4a2500!important;font:900 16px 'Sora',sans-serif!important;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.6)!important}
+#iqWrap .iq-hud .iq-lv .b *{color:#4a2500!important}
+#iqWrap .iq-hud .iq-lv>div{min-width:0;display:flex;flex-direction:column;gap:3px}
+#iqWrap .iq-hud .iq-lv small:first-child{display:none!important}
+#iqWrap .iq-hud .iq-lv .bar{width:64px!important;height:6px!important;border-radius:9px!important;background:rgba(255,255,255,.18)!important;overflow:hidden;margin:0!important}
+#iqWrap .iq-hud .iq-lv .bar span{background:linear-gradient(90deg,#3ee0a1,#22d3ee)!important;border-radius:9px}
+#iqWrap .iq-hud #iqXpT{font:800 10.5px 'Plus Jakarta Sans',sans-serif!important;color:rgba(255,255,255,.85)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px;letter-spacing:0!important}
+#iqWrap .iq-hud .iq-chip{display:flex!important;align-items:center!important;gap:5px!important;height:36px!important;padding:0 10px 0 4px!important;border-radius:999px!important;background:rgba(22,12,64,.62)!important;border:1px solid rgba(255,255,255,.14)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff!important;font:900 14px 'Sora','Plus Jakarta Sans',sans-serif!important;box-shadow:0 8px 18px -10px rgba(0,0,0,.7)!important;margin:0!important;flex:none!important}
+#iqWrap .iq-hud .iq-chip i{font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:15px;background:rgba(255,255,255,.14)}
+#iqWrap .iq-hud .iq-chip.c i{background:linear-gradient(145deg,#ffe08a,#f5a524)}
+#iqWrap .iq-hud .iq-chip.g i{background:linear-gradient(145deg,#a5f3fc,#38bdf8)}
+#iqWrap .iq-hud .iq-chip.s{background:linear-gradient(135deg,#ff8a3d,#ff4f8b)!important;border-color:rgba(255,255,255,.3)!important}
+#iqWrap .iq-hud .iq-chip.s i{background:rgba(255,255,255,.25)}
+#iqWrap .iq-hud .iq-chip.c span{color:#ffe08a!important}#iqWrap .iq-hud .iq-chip.g span{color:#bae6fd!important}
+#iqWrap .iq-hud #iqMult{display:none!important}
+#iqWrap .iq-hud #iqFull{width:36px!important;height:36px!important;min-width:0!important;border-radius:50%!important;border:1px solid rgba(255,255,255,.2)!important;background:rgba(22,12,64,.62)!important;color:#fff!important;font-size:15px!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);flex:none!important;margin-left:2px!important;padding:0!important}
+@media (max-width:380px){#iqWrap .iq-hud .iq-lv .bar{width:44px!important}#iqWrap .iq-hud .iq-chip{padding-right:8px!important;font-size:13px!important}}
+#iqWrap .iq-hud .iq-lv .b::before,#iqWrap .iq-hud .iq-lv .b::after{display:none!important}
+#iqWrap .iq-hud .iq-lv .b,#iqWrap .iq-hud .iq-lv .b *{text-shadow:none!important;background-clip:border-box!important;-webkit-text-fill-color:#4a2500!important}
+#iqWrap .iq-hud .iq-lv .b span{background:none!important}
+#iqWrap .iq-hud .iq-chip.s span,#iqWrap .iq-hud .iq-chip.s *{color:#fff!important;-webkit-text-fill-color:#fff!important}
+#iqWrap .iq-hud #iqFull{height:36px!important;max-height:36px!important;min-height:36px!important;aspect-ratio:1;line-height:1!important;display:grid!important;place-items:center!important;align-self:center!important}
+#page-quest,#page-quest.active{animation:none!important;transform:none!important;filter:none!important;will-change:auto!important;opacity:1!important}
+
+</style><script id="sf-sqx-js">
+(function(){
+/* StudyQuest opens straight into full screen (no jump); ✕ takes you back Home */
+function W(){return document.getElementById('iqWrap')}
+function onQuest(){var p=document.getElementById('page-quest');return p&&p.classList.contains('active')}
+function setFull(on){var w=W();if(!w)return;if(on===w.classList.contains('full'))return;w.classList.toggle('full',on);document.body.style.overflow=on?'hidden':'';var b=document.getElementById('iqFull');if(b)b.textContent=on?'✕':'⛶'}
+function sync(){if(onQuest())setFull(true);else setFull(false)}
+document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('#iqFull');if(t&&onQuest()){e.preventDefault();e.stopImmediatePropagation();setFull(false);try{go('dashboard')}catch(x){}return}
+ var q=e.target.closest&&e.target.closest('[data-page="quest"],#sfTabs [data-p="quest"]');if(q)setFull(true)},true);
+var og=window.go;if(typeof og==='function'&&!og.__sqx){var ng=function(p){if(p==='quest')setFull(true);var r=og.apply(this,arguments);sync();return r};ng.__sqx=1;for(var k in og)ng[k]=og[k];window.go=ng}
+new MutationObserver(sync).observe(document.getElementById('page-quest')||document.body,{attributes:true,attributeFilter:['class']});
+setInterval(function(){if(document.visibilityState==='visible')sync()},500);
+})();
+/* short numbers in the top bar: 1000447 -> 1M */
+(function(){function fmt(n){return n>=1e6?(Math.floor(n/1e5)/10).toString().replace(/\.0$/,'')+'M':n>=1e4?(Math.floor(n/100)/10).toString().replace(/\.0$/,'')+'K':String(n)}
+ function fix(el){if(!el)return;var t=el.textContent.replace(/,/g,'').trim();if(/^\d+$/.test(t)&&+t>=1e4){var f=fmt(+t);if(el.textContent!==f){el.title=t;el.textContent=f}}}
+ var seen={};function hook(){['iqCoins','iqGems'].forEach(function(id){var el=document.getElementById(id);if(!el)return;fix(el);if(seen[id]===el)return;seen[id]=el;new MutationObserver(function(){fix(el)}).observe(el,{childList:true,characterData:true,subtree:true})})}
+ setInterval(hook,1000);hook()})();
 
 </script></body></html>
