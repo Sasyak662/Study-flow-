@@ -12729,8 +12729,8 @@ setInterval(function(){if(document.body.dataset.sfpage==='quiz')try{apply()}catc
 @keyframes dk3Wob{0%,100%{transform:scale(1.15) rotate(-6deg)}50%{transform:scale(1.15) rotate(4deg)}}
 /* dragon: always flapping, looking at you */
 .dk3-quest{width:42px;height:42px;margin:-11px auto -3px}
-.dk3-drag{position:absolute;inset:0;background:url(/dock/dragon.webp) 0 0/1200% 100% no-repeat;animation:dk3Flap 1.5s steps(12) infinite;filter:drop-shadow(0 3px 3px rgba(80,10,0,.3))}
-@keyframes dk3Flap{to{background-position:109.0909% 0}}
+.dk3-drag{position:absolute;inset:0;background:url(/dock/dragon.webp?v=2) 0 0/1600% 100% no-repeat;animation:dk3Flap 1.5s steps(16) infinite;filter:drop-shadow(0 3px 3px rgba(80,10,0,.3))}
+@keyframes dk3Flap{to{background-position:106.6667% 0}}
 .dk-p .dk3-drag{animation-duration:.8s}
 /* fire breath: flames shoot out of the mouth towards you */
 .dk3-fire{position:absolute;left:50%;top:46%;width:0;height:0;z-index:2}
@@ -12751,15 +12751,19 @@ setInterval(function(){if(document.body.dataset.sfpage==='quiz')try{apply()}catc
 @media (prefers-reduced-motion:reduce){.dk3-drag{animation:none}.dk3 *{transition:none!important;animation:none!important}}
 .dk3-coach img{transform:scale(1.18)}.dk-p .dk3-coach img{transform:scale(1.3) rotate(-6deg)}@keyframes dk3Wob{0%,100%{transform:scale(1.3) rotate(-6deg)}50%{transform:scale(1.3) rotate(4deg)}}
 
+.dk3-day{position:absolute;left:50%;top:57%;transform:translate(-52%,-50%) rotate(-2deg);font:800 10.5px/1 'Sora','Plus Jakarta Sans',sans-serif;color:#1f2a44;letter-spacing:-.03em;font-style:normal;transition:opacity .12s}
+.dk-p .dk3-day{opacity:0}
+.dk3{width:36px;height:36px}
+
 </style><script id="sf-dkx-js">
 /* ===== 3D dock icons: flapping fire dragon for Quest, 3D house / chat / calendar / blocks ===== */
 (function(){
 var MAP={dashboard:'home',coach:'coach',quest:'quest',timetable:'timetable'};
 function html(k){if(k==='quest')return'<span class="dk3 dk3-quest" aria-hidden="true"><i class="dk3-drag"></i><i class="dk3-fire"><b></b><b></b><b></b></i></span>';
- return'<span class="dk3 dk3-'+k+'" aria-hidden="true"><img alt="" src="/dock/'+k+'.webp" draggable="false"><img alt="" class="p" src="/dock/'+k+'_p.webp" draggable="false"></span>'}
+ return'<span class="dk3 dk3-'+k+'" aria-hidden="true"><img alt="" src="/dock/'+k+'.webp?v=2" draggable="false"><img alt="" class="p" src="/dock/'+k+'_p.webp?v=2" draggable="false">'+(k==='timetable'?'<em class="dk3-day">'+new Date().getDate()+'</em>':'')+'</span>'}
 function install(){var n=document.getElementById('sfTabs');if(!n)return;
  [].slice.call(n.querySelectorAll('button')).forEach(function(b){var k=b.id==='sfMore'?'more':MAP[b.dataset.tab];if(!k)return;
-  var cur=b.querySelector('.dk3');if(cur&&cur.dataset.k===k){var stray=b.querySelector(':scope>svg');if(stray)stray.remove();return}
+  var cur=b.querySelector('.dk3');if(cur&&cur.dataset.k===k){var dy=cur.querySelector('.dk3-day');if(dy&&dy.textContent!==String(new Date().getDate()))dy.textContent=new Date().getDate();var stray=b.querySelector(':scope>svg');if(stray)stray.remove();return}
   var t=document.createElement('div');t.innerHTML=html(k);var s=t.firstChild;s.dataset.k=k;
   [].slice.call(b.querySelectorAll(':scope>svg,:scope>.dk3')).forEach(function(x){x.remove()});b.insertBefore(s,b.firstChild);
   if(!b.dataset.dkx){b.dataset.dkx=1;var t0=0,tm=0;
