@@ -1565,8 +1565,8 @@ try{(function(){
   st.appendChild(fc);
   fc.querySelector('#fbSend').onclick=()=>{const t=fc.querySelector('#fbText').value.trim(),m=fc.querySelector('#fbMsg');if(!t){m.textContent='Write a few words first.';return;}
    const body='Rating: '+fc.querySelector('#fbRate').value+'/5\n'+t+'\n\nAnswered: '+data.hist.length+', mastered: '+Object.values(data.mastery).filter(x=>x.mastered).length;
-   if(SF_FEEDBACK_EMAIL){location.href='mailto:'+SF_FEEDBACK_EMAIL+'?subject='+encodeURIComponent('StudyStarx feedback')+'&body='+encodeURIComponent(body);}
-   else{try{navigator.clipboard.writeText(body).catch(()=>{});}catch(e){}m.textContent='Copied your feedback. Send it to the StudyStarx team.';}};
+   const btn=fc.querySelector('#fbSend');btn.disabled=true;m.textContent='Sending…';const h={'Content-Type':'application/json'};try{const tk=localStorage.getItem('sf-session');if(tk)h.Authorization='Bearer '+tk}catch(e){}
+   fetch('/api/account',{method:'POST',headers:h,body:JSON.stringify({action:'feedback',rating:+fc.querySelector('#fbRate').value,text:t,stats:'Answered: '+data.hist.length+', mastered: '+Object.values(data.mastery).filter(x=>x.mastered).length})}).then(r=>r.json()).then(j=>{btn.disabled=false;if(j&&j.ok){m.textContent='✅ Thank you! Your feedback was sent.';fc.querySelector('#fbText').value=''}else m.textContent=(j&&j.error)||'Could not send right now. Please try again.'}).catch(()=>{btn.disabled=false;m.textContent='No internet connection. Please try again.'})};
   fc.querySelector('#fbShare').onclick=()=>{const u={title:'StudyStarx',text:'Try StudyStarx, a study coach for IB and A-Level.',url:location.origin};if(navigator.share)navigator.share(u).catch(()=>{});else{try{navigator.clipboard.writeText(u.url).catch(()=>{});}catch(e){}fc.querySelector('#fbMsg').textContent='Link copied.';}};
  }
 })();}catch(e){console.error('learning system',e);}
@@ -12039,9 +12039,9 @@ function build(d,startBook){
  var help=T('How these books help you',helps(d).map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
  var bet=T('Why they are better',better().map(function(x){return'<div class="bk-pt"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><p>'+esc(x[2])+'</p></div></div>'}).join(''));
  var look=T('Look inside: '+esc(b1.title.replace(/^.*?(Book 1)/,'$1')),'<div class="bk-sample">'+fig(d.sample)+'</div><p class="bk-end">— End of free preview —</p>');
- var end='<section class="bk-sec bk-last"><h2>Like what you read?</h2><p>Get the full books as instant PDFs. Start with Book 1, or get the whole series.</p><button type="button" class="bk-buy" data-bkadd="'+esc(b1.id)+'">Add Book 1 to cart · ₹'+price()+'</button><button type="button" class="bk-buy alt" data-bkall="'+esc(d.id)+'">Add all '+d.books.length+' books · ₹'+(price()*d.books.length)+'</button><button type="button" class="bk-buy ghost" data-bkcart>Go to cart</button></section>';
+ var end='<section class="bk-sec bk-last"><h2>Like what you read?</h2><p>Get the full books as instant PDFs. Start with Book 1, or get the whole series.</p><p style="font-size:12px;opacity:.7">StudyStarx books are independent study guides written for the syllabus. They are not made or endorsed by the exam board.</p><button type="button" class="bk-buy" data-bkadd="'+esc(b1.id)+'">Add Book 1 to cart · ₹'+price()+'</button><button type="button" class="bk-buy alt" data-bkall="'+esc(d.id)+'">Add all '+d.books.length+' books · ₹'+(price()*d.books.length)+'</button><button type="button" class="bk-buy ghost" data-bkcart>Go to cart</button></section>';
  var look2=T('Look inside: '+esc(b1.title.replace(/^.*?(Book 1)/,'$1')),'<div class="bk-sample">'+fig(d.sample)+'</div><p class="bk-end">— End of free preview —</p>');
- var end2='<section class="bk-sec bk-last"><h2>Like what you read?</h2><p>Get the full books as instant PDFs. Start with Book 1, or get the whole series.</p><button type="button" class="bk-buy" data-bkadd="'+esc(b1.id)+'">Add Book 1 to cart · ₹'+price()+'</button><button type="button" class="bk-buy alt" data-bkall="'+esc(d.id)+'">Add all '+d.books.length+' books · ₹'+(price()*d.books.length)+'</button><button type="button" class="bk-buy ghost" data-bkcart>Go to cart</button><h3 class="bk-all">All '+d.books.length+' books in this series</h3>'+bookList(d)+'</section>';
+ var end2='<section class="bk-sec bk-last"><h2>Like what you read?</h2><p>Get the full books as instant PDFs. Start with Book 1, or get the whole series.</p><p style="font-size:12px;opacity:.7">StudyStarx books are independent study guides written for the syllabus. They are not made or endorsed by the exam board.</p><button type="button" class="bk-buy" data-bkadd="'+esc(b1.id)+'">Add Book 1 to cart · ₹'+price()+'</button><button type="button" class="bk-buy alt" data-bkall="'+esc(d.id)+'">Add all '+d.books.length+' books · ₹'+(price()*d.books.length)+'</button><button type="button" class="bk-buy ghost" data-bkcart>Go to cart</button><h3 class="bk-all">All '+d.books.length+' books in this series</h3>'+bookList(d)+'</section>';
  // cover, then straight into the book itself
  return cover+look2+end2+'<span class="bk-endmark"></span>';
 }
@@ -12324,7 +12324,7 @@ function deco(){
  // header pills
  var top=document.querySelector('header.top');
  if(top){var pl=top.querySelector('.zh-pl');var cart=top.querySelector('.sfcartbtn');if(!pl&&cart){pl=document.createElement('div');pl.className='zh-pl';cart.parentNode.insertBefore(pl,cart)}
-  if(pl){var sc=H.querySelector('.sxh-chips b');var st=sc?sc.textContent:'0';var h='<button type="button" data-zgo="progress">'+FIRE+'<b>'+cp(st)+'</b></button><button type="button" data-zgo="quest">'+COIN+'<b>'+cp(((((H.querySelectorAll('.sxh-chips button')[1]||{}).textContent||'').match(/🪙\s*([\d,]+)/))||[0,coins()])[1])+'</b></button><button type="button" data-zgo="quest">'+GEM+'<b>'+cp(gems())+'</b></button>';if(pl.dataset.h!==h){pl.dataset.h=h;pl.innerHTML=h;pl.querySelectorAll('[data-zgo]').forEach(function(b){b.onclick=function(){try{go(b.dataset.zgo)}catch(e){}}})}fitPl(top,pl)}}
+  if(pl){var sc=H.querySelector('.sxh-chips b');var st=sc?sc.textContent:'0';var h='<button type="button" data-zgo="progress">'+FIRE+'<b>'+cp(st)+'</b></button><button type="button" data-zgo="quest">'+COIN+'<b>'+cp(((((H.querySelectorAll('.sxh-chips button')[1]||{}).textContent||'').match(/🪙\s*([\d,]+)/))||[0,coins()])[1])+'</b></button><button type="button" data-zgo="quest">'+GEM+'<b>'+cp(gems())+'</b></button>';if(pl.dataset.h!==h){pl.dataset.h=h;pl.innerHTML=h;pl.querySelectorAll('[data-zgo]').forEach(function(b){b.onclick=function(){try{go(b.dataset.zgo)}catch(e){}}});fitPl(top,pl)}else if(!pl.dataset.fit){pl.dataset.fit=1;fitPl(top,pl)}}}
  // mission
  H.querySelectorAll('.sxh-item').forEach(function(it){var e=it.querySelector('.sxh-ie');if(e)tile(e,pick((it.querySelector('b')||it).textContent+' '+((it.querySelector('.sxh-go')||{}).dataset||{}).sxgo))});
  // tools
@@ -12778,6 +12778,122 @@ function card(){var pg=document.getElementById('page-coach');if(!pg)return;var f
 setInterval(function(){if(document.body.dataset.sfpage==='coach')card()},1500);
 try{if(!localStorage.getItem('cact-fix1')){var fixd=function(){var d=D();if(!d||!Array.isArray(d.tasks))return setTimeout(fixd,800);var n=0;d.tasks.forEach(function(t){if(t.practice&&t.done&&!t.answered){t.done=false;delete t.started;n++}});localStorage.setItem('cact-fix1','1');if(n)save()};setTimeout(fixd,1500)}}catch(e){}
 window.sfCoachActions={run:run,ics:icsText};
+})();
+
+</script><style id="sf-lgl-css">
+.lg-ov{position:fixed;inset:0;z-index:99990;background:rgba(18,14,48,.55);display:flex;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .2s;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.lg-ov.in{opacity:1}
+.lg-sh{width:100%;max-width:480px;max-height:92vh;overflow:auto;box-sizing:border-box;background:#fff;border-radius:26px 26px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#16142e;transform:translateY(30px);transition:transform .25s}
+@media (min-width:700px){.lg-ov{align-items:center}.lg-sh{border-radius:26px}}
+.lg-ov.in .lg-sh{transform:none}
+.lg-ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;background:#eef0ff;margin-bottom:10px}
+.lg-sh h2{font:800 21px 'Sora','Plus Jakarta Sans',sans-serif;margin:0 0 8px}
+.lg-sh p{font-size:14px;line-height:1.5;color:#4b4a68;margin:0 0 10px}.lg-sh a{color:#3b3fd6;font-weight:700}
+.lg-q{font-weight:800;color:#16142e!important;margin-top:14px!important}
+.lg-two{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 4px}
+.lg-btn{border:0;border-radius:14px;padding:13px 14px;font:700 14.5px 'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#6366f1,#3b3fd6);color:#fff;cursor:pointer;width:100%;margin-top:8px}
+.lg-btn.alt{background:#f1f0fb;color:#16142e;margin-top:0}.lg-btn.alt.on{background:#3b3fd6;color:#fff}
+.lg-btn.red{background:linear-gradient(135deg,#f43f5e,#e11d48)}.lg-btn:disabled{opacity:.6}
+.lg-f{display:block;margin:10px 0}.lg-f span{display:block;font-size:12.5px;font-weight:700;color:#6b6987;margin-bottom:5px}
+.lg-f input{width:100%;box-sizing:border-box;height:46px;border:1.5px solid #e4e3f1;border-radius:13px;padding:0 12px;font:600 15px 'Plus Jakarta Sans',sans-serif;background:#faf9ff;color:#16142e}
+.lg-f input:focus{outline:none;border-color:#7c8cff;background:#fff}
+.lg-chk{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.45;color:#16142e;margin:12px 0 4px;cursor:pointer}.lg-chk input{width:20px;height:20px;margin-top:1px;flex:none;accent-color:#3b3fd6}
+.lg-note{background:#fff7ec;border-radius:12px;padding:10px 12px;color:#8a4b12!important;font-size:13px!important}
+.lg-err{color:#e11d48!important;font-weight:700;font-size:13px!important;min-height:1em;margin:6px 0 0!important}
+.lg-small{font-size:12.5px!important;color:#7a7894!important}
+#lgCard,#lgOwner{margin-top:16px;background:#fff;border-radius:22px;padding:16px;box-shadow:0 18px 30px -24px rgba(22,20,46,.5)}
+#lgCard h3,#lgOwner h3{margin:0 0 8px;font:700 17px 'Plus Jakarta Sans',sans-serif;color:#16142e}
+.lg-row{display:flex;align-items:center;gap:12px;width:100%;padding:11px 4px;border:0;background:none;border-top:1px solid #f1f0f6;text-decoration:none;color:#16142e;font-family:inherit;text-align:left;cursor:pointer;box-sizing:border-box}
+#lgCard h3+.lg-row{border-top:0}.lg-row span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}.lg-row b{font-size:14.5px}.lg-row small{font-size:12.5px;color:#7a7894;overflow:hidden;text-overflow:ellipsis}
+.lg-ri{width:38px;height:38px;border-radius:12px;background:#f4f3fa;display:grid;place-items:center;font-size:18px;flex:none}.lg-row i{font-style:normal;color:#b4b2cc;font-size:20px}
+.lg-del b{color:#e11d48}
+#lgOwner .s{font-size:12.5px;color:#7a7894;margin:0 0 8px}.lg-sec{font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#6b6987;margin:10px 0 6px}
+.lg-errs{list-style:none;margin:0 0 12px;padding:0;max-height:260px;overflow:auto}.lg-errs li{padding:8px 10px;border-radius:10px;background:#fff5f6;margin-bottom:6px}.lg-errs b{display:block;font-size:12.5px;color:#9f1239;word-break:break-word}.lg-errs small{font-size:11px;color:#8a88a3}
+#lgAiNote{margin:4px 0 0;text-align:center;font-size:11.5px;color:#8a88a3}
+.lg-fb li{background:#f4f7ff}.lg-fb b{color:#16142e;font-weight:600}
+
+</style><script id="sf-lgl-js">
+/* ===== Launch essentials: consent, legal & support, delete account, email reset, error reports, owner tools ===== */
+(function(){
+var VER='2026-11',CK='sf-consent-v1',CFG={};
+function tok(){try{return localStorage.getItem('sf-session')||''}catch(e){return''}}
+function api(body){var h={'Content-Type':'application/json'};var t=tok();if(t)h.Authorization='Bearer '+t;return fetch('/api/account',{method:'POST',headers:h,body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){j.__s=r.status;return j})})}
+function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function getC(){try{return JSON.parse(localStorage.getItem(CK)||'null')}catch(e){return null}}
+function sheet(html,cls){var o=document.createElement('div');o.className='lg-ov '+(cls||'');o.innerHTML='<div class="lg-sh" role="dialog" aria-modal="true">'+html+'</div>';document.body.appendChild(o);requestAnimationFrame(function(){o.classList.add('in')});return o}
+function close(o){o.classList.remove('in');setTimeout(function(){o.remove()},200)}
+fetch('/api/account').then(function(r){return r.json()}).then(function(j){CFG=j||{};var c=document.getElementById('lgCard');if(c)c.dataset.s=''}).catch(function(){});
+
+/* ---------- 1. Agreement (and parent permission for under-18s) ---------- */
+function needConsent(){var c=getC();if(c&&c.version===VER)return false;try{if(!(data&&data.profile&&data.profile.onboarded))return false}catch(e){return false}return true}
+function sendConsent(){var c=getC();if(!c||!tok())return;try{if(localStorage.getItem('sf-consent-sent')===String(c.at))return}catch(e){}
+ api({action:'consent',consent:c}).then(function(j){if(j&&j.ok)try{localStorage.setItem('sf-consent-sent',String(c.at))}catch(e){}})}
+function askConsent(){if(document.querySelector('.lg-consent'))return;
+ var o=sheet('<div class="lg-ic">🛡️</div><h2>Before you continue</h2><p>StudyStarx saves your study progress and sends your questions to an AI to answer them. Please read our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/terms.html" target="_blank" rel="noopener">Terms</a>.</p><p class="lg-q">How old are you?</p><div class="lg-two"><button type="button" class="lg-btn alt" data-a="kid">I\'m under 18</button><button type="button" class="lg-btn alt" data-a="adult">I\'m 18 or older</button></div><div class="lg-step" hidden></div>','lg-consent');
+ var step=o.querySelector('.lg-step');
+ o.querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){o.querySelectorAll('[data-a]').forEach(function(x){x.classList.toggle('on',x===b)});var kid=b.dataset.a==='kid';step.hidden=false;
+  step.innerHTML=kid?'<p class="lg-note">Because you\'re under 18, a parent or guardian needs to agree. Please hand your phone to them for this step.</p><label class="lg-f"><span>Parent or guardian\'s name</span><input id="lgPn" autocomplete="name" maxlength="80"></label><label class="lg-f"><span>Their email</span><input id="lgPe" type="email" autocomplete="email" maxlength="254"></label><label class="lg-chk"><input type="checkbox" id="lgOk"><span>I am the parent or guardian. I have read the Privacy Policy and Terms, and I agree to my child using StudyStarx.</span></label><button type="button" class="lg-btn" id="lgGo">Agree and continue</button><p class="lg-err" id="lgErr"></p>'
+   :'<label class="lg-chk"><input type="checkbox" id="lgOk"><span>I have read and agree to the Privacy Policy and Terms.</span></label><button type="button" class="lg-btn" id="lgGo">Continue</button><p class="lg-err" id="lgErr"></p>';
+  step.querySelector('#lgOk').onchange=function(){step.querySelector('#lgErr').textContent=''};
+  step.querySelector('#lgGo').onclick=function(){var err=step.querySelector('#lgErr');if(!step.querySelector('#lgOk').checked){err.textContent='Please tick the box to agree.';return}
+   var c={adult:!kid,version:VER,at:Date.now()};if(kid){var pn=step.querySelector('#lgPn').value.trim(),pe=step.querySelector('#lgPe').value.trim();if(pn.length<2){err.textContent='Please enter the parent or guardian\'s name.';return}if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(pe)){err.textContent='Please enter a valid email for the parent or guardian.';return}c.parentName=pn;c.parentEmail=pe}
+   try{localStorage.setItem(CK,JSON.stringify(c))}catch(e){}sendConsent();close(o)};
+  setTimeout(function(){try{step.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}},50)}});
+}
+setInterval(function(){try{if(needConsent())askConsent();else sendConsent()}catch(e){}},2500);
+
+/* ---------- 2. Help, privacy & account (Settings) + delete account ---------- */
+function legalCard(){var pg=document.getElementById('page-settings');if(!pg||!pg.offsetParent)return;var c=document.getElementById('lgCard');
+ var signed=!!tok();var sig=(signed?'1':'0')+'|'+(CFG.support||'');if(c&&c.dataset.s===sig)return;
+ if(!c){c=document.createElement('section');c.id='lgCard';var before=document.getElementById('qbStats');if(before)pg.insertBefore(c,before);else pg.appendChild(c)}
+ c.dataset.s=sig;var sup=String(CFG.support||'');
+ c.innerHTML='<h3>Help, privacy & account</h3>'+
+  (sup?'<a class="lg-row" href="mailto:'+esc(sup)+'?subject=StudyStarx%20help"><span class="lg-ri">✉️</span><span><b>Contact support</b><small>'+esc(sup)+'</small></span><i>›</i></a>':'')+
+  '<a class="lg-row" href="/privacy.html" target="_blank" rel="noopener"><span class="lg-ri">🛡️</span><span><b>Privacy Policy</b><small>What we collect and why</small></span><i>›</i></a>'+
+  '<a class="lg-row" href="/terms.html" target="_blank" rel="noopener"><span class="lg-ri">📄</span><span><b>Terms of Service</b><small>Rules, Plus, books and refunds</small></span><i>›</i></a>'+
+  (signed?'<button type="button" class="lg-row lg-del" id="lgDel"><span class="lg-ri">🗑️</span><span><b>Delete my account</b><small>Removes your account and all synced data</small></span><i>›</i></button>':'');
+ var d=c.querySelector('#lgDel');if(d)d.onclick=delFlow}
+function wipeLocal(){try{var keep=localStorage.getItem('sf-lang');localStorage.clear();sessionStorage.clear();if(keep)localStorage.setItem('sf-lang',keep)}catch(e){}try{indexedDB.databases&&indexedDB.databases().then(function(l){l.forEach(function(x){try{indexedDB.deleteDatabase(x.name)}catch(e){}})})}catch(e){}}
+function delFlow(){
+ var o=sheet('<div class="lg-ic">🗑️</div><h2>Delete your account?</h2><p>This permanently deletes your StudyStarx account and everything synced to it: notes, flashcards, quizzes, plans and StudyQuest progress. It cannot be undone, and any Plus time left will be lost.</p><label class="lg-f"><span>Type your password to confirm</span><input id="lgPw" type="password" autocomplete="current-password"></label><p class="lg-small">Signed in with Google? Type <b>DELETE</b> instead.</p><div class="lg-two"><button type="button" class="lg-btn alt" id="lgNo">Keep my account</button><button type="button" class="lg-btn red" id="lgYes">Delete forever</button></div><p class="lg-err" id="lgErr"></p>');
+ o.querySelector('#lgNo').onclick=function(){close(o)};
+ o.querySelector('#lgYes').onclick=function(){var v=o.querySelector('#lgPw').value,b=this,err=o.querySelector('#lgErr');if(!v){err.textContent='Please type your password (or DELETE).';return}b.disabled=true;b.textContent='Deleting…';
+  api(v==='DELETE'?{action:'delete',confirm:'DELETE'}:{action:'delete',password:v}).then(function(j){
+   if(j&&j.deleted){wipeLocal();o.querySelector('.lg-sh').innerHTML='<div class="lg-ic">✅</div><h2>Your account is deleted</h2><p>All your data has been removed. Thanks for studying with StudyStarx.</p>';setTimeout(function(){location.href='/'},2200);return}
+   b.disabled=false;b.textContent='Delete forever';err.textContent=(j&&j.error)||'Could not delete right now. Please try again.'}).catch(function(){b.disabled=false;b.textContent='Delete forever';err.textContent='No internet connection. Please try again.'})}}
+setInterval(legalCard,1500);
+
+/* ---------- 3. Password reset by email (when switched on) ---------- */
+function resetLink(){var f=document.getElementById('sfForgot');if(!f||!CFG.emailReset||document.getElementById('lgMail'))return;var b=document.createElement('button');b.type='button';b.className='link';b.id='lgMail';b.textContent='Email me a reset link';f.insertAdjacentElement('afterend',b);
+ b.onclick=function(){var em=((document.getElementById('sfEmail')||{}).value||'').trim(),m=document.getElementById('sfAcctMsg');if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(em)){if(m)m.textContent='Type your email above first.';return}b.disabled=true;
+  api({action:'reset_request',email:em}).then(function(j){b.disabled=false;if(m)m.textContent=j&&j.sent?'If that email has an account, a reset link is on its way. Check your inbox (and spam).':((j&&j.error)||'Could not send right now.')})}}
+setInterval(resetLink,1500);
+(function(){var tk=(location.search.match(/[?&]reset=([0-9a-f]{20,})/)||[])[1];if(!tk)return;
+ var o=sheet('<div class="lg-ic">🔑</div><h2>Choose a new password</h2><label class="lg-f"><span>New password (8+ characters)</span><input id="lgNp" type="password" autocomplete="new-password"></label><button type="button" class="lg-btn" id="lgSet">Save password</button><p class="lg-err" id="lgErr"></p>');
+ o.querySelector('#lgSet').onclick=function(){var pw=o.querySelector('#lgNp').value,err=o.querySelector('#lgErr');if(pw.length<8){err.textContent='Use at least 8 characters.';return}
+  api({action:'reset_finish',token:tk,password:pw}).then(function(j){if(j&&j.token){try{localStorage.setItem('sf-session',j.token)}catch(e){}o.querySelector('.lg-sh').innerHTML='<div class="lg-ic">✅</div><h2>Password changed</h2><p>You\'re signed in.</p>';setTimeout(function(){location.href='/'},1500)}else err.textContent=(j&&j.error)||'That link did not work.'})}})();
+
+/* ---------- 4. Anonymous error reports ---------- */
+var sent=0,seen={};function report(msg,src,line){try{msg=String(msg||'').slice(0,300);if(!msg||/Script error\.?$|ResizeObserver|extension:\/\//i.test(msg))return;var k=msg+'|'+line;if(seen[k]||sent>=8)return;seen[k]=1;sent++;
+ fetch('/api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'errlog',msg:msg,src:String(src||'').replace(location.origin,''),line:line||0,page:(document.body&&document.body.dataset.sfpage)||'',ua:navigator.userAgent.replace(/\([^)]*\)/,'').slice(0,120)+(/Android/.test(navigator.userAgent)?' Android':''),v:VER}),keepalive:true}).catch(function(){})}catch(e){}}
+window.addEventListener('error',function(e){if(e&&e.message)report(e.message,e.filename,e.lineno)});
+window.addEventListener('unhandledrejection',function(e){var r=e&&e.reason;var m=r&&(r.message||String(r));if(m&&!/fetch|network|Load failed|abort/i.test(m))report('Promise: '+m,'',0)});
+
+/* ---------- 5. Owner tools: error reports + database backup ---------- */
+var ownerChecked=0;function ownerCard(){var pg=document.getElementById('page-settings');if(!pg||!pg.offsetParent||!tok()||Date.now()-ownerChecked<30000)return;ownerChecked=Date.now();
+ api({action:'errors'}).then(function(j){var c=document.getElementById('lgOwner');if(!j||!j.errors){if(c)c.remove();return}
+  if(!c){c=document.createElement('section');c.id='lgOwner';pg.appendChild(c)}
+  var list=j.errors.slice(0,15).map(function(e){return'<li><b>'+esc(e.msg)+'</b><small>'+esc((e.page||'-')+' · '+new Date(e.t).toLocaleString()+(e.src?' · '+e.src+':'+e.line:'')+(e.ua?' · '+e.ua:''))+'</small></li>'}).join('');
+  c.innerHTML='<h3>🛠️ Owner tools</h3><p class="s">Only you can see this</p><div class="lg-sec">App errors from users ('+j.errors.length+' recent)</div>'+(list?'<ul class="lg-errs">'+list+'</ul>':'<p class="s">No errors reported. 🎉</p>')+'<div class="lg-sec">Feedback from users ('+(j.feedback||[]).length+' recent)</div>'+((j.feedback||[]).length?'<ul class="lg-errs lg-fb">'+(j.feedback||[]).slice(0,20).map(function(f){return'<li><b>'+'★'.repeat(f.rating||0)+' '+esc(f.text)+'</b><small>'+esc(new Date(f.t).toLocaleString()+(f.from?' · '+f.from:'')+(f.stats?' · '+f.stats:''))+'</small></li>'}).join('')+'</ul>':'<p class="s">No feedback yet.</p>')+'<button type="button" class="lg-btn alt" id="lgBk">⬇️ Download full database backup</button><p class="s" id="lgBkMsg"></p>';
+  c.querySelector('#lgBk').onclick=function(){var b=this,m=c.querySelector('#lgBkMsg');b.disabled=true;m.textContent='Making backup…';api({action:'backup'}).then(function(k){b.disabled=false;if(!k||!k.data){m.textContent=(k&&k.error)||'Backup failed.';return}
+   var blob=new Blob([JSON.stringify(k)],{type:'application/json'}),name='studystarx-backup-'+new Date().toISOString().slice(0,10)+'.json';
+   if(window.sfSaveBlob)sfSaveBlob(name,blob,'application/json');else{var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(u)},800)}
+   m.textContent='Saved '+k.keys+' records. Keep this file somewhere safe.'})}})}
+setInterval(ownerCard,2000);
+
+/* ---------- 6. AI can make mistakes ---------- */
+function aiNote(){var f=document.getElementById('chatForm');if(!f||document.getElementById('lgAiNote'))return;var n=document.createElement('p');n.id='lgAiNote';n.textContent='AI can make mistakes. Check important answers with your teacher or textbook.';f.insertAdjacentElement('afterend',n)}
+setInterval(aiNote,2000);
 })();
 
 </script></body></html>

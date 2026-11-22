@@ -22,7 +22,7 @@ small{color:var(--mut)}
 <a class="top" href="/"><span class="logo">✦</span>StudyStarx</a>
 <div class="card">
 <h1>Terms of Service</h1>
-<small>Last updated: 10 November 2026</small>
+<small>Last updated: 23 November 2026</small>
 
 <p>Welcome to StudyStarx. By using the StudyStarx website, app or browser extension, you agree to these terms. If you do not agree, please do not use StudyStarx.</p>
 
@@ -48,14 +48,14 @@ small{color:var(--mut)}
 <p>We may remove content or suspend accounts that break these rules.</p>
 
 <h2>4. AI answers</h2>
-<p>StudyStarx uses AI to explain topics and make quizzes and flashcards. AI can make mistakes. Always check important answers with your teacher, textbook or official materials. StudyStarx's mark guides are our own and are not official exam board mark schemes.</p>
+<p>StudyStarx uses AI to explain topics and make quizzes and flashcards. AI can make mistakes. Always check important answers with your teacher, textbook or official materials. StudyStarx's mark guides are our own and are not official exam board mark schemes. StudyStarx is an independent study app. It is not made, approved or endorsed by Cambridge, Pearson Edexcel, CBSE, ICSE, IB or any other exam board; their names are used only to say which syllabus our material is written for, and they belong to their owners.</p>
 
 <h2>5. StudyStarx Plus and books</h2>
 <ul>
 <li>Prices are shown before you pay. Payments are handled by our payment partner.</li>
 <li>StudyStarx Plus gives extra features and higher limits for the period you paid for.</li>
 <li>Books you buy are for your own personal study. Please do not share, resell or upload them elsewhere.</li>
-<li>If something you paid for does not work, contact us and we will help or refund you where the law requires.</li>
+<li><b>Refunds:</b> if StudyStarx Plus or a book does not work as described, tell us within 7 days of buying and we will fix it or refund you. Because books are digital downloads delivered instantly, we cannot refund a book once it has been downloaded unless it is faulty. Plus can be cancelled at any time; it stays active until the end of the period you paid for. Your rights under consumer law are not affected.</li>
 </ul>
 
 <h2>6. Our content</h2>
@@ -71,16 +71,17 @@ small{color:var(--mut)}
 <p>StudyStarx is a study helper. To the extent the law allows, we are not responsible for exam results, lost data, or indirect losses from using StudyStarx. Nothing in these terms removes rights you have under consumer law.</p>
 
 <h2>10. Ending your use</h2>
-<p>You can stop using StudyStarx and ask us to delete your account at any time. We may suspend accounts that break these terms.</p>
+<p>You can stop using StudyStarx and delete your account at any time in the app or on our <a href="/delete-account.html">delete account page</a>. We may suspend accounts that break these terms.</p>
 
 <h2>11. Changes to these terms</h2>
 <p>We may update these terms. We will change the date at the top and tell you inside StudyStarx about important changes. Using StudyStarx after changes means you accept them.</p>
 
 <h2>12. Contact</h2>
-<p>Questions about these terms? Contact the StudyStarx team at the support email shown when you sign in with Google, or through your account in the app.</p>
+<p>Questions about these terms? Contact us at <span class="sup">the support email shown in the app under Settings → Help, privacy &amp; account</span>.</p>
 
 <p style="margin-top:28px"><a href="/privacy.html">Privacy Policy</a> · <a href="/">Back to StudyStarx</a></p>
 </div>
 </main>
+<script>fetch("/api/account").then(function(r){return r.json()}).then(function(j){if(j&&j.support)document.querySelectorAll(".sup").forEach(function(e){e.innerHTML='<a href="mailto:'+j.support+'">'+j.support+'</a>'})}).catch(function(){})</script>
 </body>
 </html>

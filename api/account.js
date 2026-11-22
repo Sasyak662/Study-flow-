@@ -49,7 +49,7 @@ async function noteFail(email, ip) {
 }
 
 module.exports = async function handler(req, res) {
-  if (req.method === 'GET') return S.send(res, 200, { configured: S.configured(), google: S.configured() ? GOOGLE_ID() : '' });
+  if (req.method === 'GET') return S.send(res, 200, { configured: S.configured(), google: S.configured() ? GOOGLE_ID() : '', emailReset: !!(String(process.env.RESEND_API_KEY || '').trim() && String(process.env.RESET_FROM || '').trim()), support: String(process.env.SUPPORT_EMAIL || '').trim().slice(0, 120) });
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return S.send(res, 405, { error: 'Method not allowed.' }); }
   if (!S.configured()) return S.send(res, 503, { configured: false, error: 'Accounts are not switched on for this website yet.' });
   let body;
@@ -94,6 +94,58 @@ module.exports = async function handler(req, res) {
       if (u.google && g.sub && u.google !== g.sub) return S.send(res, 401, { error: 'This email is linked to a different Google account.' });
       return S.send(res, 200, { token: S.signSession(g.email), name: g.name, google: true, ...(await me(g.email, u)) });
     }
+    // Anonymous error reports from the app (no email or personal data), so problems can be found and fixed.
+    if (action === 'errlog') {
+      const rk = 'sf:errrate:' + ip; const rn = Number(await S.cmd('INCR', rk)) || 0; if (rn === 1) await S.cmd('EXPIRE', rk, 3600);
+      if (rn > 30) return S.send(res, 200, { ok: true });
+      const c = (v, n) => String(v == null ? '' : v).replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, '[email]').slice(0, n);
+      const rec = { t: Date.now(), msg: c(body.msg, 300), src: c(body.src, 160), line: Number(body.line) || 0, page: c(body.page, 40), ua: c(body.ua, 160), v: c(body.v, 20) };
+      if (!rec.msg) return S.send(res, 200, { ok: true });
+      await S.cmd('RPUSH', 'sf:errlog', JSON.stringify(rec)); await S.cmd('LTRIM', 'sf:errlog', -300, -1);
+      return S.send(res, 200, { ok: true });
+    }
+    // In-app feedback ("Help us improve") — saved for the owner to read
+    if (action === 'feedback') {
+      const rk = 'sf:fbrate:' + ip; const rn = Number(await S.cmd('INCR', rk)) || 0; if (rn === 1) await S.cmd('EXPIRE', rk, 3600);
+      if (rn > 10) return S.send(res, 429, { error: 'Thanks! You have sent a lot of feedback this hour — try again later.' });
+      const text = String(body.text || '').trim().slice(0, 2000); if (!text) return S.send(res, 400, { error: 'Write a few words first.' });
+      const who = S.readSession(req) || '';
+      await S.cmd('RPUSH', 'sf:feedback', JSON.stringify({ t: Date.now(), rating: Math.max(1, Math.min(5, Number(body.rating) || 0)), text, stats: String(body.stats || '').slice(0, 120), from: who }));
+      await S.cmd('LTRIM', 'sf:feedback', -500, -1);
+      return S.send(res, 200, { ok: true });
+    }
+    // Password reset by email (needs RESEND_API_KEY and RESET_FROM in Vercel). Without them, the recovery code is used instead.
+    if (action === 'reset_request') {
+      const email = cleanEmail(body.email);
+      const KEY = String(process.env.RESEND_API_KEY || '').trim(), FROM = String(process.env.RESET_FROM || '').trim();
+      if (!KEY || !FROM) return S.send(res, 501, { error: 'Email reset is not switched on yet. Use your recovery code.', useCode: true });
+      if (!validEmail(email)) return S.send(res, 400, { error: 'Enter a valid email address.' });
+      const rk = 'sf:resetrate:' + email; const rn = Number(await S.cmd('INCR', rk)) || 0; if (rn === 1) await S.cmd('EXPIRE', rk, 3600);
+      const u = await S.getJSON(S.userKey(email));
+      if (rn <= 3 && u && u.hash) {
+        const tok = crypto.randomBytes(24).toString('hex');
+        await S.cmd('SET', 'sf:reset:' + tok, email, 'EX', 3600);
+        const host = String(req.headers['x-forwarded-host'] || req.headers.host || 'study-flow-app-ecru.vercel.app').split(',')[0].trim();
+        const link = 'https://' + host + '/?reset=' + tok;
+        try {
+          await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ from: FROM, to: [email], subject: 'Reset your StudyStarx password',
+              html: '<p>Hi! Someone asked to reset the password for your StudyStarx account.</p><p><a href="' + link + '" style="background:#3b3fd6;color:#fff;padding:10px 16px;border-radius:10px;text-decoration:none;display:inline-block">Choose a new password</a></p><p>This link works for 1 hour. If you did not ask for this, you can ignore this email.</p>' }) });
+        } catch (e) { console.error('reset mail', e); }
+      }
+      return S.send(res, 200, { ok: true, sent: true });
+    }
+    if (action === 'reset_finish') {
+      const tok = String(body.token || '').replace(/[^0-9a-f]/g, ''), pw = String(body.password || '');
+      if (pw.length < 8 || pw.length > 200) return S.send(res, 400, { error: 'Use a password of at least 8 characters.' });
+      const email = tok ? await S.cmd('GET', 'sf:reset:' + tok) : null;
+      if (!email) return S.send(res, 400, { error: 'This reset link has expired. Ask for a new one.' });
+      const key = S.userKey(email); const u = await S.getJSON(key);
+      if (!u) return S.send(res, 400, { error: 'This account no longer exists.' });
+      u.salt = crypto.randomBytes(16).toString('hex'); u.hash = await scrypt(pw, u.salt);
+      await S.setJSON(key, u); await S.cmd('DEL', 'sf:reset:' + tok);
+      return S.send(res, 200, { token: S.signSession(email), ...(await me(email, u)) });
+    }
     if (action === 'signup' || action === 'login' || action === 'recover') {
       const email = cleanEmail(body.email), pw = String(body.password || '');
       if (!validEmail(email)) return S.send(res, 400, { error: 'Enter a valid email address.' });
@@ -132,6 +184,45 @@ module.exports = async function handler(req, res) {
     const u = await S.getJSON(S.userKey(email));
     if (!u) return S.send(res, 401, { error: 'This account no longer exists.', signedOut: true });
 
+    // Record the student's (or parent's) agreement to the Privacy Policy and Terms
+    if (action === 'consent') {
+      const c = body.consent || {};
+      const t = (v, n) => String(v == null ? '' : v).trim().slice(0, n);
+      u.consent = { adult: !!c.adult, parentName: c.adult ? '' : t(c.parentName, 80), parentEmail: c.adult ? '' : cleanEmail(c.parentEmail).slice(0, 254), agreed: true, version: t(c.version, 20) || '2026-11', at: Number(c.at) || Date.now(), savedAt: Date.now() };
+      await S.setJSON(S.userKey(email), u);
+      return S.send(res, 200, { ok: true });
+    }
+    // Delete the account and every bit of study data stored for it
+    if (action === 'delete') {
+      if (u.hash) { const pw = String(body.password || ''); if (!pw || !safeEq(await scrypt(pw, u.salt), u.hash)) { await noteFail(email, ip); return S.send(res, 401, { error: 'That password is not right.' }); } }
+      else if (String(body.confirm || '') !== 'DELETE') return S.send(res, 400, { error: 'Type DELETE to confirm.' });
+      if (S.isLifetime(email)) return S.send(res, 403, { error: 'The owner account cannot be deleted here.' });
+      const keys = [S.userKey(email), 'sf:data:' + email, 'sf:datameta:' + email];
+      let cur = '0', n = 0;
+      do { const r = await S.cmd('SCAN', cur, 'MATCH', '*' + email + '*', 'COUNT', 500); cur = String(r && r[0] || '0'); (r && r[1] || []).forEach(k => { if (keys.indexOf(k) < 0) keys.push(k) }); n++ } while (cur !== '0' && n < 50);
+      for (let i = 0; i < keys.length; i += 50) await S.cmd('DEL', ...keys.slice(i, i + 50));
+      await S.cmd('RPUSH', 'sf:deleted', JSON.stringify({ t: Date.now(), h: crypto.createHash('sha256').update(email).digest('hex').slice(0, 16) }));
+      return S.send(res, 200, { ok: true, deleted: true });
+    }
+    // Owner only: recent error reports, and a full backup of the database
+    if (action === 'errors' || action === 'backup') {
+      if (!S.isLifetime(email)) return S.send(res, 403, { error: 'Owner only.' });
+      if (action === 'errors') { const P = l => (l || []).map(x => { try { return JSON.parse(x) } catch (e) { return null } }).filter(Boolean).reverse(); const l = await S.cmd('LRANGE', 'sf:errlog', -100, -1); const f = await S.cmd('LRANGE', 'sf:feedback', -100, -1); return S.send(res, 200, { errors: P(l), feedback: P(f) }); }
+      const out = {}; let cur = '0', n = 0;
+      do {
+        const r = await S.cmd('SCAN', cur, 'COUNT', 500); cur = String(r && r[0] || '0');
+        for (const k of (r && r[1] || [])) {
+          if (/^sf:(fail|ipfail|signup|errrate|resetrate|reset|appcode|fbrate):/.test(k)) continue;
+          const ty = String(await S.cmd('TYPE', k));
+          if (ty === 'string') out[k] = await S.cmd('GET', k);
+          else if (ty === 'hash') out[k] = { hash: await S.cmd('HGETALL', k) };
+          else if (ty === 'list') out[k] = { list: await S.cmd('LRANGE', k, 0, -1) };
+          else if (ty === 'set') out[k] = { set: await S.cmd('SMEMBERS', k) };
+        }
+        n++;
+      } while (cur !== '0' && n < 400);
+      return S.send(res, 200, { app: 'studystarx', at: Date.now(), keys: Object.keys(out).length, data: out });
+    }
     if (action === 'me') return S.send(res, 200, await me(email, u));
     if (action === 'pull') {
       const d = await S.getJSON('sf:data:' + email);

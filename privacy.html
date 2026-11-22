@@ -22,7 +22,7 @@ small{color:var(--mut)}
 <a class="top" href="/"><span class="logo">✦</span>StudyStarx</a>
 <div class="card">
 <h1>Privacy Policy</h1>
-<small>Last updated: 10 November 2026</small>
+<small>Last updated: 23 November 2026</small>
 
 <p>StudyStarx is a study coach website and app. This page explains what information we collect, why, and the choices you have. We only collect what we need to run StudyStarx, and we never sell your information.</p>
 
@@ -33,6 +33,9 @@ small{color:var(--mut)}
 <li><b>Questions to the AI Coach:</b> the messages and files you send to the AI Coach and other AI features.</li>
 <li><b>Classes:</b> your display name, chat messages, questions and whiteboard drawings in a live class. Video and audio go directly between participants; we do not record or store them.</li>
 <li><b>Purchases:</b> if you buy StudyStarx Plus or a book, the payment is handled by our payment partner. We receive a confirmation of the payment, not your card or bank details.</li>
+<li><b>Your agreement:</b> when you first use StudyStarx we record that you (or, if you are under 18, your parent or guardian) agreed to this policy and our Terms, with the time. For under-18s we also keep the parent or guardian's name and email so we can show their permission.</li>
+<li><b>Shared quiz bank:</b> when a Plus student makes a quiz with AI, the quiz questions and its topic, subject, difficulty and level are saved so other students who ask for the same topic can get it instantly. Only the quiz is saved, never your name, email or anything else about you. We also count which subjects and topics are asked for, without linking them to anyone.</li>
+<li><b>Error reports:</b> if something breaks in the app, it sends us a short technical message (for example the error text, the page you were on and the type of device) so we can fix it. These reports do not include your email, name or study content.</li>
 <li><b>Basic technical information:</b> such as your IP address, which we use for a short time to stop spam and abuse (for example, too many login attempts).</li>
 </ul>
 
@@ -64,13 +67,13 @@ small{color:var(--mut)}
 </ul>
 
 <h2>5. Keeping and deleting your information</h2>
-<p>Your study data stays in your account until you delete it or ask us to delete your account. Security records such as login attempts are deleted automatically within days. You can clear the data stored on your device at any time by clearing this website's data in your browser or uninstalling the app.</p>
+<p>Your study data stays in your account until you delete it. <b>You can delete your account at any time</b> in the app (Settings → Help, privacy &amp; account → Delete my account) or on our <a href="/delete-account.html">delete account page</a>. This permanently removes your account and all synced study data straight away. Copies in our safety backups are removed when those backups are replaced (within 30 days). Security records such as login attempts are deleted automatically within days. You can clear the data stored on your device at any time by clearing this website's data in your browser or uninstalling the app.</p>
 
 <h2>6. Your choices and rights</h2>
 <p>You can see and change most of your information inside StudyStarx. You can ask us to give you a copy of your information, correct it, or delete your account and data. You can stop using Sign in with Google at any time from your Google Account settings (Security → Third-party connections).</p>
 
 <h2>7. Children and students</h2>
-<p>StudyStarx is made for school and college students. If you are under 18, please use StudyStarx with the permission of a parent or guardian. Parents and guardians can contact us to see or delete their child's information.</p>
+<p>StudyStarx is made for school and college students. If you are under 18, a parent or guardian must agree before you use StudyStarx; the app asks for this the first time it is opened. We do not use children's information for advertising or tracking, and we do not sell it. Parents and guardians can contact us at any time to see, correct or delete their child's information, or to withdraw their permission.</p>
 
 <h2>8. Security</h2>
 <p>We use secure connections (HTTPS), hashed passwords, signed login sessions and rate limits to protect your account. No system is perfect, so please use a strong password and keep your recovery code safe.</p>
@@ -79,10 +82,11 @@ small{color:var(--mut)}
 <p>If we change this policy, we will update the date at the top of this page and, for important changes, tell you inside StudyStarx.</p>
 
 <h2>10. Contact</h2>
-<p>For any privacy question or request, contact the StudyStarx team at the support email shown when you sign in with Google, or through your account in the app.</p>
+<p>For any privacy question or request (including seeing, correcting or deleting your information), contact us at <span class="sup">the support email shown in the app under Settings → Help, privacy &amp; account</span>. We reply within 7 days.</p>
 
 <p style="margin-top:28px"><a href="/terms.html">Terms of Service</a> · <a href="/">Back to StudyStarx</a></p>
 </div>
 </main>
+<script>fetch("/api/account").then(function(r){return r.json()}).then(function(j){if(j&&j.support)document.querySelectorAll(".sup").forEach(function(e){e.innerHTML='<a href="mailto:'+j.support+'">'+j.support+'</a>'})}).catch(function(){})</script>
 </body>
 </html>
