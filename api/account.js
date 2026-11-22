@@ -104,6 +104,18 @@ module.exports = async function handler(req, res) {
       await S.cmd('RPUSH', 'sf:errlog', JSON.stringify(rec)); await S.cmd('LTRIM', 'sf:errlog', -300, -1);
       return S.send(res, 200, { ok: true });
     }
+    // Anonymous feature counts (no email, no personal data): which features people use, per day
+    if (action === 'track') {
+      const rk = 'sf:trkrate:' + ip; const rn = Number(await S.cmd('INCR', rk)) || 0; if (rn === 1) await S.cmd('EXPIRE', rk, 3600);
+      if (rn > 60) return S.send(res, 200, { ok: true });
+      const day = new Date().toISOString().slice(0, 10), key = 'sf:usage:' + day; let k = 0;
+      const c = body.counts && typeof body.counts === 'object' ? body.counts : {};
+      for (const name of Object.keys(c).slice(0, 30)) { const n = Math.min(50, Math.max(0, Math.floor(Number(c[name]) || 0))); if (!n || !/^[a-z0-9_]{1,32}$/.test(name)) continue; await S.cmd('HINCRBY', key, name, n); k++; }
+      if (body.newUser === true) await S.cmd('HINCRBY', key, '_new_device', 1);
+      await S.cmd('HINCRBY', key, '_active', 1);
+      if (k) await S.cmd('EXPIRE', key, 60 * 60 * 24 * 120);
+      return S.send(res, 200, { ok: true });
+    }
     // In-app feedback ("Help us improve") — saved for the owner to read
     if (action === 'feedback') {
       const rk = 'sf:fbrate:' + ip; const rn = Number(await S.cmd('INCR', rk)) || 0; if (rn === 1) await S.cmd('EXPIRE', rk, 3600);
@@ -205,8 +217,9 @@ module.exports = async function handler(req, res) {
       return S.send(res, 200, { ok: true, deleted: true });
     }
     // Owner only: recent error reports, and a full backup of the database
-    if (action === 'errors' || action === 'backup') {
+    if (action === 'errors' || action === 'backup' || action === 'usage') {
       if (!S.isLifetime(email)) return S.send(res, 403, { error: 'Owner only.' });
+      if (action === 'usage') { const days = []; for (let i = 0; i < 14; i++) { const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10); const h = await S.cmd('HGETALL', 'sf:usage:' + d); const o = {}; if (Array.isArray(h)) { for (let j = 0; j < h.length; j += 2) o[h[j]] = Number(h[j + 1]) || 0 } else if (h && typeof h === 'object') Object.assign(o, h); days.push({ day: d, counts: o }) } return S.send(res, 200, { days }); }
       if (action === 'errors') { const P = l => (l || []).map(x => { try { return JSON.parse(x) } catch (e) { return null } }).filter(Boolean).reverse(); const l = await S.cmd('LRANGE', 'sf:errlog', -100, -1); const f = await S.cmd('LRANGE', 'sf:feedback', -100, -1); return S.send(res, 200, { errors: P(l), feedback: P(f) }); }
       const out = {}; let cur = '0', n = 0;
       do {
