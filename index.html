@@ -5463,10 +5463,12 @@ var LQ=null,SRCS=['/three-r128.min.js',LIB];function loadLib(cb){if(window.THREE
 function boot(){SI=window.StudyFlowIsland;if(!SI||!SI._G||!SI._G.wrap||!SI._I){setTimeout(boot,300);return}
  // While the 3D engine loads, show a loading card instead of the old flat 2D map
  if(webgl()&&!R.veil){var G0=SI._G;R.veil=document.createElement('div');R.veil.className='iq3-load';R.veil.innerHTML='<div class="iq3-spin"></div><b>Building your 3D island…</b><small>This takes a few seconds the first time</small>';G0.wrap.appendChild(R.veil);G0.cv.style.visibility='hidden';R.veilT=setTimeout(function(){if(!R.ok&&R.veil){var sm=R.veil.querySelector('small');if(sm)sm.innerHTML='Still loading — your internet may be slow. <button type="button" class="iq3-skip">Use the simple map</button>';var bt=R.veil.querySelector('.iq3-skip');if(bt)bt.onclick=function(){R.fail=1;unveil()}}},20000);
-  if(!window.THREE){var pre=function(){loadLib(function(){setTimeout(function(){var pw=function(){if(R.started||R.fail||document.body.dataset.sfpage==='quest'||!R.go)return;R.pre=1;R.go()};if(window.requestIdleCallback)requestIdleCallback(pw,{timeout:4000});else setTimeout(pw,800)},1200)});thWarm()};if(window.requestIdleCallback)requestIdleCallback(pre,{timeout:3000});else setTimeout(pre,1500)}}
+  if(!window.THREE){var pre=function(){loadLib(function(){var t0=Date.now(),last=Date.now();['pointerdown','touchstart','scroll','keydown','wheel'].forEach(function(ev){window.addEventListener(ev,function(){last=Date.now()},{passive:true,capture:true})});
+ /* build the 3D island only while the student is not touching the screen, so the app never stutters while they use it */
+ var tk=setInterval(function(){if(R.started||R.fail||!R.go){clearInterval(tk);return}if(document.visibilityState!=='visible'||document.body.dataset.sfpage==='quest')return;var now=Date.now();if(now-t0<7000||now-last<2500)return;clearInterval(tk);R.pre=1;R.go()},500)});thWarm()};if(window.requestIdleCallback)requestIdleCallback(pre,{timeout:3000});else setTimeout(pre,1500)}}
  if(!webgl())why('This browser has 3D graphics (WebGL) switched off, so the simple map is shown.');
  var go=function(){if(R.started||!webgl())return;R.started=1;try{var THW0={peak:1,oasis:1,jungle:1,volcano:1,coral:1,city:1,neon:1,sky:1,galaxy:1};if(!THW0[SI._I.wid()]&&window.sfMdlPre)sfMdlPre()}catch(e){}loadLib(function(){if(R.fail&&!R.veil)return;var att=function(n){try{setup();try{if(R.pre&&ren&&scene&&cam)ren.compile(scene,cam)}catch(_){}thReady(function(){requestAnimationFrame(function(){requestAnimationFrame(unveil)})})}catch(e){console.warn('3D island failed',e);R.ok=false;var c3=G&&G.wrap&&G.wrap.querySelector('.iq3-cv');if(c3)c3.remove();if(n<1){setTimeout(function(){att(n+1)},1500);return}if(G&&G.cv)G.cv.style.display='';R.fail=1;why('3D could not start on this device: '+(e&&e.message||e));unveil()}};att(0)})};
- R.go=go;if(document.body.dataset.sfpage==='quest')go();else{var mo=new MutationObserver(function(){if(document.body.dataset.sfpage==='quest'){mo.disconnect();go()}});mo.observe(document.body,{attributes:true,attributeFilter:['data-sfpage']})}}
+ R.go=go;if(document.body.dataset.sfpage==='quest')go();else{var mo=new MutationObserver(function(){if(document.body.dataset.sfpage==='quest'){mo.disconnect();setTimeout(go,480)}});mo.observe(document.body,{attributes:true,attributeFilter:['data-sfpage']})}}
 
 function why(t){R.whyT=t;try{localStorage.setItem('sf-3d-why',t)}catch(e){}var G2=SI&&SI._G;if(!G2||!G2.wrap)return;var n=G2.wrap.querySelector('.iq3-why');if(!n){n=document.createElement('div');n.className='iq3-why';G2.wrap.appendChild(n)}n.innerHTML='Simple map · '+String(t).replace(/[<>&]/g,'')+' <button type="button">Try 3D again</button>';n.querySelector('button').onclick=function(){location.reload()}}
 R.why=why;
@@ -12896,129 +12898,6 @@ function aiNote(){var f=document.getElementById('chatForm');if(!f||document.getE
 setInterval(aiNote,2000);
 })();
 
-</script><style id="sf-gr-css">
-.gr-path{margin:14px 0;background:#fff;border-radius:24px;padding:16px;box-shadow:0 18px 32px -24px rgba(30,27,75,.55);font-family:'Plus Jakarta Sans',system-ui,sans-serif}
-.gr-ph{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.gr-ph b{display:block;font:800 18px 'Sora','Plus Jakarta Sans',sans-serif;color:#16142e}.gr-ph small{color:#6b6987;font-weight:700;font-size:12.5px}
-.gr-x,.gr-nx{border:0;background:#f1f0fb;color:#6b6987;width:32px;height:32px;border-radius:10px;cursor:pointer;font-size:13px;flex:none}
-.gr-bar{height:8px;border-radius:99px;background:#eeedf8;margin:12px 0;overflow:hidden}.gr-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#6d7bff,#b07cff);transition:width .4s}
-.gr-steps{display:flex;flex-direction:column;gap:8px}
-.gr-st{display:flex;align-items:center;gap:12px;border:0;background:#f7f6fd;border-radius:16px;padding:10px 12px;text-align:left;font-family:inherit;color:#16142e;cursor:pointer}
-.gr-st>span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}.gr-st b{font-size:14.5px}.gr-st small{color:#7a7894;font-size:12px}.gr-st i{font-style:normal;color:#b4b2cc;font-size:20px}
-.gr-si{width:38px;height:38px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:18px;flex:none;box-shadow:0 4px 10px -6px rgba(30,27,75,.4)}
-.gr-st.ok{opacity:.65}.gr-st.ok .gr-si{background:linear-gradient(135deg,#3ee0a1,#0f9f6e);color:#fff;font-weight:800}.gr-st.ok b{text-decoration:line-through}
-.gr-nudge{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:12px;border-radius:20px;color:#fff;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:linear-gradient(135deg,#ff8a3d,#ff4f8b);box-shadow:0 14px 26px -16px rgba(255,79,139,.8)}
-.gr-ni{font-size:26px;flex:none}.gr-nudge>span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}.gr-nudge b{font-size:14.5px}.gr-nudge small{opacity:.92;font-size:12px}
-.gr-nudge [data-gr="go"]{border:0;border-radius:12px;padding:9px 12px;background:#fff;color:#c2185b;font:800 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer;flex:none}
-.gr-nudge .gr-nx{background:rgba(255,255,255,.2);color:#fff}
-#grReport,#grUsage{margin-top:16px;background:#fff;border-radius:22px;padding:16px;box-shadow:0 18px 30px -24px rgba(22,20,46,.5);font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#16142e}
-#grReport h3,#grUsage h3{margin:0 0 4px;font:700 17px 'Plus Jakarta Sans',sans-serif}
-.gr-rs{font-size:12.5px;color:#7a7894;margin:0 0 10px}
-.gr-rg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.gr-rg div{background:#f7f6fd;border-radius:14px;padding:10px 6px;text-align:center}.gr-rg b{display:block;font:800 17px 'Sora',sans-serif}.gr-rg small{font-size:11px;color:#7a7894;font-weight:700}
-.gr-chart{display:flex;gap:6px;align-items:flex-end;height:80px;margin:14px 0 4px}.gr-chart span{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}
-.gr-chart i{width:100%;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#8b97ff,#5b5ff0)}.gr-chart i.z{background:#eeedf8}.gr-chart em{font-style:normal;font-size:11px;color:#7a7894;font-weight:700}
-.gr-rb{display:flex;gap:8px;margin-top:10px}.gr-btn{flex:1;border:0;border-radius:14px;padding:12px;font:700 14px 'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#6366f1,#3b3fd6);color:#fff;cursor:pointer}.gr-btn.alt{background:#f1f0fb;color:#16142e}
-.gr-ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}.gr-ul li{display:grid;grid-template-columns:42% 1fr 40px;align-items:center;gap:8px;font-size:13px}.gr-ul i{height:8px;background:#eeedf8;border-radius:99px;overflow:hidden}.gr-ul i b{display:block;height:100%;background:linear-gradient(90deg,#6d7bff,#b07cff);border-radius:99px}.gr-ul em{font-style:normal;font-weight:800;text-align:right}
-[data-theme="dark"] .gr-path,[data-theme="dark"] #grReport,[data-theme="dark"] #grUsage,body.dark .gr-path,body.dark #grReport,body.dark #grUsage{background:#1d1b33;color:#eeeefa}
-[data-theme="dark"] .gr-ph b,[data-theme="dark"] .gr-st,body.dark .gr-ph b,body.dark .gr-st{color:#eeeefa}
-[data-theme="dark"] .gr-st,[data-theme="dark"] .gr-rg div,body.dark .gr-st,body.dark .gr-rg div{background:#28264a}
-[data-theme="dark"] .gr-si,body.dark .gr-si{background:#34315e}
-
-</style><script id="sf-gr-js">
-(function(){
-'use strict';
-var DK=function(t){return new Date(t==null?Date.now():t).toLocaleDateString('en-CA')};
-function L(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
-function S(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-function D(){try{return data}catch(e){return null}}
-function tok(){try{return localStorage.getItem('sf-session')||''}catch(e){return''}}
-function api(body){var h={'Content-Type':'application/json'},t=tok();if(t)h.Authorization='Bearer '+t;return fetch('/api/account',{method:'POST',headers:h,body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{}})})}
-function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-
-/* ---------- 7. anonymous feature counts ---------- */
-var first=L('gr-first',0),isNew=false;if(!first){first=Date.now();S('gr-first',first);isNew=true}
-window.sfTrack=function(name){name=String(name||'').toLowerCase().replace(/[^a-z0-9_]/g,'_').slice(0,32);if(!name)return;var b=L('gr-trk',{});b[name]=(b[name]||0)+1;S('gr-trk',b);if(/^(quiz_|party_|coach_|focus_)/.test(name))S('gr-act',DK())};
-var lastFlush=0;
-function flush(force){var b=L('gr-trk',{}),n=Object.keys(b).length;if(!n&&!isNew)return;if(!force&&Date.now()-lastFlush<60000)return;lastFlush=Date.now();
- var body=JSON.stringify({action:'track',counts:b,newUser:isNew});S('gr-trk',{});isNew=false;
- try{if(navigator.sendBeacon&&document.visibilityState==='hidden'){navigator.sendBeacon('/api/account',new Blob([body],{type:'application/json'}));return}}catch(e){}
- fetch('/api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:body,keepalive:true}).catch(function(){var c=L('gr-trk',{});for(var k in b)c[k]=(c[k]||0)+b[k];S('gr-trk',c)})}
-document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flush(true)});
-setInterval(function(){if(document.visibilityState==='visible')flush(false)},90000);
-setTimeout(function(){flush(true)},8000);
-// page views
-var og=window.go;if(typeof og==='function'&&!og.__gr){var ng=function(p){try{if(p)sfTrack('page_'+p)}catch(e){}return og.apply(this,arguments)};ng.__gr=1;window.go=ng}
-// a few key actions, by click
-document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('button,a');if(!t)return;var id=t.id||'',tx=(t.textContent||'').trim().toLowerCase();
- if(id==='kqGen'||/^generate/.test(tx))sfTrack('quiz_make');else if(t.closest('.qp-entry'))sfTrack('party_open');else if(t.closest('#coachForm,.coach-send')||id==='coachSend')sfTrack('coach_ask');else if(/start focus|start session/.test(tx))sfTrack('focus_start')},true);
-
-/* ---------- facts from the student's own data ---------- */
-function studiedOn(day){var d=D()||{};if((d.sessions||[]).some(function(s){return s&&s.date===day&&(+s.minutes||0)>0}))return true;var isd=(d.island||{}).days||{};if(isd[day])return true;return L('gr-act','')===day}
-function streak(){try{return window.sfStreak?(+window.sfStreak()||0):0}catch(e){return 0}}
-
-/* ---------- 2. first-day path ---------- */
-var STEPS=[
- {k:'quiz',ic:'🎯',t:'Try a 5-minute quiz',s:'See what you already know',go:'quiz',done:function(d){return (d.quiz||{}).attempted>0}},
- {k:'coach',ic:'💬',t:'Ask the coach one question',s:'Anything from your syllabus',go:'coach',done:function(d){return (d.chat||[]).length>0}},
- {k:'plan',ic:'📅',t:'Add one study task',s:'Plan what you will do this week',go:'timetable',done:function(d){return (d.tasks||[]).length>0||(((d.timetable||{}).plan)||[]).length>0}},
- {k:'focus',ic:'⏱️',t:'Do one focus session',s:'Even 10 minutes counts',go:'focuslock',done:function(d){return (d.sessions||[]).length>0}}
-];
-function paintPath(home){var ex=document.getElementById('grPath'),d=D();if(!d)return;
- var off=L('gr-path-off',0)||Date.now()-first>14*864e5;var done=STEPS.filter(function(s){try{return s.done(d)}catch(e){return false}}).length;
- if(off||done===STEPS.length){if(ex)ex.remove();if(done===STEPS.length&&!L('gr-path-yay',0)){S('gr-path-yay',1);try{toast('🎉 You finished your first steps!')}catch(e){}}return}
- var html='<div class="gr-ph"><div><b>Your first steps</b><small>'+done+' of '+STEPS.length+' done</small></div><button class="gr-x" aria-label="Hide first steps">✕</button></div><div class="gr-bar"><i style="width:'+Math.round(done/STEPS.length*100)+'%"></i></div><div class="gr-steps">'+
-  STEPS.map(function(s){var ok=false;try{ok=s.done(d)}catch(e){}return '<button class="gr-st'+(ok?' ok':'')+'" data-grgo="'+s.go+'"><span class="gr-si">'+(ok?'✓':s.ic)+'</span><span><b>'+s.t+'</b><small>'+s.s+'</small></span><i>›</i></button>'}).join('')+'</div>';
- if(!ex){ex=document.createElement('section');ex.id='grPath';ex.className='gr-path';var hero=home.querySelector('.sxh-hero');if(hero&&hero.nextSibling)home.insertBefore(ex,hero.nextSibling);else home.appendChild(ex)}
- if(ex.dataset.h!==html){ex.dataset.h=html;ex.innerHTML=html}}
-document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-grgo]');if(b){sfTrack('path_'+b.dataset.grgo);try{window.go(b.dataset.grgo)}catch(x){}return}
- if(e.target.closest&&e.target.closest('#grPath .gr-x')){S('gr-path-off',1);var p=document.getElementById('grPath');if(p)p.remove()}
- var n=e.target.closest&&e.target.closest('#grNudge [data-gr]');if(n){if(n.dataset.gr==='x'){S('gr-nudge-x',DK());var w=document.getElementById('grNudge');if(w)w.remove()}else{sfTrack('nudge_go');try{window.go('quiz')}catch(x){}}}});
-
-/* ---------- 4. streak nudge ---------- */
-function paintNudge(home){var ex=document.getElementById('grNudge'),n=streak(),h=new Date().getHours(),day=DK();
- var show=n>0&&h>=17&&!studiedOn(day)&&L('gr-nudge-x','')!==day;
- if(!show){if(ex)ex.remove();return}
- var html='<span class="gr-ni">🔥</span><span><b>Keep your '+n+'-day streak</b><small>It ends at midnight. One quick quiz keeps it going.</small></span><button data-gr="go">Do a quiz</button><button class="gr-nx" data-gr="x" aria-label="Hide">✕</button>';
- if(!ex){ex=document.createElement('div');ex.id='grNudge';ex.className='gr-nudge';home.insertBefore(ex,home.firstChild)}
- if(ex.dataset.h!==html){ex.dataset.h=html;ex.innerHTML=html}}
-
-/* ---------- 3. weekly report for a parent ---------- */
-function week(){var d=D()||{},now=Date.now(),days={},mins=0,sess=0,subj={};for(var i=0;i<7;i++)days[DK(now-i*864e5)]=0;
- (d.sessions||[]).forEach(function(s){if(s&&s.date in days){var m=+s.minutes||0;days[s.date]+=m;mins+=m;sess++;var t=(d.tasks||[]).find(function(x){return x.id===s.taskId});var sb=t&&(t.subject||t.subj);if(sb)subj[sb]=(subj[sb]||0)+m}});
- var active=Object.keys(days).filter(function(k){return days[k]>0||studiedOn(k)}).length;
- var tasks=(d.tasks||[]).filter(function(t){return t&&t.done&&(!t.date||t.date in days)}).length;
- var q=d.quiz||{},acc=q.attempted?Math.round(q.correct/q.attempted*100):null;
- var top=Object.keys(subj).sort(function(a,b){return subj[b]-subj[a]}).slice(0,3);
- var cards=(d.flashcards||[]).filter(function(f){return f.learned}).length;
- return{mins:mins,sess:sess,active:active,tasks:tasks,acc:acc,att:q.attempted||0,top:top,streak:streak(),cards:cards,days:days}}
-function reportText(w,name){var who=name||'Your child';return 'StudyStarx weekly report for '+who+'\n\n'+
- '• Studied on '+w.active+' of the last 7 days\n• '+w.mins+' minutes of focused study ('+w.sess+' sessions)\n• Current streak: '+w.streak+' day'+(w.streak===1?'':'s')+'\n• Quiz accuracy so far: '+(w.acc==null?'no quizzes yet':w.acc+'% over '+w.att+' questions')+'\n• Study tasks finished: '+w.tasks+'\n• Flashcards learned: '+w.cards+(w.top.length?'\n• Most studied: '+w.top.join(', '):'')+'\n\nSent from StudyStarx'}
-function paintReport(pg){var d=D();if(!d)return;var w=week(),name=((d.profile||{}).name||'').trim();
- var bars=Object.keys(w.days).reverse().map(function(k){var m=w.days[k],h=Math.min(100,Math.round(m/60*100));var dn=new Date(k+'T12:00').toLocaleDateString(undefined,{weekday:'narrow'});return '<span><i style="height:'+Math.max(m?12:4,h)+'%"'+(m?'':' class="z"')+'></i><em>'+dn+'</em></span>'}).join('');
- var html='<h3>Weekly report for a parent</h3><p class="gr-rs">A simple summary of the last 7 days that you can send to a parent or guardian.</p>'+
-  '<div class="gr-rg"><div><b>'+w.active+'/7</b><small>days studied</small></div><div><b>'+w.mins+'</b><small>minutes</small></div><div><b>'+w.streak+'🔥</b><small>day streak</small></div><div><b>'+(w.acc==null?'—':w.acc+'%')+'</b><small>quiz accuracy</small></div></div>'+
-  '<div class="gr-chart">'+bars+'</div><div class="gr-rb"><button class="gr-btn" data-grr="share">Send report</button><button class="gr-btn alt" data-grr="copy">Copy text</button></div>';
- var c=document.getElementById('grReport');if(!c){c=document.createElement('section');c.id='grReport';var lg=document.getElementById('lgCard');if(lg)pg.insertBefore(c,lg);else pg.appendChild(c)}
- if(c.dataset.h!==html){c.dataset.h=html;c.innerHTML=html}}
-document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-grr]');if(!b)return;var d=D()||{},txt=reportText(week(),((d.profile||{}).name||'').trim());sfTrack('report_'+b.dataset.grr);
- if(b.dataset.grr==='share'){var pe=(L('sf-consent-v1',{})||{}).parentEmail||'';if(navigator.share){navigator.share({title:'StudyStarx weekly report',text:txt}).catch(function(){})}else{location.href='mailto:'+encodeURIComponent(pe)+'?subject='+encodeURIComponent('StudyStarx weekly report')+'&body='+encodeURIComponent(txt)}}
- else{(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){try{toast('Report copied')}catch(x){}}).catch(function(){})}});
-
-/* ---------- owner: what people use ---------- */
-var NAMES={page_quiz:'Quizzes page',page_coach:'Coach',page_timetable:'Timetable',page_quest:'StudyQuest',page_focuslock:'Focus',page_flashcards:'Flashcards',page_progress:'Progress',page_library:'Books',page_settings:'Settings',page_planner:'Planner',page_mistakes:'Mistakes',page_premium:'Plus page',quiz_make:'Quizzes made',party_open:'Play with friends opened',party_host:'Party games hosted',coach_ask:'Coach questions',focus_start:'Focus started',report_share:'Parent reports sent',nudge_go:'Streak nudge used',_active:'App opens',_new_device:'New devices'};
-var usageAt=0;
-function paintUsage(pg){if(!document.getElementById('lgOwner'))return;if(Date.now()-usageAt<120000&&document.getElementById('grUsage'))return;usageAt=Date.now();
- api({action:'usage'}).then(function(j){if(!j||!j.days)return;var tot={},per=[];j.days.forEach(function(x){var s=0;for(var k in x.counts){tot[k]=(tot[k]||0)+x.counts[k];if(k==='_active')s=x.counts[k]}per.push(s)});
-  var keys=Object.keys(tot).filter(function(k){return k!=='_active'&&k!=='_new_device'&&!/^path_/.test(k)}).sort(function(a,b){return tot[b]-tot[a]}).slice(0,12),mx=keys.length?tot[keys[0]]:1;
-  var c=document.getElementById('grUsage');if(!c){c=document.createElement('section');c.id='grUsage';var o=document.getElementById('lgOwner');o.parentNode.insertBefore(c,o.nextSibling)}
-  c.innerHTML='<h3>What people use (last 14 days)</h3><p class="gr-rs">Anonymous counts only. No names or emails.</p><div class="gr-rg"><div><b>'+(tot._active||0)+'</b><small>app opens</small></div><div><b>'+(tot._new_device||0)+'</b><small>new devices</small></div><div><b>'+(tot.quiz_make||0)+'</b><small>quizzes made</small></div><div><b>'+(tot.coach_ask||0)+'</b><small>coach questions</small></div></div>'+
-   (keys.length?'<ul class="gr-ul">'+keys.map(function(k){return '<li><span>'+esc(NAMES[k]||k.replace(/^page_/,'').replace(/_/g,' '))+'</span><i><b style="width:'+Math.round(tot[k]/mx*100)+'%"></b></i><em>'+tot[k]+'</em></li>'}).join('')+'</ul>':'<p class="gr-rs">No data yet. Counts appear once people use the app.</p>')}).catch(function(){})}
-
-/* ---------- loop ---------- */
-function tick(){if(document.visibilityState!=='visible')return;var home=document.getElementById('sxHome');if(home&&home.offsetParent!==null){paintNudge(home);paintPath(home)}
- var st=document.getElementById('page-settings');if(st&&st.classList.contains('active')){var pg=document.getElementById('lgCard')?document.getElementById('lgCard').parentNode:st;paintReport(pg);paintUsage(pg)}}
-setInterval(tick,1500);setTimeout(tick,600);document.addEventListener('visibilitychange',tick);
-})();
-
 </script><style id="sf-sqq-css">
 /* Study Run (quizzes inside StudyQuest): bright game look, matches Play with friends */
 .sq-ov{background:radial-gradient(90% 55% at 100% 0%,rgba(255,111,181,.55) 0,transparent 55%),radial-gradient(80% 50% at 0% 100%,rgba(34,211,197,.45) 0,transparent 55%),linear-gradient(165deg,#3b1fb8,#4c1d95 55%,#2a1680)!important;color:#fff!important;font-family:'Plus Jakarta Sans',system-ui,sans-serif!important;padding-top:calc(16px + env(safe-area-inset-top))!important}
@@ -13239,5 +13118,130 @@ setInterval(function(){if(document.visibilityState==='visible')xp()},700);xp()})
 (function(){document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('#sfTabs [data-goto="quest"]');if(!b||b.__go)return;if(document.body.dataset.sfpage==='quest')return;
  e.preventDefault();e.stopImmediatePropagation();b.classList.add('active');
  requestAnimationFrame(function(){requestAnimationFrame(function(){try{go('quest')}catch(x){b.__go=1;b.click();b.__go=0}})})},true)})();
+
+</script><style id="sf-gr-css">
+.gr-path{margin:14px 0;background:#fff;border-radius:24px;padding:16px;box-shadow:0 18px 32px -24px rgba(30,27,75,.55);font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+.gr-ph{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.gr-ph b{display:block;font:800 18px 'Sora','Plus Jakarta Sans',sans-serif;color:#16142e}.gr-ph small{color:#6b6987;font-weight:700;font-size:12.5px}
+.gr-x,.gr-nx{border:0;background:#f1f0fb;color:#6b6987;width:32px;height:32px;border-radius:10px;cursor:pointer;font-size:13px;flex:none}
+.gr-bar{height:8px;border-radius:99px;background:#eeedf8;margin:12px 0;overflow:hidden}.gr-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#6d7bff,#b07cff);transition:width .4s}
+.gr-steps{display:flex;flex-direction:column;gap:8px}
+.gr-st{display:flex;align-items:center;gap:12px;border:0;background:#f7f6fd;border-radius:16px;padding:10px 12px;text-align:left;font-family:inherit;color:#16142e;cursor:pointer}
+.gr-st>span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}.gr-st b{font-size:14.5px}.gr-st small{color:#7a7894;font-size:12px}.gr-st i{font-style:normal;color:#b4b2cc;font-size:20px}
+.gr-si{width:38px;height:38px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:18px;flex:none;box-shadow:0 4px 10px -6px rgba(30,27,75,.4)}
+.gr-st.ok{opacity:.65}.gr-st.ok .gr-si{background:linear-gradient(135deg,#3ee0a1,#0f9f6e);color:#fff;font-weight:800}.gr-st.ok b{text-decoration:line-through}
+.gr-nudge{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:12px;border-radius:20px;color:#fff;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:linear-gradient(135deg,#ff8a3d,#ff4f8b);box-shadow:0 14px 26px -16px rgba(255,79,139,.8)}
+.gr-ni{font-size:26px;flex:none}.gr-nudge>span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}.gr-nudge b{font-size:14.5px}.gr-nudge small{opacity:.92;font-size:12px}
+.gr-nudge [data-gr="go"]{border:0;border-radius:12px;padding:9px 12px;background:#fff;color:#c2185b;font:800 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer;flex:none}
+.gr-nudge .gr-nx{background:rgba(255,255,255,.2);color:#fff}
+#grReport,#grUsage{margin-top:16px;background:#fff;border-radius:22px;padding:16px;box-shadow:0 18px 30px -24px rgba(22,20,46,.5);font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#16142e}
+#grReport h3,#grUsage h3{margin:0 0 4px;font:700 17px 'Plus Jakarta Sans',sans-serif}
+.gr-rs{font-size:12.5px;color:#7a7894;margin:0 0 10px}
+.gr-rg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.gr-rg div{background:#f7f6fd;border-radius:14px;padding:10px 6px;text-align:center}.gr-rg b{display:block;font:800 17px 'Sora',sans-serif}.gr-rg small{font-size:11px;color:#7a7894;font-weight:700}
+.gr-chart{display:flex;gap:6px;align-items:flex-end;height:80px;margin:14px 0 4px}.gr-chart span{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}
+.gr-chart i{width:100%;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#8b97ff,#5b5ff0)}.gr-chart i.z{background:#eeedf8}.gr-chart em{font-style:normal;font-size:11px;color:#7a7894;font-weight:700}
+.gr-rb{display:flex;gap:8px;margin-top:10px}.gr-btn{flex:1;border:0;border-radius:14px;padding:12px;font:700 14px 'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#6366f1,#3b3fd6);color:#fff;cursor:pointer}.gr-btn.alt{background:#f1f0fb;color:#16142e}
+.gr-ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}.gr-ul li{display:grid;grid-template-columns:42% 1fr 40px;align-items:center;gap:8px;font-size:13px}.gr-ul i{height:8px;background:#eeedf8;border-radius:99px;overflow:hidden}.gr-ul i b{display:block;height:100%;background:linear-gradient(90deg,#6d7bff,#b07cff);border-radius:99px}.gr-ul em{font-style:normal;font-weight:800;text-align:right}
+[data-theme="dark"] .gr-path,[data-theme="dark"] #grReport,[data-theme="dark"] #grUsage,body.dark .gr-path,body.dark #grReport,body.dark #grUsage{background:#1d1b33;color:#eeeefa}
+[data-theme="dark"] .gr-ph b,[data-theme="dark"] .gr-st,body.dark .gr-ph b,body.dark .gr-st{color:#eeeefa}
+[data-theme="dark"] .gr-st,[data-theme="dark"] .gr-rg div,body.dark .gr-st,body.dark .gr-rg div{background:#28264a}
+[data-theme="dark"] .gr-si,body.dark .gr-si{background:#34315e}
+
+</style><script id="sf-gr-js">
+(function(){
+'use strict';
+var DK=function(t){return new Date(t==null?Date.now():t).toLocaleDateString('en-CA')};
+function L(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
+function S(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function D(){try{return data}catch(e){return null}}
+function tok(){try{return localStorage.getItem('sf-session')||''}catch(e){return''}}
+function api(body){var h={'Content-Type':'application/json'},t=tok();if(t)h.Authorization='Bearer '+t;return fetch('/api/account',{method:'POST',headers:h,body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{}})})}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+
+/* ---------- 7. anonymous feature counts ---------- */
+var first=L('gr-first',0),isNew=false;if(!first){first=Date.now();S('gr-first',first);isNew=true}
+window.sfTrack=function(name){name=String(name||'').toLowerCase().replace(/[^a-z0-9_]/g,'_').slice(0,32);if(!name)return;var b=L('gr-trk',{});b[name]=(b[name]||0)+1;S('gr-trk',b);if(/^(quiz_|party_|coach_|focus_)/.test(name))S('gr-act',DK())};
+var lastFlush=0;
+function flush(force){var b=L('gr-trk',{}),n=Object.keys(b).length;if(!n&&!isNew)return;if(!force&&Date.now()-lastFlush<60000)return;lastFlush=Date.now();
+ var body=JSON.stringify({action:'track',counts:b,newUser:isNew});S('gr-trk',{});isNew=false;
+ try{if(navigator.sendBeacon&&document.visibilityState==='hidden'){navigator.sendBeacon('/api/account',new Blob([body],{type:'application/json'}));return}}catch(e){}
+ fetch('/api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:body,keepalive:true}).catch(function(){var c=L('gr-trk',{});for(var k in b)c[k]=(c[k]||0)+b[k];S('gr-trk',c)})}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flush(true)});
+setInterval(function(){if(document.visibilityState==='visible')flush(false)},90000);
+setTimeout(function(){flush(true)},8000);
+// page views
+var og=window.go;if(typeof og==='function'&&!og.__gr){var ng=function(p){try{if(p)sfTrack('page_'+p)}catch(e){}return og.apply(this,arguments)};ng.__gr=1;window.go=ng}
+// a few key actions, by click
+document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('button,a');if(!t)return;var id=t.id||'',tx=(t.textContent||'').trim().toLowerCase();
+ if(id==='kqGen'||/^generate/.test(tx))sfTrack('quiz_make');else if(t.closest('.qp-entry'))sfTrack('party_open');else if(t.closest('#coachForm,.coach-send')||id==='coachSend')sfTrack('coach_ask');else if(/start focus|start session/.test(tx))sfTrack('focus_start')},true);
+
+/* ---------- facts from the student's own data ---------- */
+function studiedOn(day){var d=D()||{};if((d.sessions||[]).some(function(s){return s&&s.date===day&&(+s.minutes||0)>0}))return true;var isd=(d.island||{}).days||{};if(isd[day])return true;return L('gr-act','')===day}
+function streak(){try{return window.sfStreak?(+window.sfStreak()||0):0}catch(e){return 0}}
+
+/* ---------- 2. first-day path ---------- */
+var STEPS=[
+ {k:'quiz',ic:'🎯',t:'Try a 5-minute quiz',s:'See what you already know',go:'quiz',done:function(d){return (d.quiz||{}).attempted>0}},
+ {k:'coach',ic:'💬',t:'Ask the coach one question',s:'Anything from your syllabus',go:'coach',done:function(d){return (d.chat||[]).length>0}},
+ {k:'plan',ic:'📅',t:'Add one study task',s:'Plan what you will do this week',go:'timetable',done:function(d){return (d.tasks||[]).length>0||(((d.timetable||{}).plan)||[]).length>0}},
+ {k:'focus',ic:'⏱️',t:'Do one focus session',s:'Even 10 minutes counts',go:'focuslock',done:function(d){return (d.sessions||[]).length>0}}
+];
+function paintPath(home){var ex=document.getElementById('grPath'),d=D();if(!d)return;
+ var off=L('gr-path-off',0)||Date.now()-first>14*864e5;var done=STEPS.filter(function(s){try{return s.done(d)}catch(e){return false}}).length;
+ if(off||done===STEPS.length){if(ex)ex.remove();if(done===STEPS.length&&!L('gr-path-yay',0)){S('gr-path-yay',1);try{toast('🎉 You finished your first steps!')}catch(e){}}return}
+ var html='<div class="gr-ph"><div><b>Your first steps</b><small>'+done+' of '+STEPS.length+' done</small></div><button class="gr-x" aria-label="Hide first steps">✕</button></div><div class="gr-bar"><i style="width:'+Math.round(done/STEPS.length*100)+'%"></i></div><div class="gr-steps">'+
+  STEPS.map(function(s){var ok=false;try{ok=s.done(d)}catch(e){}return '<button class="gr-st'+(ok?' ok':'')+'" data-grgo="'+s.go+'"><span class="gr-si">'+(ok?'✓':s.ic)+'</span><span><b>'+s.t+'</b><small>'+s.s+'</small></span><i>›</i></button>'}).join('')+'</div>';
+ if(!ex){ex=document.createElement('section');ex.id='grPath';ex.className='gr-path';var hero=home.querySelector('.sxh-hero');if(hero&&hero.nextSibling)home.insertBefore(ex,hero.nextSibling);else home.appendChild(ex)}
+ if(ex.dataset.h!==html){ex.dataset.h=html;ex.innerHTML=html}}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-grgo]');if(b){sfTrack('path_'+b.dataset.grgo);try{window.go(b.dataset.grgo)}catch(x){}return}
+ if(e.target.closest&&e.target.closest('#grPath .gr-x')){S('gr-path-off',1);var p=document.getElementById('grPath');if(p)p.remove()}
+ var n=e.target.closest&&e.target.closest('#grNudge [data-gr]');if(n){if(n.dataset.gr==='x'){S('gr-nudge-x',DK());var w=document.getElementById('grNudge');if(w)w.remove()}else{sfTrack('nudge_go');try{window.go('quiz')}catch(x){}}}});
+
+/* ---------- 4. streak nudge ---------- */
+function paintNudge(home){var ex=document.getElementById('grNudge'),n=streak(),h=new Date().getHours(),day=DK();
+ var show=n>0&&h>=17&&!studiedOn(day)&&L('gr-nudge-x','')!==day;
+ if(!show){if(ex)ex.remove();return}
+ var html='<span class="gr-ni">🔥</span><span><b>Keep your '+n+'-day streak</b><small>It ends at midnight. One quick quiz keeps it going.</small></span><button data-gr="go">Do a quiz</button><button class="gr-nx" data-gr="x" aria-label="Hide">✕</button>';
+ if(!ex){ex=document.createElement('div');ex.id='grNudge';ex.className='gr-nudge';home.insertBefore(ex,home.firstChild)}
+ if(ex.dataset.h!==html){ex.dataset.h=html;ex.innerHTML=html}}
+
+/* ---------- 3. weekly report for a parent ---------- */
+function week(){var d=D()||{},now=Date.now(),days={},mins=0,sess=0,subj={};for(var i=0;i<7;i++)days[DK(now-i*864e5)]=0;
+ (d.sessions||[]).forEach(function(s){if(s&&s.date in days){var m=+s.minutes||0;days[s.date]+=m;mins+=m;sess++;var t=(d.tasks||[]).find(function(x){return x.id===s.taskId});var sb=t&&(t.subject||t.subj);if(sb)subj[sb]=(subj[sb]||0)+m}});
+ var active=Object.keys(days).filter(function(k){return days[k]>0||studiedOn(k)}).length;
+ var tasks=(d.tasks||[]).filter(function(t){return t&&t.done&&(!t.date||t.date in days)}).length;
+ var q=d.quiz||{},acc=q.attempted?Math.round(q.correct/q.attempted*100):null;
+ var top=Object.keys(subj).sort(function(a,b){return subj[b]-subj[a]}).slice(0,3);
+ var cards=(d.flashcards||[]).filter(function(f){return f.learned}).length;
+ return{mins:mins,sess:sess,active:active,tasks:tasks,acc:acc,att:q.attempted||0,top:top,streak:streak(),cards:cards,days:days}}
+function reportText(w,name){var who=name||'Your child';return 'StudyStarx weekly report for '+who+'\n\n'+
+ '• Studied on '+w.active+' of the last 7 days\n• '+w.mins+' minutes of focused study ('+w.sess+' sessions)\n• Current streak: '+w.streak+' day'+(w.streak===1?'':'s')+'\n• Quiz accuracy so far: '+(w.acc==null?'no quizzes yet':w.acc+'% over '+w.att+' questions')+'\n• Study tasks finished: '+w.tasks+'\n• Flashcards learned: '+w.cards+(w.top.length?'\n• Most studied: '+w.top.join(', '):'')+'\n\nSent from StudyStarx'}
+function paintReport(pg){var d=D();if(!d)return;var w=week(),name=((d.profile||{}).name||'').trim();
+ var bars=Object.keys(w.days).reverse().map(function(k){var m=w.days[k],h=Math.min(100,Math.round(m/60*100));var dn=new Date(k+'T12:00').toLocaleDateString(undefined,{weekday:'narrow'});return '<span><i style="height:'+Math.max(m?12:4,h)+'%"'+(m?'':' class="z"')+'></i><em>'+dn+'</em></span>'}).join('');
+ var html='<h3>Weekly report for a parent</h3><p class="gr-rs">A simple summary of the last 7 days that you can send to a parent or guardian.</p>'+
+  '<div class="gr-rg"><div><b>'+w.active+'/7</b><small>days studied</small></div><div><b>'+w.mins+'</b><small>minutes</small></div><div><b>'+w.streak+'🔥</b><small>day streak</small></div><div><b>'+(w.acc==null?'—':w.acc+'%')+'</b><small>quiz accuracy</small></div></div>'+
+  '<div class="gr-chart">'+bars+'</div><div class="gr-rb"><button class="gr-btn" data-grr="share">Send report</button><button class="gr-btn alt" data-grr="copy">Copy text</button></div>';
+ var c=document.getElementById('grReport');if(!c){c=document.createElement('section');c.id='grReport';var lg=document.getElementById('lgCard');if(lg)pg.insertBefore(c,lg);else pg.appendChild(c)}
+ if(c.dataset.h!==html){c.dataset.h=html;c.innerHTML=html}}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-grr]');if(!b)return;var d=D()||{},txt=reportText(week(),((d.profile||{}).name||'').trim());sfTrack('report_'+b.dataset.grr);
+ if(b.dataset.grr==='share'){var pe=(L('sf-consent-v1',{})||{}).parentEmail||'';if(navigator.share){navigator.share({title:'StudyStarx weekly report',text:txt}).catch(function(){})}else{location.href='mailto:'+encodeURIComponent(pe)+'?subject='+encodeURIComponent('StudyStarx weekly report')+'&body='+encodeURIComponent(txt)}}
+ else{(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){try{toast('Report copied')}catch(x){}}).catch(function(){})}});
+
+/* ---------- owner: what people use ---------- */
+var NAMES={page_quiz:'Quizzes page',page_coach:'Coach',page_timetable:'Timetable',page_quest:'StudyQuest',page_focuslock:'Focus',page_flashcards:'Flashcards',page_progress:'Progress',page_library:'Books',page_settings:'Settings',page_planner:'Planner',page_mistakes:'Mistakes',page_premium:'Plus page',quiz_make:'Quizzes made',party_open:'Play with friends opened',party_host:'Party games hosted',coach_ask:'Coach questions',focus_start:'Focus started',report_share:'Parent reports sent',nudge_go:'Streak nudge used',_active:'App opens',_new_device:'New devices'};
+var usageAt=0;
+function paintUsage(pg){if(!document.getElementById('lgOwner'))return;if(Date.now()-usageAt<120000&&document.getElementById('grUsage'))return;usageAt=Date.now();
+ api({action:'usage'}).then(function(j){if(!j||!j.days)return;var tot={},per=[];j.days.forEach(function(x){var s=0;for(var k in x.counts){tot[k]=(tot[k]||0)+x.counts[k];if(k==='_active')s=x.counts[k]}per.push(s)});
+  var keys=Object.keys(tot).filter(function(k){return k!=='_active'&&k!=='_new_device'&&!/^path_/.test(k)}).sort(function(a,b){return tot[b]-tot[a]}).slice(0,12),mx=keys.length?tot[keys[0]]:1;
+  var c=document.getElementById('grUsage');if(!c){c=document.createElement('section');c.id='grUsage';var o=document.getElementById('lgOwner');o.parentNode.insertBefore(c,o.nextSibling)}
+  c.innerHTML='<h3>What people use (last 14 days)</h3><p class="gr-rs">Anonymous counts only. No names or emails.</p><div class="gr-rg"><div><b>'+(tot._active||0)+'</b><small>app opens</small></div><div><b>'+(tot._new_device||0)+'</b><small>new devices</small></div><div><b>'+(tot.quiz_make||0)+'</b><small>quizzes made</small></div><div><b>'+(tot.party_host||0)+'</b><small>party games</small></div></div>'+
+   (keys.length?'<ul class="gr-ul">'+keys.map(function(k){return '<li><span>'+esc(NAMES[k]||k.replace(/^page_/,'').replace(/_/g,' '))+'</span><i><b style="width:'+Math.round(tot[k]/mx*100)+'%"></b></i><em>'+tot[k]+'</em></li>'}).join('')+'</ul>':'<p class="gr-rs">No data yet. Counts appear once people use the app.</p>')}).catch(function(){})}
+
+/* ---------- loop ---------- */
+function tick(){if(document.visibilityState!=='visible')return;var home=document.getElementById('sxHome');if(home&&home.offsetParent!==null){paintNudge(home);paintPath(home)}
+ var st=document.getElementById('page-settings');if(st&&st.classList.contains('active')){var pg=document.getElementById('lgCard')?document.getElementById('lgCard').parentNode:st;paintReport(pg);paintUsage(pg)}}
+setInterval(tick,1500);tick();
+/* paint in the same frame the home screen is built, so nothing jumps in later */
+(function(){var pd=document.getElementById('page-dashboard');if(!pd||!window.MutationObserver)return;var mo=new MutationObserver(function(){var h=document.getElementById('sxHome');if(h&&!h.__gr){h.__gr=1;try{tick()}catch(e){}}});mo.observe(pd,{childList:true,subtree:true})})();document.addEventListener('visibilitychange',tick);
+})();
 
 </script></body></html>
