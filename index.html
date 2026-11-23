@@ -13287,4 +13287,48 @@ setInterval(tick,1500);tick();
 (function(){var pd=document.getElementById('page-dashboard');if(!pd||!window.MutationObserver)return;var mo=new MutationObserver(function(){var h=document.getElementById('sxHome');if(h&&!h.__gr){h.__gr=1;try{tick()}catch(e){}}});mo.observe(pd,{childList:true,subtree:true})})();document.addEventListener('visibilitychange',tick);
 })();
 
+</script><style id="sf-anx-css">
+/* ===== Animation preview (only on devices that opened ?anim=1) ===== */
+html.anx .page.active:not(#page-quest){animation:anxPage .5s cubic-bezier(.32,.72,0,1) both!important}
+html.anx.anx-fwd .page.active:not(#page-quest){--dx:28px}
+html.anx.anx-back .page.active:not(#page-quest){--dx:-28px}
+@keyframes anxPage{from{opacity:.55;transform:translate3d(var(--dx,0),0,0)}to{opacity:1;transform:none}}
+html.anx .anx-in{animation:anxRise .6s cubic-bezier(.32,.72,0,1) both;animation-delay:calc(var(--i,0)*38ms)}
+@keyframes anxRise{from{opacity:.15;transform:translate3d(0,22px,0) scale(.985)}to{opacity:1;transform:none}}
+/* tab bar: chosen tab bounces */
+html.anx #sfTabs .anx-pop{animation:anxPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes anxPop{0%{transform:scale(1)}40%{transform:scale(.86)}100%{transform:scale(1)}}
+/* sheets and pop-ups slide up with a spring, background fades */
+html.anx .anx-ov{animation:anxFade .3s ease-out both}
+html.anx .anx-sheet{animation:anxSheet .55s cubic-bezier(.32,.72,0,1) both}
+@keyframes anxFade{from{opacity:0}to{opacity:1}}
+@keyframes anxSheet{from{opacity:.4;transform:translate3d(0,60px,0) scale(.97)}to{opacity:1;transform:none}}
+/* soft press on cards and buttons */
+html.anx .card,html.anx .btn,html.anx .page button{transition:transform .4s cubic-bezier(.32,.72,0,1)}
+html.anx .card:active{transform:scale(.985)}
+html.anx .btn:active,html.anx .page button:active{transform:scale(.96);transition-duration:.12s}
+/* the little badge */
+#anxBadge{position:fixed;left:50%;top:calc(8px + env(safe-area-inset-top));transform:translateX(-50%);z-index:99999;background:rgba(20,10,60,.85);color:#fff;font:700 12px 'Inter',system-ui,sans-serif;padding:6px 12px;border-radius:999px;pointer-events:none;animation:anxFade .4s ease-out both, anxGone .4s 3s ease-in forwards}
+@keyframes anxGone{to{opacity:0}}
+@media (prefers-reduced-motion:reduce){html.anx *{animation:none!important}}
+
+</style><script id="sf-anx-js">
+(function(){
+/* Animation preview: turn on with ?anim=1, off with ?anim=0. Only this device sees it. */
+var on=false;try{var q=new URLSearchParams(location.search).get('anim');if(q==='1')localStorage.setItem('sf-anim-preview','1');if(q==='0')localStorage.removeItem('sf-anim-preview');on=localStorage.getItem('sf-anim-preview')==='1'}catch(e){}
+if(!on)return;
+var d=document.documentElement;d.classList.add('anx');
+setTimeout(function(){var b=document.createElement('div');b.id='anxBadge';b.textContent='✨ Animation preview on';document.body.appendChild(b);setTimeout(function(){b.remove()},3600)},2500);
+var ORDER=['dashboard','coach','quest','timetable','more','quiz','flashcards','progress','settings'];
+var cur=(document.body.dataset.sfpage)||'dashboard';
+function vis(el){return [].slice.call(el.children).filter(function(c){return c.offsetParent!==null&&c.offsetHeight>0&&getComputedStyle(c).position!=='fixed'})}
+function stagger(pg){if(!pg||pg.id==='page-quest')return;var kids=vis(pg);for(var g=0;g<2&&kids.length<=2&&kids.length;g++){var big=kids.slice().sort(function(a,b){return b.offsetHeight-a.offsetHeight})[0];var inner=vis(big);if(inner.length>1)kids=inner;else break}kids=kids.slice(0,10);
+ kids.forEach(function(c,i){c.classList.remove('anx-in');void c.offsetWidth;c.style.setProperty('--i',i);c.classList.add('anx-in')});
+ setTimeout(function(){kids.forEach(function(c){c.classList.remove('anx-in')})},1300)}
+var og=window.go;if(typeof og==='function'&&!og.__anx){var ng=function(p){var a=ORDER.indexOf(cur),b=ORDER.indexOf(p);d.classList.toggle('anx-back',a>-1&&b>-1&&b<a);d.classList.toggle('anx-fwd',!(a>-1&&b>-1&&b<a));var r=og.apply(this,arguments);if(p!==cur){cur=p;requestAnimationFrame(function(){stagger(document.querySelector('.page.active'))})}return r};ng.__anx=1;for(var k in og)ng[k]=og[k];window.go=ng}
+document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('#sfTabs button');if(!t)return;var ic=t.querySelector('img,svg,.dk3')||t;ic.classList.remove('anx-pop');void ic.offsetWidth;ic.classList.add('anx-pop')},true);
+/* pop-ups: any new full-screen layer gets a fade, its panel slides up */
+new MutationObserver(function(ms){ms.forEach(function(m){[].forEach.call(m.addedNodes,function(n){if(n.nodeType!==1||n.id==='anxBadge'||n.id==='sfSplash')return;var cs=getComputedStyle(n);if(cs.position!=='fixed')return;var r=n.getBoundingClientRect();if(r.width<window.innerWidth*.9||r.height<window.innerHeight*.8)return;n.classList.add('anx-ov');var sh=[].slice.call(n.children).filter(function(c){return c.offsetHeight>80})[0];if(sh)sh.classList.add('anx-sheet');setTimeout(function(){n.classList.remove('anx-ov');sh&&sh.classList.remove('anx-sheet')},800)})})}).observe(document.body,{childList:true});
+})();
+
 </script></body></html>
