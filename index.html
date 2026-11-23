@@ -13192,6 +13192,25 @@ body[data-sfpage="quest"] header.top .title,body[data-sfpage="quest"] header.top
 /* flames run on the graphics chip, so they stay smooth while the island loads */
 #sfTabs .dk3-fire,#sfTabs .dk3-fire b{will-change:transform,opacity;backface-visibility:hidden}
 #sfTabs .dk3-drag{will-change:transform}
+/* ===== Apple-style motion ===== */
+/* every page: soft fade + tiny rise on Apple's spring-like curve, compositor only */
+.page.active{animation:sfAppleIn .42s cubic-bezier(.32,.72,0,1) both!important}
+@keyframes sfAppleIn{from{opacity:0;transform:translate3d(0,10px,0)}to{opacity:1;transform:none}}
+/* StudyQuest zooms open like an iPhone app, and shrinks away on ✕ */
+#page-quest.active .iq-wrap.sqx-in{animation:sqxIn .5s cubic-bezier(.32,.72,0,1) both}
+#page-quest.active .iq-wrap.sqx-out{animation:sqxOut .28s cubic-bezier(.4,0,.6,1) both;pointer-events:none}
+@keyframes sqxIn{from{opacity:0;transform:scale(.9);border-radius:36px}to{opacity:1;transform:none;border-radius:0}}
+@keyframes sqxOut{from{opacity:1;transform:none}to{opacity:0;transform:scale(.92);border-radius:36px}}
+#page-quest .iq-wrap{transform-origin:50% 92%;will-change:transform,opacity;backface-visibility:hidden}
+/* the island's top bar and buttons glide in a beat later */
+#page-quest.active .iq-wrap.sqx-in .iq-hud{animation:sqxDrop .55s .12s cubic-bezier(.32,.72,0,1) both}
+#page-quest.active .iq-wrap.sqx-in .iq-dock,#page-quest.active .iq-wrap.sqx-in .iq-bottom{animation:sqxRise .55s .16s cubic-bezier(.32,.72,0,1) both}
+@keyframes sqxDrop{from{opacity:0;transform:translate3d(0,-18px,0)}to{opacity:1;transform:none}}
+@keyframes sqxRise{from{opacity:0;transform:translate3d(0,24px,0)}to{opacity:1;transform:none}}
+/* springy presses everywhere in the dock and island buttons */
+#sfTabs button,#page-quest .iq-dock .iq-btn{transition:transform .35s cubic-bezier(.32,.72,0,1)!important}
+#sfTabs button:active{transform:scale(.92)!important;transition-duration:.12s!important}
+@media (prefers-reduced-motion:reduce){.page.active,#page-quest .iq-wrap,#page-quest .iq-wrap *{animation:none!important}}
 
 </style><script id="sf-sqx-js">
 (function(){
@@ -13200,9 +13219,12 @@ function W(){return document.getElementById('iqWrap')}
 function onQuest(){var p=document.getElementById('page-quest');return p&&p.classList.contains('active')}
 function setFull(on){var w=W();if(!w)return;if(on===w.classList.contains('full'))return;w.classList.toggle('full',on);document.body.style.overflow=on?'hidden':'';var b=document.getElementById('iqFull');if(b)b.textContent=on?'✕':'⛶'}
 function sync(){if(onQuest())setFull(true);else setFull(false)}
-document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('#iqFull');if(t&&onQuest()){e.preventDefault();e.stopImmediatePropagation();setFull(false);try{go('dashboard')}catch(x){}return}
+function zoomIn(){var w=W();if(!w)return;w.classList.remove('sqx-out','sqx-in');void w.offsetWidth;w.classList.add('sqx-in');clearTimeout(w.__zi);w.__zi=setTimeout(function(){w.classList.remove('sqx-in')},800)}
+var closing=false;
+document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('#iqFull');if(t&&onQuest()){e.preventDefault();e.stopImmediatePropagation();if(closing)return;closing=true;var w=W();if(w){w.classList.remove('sqx-in');w.classList.add('sqx-out')}
+  setTimeout(function(){closing=false;if(w)w.classList.remove('sqx-out');setFull(false);try{go('dashboard')}catch(x){}},260);return}
  var q=e.target.closest&&e.target.closest('[data-page="quest"],#sfTabs [data-p="quest"]');if(q)setFull(true)},true);
-var og=window.go;if(typeof og==='function'&&!og.__sqx){var ng=function(p){if(p==='quest')setFull(true);var r=og.apply(this,arguments);sync();return r};ng.__sqx=1;for(var k in og)ng[k]=og[k];window.go=ng}
+var og=window.go;if(typeof og==='function'&&!og.__sqx){var ng=function(p){if(p==='quest'&&!onQuest()){setFull(true);zoomIn()}var r=og.apply(this,arguments);sync();return r};ng.__sqx=1;for(var k in og)ng[k]=og[k];window.go=ng}
 new MutationObserver(sync).observe(document.getElementById('page-quest')||document.body,{attributes:true,attributeFilter:['class']});
 setInterval(function(){if(document.visibilityState==='visible')sync()},500);
 })();
