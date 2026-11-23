@@ -1,0 +1,16 @@
+<resources>
+    <!-- Android 12-14: the phone's own opening screen is purple (same as the launch animation), not white -->
+    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">#4F46E5</item>
+        <item name="android:colorPrimaryDark">#0B1220</item>
+        <item name="android:colorAccent">#4F46E5</item>
+        <item name="android:statusBarColor">#0B1220</item>
+        <item name="android:windowBackground">@color/launch_bg</item>
+        <item name="android:windowSplashScreenBackground">@color/launch_bg</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/launch_bg</item>
+    </style>
+    <style name="BlockedTheme" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">#14513F</item>
+        <item name="android:windowBackground">@drawable/blocked_bg</item>
+    </style>
+</resources>
