@@ -13160,6 +13160,35 @@ body[data-sfpage="quest"] header.top .title,body[data-sfpage="quest"] header.top
 #iqWrap .iq-hud .iq-chip{height:40px!important}
 #iqWrap .iq-hud #iqFull{width:40px!important;height:40px!important;min-height:40px!important;max-height:40px!important}
 #iqWrap .iq-hud #iqFull{margin-left:auto!important}#iqWrap .iq-hud{justify-content:flex-start!important}#iqWrap .iq-hud .iq-sp{display:none!important}
+/* ===== v3 top bar: chunky game style, matches the bottom buttons ===== */
+#iqWrap .iq-hud{gap:10px!important;padding:calc(12px + env(safe-area-inset-top)) 14px 0!important}
+/* level: 3D purple tile like the dock buttons, XP strip inside */
+#iqWrap .iq-hud .iq-lv .b{width:46px!important;height:50px!important;border-radius:14px!important;padding:0!important;position:relative!important;overflow:hidden;
+ background:linear-gradient(170deg,#9b7bff,#6d3df0)!important;border:2px solid rgba(255,255,255,.35)!important;box-sizing:border-box!important;
+ box-shadow:inset 0 -5px 0 rgba(40,10,120,.45),0 4px 0 #3a1c9a,0 10px 18px -8px rgba(0,0,0,.6)!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}
+#iqWrap .iq-hud .iq-lv .b::before{content:'LV'!important;display:block!important;font:900 9px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.8);-webkit-text-fill-color:rgba(255,255,255,.8)!important;letter-spacing:.08em;margin-top:-4px;position:static!important;background:none!important;width:auto!important;height:auto!important}
+#iqWrap .iq-hud .iq-lv .b::after{content:''!important;display:block!important;position:absolute!important;left:6px;right:6px;bottom:7px;height:4px;border-radius:4px;background:linear-gradient(90deg,#3ee0a1 calc(var(--xp,0)*1%),rgba(0,0,0,.3) 0)!important;width:auto!important}
+#iqWrap .iq-hud .iq-lv .b>span{width:auto!important;height:auto!important;background:none!important;box-shadow:none!important;font:900 19px/1 'Sora',sans-serif!important;color:#fff!important;-webkit-text-fill-color:#fff!important;text-shadow:0 2px 0 rgba(40,10,120,.6)!important;margin-top:-3px}
+#iqWrap .iq-hud .iq-lv .b>span *{color:#fff!important;-webkit-text-fill-color:#fff!important}
+/* resources: dark inset bars, big icon overlapping the left end */
+#iqWrap .iq-hud .iq-chip{position:relative!important;height:30px!important;padding:0 12px 0 30px!important;margin-left:14px!important;border-radius:10px!important;
+ background:linear-gradient(180deg,#1a1240,#2a1d66)!important;border:2px solid rgba(255,255,255,.18)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+ box-shadow:inset 0 2px 4px rgba(0,0,0,.45),0 3px 0 rgba(10,4,40,.5)!important;font:900 15px 'Sora',sans-serif!important;color:#fff!important}
+#iqWrap .iq-hud .iq-chip span{color:#fff!important;-webkit-text-fill-color:#fff!important;text-shadow:0 2px 0 rgba(0,0,0,.45)!important}
+#iqWrap .iq-hud .iq-chip i{position:absolute!important;left:-16px;top:50%;transform:translateY(-50%);width:38px!important;height:38px!important;background:none!important;font-size:30px!important;filter:drop-shadow(0 3px 0 rgba(0,0,0,.35));border-radius:0!important}
+#iqWrap .iq-hud .iq-chip.s{background:linear-gradient(180deg,#1a1240,#2a1d66)!important;border-color:rgba(255,160,90,.6)!important}
+#iqWrap .iq-hud .iq-chip.s span{color:#ffb45c!important;-webkit-text-fill-color:#ffb45c!important}
+/* close: small 3D red tile */
+#iqWrap .iq-hud #iqFull{width:40px!important;height:40px!important;min-height:40px!important;max-height:40px!important;border-radius:12px!important;border:2px solid rgba(255,255,255,.35)!important;
+ background:linear-gradient(170deg,#ff7a95,#e8365a)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:inset 0 -4px 0 rgba(120,10,40,.4),0 4px 0 #9e1b3b!important;font:900 16px sans-serif!important;color:#fff!important}
+#iqWrap .iq-hud #iqFull:active{transform:translateY(3px);box-shadow:inset 0 -2px 0 rgba(120,10,40,.4),0 1px 0 #9e1b3b!important}
+@media (max-width:380px){#iqWrap .iq-hud{gap:6px!important;padding-left:10px!important;padding-right:10px!important}#iqWrap .iq-hud .iq-chip{padding:0 8px 0 24px!important;font-size:13px!important}#iqWrap .iq-hud .iq-chip i{font-size:26px!important;left:-13px}}
+#iqWrap .iq-hud .iq-lv .b::after{top:auto!important;bottom:6px!important}
+#iqWrap .iq-hud .iq-lv .b::before{margin:0 0 1px!important;line-height:1!important}
+#iqWrap .iq-hud .iq-lv .b>span{margin:0 0 5px!important}
+#iqWrap .iq-hud .iq-chip i,#iqWrap .iq-hud .iq-chip.s i,#iqWrap .iq-hud .iq-chip.hot i{animation:none!important;top:50%!important;bottom:auto!important;transform:translateY(-50%)!important;margin:0!important}
+#iqWrap .iq-hud .iq-chip{padding-left:28px!important;min-width:0}
+#iqWrap .iq-hud .iq-chip.s{animation:none!important}
 
 </style><script id="sf-sqx-js">
 (function(){
