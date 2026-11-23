@@ -13152,6 +13152,14 @@ body[data-sfpage="quest"] header.top .title,body[data-sfpage="quest"] header.top
 #iqWrap .iq-hud .iq-chip.s span,#iqWrap .iq-hud .iq-chip.s *{color:#fff!important;-webkit-text-fill-color:#fff!important}
 #iqWrap .iq-hud #iqFull{height:36px!important;max-height:36px!important;min-height:36px!important;aspect-ratio:1;line-height:1!important;display:grid!important;place-items:center!important;align-self:center!important}
 #page-quest,#page-quest.active{animation:none!important;transform:none!important;filter:none!important;will-change:auto!important;opacity:1!important}
+/* v2: level = one gold coin with a progress ring; no bar, no text (it got squashed on phones) */
+#iqWrap .iq-hud .iq-lv{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;max-width:none!important;flex:none!important}
+#iqWrap .iq-hud .iq-lv>div{display:none!important}
+#iqWrap .iq-hud .iq-lv .b{width:40px!important;height:40px!important;position:relative;background:conic-gradient(#3ee0a1 calc(var(--xp,0)*1%),rgba(255,255,255,.22) 0)!important;padding:3px;box-sizing:border-box;box-shadow:0 8px 18px -10px rgba(0,0,0,.7)!important}
+#iqWrap .iq-hud .iq-lv .b>span{width:100%;height:100%;border-radius:50%;display:grid!important;place-items:center;background:linear-gradient(145deg,#ffd166,#f59e0b)!important;font:900 15px 'Sora',sans-serif!important;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.6)}
+#iqWrap .iq-hud .iq-chip{height:40px!important}
+#iqWrap .iq-hud #iqFull{width:40px!important;height:40px!important;min-height:40px!important;max-height:40px!important}
+#iqWrap .iq-hud #iqFull{margin-left:auto!important}#iqWrap .iq-hud{justify-content:flex-start!important}#iqWrap .iq-hud .iq-sp{display:none!important}
 
 </style><script id="sf-sqx-js">
 (function(){
@@ -13171,5 +13179,7 @@ setInterval(function(){if(document.visibilityState==='visible')sync()},500);
  function fix(el){if(!el)return;var t=el.textContent.replace(/,/g,'').trim();if(/^\d+$/.test(t)&&+t>=1e4){var f=fmt(+t);if(el.textContent!==f){el.title=t;el.textContent=f}}}
  var seen={};function hook(){['iqCoins','iqGems'].forEach(function(id){var el=document.getElementById(id);if(!el)return;fix(el);if(seen[id]===el)return;seen[id]=el;new MutationObserver(function(){fix(el)}).observe(el,{childList:true,characterData:true,subtree:true})})}
  setInterval(hook,1000);hook()})();
+(function(){function xp(){var b=document.getElementById('iqXpBar'),l=document.querySelector('#iqWrap .iq-lv .b');if(!b||!l)return;var w=parseFloat(b.style.width)||0;if(/MAX/i.test((document.getElementById('iqXpT')||{}).textContent||''))w=100;l.style.setProperty('--xp',Math.max(0,Math.min(100,w)))}
+setInterval(function(){if(document.visibilityState==='visible')xp()},700);xp()})();
 
 </script></body></html>
