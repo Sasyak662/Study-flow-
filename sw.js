@@ -1,7 +1,7 @@
 // StudyStarx service worker: the app page is fetched fresh, but if the network is slow (over 0.45s)
 // the saved copy opens instantly and the fresh one is saved for next time;
 // the last good copy is used only when the device is offline. API calls are never cached.
-const CACHE = 'studyflow-v6';
+const CACHE = 'studyflow-v7';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/three-r128.min.js', '/gltf-loader-r128.js',
   '/fonts/inter-latin-400-normal.woff2', '/fonts/inter-latin-500-normal.woff2', '/fonts/inter-latin-600-normal.woff2', '/fonts/inter-latin-700-normal.woff2', '/fonts/inter-latin-800-normal.woff2',
   '/fonts/nunito-latin-700-normal.woff2', '/fonts/nunito-latin-800-normal.woff2', '/fonts/nunito-latin-900-normal.woff2'];
@@ -36,11 +36,14 @@ self.addEventListener('fetch', e => {
   }
   // pictures, fonts and scripts: open the saved copy instantly, refresh it quietly in the background
   e.respondWith(caches.open(CACHE).then(c => c.match(req).then(hit => {
-    const net = fetch(req).then(res => { if (res.ok && res.type === 'basic') c.put(req, res.clone()).catch(() => {}); return res; });
+    const net = fetch(req).then(res => { if (res.ok && res.type === 'basic') { c.put(req, res.clone()).then(() => { if (url.pathname.startsWith('/js/')) trimJs(c); }).catch(() => {}); } return res; });
     if (hit) { e.waitUntil(net.catch(() => {})); return hit; }
     return net.catch(() => c.match(req, { ignoreSearch: true }).then(r => r || new Response('', { status: 504, statusText: 'Offline' })));
   })));
 });
+
+// app code files have a fingerprint in their name; keep only the newest 40 so old versions don't pile up
+function trimJs(c) { c.keys().then(ks => { const js = ks.filter(k => new URL(k.url).pathname.startsWith('/js/')); if (js.length > 40) js.slice(0, js.length - 40).forEach(k => c.delete(k)); }).catch(() => {}); }
 
 self.addEventListener('notificationclick', e => {
   e.notification.close();
