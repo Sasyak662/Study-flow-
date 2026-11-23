@@ -104,6 +104,15 @@ module.exports = async function handler(req, res) {
       await S.cmd('RPUSH', 'sf:errlog', JSON.stringify(rec)); await S.cmd('LTRIM', 'sf:errlog', -300, -1);
       return S.send(res, 200, { ok: true });
     }
+    // A student marks a coach answer as wrong (no email, no name): kept for the owner to check
+    if (action === 'aireport') {
+      const rk = 'sf:airrate:' + ip; const rn = Number(await S.cmd('INCR', rk)) || 0; if (rn === 1) await S.cmd('EXPIRE', rk, 3600);
+      if (rn > 20) return S.send(res, 429, { error: 'Too many reports, try later.' });
+      const scrub = v => String(v || '').replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, '[email]').slice(0, 3000);
+      const item = { t: Date.now(), why: String(body.why || '').slice(0, 20), note: scrub(body.note).slice(0, 600), q: scrub(body.q).slice(0, 800), a: scrub(body.a), level: String(body.level || '').slice(0, 40), curriculum: String(body.curriculum || '').slice(0, 60), lang: String(body.lang || '').slice(0, 10) };
+      await S.cmd('LPUSH', 'sf:aireports', JSON.stringify(item)); await S.cmd('LTRIM', 'sf:aireports', 0, 499);
+      return S.send(res, 200, { ok: true });
+    }
     // Anonymous feature counts (no email, no personal data): which features people use, per day
     if (action === 'track') {
       const rk = 'sf:trkrate:' + ip; const rn = Number(await S.cmd('INCR', rk)) || 0; if (rn === 1) await S.cmd('EXPIRE', rk, 3600);
@@ -217,8 +226,9 @@ module.exports = async function handler(req, res) {
       return S.send(res, 200, { ok: true, deleted: true });
     }
     // Owner only: recent error reports, and a full backup of the database
-    if (action === 'errors' || action === 'backup' || action === 'usage') {
+    if (action === 'errors' || action === 'backup' || action === 'usage' || action === 'aireports') {
       if (!S.isLifetime(email)) return S.send(res, 403, { error: 'Owner only.' });
+      if (action === 'aireports') { const l = await S.cmd('LRANGE', 'sf:aireports', 0, 199); return S.send(res, 200, { items: (l || []).map(x => { try { return JSON.parse(x) } catch (e) { return null } }).filter(Boolean) }); }
       if (action === 'usage') { const days = []; for (let i = 0; i < 14; i++) { const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10); const h = await S.cmd('HGETALL', 'sf:usage:' + d); const o = {}; if (Array.isArray(h)) { for (let j = 0; j < h.length; j += 2) o[h[j]] = Number(h[j + 1]) || 0 } else if (h && typeof h === 'object') Object.assign(o, h); days.push({ day: d, counts: o }) } return S.send(res, 200, { days }); }
       if (action === 'errors') { const P = l => (l || []).map(x => { try { return JSON.parse(x) } catch (e) { return null } }).filter(Boolean).reverse(); const l = await S.cmd('LRANGE', 'sf:errlog', -100, -1); const f = await S.cmd('LRANGE', 'sf:feedback', -100, -1); return S.send(res, 200, { errors: P(l), feedback: P(f) }); }
       const out = {}; let cur = '0', n = 0;
