@@ -4,7 +4,7 @@
         <item name="android:colorPrimaryDark">#0B1220</item>
         <item name="android:colorAccent">#4F46E5</item>
         <item name="android:statusBarColor">#0B1220</item>
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">@color/launch_bg</item>
     </style>
     <style name="BlockedTheme" parent="android:Theme.Material.NoActionBar">
         <item name="android:statusBarColor">#14513F</item>

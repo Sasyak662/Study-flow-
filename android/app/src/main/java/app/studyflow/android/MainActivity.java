@@ -49,7 +49,9 @@ public class MainActivity extends Activity {
         root.addView(web, new FrameLayout.LayoutParams(-1, -1));
         bar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
         bar.setMax(100);
-        root.addView(bar, new FrameLayout.LayoutParams(-1, (int) (4 * getResources().getDisplayMetrics().density)));
+        // no loading bar on top: the website shows its own launch animation
+        root.setBackgroundColor(0xFF4B2FE0);
+        web.setBackgroundColor(0xFF4B2FE0);
         setContentView(root);
 
         WebSettings s = web.getSettings();
@@ -107,12 +109,12 @@ public class MainActivity extends Activity {
                 openOutside(u);
                 return true;
             }
-            @Override public void onPageStarted(WebView v, String url, Bitmap f) { bar.setVisibility(View.VISIBLE); curUrl = url; }
+            @Override public void onPageStarted(WebView v, String url, Bitmap f) { curUrl = url; }
             @Override public void doUpdateVisitedHistory(WebView v, String url, boolean reload) { curUrl = url; }
-            @Override public void onPageFinished(WebView v, String url) { bar.setVisibility(View.GONE); CookieManager.getInstance().flush(); tryAuth(); }
+            @Override public void onPageFinished(WebView v, String url) { CookieManager.getInstance().flush(); tryAuth(); }
         });
         web.setWebChromeClient(new WebChromeClient() {
-            @Override public void onProgressChanged(WebView v, int p) { bar.setProgress(p); }
+            @Override public void onProgressChanged(WebView v, int p) { }
             @Override
             public void onPermissionRequest(final PermissionRequest req) {
                 runOnUiThread(() -> {
