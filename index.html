@@ -5463,10 +5463,10 @@ var LQ=null,SRCS=['/three-r128.min.js',LIB];function loadLib(cb){if(window.THREE
 function boot(){SI=window.StudyFlowIsland;if(!SI||!SI._G||!SI._G.wrap||!SI._I){setTimeout(boot,300);return}
  // While the 3D engine loads, show a loading card instead of the old flat 2D map
  if(webgl()&&!R.veil){var G0=SI._G;R.veil=document.createElement('div');R.veil.className='iq3-load';R.veil.innerHTML='<div class="iq3-spin"></div><b>Building your 3D island…</b><small>This takes a few seconds the first time</small>';G0.wrap.appendChild(R.veil);G0.cv.style.visibility='hidden';R.veilT=setTimeout(function(){if(!R.ok&&R.veil){var sm=R.veil.querySelector('small');if(sm)sm.innerHTML='Still loading — your internet may be slow. <button type="button" class="iq3-skip">Use the simple map</button>';var bt=R.veil.querySelector('.iq3-skip');if(bt)bt.onclick=function(){R.fail=1;unveil()}}},20000);
-  if(!window.THREE){var pre=function(){loadLib(function(){});thWarm()};if(window.requestIdleCallback)requestIdleCallback(pre,{timeout:3000});else setTimeout(pre,1500)}}
+  if(!window.THREE){var pre=function(){loadLib(function(){setTimeout(function(){var pw=function(){if(R.started||R.fail||document.body.dataset.sfpage==='quest'||!R.go)return;R.pre=1;R.go()};if(window.requestIdleCallback)requestIdleCallback(pw,{timeout:4000});else setTimeout(pw,800)},1200)});thWarm()};if(window.requestIdleCallback)requestIdleCallback(pre,{timeout:3000});else setTimeout(pre,1500)}}
  if(!webgl())why('This browser has 3D graphics (WebGL) switched off, so the simple map is shown.');
- var go=function(){if(R.started||!webgl())return;R.started=1;try{var THW0={peak:1,oasis:1,jungle:1,volcano:1,coral:1,city:1,neon:1,sky:1,galaxy:1};if(!THW0[SI._I.wid()]&&window.sfMdlPre)sfMdlPre()}catch(e){}loadLib(function(){if(R.fail&&!R.veil)return;var att=function(n){try{setup();thReady(function(){requestAnimationFrame(function(){requestAnimationFrame(unveil)})})}catch(e){console.warn('3D island failed',e);R.ok=false;var c3=G&&G.wrap&&G.wrap.querySelector('.iq3-cv');if(c3)c3.remove();if(n<1){setTimeout(function(){att(n+1)},1500);return}if(G&&G.cv)G.cv.style.display='';R.fail=1;why('3D could not start on this device: '+(e&&e.message||e));unveil()}};att(0)})};
- if(document.body.dataset.sfpage==='quest')go();else{var mo=new MutationObserver(function(){if(document.body.dataset.sfpage==='quest'){mo.disconnect();go()}});mo.observe(document.body,{attributes:true,attributeFilter:['data-sfpage']})}}
+ var go=function(){if(R.started||!webgl())return;R.started=1;try{var THW0={peak:1,oasis:1,jungle:1,volcano:1,coral:1,city:1,neon:1,sky:1,galaxy:1};if(!THW0[SI._I.wid()]&&window.sfMdlPre)sfMdlPre()}catch(e){}loadLib(function(){if(R.fail&&!R.veil)return;var att=function(n){try{setup();try{if(R.pre&&ren&&scene&&cam)ren.compile(scene,cam)}catch(_){}thReady(function(){requestAnimationFrame(function(){requestAnimationFrame(unveil)})})}catch(e){console.warn('3D island failed',e);R.ok=false;var c3=G&&G.wrap&&G.wrap.querySelector('.iq3-cv');if(c3)c3.remove();if(n<1){setTimeout(function(){att(n+1)},1500);return}if(G&&G.cv)G.cv.style.display='';R.fail=1;why('3D could not start on this device: '+(e&&e.message||e));unveil()}};att(0)})};
+ R.go=go;if(document.body.dataset.sfpage==='quest')go();else{var mo=new MutationObserver(function(){if(document.body.dataset.sfpage==='quest'){mo.disconnect();go()}});mo.observe(document.body,{attributes:true,attributeFilter:['data-sfpage']})}}
 
 function why(t){R.whyT=t;try{localStorage.setItem('sf-3d-why',t)}catch(e){}var G2=SI&&SI._G;if(!G2||!G2.wrap)return;var n=G2.wrap.querySelector('.iq3-why');if(!n){n=document.createElement('div');n.className='iq3-why';G2.wrap.appendChild(n)}n.innerHTML='Simple map · '+String(t).replace(/[<>&]/g,'')+' <button type="button">Try 3D again</button>';n.querySelector('button').onclick=function(){location.reload()}}
 R.why=why;
@@ -13189,6 +13189,9 @@ body[data-sfpage="quest"] header.top .title,body[data-sfpage="quest"] header.top
 #iqWrap .iq-hud .iq-chip i,#iqWrap .iq-hud .iq-chip.s i,#iqWrap .iq-hud .iq-chip.hot i{animation:none!important;top:50%!important;bottom:auto!important;transform:translateY(-50%)!important;margin:0!important}
 #iqWrap .iq-hud .iq-chip{padding-left:28px!important;min-width:0}
 #iqWrap .iq-hud .iq-chip.s{animation:none!important}
+/* flames run on the graphics chip, so they stay smooth while the island loads */
+#sfTabs .dk3-fire,#sfTabs .dk3-fire b{will-change:transform,opacity;backface-visibility:hidden}
+#sfTabs .dk3-drag{will-change:transform}
 
 </style><script id="sf-sqx-js">
 (function(){
@@ -13210,5 +13213,9 @@ setInterval(function(){if(document.visibilityState==='visible')sync()},500);
  setInterval(hook,1000);hook()})();
 (function(){function xp(){var b=document.getElementById('iqXpBar'),l=document.querySelector('#iqWrap .iq-lv .b');if(!b||!l)return;var w=parseFloat(b.style.width)||0;if(/MAX/i.test((document.getElementById('iqXpT')||{}).textContent||''))w=100;l.style.setProperty('--xp',Math.max(0,Math.min(100,w)))}
 setInterval(function(){if(document.visibilityState==='visible')xp()},700);xp()})();
+/* Quest tab: let the dragon's flame show on screen first, then open the page (about 2 frames) */
+(function(){document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('#sfTabs [data-goto="quest"]');if(!b||b.__go)return;if(document.body.dataset.sfpage==='quest')return;
+ e.preventDefault();e.stopImmediatePropagation();b.classList.add('active');
+ requestAnimationFrame(function(){requestAnimationFrame(function(){try{go('quest')}catch(x){b.__go=1;b.click();b.__go=0}})})},true)})();
 
 </script></body></html>
