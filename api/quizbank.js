@@ -57,6 +57,7 @@ async function players(code) {
   return ids.map((id, k) => { try { const v = JSON.parse(vals[k]); v.id = id; return v; } catch (e) { return null; } }).filter(Boolean);
 }
 async function party(req, res, b) {
+  return send(res, 410, { error: 'Play with friends has been turned off.' });
   const now = Date.now(), act = b.action, code = String(b.code || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
   const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'x';
   if (act === 'party_create') {
