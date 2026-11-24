@@ -4,7 +4,7 @@
   var MQ = window.matchMedia('(min-width:701px)');
   var root = document.documentElement;
   var lobby, homeBtn, lastHtml = '';
-  try { root.setAttribute('data-lbbg', localStorage.getItem('sf-lobby-bg') || 'galaxy'); } catch (e) {}
+  root.setAttribute('data-lbbg', 'galaxy');
 
   var CSS = `
 html.lap .app{display:block}
@@ -171,7 +171,6 @@ html.lap.lap-home .app>main{padding-top:24px}
       '<button type="button" class="lb-chip" data-lb="progress" aria-label="' + st.streak + ' day streak">🔥 ' + st.streak + '</button>' +
       '<button type="button" class="lb-chip" data-lb="quest" aria-label="' + st.coins + ' coins">🪙 ' + st.coins + '</button>' +
       '<button type="button" class="lb-chip" data-lb="quest" aria-label="' + st.gems + ' gems">💎 ' + st.gems + '</button>' +
-      '<button type="button" class="lb-chip" data-lb="#bg" aria-label="Change background">🎨</button>' +
       '<button type="button" class="lb-chip" data-lb="#more">☰ More</button>' +
       '<button type="button" class="lb-av" data-lb="#avatar" aria-label="Account">' + esc((name || 'S').charAt(0).toUpperCase()) + '</button></div>' +
       '<div class="lb-row"><section class="lb-hero"><div class="lb-star">' + star(210) + '</div>' +
