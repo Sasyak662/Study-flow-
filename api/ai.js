@@ -251,6 +251,19 @@ module.exports = async function handler(req, res) {
     contents[contents.length - 1].parts.push({ inline_data: { mime_type: mimeType, data } });
   }
 
+  // Earlier chat is sent as plain context inside one user message. Newer Gemini models reject
+  // replayed "model" turns that were not created in the same session, which broke every follow-up question.
+  if (contents.some(c => c.role === 'model')) {
+    const textOf = c => c.parts.filter(p => typeof p.text === 'string').map(p => p.text).join('\n');
+    let last = contents[contents.length - 1];
+    const lastIsUser = last.role === 'user';
+    const history = (lastIsUser ? contents.slice(0, -1) : contents).map(c => (c.role === 'model' ? 'Coach' : 'Student') + ': ' + textOf(c)).join('\n\n');
+    const extra = lastIsUser ? last.parts.filter(p => typeof p.text !== 'string') : [];
+    const ask = lastIsUser ? textOf(last) : 'Continue helping the student.';
+    contents.length = 0;
+    contents.push({ role: 'user', parts: [{ text: 'Earlier in this conversation (for context only):\n\n' + history + '\n\n---\nThe student\'s new message (reply to this):\n' + ask }].concat(extra) });
+  }
+
   const temperature = Math.max(0, Math.min(1, Number(body.temperature) || 0.3));
   const maxOutputTokens = Math.max(1024, Math.min(32768, Number(body.maxTokens) || 8192));
   const payload = { contents, generationConfig: { temperature, maxOutputTokens } };

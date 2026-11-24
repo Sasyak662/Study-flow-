@@ -1,7 +1,7 @@
-/* StudyStarx laptop "game lobby" home (screens 1001px and wider). Phones and tablets keep the normal layout. */
+/* StudyStarx laptop "game lobby" home (windows 701px and wider). Phones and tablets keep the normal layout. */
 (function () {
   if (window.__lapLobby) return; window.__lapLobby = 1;
-  var MQ = window.matchMedia('(min-width:1001px)');
+  var MQ = window.matchMedia('(min-width:701px)');
   var root = document.documentElement;
   var lobby, homeBtn, lastHtml = '';
 
@@ -89,6 +89,8 @@ html.lap.lap-home .app>main{padding-top:24px}
 .lb-menu button:hover,.lb-menu button:focus-visible{background:#f1effc;outline:none}
 .lb-menu button span{width:26px;text-align:center}
 @media (max-width:1340px){.lb-t{padding-left:18px;padding-top:86px;height:180px}.lb-t .ic{width:92px;height:92px;top:-22px;font-size:56px}.lb-hero h1{font-size:32px}}
+@media (max-width:1080px){.lb-row{grid-template-columns:1fr}.lb-hero{min-height:0}.lb-hero .lb-star svg{width:150px;height:150px}.lb-lvl small,.lb-xp{display:none}.lb-lvl{padding:4px}}
+@media (max-width:900px){.lb-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.lb-brand{font-size:19px}.lb-chip{padding:0 11px;font-size:14px}.lb-hero h1{font-size:28px}}
 @media (prefers-reduced-motion:reduce){#lapLobby *{animation:none!important;transition:none!important}}
 `;
 
