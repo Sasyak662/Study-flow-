@@ -292,8 +292,9 @@ module.exports = async function handler(req, res) {
   // exam-paper questions are written in many small parallel pieces: the lightest thinking keeps each piece fast
   const quick = paper && body.stage && body.stage !== 'plan';
   const thinkFor = m => /gemini-(3|4)/.test(m) ? { thinkingLevel: quick ? 'minimal' : 'low' } : /2\.5/.test(m) ? { thinkingBudget: /pro/.test(m) ? 512 : 0 } : null;
-  async function callModel(model, ms, useThinking) {
+  async function callModel(model, ms, useThinking, plain) {
     const p = JSON.parse(JSON.stringify(payload));
+    if (plain) delete p.generationConfig.responseMimeType;
     const tc = useThinking ? thinkFor(model) : null;
     if (tc) p.generationConfig.thinkingConfig = tc;
     const ctrl = new AbortController();
@@ -303,7 +304,14 @@ module.exports = async function handler(req, res) {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key }, body: JSON.stringify(p), signal: ctrl.signal
       });
       const json = await r.json().catch(() => ({}));
-      if (!r.ok && r.status === 400 && tc && /think/i.test(json?.error?.message || '')) return callModel(model, ms, false);
+      if (!r.ok && r.status === 400 && tc && /think/i.test(json?.error?.message || '')) return callModel(model, ms, false, plain);
+      // Some models reject (or return nothing for) the strict JSON reply mode: ask again in normal mode;
+      // the app already reads JSON out of a normal reply.
+      const noText = r.ok && !((json?.candidates?.[0]?.content?.parts || []).some(x => typeof x.text === 'string' && x.text.trim()));
+      if (!plain && p.generationConfig.responseMimeType && (!r.ok || noText)) {
+        console.error('json mode failed on', model, r.status, (json?.error?.message || (noText ? 'empty reply' : '')).slice(0, 200));
+        return callModel(model, ms, useThinking, true);
+      }
       return { r, json };
     } finally { clearTimeout(timer); }
   }

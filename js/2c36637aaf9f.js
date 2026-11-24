@@ -15,7 +15,7 @@ function correct(f,y){var c=f.correctIndex!=null?f.correctIndex:f.correct!=null?
   for(i=0;i<y.length;i++)if(y[i].trim().toLowerCase()===t.toLowerCase())return i}
  return -1}
 function ok(t){try{var c=parse(t),m=Array.isArray(c)?c:c&&c.questions;return Array.isArray(m)&&m.length>0}catch(e){return false}}
-async function once(o){var r=await fetch("/api/ai",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({system:o.system,user:o.user,temperature:o.temperature||.3,json:true,search:false,codeExecution:false,maxTokens:8000})});
+async function once(o){var r=await fetch("/api/ai",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({system:o.system,user:o.user,temperature:o.temperature||.3,search:false,codeExecution:false,maxTokens:8000})});
  var m=await r.json().catch(function(){return{}});
  if(!r.ok){var e=new Error(m.error||"The AI is busy right now. Please try again.");e.status=r.status;if(m.limit){e.limit=1;try{window.sfLimitModal&&sfLimitModal(m)}catch(x){}}throw e}
  return String(m.text||"")}
