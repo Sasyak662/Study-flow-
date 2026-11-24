@@ -1,6 +1,7 @@
 // StudyStarx service worker: the app page is fetched fresh, but if the network is slow (over 0.45s)
 // the saved copy opens instantly and the fresh one is saved for next time;
 // the last good copy is used only when the device is offline. API calls are never cached.
+// If an older saved copy was shown and a newer version arrives within a few seconds, the page reloads into it.
 const CACHE = 'studyflow-v7';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/three-r128.min.js', '/gltf-loader-r128.js',
   '/fonts/inter-latin-400-normal.woff2', '/fonts/inter-latin-500-normal.woff2', '/fonts/inter-latin-600-normal.woff2', '/fonts/inter-latin-700-normal.woff2', '/fonts/inter-latin-800-normal.woff2',
@@ -21,16 +22,27 @@ self.addEventListener('fetch', e => {
   const nav = req.mode === 'navigate';
   if (!nav && !ASSET.test(url.pathname) && !SHELL.includes(url.pathname)) return;
   if (nav) {
-    const net = fetch(req).then(res => {
-      if (res.ok && res.type === 'basic') { const copy = res.clone(); caches.open(CACHE).then(c => c.put('/', copy)).catch(() => {}); }
-      return res;
-    });
-    e.waitUntil(net.catch(() => {}));
+    let servedSaved = false; const started = Date.now();
+    const net = fetch(req);
+    // save the fresh page; if the saved (older) copy was shown, tell the page so it can switch to the new version
+    const save = net.then(async res => {
+      if (!res.ok || res.type !== 'basic') return;
+      const fresh = res.clone(), forText = res.clone(); // copy before the page starts reading it
+      const c = await caches.open(CACHE), old = await c.match('/');
+      const oldText = old ? await old.text() : '', newText = await forText.text();
+      await c.put('/', fresh);
+      if (servedSaved && oldText && oldText !== newText && Date.now() - started < 12000) {
+        await new Promise(r => setTimeout(r, 200));
+        const cl = e.resultingClientId && await self.clients.get(e.resultingClientId);
+        if (cl && cl.navigate) { try { await cl.navigate(cl.url); } catch (x) {} }
+      }
+    }).catch(() => {});
+    e.waitUntil(save);
     e.respondWith(new Promise(resolve => {
       let done = false;
-      const t = setTimeout(() => caches.match('/').then(r => { if (r && !done) { done = true; resolve(r); } }), 450);
+      const t = setTimeout(() => caches.match('/').then(r => { if (r && !done) { done = true; servedSaved = true; resolve(r); } }), 450);
       net.then(r => { if (!done) { done = true; clearTimeout(t); resolve(r); } })
-        .catch(() => caches.match('/').then(r => { if (!done) { done = true; clearTimeout(t); resolve(r || new Response('Offline', { status: 504 })); } }));
+        .catch(() => caches.match('/').then(r => { if (!done) { done = true; servedSaved = true; clearTimeout(t); resolve(r || new Response('Offline', { status: 504 })); } }));
     }));
     return;
   }
