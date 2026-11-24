@@ -746,4 +746,76 @@ html.lap.lap-tt #page-timetable .tt-hero2 .tt-hl{background:rgba(255,255,255,.16
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
+</script><style id="sf-phone-fix">/* ===== Phone smoothness: no live blur behind moving things ===== */
+@media (max-width:700px){
+html body header.top{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:#f4f5f9!important}
+html body #sfTabs{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:#fff!important;contain:layout paint;transform:translateZ(0)}
+html body #sfTabs .dk3-drag{filter:none!important}
+html body #page-coach.cz .chatbox:before{animation:none!important}
+html body #page-coach.cz .chathead,html body .zh-hp,html body .kq-ai{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html body .page.active{animation-duration:.22s!important}
+html body .kq-cover span,html body .dk3 img{filter:none!important}
+/* Quizzes / Flashcards switch stays on screen while scrolling */
+html body .page.active>.sfm-tabs{position:sticky;top:var(--sf-hdr,70px);z-index:30;box-shadow:0 0 0 8px #f4f5f9,0 14px 18px -10px rgba(30,27,75,.35)}
+}
+@media (prefers-reduced-motion:reduce){html body .dk3-drag{animation:none!important}}
+
+/* ===== Your quizzes: clean rows ===== */
+html body #page-quiz #kqMine{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))!important;gap:10px!important;scroll-snap-type:none!important;padding:4px 0 10px!important;margin:0!important;overflow:visible!important;grid-auto-flow:row!important}
+html body #page-quiz #kqMine>.kq-cardw,html body #page-quiz #kqMine>.kq-card.new{position:relative!important;width:auto!important;min-width:0!important;flex:none!important}
+html body #page-quiz #kqMine .kq-card{flex-direction:row!important;height:auto!important;max-height:none!important;aspect-ratio:auto!important;justify-content:flex-start!important;margin:0!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;gap:14px!important;width:100%!important;min-height:78px!important;padding:12px 56px 12px 12px!important;border-radius:20px!important;background:#fff!important;box-shadow:0 1px 0 #e9e7f5,0 10px 24px -18px rgba(40,20,120,.45)!important;cursor:pointer!important;transition:transform .12s!important;transform:none!important;font-family:inherit!important;color:#16142e!important}
+html body #page-quiz #kqMine .kq-card:active{transform:scale(.98)!important}
+html body #page-quiz #kqMine .kq-card:focus-visible{outline:3px solid #6d4aff!important;outline-offset:2px!important}
+html body #page-quiz #kqMine .kq-card:before,html body #page-quiz #kqMine .kq-card:after{display:none!important}
+html body #page-quiz #kqMine .kq-cover{position:relative!important;left:auto!important;top:auto!important;margin:0!important;inset:auto!important;transform:none!important;flex:none!important;position:relative!important;width:54px!important;height:54px!important;border-radius:16px!important;display:grid!important;place-items:center!important;font-size:28px!important;background:linear-gradient(150deg,color-mix(in srgb,var(--qc,#7c3aed) 70%,#fff),var(--qc,#7c3aed))!important;box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)!important}
+html body #page-quiz #kqMine .kq-cover:after,html body #page-quiz #kqMine .kq-cover:before{display:none!important}
+html body #page-quiz #kqMine .kq-cover span{position:static!important;background:none!important;width:auto!important;height:auto!important;box-shadow:none!important;transform:none!important;margin:0!important;font-size:28px!important;line-height:1!important}
+html body #page-quiz #kqMine .kq-cover em{display:none!important}
+html body #page-quiz #kqMine .kq-card .t{position:relative!important;inset:auto!important;padding:0!important;background:none!important;display:grid!important;gap:3px!important;min-width:0!important;flex:1!important}
+html body #page-quiz #kqMine .kq-card .t b{font-weight:800!important;font-size:15.5px!important;line-height:1.25!important;color:#16142e!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+html body #page-quiz #kqMine .kq-card .t small{font-size:13px!important;font-weight:600!important;color:#6b6890!important}
+html body #page-quiz #kqMine .kq-cardw:after{content:"▶"!important;position:absolute!important;right:52px!important;top:50%!important;transform:translateY(-50%)!important;width:36px!important;height:36px!important;border-radius:50%!important;display:grid!important;place-items:center!important;font-size:13px!important;color:#fff!important;background:#6d4aff!important;box-shadow:inset 0 -3px 0 rgba(0,0,0,.2)!important;pointer-events:none!important}
+html body #page-quiz #kqMine .kq-cardw .kq-card{padding-right:100px!important}
+html body #page-quiz #kqMine .kq-cm{position:absolute!important;right:8px!important;top:50%!important;bottom:auto!important;left:auto!important;transform:translateY(-50%)!important;width:38px!important;height:38px!important;border-radius:12px!important;background:#f3f1fd!important;color:#4b4a68!important;border:0!important;font-size:18px!important;box-shadow:none!important;opacity:1!important;display:grid!important;place-items:center!important}
+html body #page-quiz #kqMine .kq-card.new{min-height:60px!important;flex-direction:row!important;gap:10px!important;min-height:78px!important;padding:12px!important;justify-content:flex-start!important;background:#f6f4ff!important;box-shadow:inset 0 0 0 2px #d9d1ff!important;border:0!important;color:#5b3cf0!important;font-weight:800!important;font-size:15px!important}
+html body #page-quiz #kqMine .kq-card.new *{color:#5b3cf0!important}
+/* ===== Quiz game on phone: question in the middle, easy answer list ===== */
+@media (max-width:700px){
+html body #kqGame .kq-stage{display:flex!important;flex-direction:column!important;min-height:0;height:calc(100% - 64px);gap:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom))}
+html body #kqGame .kq-mid{order:-1;display:flex!important;align-items:center;justify-content:space-between;margin:0!important;min-height:0!important;height:auto!important}
+html body #kqGame .kq-art{display:none!important}
+html body #kqGame .kq-timer{transform:scale(.8);transform-origin:left center}
+html body #kqGame .kq-q{flex:1 1 auto;display:flex!important;align-items:center;justify-content:center;text-align:center;font-size:21px!important;line-height:1.35!important;padding:22px 18px!important;margin:0!important;max-height:none!important}
+html body #kqGame .kq-tiles{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;margin:0!important;flex:none}
+html body #kqGame .kq-tile{min-height:58px!important;height:auto!important;padding:12px 14px!important;display:flex!important;flex-direction:row!important;align-items:center!important;gap:12px!important;text-align:left!important;font-size:16px!important}
+html body #kqGame .kq-tile .kq-l{width:34px!important;height:34px!important;margin:0!important;position:static!important}
+html body #kqGame .kq-tile.right:after,html body #kqGame .kq-tile.wrongpick:after{margin-left:auto}
+}
+/* quiz start window: tidy option row */
+html body #kqModal label{display:inline-flex!important;align-items:center!important;gap:8px!important;white-space:nowrap}
+html body #kqModal input[type=checkbox]{width:20px;height:20px;margin:0!important;flex:none}
+</style><script id="sf-phone-fix-js">(function(){
+/* Quiz icons and colours by topic */
+var EM=[['busin','💼','#f97316'],['market','📊','#f97316'],['econ','💹','#0ea5e9'],['account','🧾','#14b8a6'],['financ','💰','#16a34a'],['math','➗','#2563eb'],['quadr','📐','#2563eb'],['algebra','📐','#2563eb'],['geomet','📏','#2563eb'],['english','📖','#9333ea'],['poem','✒️','#9333ea'],['essay','✍️','#9333ea'],['photosyn','🌿','#16a34a'],['bio','🧬','#16a34a'],['cell','🔬','#16a34a'],['chem','⚗️','#db2777'],['phys','🧲','#0891b2'],['force','🧲','#0891b2'],['war','⚔️','#b45309'],['hist','🏛️','#b45309'],['geo','🌍','#0d9488'],['comput','💻','#4f46e5'],['code','💻','#4f46e5'],['space','🪐','#4338ca'],['music','🎵','#e11d48'],['art','🎨','#e11d48']];
+var PAL=['#7c3aed','#f97316','#0ea5e9','#16a34a','#db2777','#2563eb','#ca8a04','#0d9488'];
+function paint(){var g=document.getElementById('kqMine');if(!g)return;
+ g.querySelectorAll('.kq-cardw').forEach(function(w,i){if(w.__p)return;w.__p=1;var c=w.querySelector('.kq-card'),t=((w.querySelector('.t b')||{}).textContent||'').toLowerCase(),hit=null;
+  for(var k=0;k<EM.length;k++)if(t.indexOf(EM[k][0])>=0){hit=EM[k];break}
+  c.style.setProperty('--qc',hit?hit[2]:PAL[i%PAL.length]);var s=w.querySelector('.kq-cover span');if(s&&hit&&/⭐/.test(s.textContent))s.textContent=hit[1];});}
+/* sticky Quizzes/Flashcards bar sits right under the header */
+function hdr(){var h=document.querySelector('header.top');if(h)document.documentElement.style.setProperty('--sf-hdr',Math.round(h.getBoundingClientRect().height)+'px')}
+/* More sheet: add Flashcards, close on Escape and when a page opens */
+function more(){var g=document.querySelector('.sfm-grid');if(g&&!g.querySelector('[data-sfmgo="flashcards"]')){var p=g.querySelector('[data-sfmgo="quiz"]');
+  var b=document.createElement('button');b.type='button';b.className='sfm-card';b.setAttribute('data-sfmgo','flashcards');
+  b.innerHTML='<span class="sfm-ic" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">🃏</span><b>Flashcards</b><small>Flip, learn and test</small>';
+  if(p){p.querySelector('b').textContent='Quizzes';p.querySelector('small').textContent='Quiz Studio games';p.after(b)}else g.prepend(b);
+  b.addEventListener('click',function(e){e.stopPropagation();close();try{go('flashcards')}catch(x){}})}}
+function close(){var o=document.querySelector('.sfm-ov');if(!o||o.classList.contains('sfm-idle'))return;var x=o.querySelector('.sfm-x');if(x)x.click()}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+function init(){hdr();more();paint();
+ new MutationObserver(function(){paint();more()}).observe(document.body,{childList:true,subtree:true});
+ document.querySelectorAll('main .page').forEach(function(p){new MutationObserver(function(){if(p.classList.contains('active')){close();hdr()}}).observe(p,{attributes:true,attributeFilter:['class']})});
+ addEventListener('resize',hdr);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
 </script></body></html>
