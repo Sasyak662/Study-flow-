@@ -4,6 +4,7 @@
   var MQ = window.matchMedia('(min-width:701px)');
   var root = document.documentElement;
   var lobby, homeBtn, lastHtml = '';
+  try { root.setAttribute('data-lbbg', localStorage.getItem('sf-lobby-bg') || 'galaxy'); } catch (e) {}
 
   var CSS = `
 html.lap .app{display:block}
@@ -19,7 +20,22 @@ html.lap #lapHomeBtn b{font-size:15px}
 html.lap #lapHomeBtn span{color:#8a88a3;font-weight:700}
 #lapLobby{display:none}
 html.lap.lap-home{background:#140c3a}
-html.lap.lap-home body{background:radial-gradient(60% 50% at 15% 0%,#3a22b8 0,transparent 70%),radial-gradient(50% 50% at 100% 100%,#5b1aa8 0,transparent 70%),#140c3a fixed!important;min-height:100vh}
+html.lap.lap-home body{background:var(--lbbg) fixed!important;min-height:100vh;transition:background .4s}
+html.lap.lap-home{--lbbg:radial-gradient(60% 50% at 15% 0%,#3a22b8 0,transparent 70%),radial-gradient(50% 50% at 100% 100%,#5b1aa8 0,transparent 70%),#140c3a}
+html.lap.lap-home[data-lbbg=ocean]{--lbbg:radial-gradient(60% 50% at 10% 0%,#0a7fb8 0,transparent 70%),radial-gradient(55% 55% at 100% 100%,#00b3a4 0,transparent 70%),#04233a}
+html.lap.lap-home[data-lbbg=sunset]{--lbbg:radial-gradient(60% 55% at 0% 0%,#ff5f6d 0,transparent 70%),radial-gradient(60% 60% at 100% 100%,#ffb03a 0,transparent 70%),radial-gradient(50% 50% at 100% 0%,#b0306a 0,transparent 70%),#3a0f35}
+html.lap.lap-home[data-lbbg=aurora]{--lbbg:radial-gradient(70% 45% at 20% 0%,#19c98a 0,transparent 70%),radial-gradient(50% 50% at 90% 15%,#2f7bff 0,transparent 70%),radial-gradient(50% 50% at 60% 100%,#8a3dff 0,transparent 70%),#061f24}
+html.lap.lap-home[data-lbbg=berry]{--lbbg:radial-gradient(60% 50% at 15% 0%,#e0338f 0,transparent 70%),radial-gradient(55% 55% at 100% 100%,#7b2ff7 0,transparent 70%),#2a0a35}
+html.lap.lap-home[data-lbbg=lava]{--lbbg:radial-gradient(60% 50% at 0% 100%,#ff4d1c 0,transparent 70%),radial-gradient(55% 55% at 100% 0%,#d4143c 0,transparent 70%),#2a0808}
+html.lap.lap-home[data-lbbg=rainbow]{--lbbg:radial-gradient(45% 45% at 0% 0%,#ff4d8d 0,transparent 70%),radial-gradient(45% 45% at 100% 0%,#ffb020 0,transparent 70%),radial-gradient(45% 45% at 100% 100%,#22c3ee 0,transparent 70%),radial-gradient(45% 45% at 0% 100%,#7c4dff 0,transparent 70%),radial-gradient(40% 40% at 50% 50%,#22d38a 0,transparent 75%),#1b1240}
+html.lap.lap-home[data-lbbg=midnight]{--lbbg:radial-gradient(60% 50% at 50% 0%,#1d2a5c 0,transparent 70%),#05060f}
+.lb-pal{position:absolute;right:56px;top:58px;z-index:20;width:300px;padding:14px;border-radius:20px;background:#fff;color:#16142e;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.lb-pal b{display:block;font-size:15px;margin:0 0 10px 2px}
+.lb-sw{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.lb-sw button{display:flex;flex-direction:column;align-items:center;gap:5px;padding:0;border:0;background:none;color:#3d3a5c;font-weight:700;font-size:12px}
+.lb-sw i{width:56px;height:56px;border-radius:16px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.lb-sw button[aria-pressed=true] i{outline:3px solid #4b2fe0;outline-offset:2px}
+.lb-sw button:focus-visible{outline:none}.lb-sw button:focus-visible i{outline:3px solid #ffb020;outline-offset:2px}
 html.lap.lap-home header.top{display:none!important}
 html.lap.lap-home #page-dashboard>*:not(#lapLobby){display:none!important}
 html.lap.lap-home body #page-dashboard>#lapLobby{display:block!important}
@@ -155,6 +171,7 @@ html.lap.lap-home .app>main{padding-top:24px}
       '<button type="button" class="lb-chip" data-lb="progress" aria-label="' + st.streak + ' day streak">🔥 ' + st.streak + '</button>' +
       '<button type="button" class="lb-chip" data-lb="quest" aria-label="' + st.coins + ' coins">🪙 ' + st.coins + '</button>' +
       '<button type="button" class="lb-chip" data-lb="quest" aria-label="' + st.gems + ' gems">💎 ' + st.gems + '</button>' +
+      '<button type="button" class="lb-chip" data-lb="#bg" aria-label="Change background">🎨</button>' +
       '<button type="button" class="lb-chip" data-lb="#more">☰ More</button>' +
       '<button type="button" class="lb-av" data-lb="#avatar" aria-label="Account">' + esc((name || 'S').charAt(0).toUpperCase()) + '</button></div>' +
       '<div class="lb-row"><section class="lb-hero"><div class="lb-star">' + star(210) + '</div>' +
@@ -169,7 +186,7 @@ html.lap.lap-home .app>main{padding-top:24px}
         return '<button type="button" class="lb-t' + (t.hot ? ' hot' : '') + '" data-lb="' + t.go + '" style="background:' + t.bg + '">' + ic + (badges[t.go] ? '<span class="bd">' + badges[t.go] + '</span>' : '') + '<h3>' + t.name + '</h3><p>' + esc(subs[t.go]) + '</p></button>';
       }).join('') + '</div>';
 
-    if (h === lastHtml || lobby.querySelector('.lb-menu')) return;
+    if (h === lastHtml || lobby.querySelector('.lb-menu,.lb-pal')) return;
     lastHtml = h;
     var body = lobby.querySelector('.lb-body');
     body.innerHTML = h;
@@ -185,7 +202,23 @@ html.lap.lap-home .app>main{padding-top:24px}
   }
 
   var EMO = { dashboard: '🏠', coach: '💬', library: '📝', upload: '📤', quiz: '🎯', flashcards: '🃏', mastery: '🧠', quest: '🐉', examiner: '✅', timetable: '📅', focuslock: '⏱️', director: '🗓️', progress: '📈', resources: '📚', premium: '⭐', cart: '🛒', settings: '⚙️' };
-  function closeMenu() { var m = lobby && lobby.querySelector('.lb-menu'); if (m) m.remove(); }
+  var BGS = [['galaxy', 'Galaxy', '#140c3a', '#3a22b8', '#5b1aa8'], ['ocean', 'Ocean', '#04233a', '#0a7fb8', '#00b3a4'], ['sunset', 'Sunset', '#3a0f35', '#ff5f6d', '#ffb03a'], ['aurora', 'Aurora', '#061f24', '#19c98a', '#8a3dff'],
+    ['berry', 'Berry', '#2a0a35', '#e0338f', '#7b2ff7'], ['lava', 'Lava', '#2a0808', '#ff4d1c', '#d4143c'], ['rainbow', 'Rainbow', '#1b1240', '#ff4d8d', '#22c3ee'], ['midnight', 'Midnight', '#05060f', '#1d2a5c', '#05060f']];
+  function getBg() { try { return localStorage.getItem('sf-lobby-bg') || 'galaxy'; } catch (e) { return 'galaxy'; } }
+  function setBg(k) { root.setAttribute('data-lbbg', k); try { localStorage.setItem('sf-lobby-bg', k); } catch (e) {} }
+  function togglePal() {
+    if (lobby.querySelector('.lb-pal')) return closeMenu();
+    closeMenu();
+    var cur = getBg(), m = document.createElement('div'); m.className = 'lb-pal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-label', 'Background');
+    m.innerHTML = '<b>Background</b><div class="lb-sw">' + BGS.map(function (b) {
+      var sw = b[0] === 'rainbow' ? 'linear-gradient(135deg,#ff4d8d,#ffb020,#22d38a,#22c3ee,#7c4dff)' : 'radial-gradient(80% 80% at 0% 0%,' + b[3] + ',transparent 75%),radial-gradient(80% 80% at 100% 100%,' + b[4] + ',transparent 75%),' + b[2];
+      return '<button type="button" data-bg="' + b[0] + '" aria-pressed="' + (b[0] === cur) + '"><i style="background:' + sw + '"></i>' + b[1] + '</button>';
+    }).join('') + '</div>';
+    m.addEventListener('click', function (e) { var t = e.target.closest('[data-bg]'); if (!t) return; setBg(t.dataset.bg); m.querySelectorAll('[data-bg]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === t)); }); });
+    lobby.querySelector('.lb-body').appendChild(m);
+    var f = m.querySelector('[aria-pressed=true]'); if (f) f.focus();
+  }
+  function closeMenu() { if (!lobby) return; lobby.querySelectorAll('.lb-menu,.lb-pal').forEach(function (m) { m.remove(); }); }
   function toggleMenu(btn) {
     if (lobby.querySelector('.lb-menu')) return closeMenu();
     var m = document.createElement('div'); m.className = 'lb-menu'; m.setAttribute('role', 'menu');
@@ -195,7 +228,7 @@ html.lap.lap-home .app>main{padding-top:24px}
     lobby.querySelector('.lb-body').appendChild(m);
     var f = m.querySelector('button'); if (f) f.focus();
   }
-  document.addEventListener('click', function (e) { if (lobby && !e.target.closest('.lb-menu,[data-lb="#more"]')) closeMenu(); });
+  document.addEventListener('click', function (e) { if (lobby && !e.target.closest('.lb-menu,.lb-pal,[data-lb="#more"],[data-lb="#bg"]')) closeMenu(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
 
   function onClick(e) {
@@ -204,7 +237,8 @@ html.lap.lap-home .app>main{padding-top:24px}
     var b = e.target.closest('[data-lb]'); if (!b) return;
     var a = b.dataset.lb;
     if (a === '#start') { var next = document.querySelector('#sxHome .sxh-mission .sxh-item:not(.done) .sxh-go'); if (next) next.click(); else nav('quiz'); return; }
-    if (a === '#more') { toggleMenu(b); return; }
+    if (a === '#more') { if (lobby.querySelector('.lb-pal')) closeMenu(); toggleMenu(b); return; }
+    if (a === '#bg') { togglePal(); return; }
     if (a === '#avatar') { var av = document.getElementById('avatar'); if (av) av.click(); else nav('settings'); return; }
     closeMenu(); nav(a);
   }
