@@ -294,7 +294,8 @@ module.exports = async function handler(req, res) {
   const thinkFor = m => /gemini-(3|4)/.test(m) ? { thinkingLevel: quick ? 'minimal' : 'low' } : /2\.5/.test(m) ? { thinkingBudget: /pro/.test(m) ? 512 : 0 } : null;
   async function callModel(model, ms, useThinking, plain) {
     const p = JSON.parse(JSON.stringify(payload));
-    if (plain) delete p.generationConfig.responseMimeType;
+    // the Gemini 3.x models stall or fail in strict JSON mode; they follow the JSON instructions in the prompt instead
+    if (plain || /gemini-(3|4)/.test(model)) delete p.generationConfig.responseMimeType;
     const tc = useThinking ? thinkFor(model) : null;
     if (tc) p.generationConfig.thinkingConfig = tc;
     const ctrl = new AbortController();
