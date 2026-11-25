@@ -1,0 +1,13 @@
+name: ai-check
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          U=https://study-flow-app-ecru.vercel.app/api/ai
+          echo "== GET"; curl -s -m 30 $U; echo
+          echo "== simple"; curl -s -m 60 -w "\nHTTP %{http_code} %{time_total}s\n" -X POST -H 'Content-Type: application/json' -d '{"system":"You are StudyStarx, a study coach.","user":"Explain photosynthesis in 2 sentences."}' $U | tail -c 500
+          echo "== history"; curl -s -m 60 -w "\nHTTP %{http_code} %{time_total}s\n" -X POST -H 'Content-Type: application/json' -d '{"system":"You are StudyStarx, a study coach.","messages":[{"role":"user","content":"help me with business"},{"role":"assistant","content":"Sure! Which topic?"}],"user":"marketing mix please","temperature":0.3}' $U | tail -c 500
+          echo "== coach-like"; curl -s -m 60 -w "\nHTTP %{http_code} %{time_total}s\n" -X POST -H 'Content-Type: application/json' -d '{"system":"You are StudyStarx, a study coach.","user":"What is the 4 Ps?","search":true,"codeExecution":true,"temperature":0.3}' $U | tail -c 500
+          echo "== quiz"; curl -s -m 60 -w "\nHTTP %{http_code} %{time_total}s\n" -X POST -H 'Content-Type: application/json' -d '{"system":"Return ONLY JSON {\"questions\":[{\"question\":\"\",\"options\":[\"\",\"\",\"\",\"\"],\"correctIndex\":0}]}","user":"3 questions on cells","temperature":0.3,"search":false,"codeExecution":false,"maxTokens":8000}' $U | tail -c 300
