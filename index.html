@@ -934,4 +934,55 @@ html.lap:is([data-hth=focus],[data-hth=calm]) .lb-t[data-lb=resources]{backgroun
 html.lap[data-hth=focus] .lb-t[data-lb=timetable]{background:linear-gradient(150deg,#26c6e8,#0b8fb8)!important}
 .hth{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 @media (min-width:900px){.hth{grid-template-columns:repeat(4,minmax(0,1fr))!important}.hth span{flex-direction:column;align-items:flex-start!important;gap:2px}}
+</style><style id="sf-tt3">/* ===== Laptop timetable/settings: colours follow the chosen theme ===== */
+html.lap{--tc-card:rgba(24,15,66,.94);--tc-card2:rgba(255,255,255,.07);--tc-hero:linear-gradient(135deg,#6a4bff,#4b2fe0 60%,#3a1fc4);--tc-on:#7b5cff;--tc-line:rgba(255,255,255,.1);--tc-sub:#bdb7e8}
+html.lap[data-hth=focus]{--tc-card:rgba(5,22,48,.94);--tc-hero:linear-gradient(135deg,#2f8cff 0%,#1a5fd0 55%,#0f3f9a 100%);--tc-on:#2f8cff;--tc-line:rgba(124,196,255,.16);--tc-sub:#a9c8ea}
+html.lap[data-hth=calm]{--tc-card:rgba(4,30,28,.94);--tc-hero:linear-gradient(135deg,#1fc98a 0%,#0f9a72 55%,#0a6b55 100%);--tc-on:#14b882;--tc-line:rgba(143,232,207,.16);--tc-sub:#a6d8c8}
+html.lap[data-hth=sunset]{--tc-card:rgba(34,20,78,.94);--tc-hero:linear-gradient(135deg,#ff7a59 0%,#ff4f8b 45%,#8b3dff 100%);--tc-on:#ff7a59;--tc-line:rgba(255,200,170,.18);--tc-sub:#e3c3d6}
+/* header card */
+html.lap.lap-tt body #page-timetable .tt-hero2{background:var(--tc-hero)!important}
+/* top switch: small pill, not a full-width bar */
+html.lap.lap-tt body .page.active>.sfm-tabs{display:inline-flex!important;width:auto!important;justify-self:start;gap:4px;padding:5px!important;border-radius:999px!important;background:var(--tc-card)!important;box-shadow:inset 0 0 0 1px var(--tc-line)!important;position:static!important;margin:0 0 4px!important}
+html.lap.lap-tt body .page.active>.sfm-tabs button{flex:none!important;width:auto!important;padding:0 20px!important;height:40px;border-radius:999px!important}
+html.lap.lap-tt body #page-timetable .tt-tabs button:not(.on){background:var(--tc-card)!important;box-shadow:inset 0 0 0 1px var(--tc-line)!important}
+/* cards */
+html.lap.lap-tt body #page-timetable :is(.tt-card,.tt-cal-wrap,.tq,.ttm-card,#remCard,#ppMorn),html.lap.lap-tt body #page-timetable div.tt-more>.tt-fold,html.lap body #lapTTside .ltt-card,html.lap.lap-set body #sxSet .sx-sec{background:var(--tc-card)!important;box-shadow:inset 0 0 0 1px var(--tc-line)!important}
+html.lap.lap-tt body #page-timetable .tt-card{padding:22px!important;border-radius:22px!important}
+html.lap.lap-tt body #page-timetable .tt-card h3{font-size:19px!important;margin:0 0 4px!important}
+html.lap.lap-tt body #page-timetable .tt-card p.s,html.lap.lap-tt body #page-timetable .tt-card label{color:var(--tc-sub)!important}
+html.lap.lap-tt body #page-timetable .tt-card label{font-size:13px!important;font-weight:700!important;margin-bottom:6px!important;display:block}
+/* text boxes */
+html.lap.lap-tt body #page-timetable .tt-card :is(input:not([type=checkbox]):not([type=radio]),select,textarea){background:var(--tc-card2)!important;border:1.5px solid var(--tc-line)!important;border-radius:14px!important;color:#fff!important;height:48px;padding:0 14px!important;width:100%!important;box-sizing:border-box;font-size:15px!important;color-scheme:dark}
+html.lap.lap-tt body #page-timetable .tt-card textarea{height:auto!important;min-height:132px!important;padding:12px 14px!important;line-height:1.6!important;resize:vertical}
+html.lap.lap-tt body #page-timetable .tt-card select option{background:#0f1830;color:#fff}
+/* buttons: one gold main button, the rest quiet */
+html.lap.lap-tt body #page-timetable #ttTab .tt-b{height:46px!important;padding:0 20px!important;border-radius:14px!important;border:0!important;font-weight:800!important;background:rgba(255,255,255,.1)!important;color:#fff!important;box-shadow:none!important}
+html.lap.lap-tt body #page-timetable #ttTab .tt-b:hover{background:rgba(255,255,255,.17)!important}
+html.lap.lap-tt body #page-timetable #ttTab .tt-b.p,html.lap.lap-tt body #page-timetable #ttTab [data-tt=addblock],html.lap.lap-tt body #page-timetable #ttTab [data-tt=addtask]{background:#ffd65a!important;color:#3b2600!important;box-shadow:inset 0 -4px 0 rgba(0,0,0,.16)!important}
+html.lap.lap-tt body #page-timetable .tt-presets{gap:8px!important;align-items:center;margin-top:14px!important}
+html.lap.lap-tt body #page-timetable .tt-presets button{border:0!important;background:var(--tc-card2)!important;color:#fff!important;border-radius:999px!important;height:36px;padding:0 14px!important;font-weight:700!important;box-shadow:inset 0 0 0 1px var(--tc-line)!important}
+html.lap.lap-tt body #page-timetable .tt-presets button:hover{background:rgba(255,255,255,.14)!important}
+html.lap.lap-tt body #page-timetable .tt-presets .tiny{color:var(--tc-sub)!important}
+/* day buttons */
+html.lap.lap-tt body #page-timetable .tt-days{display:grid!important;grid-template-columns:repeat(7,1fr);gap:6px!important}
+html.lap.lap-tt body #page-timetable .tt-days button{height:40px!important;border-radius:12px!important;border:0!important;background:var(--tc-card2)!important;color:#cfd3ea!important;font-weight:800!important;box-shadow:inset 0 0 0 1px var(--tc-line)!important;padding:0!important}
+html.lap.lap-tt body #page-timetable .tt-days button.on{background:var(--tc-on)!important;color:#fff!important;box-shadow:inset 0 -3px 0 rgba(0,0,0,.2)!important}
+/* add-a-block form: tidy rows */
+html.lap.lap-tt body #page-timetable .tt-card details.tt-more{margin-top:16px!important;padding-top:14px;border-top:1px solid var(--tc-line)}
+html.lap.lap-tt body #page-timetable .tt-card details.tt-more>summary{color:#fff!important;font-weight:800;cursor:pointer;list-style:none}
+html.lap.lap-tt body #page-timetable .tt-card .tt-row{display:grid!important;grid-template-columns:1fr 1fr;gap:10px!important;align-items:end}
+html.lap.lap-tt body #page-timetable .tt-card .tt-row:has(>.field){grid-template-columns:minmax(0,1fr) 190px}
+html.lap.lap-tt body #page-timetable .tt-card .tt-row:has(>.field:nth-of-type(3)){grid-template-columns:repeat(3,minmax(0,1fr))}
+html.lap.lap-tt body #page-timetable .tt-card .tt-row:has(>.field:nth-of-type(3))>.tt-b{grid-column:1/-1;width:100%!important}
+html.lap.lap-tt body #page-timetable .tt-card .tt-row>.field{width:auto!important;min-width:0!important;margin:0!important;flex:none!important}
+html.lap.lap-tt body #page-timetable .tt-card .kq-empty{border:1.5px dashed var(--tc-line);border-radius:16px;padding:26px!important;text-align:center;color:var(--tc-sub)!important;background:transparent!important;margin-top:12px}
+html.lap.lap-tt body #page-timetable .tq-box{background:var(--tc-card2)!important;border:1.5px solid var(--tc-line)!important;border-radius:16px!important;box-shadow:none!important}
+html.lap.lap-tt body #page-timetable .tq-box:focus-within{border-color:#ffd65a!important}
+html.lap.lap-tt body #page-timetable .tt-card.tq-add .tq-box textarea#ttQuick:not([type=x]):not([type=y]){background:transparent!important;border:0!important;min-height:110px!important;height:auto!important}
+html.lap.lap-tt body #page-timetable .tq-go{background:#ffd65a!important;color:#3b2600!important;border-radius:12px!important;font-weight:800!important;box-shadow:inset 0 -3px 0 rgba(0,0,0,.16)!important}
+html.lap.lap-tt body #page-timetable .tq-ex{gap:8px!important;align-items:center}
+html.lap.lap-tt body #page-timetable .tq-ex span{color:var(--tc-sub)!important}
+html.lap.lap-tt body #page-timetable .tq-ex button{border:0!important;background:var(--tc-card2)!important;color:#fff!important;border-radius:999px!important;padding:8px 14px!important;font-weight:700!important;box-shadow:inset 0 0 0 1px var(--tc-line)!important}
+html.lap.lap-tt body #page-timetable .tq-empty{border:1.5px dashed var(--tc-line)!important;background:var(--tc-card)!important;border-radius:20px!important;color:var(--tc-sub)!important}
+html.lap.lap-tt body #page-timetable .tq-empty b{color:#fff!important}
 </style></body></html>
