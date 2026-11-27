@@ -105,9 +105,9 @@ async function ownerStats() {
     ai: ai.slice(0, 8).map(a => ({ t: a.t, why: a.why, note: a.note, q: String(a.q || '').slice(0, 200), a: String(a.a || '').slice(0, 260), level: a.level, curriculum: a.curriculum }))
   };
   // what people use (anonymous feature counts, last 14 days, UTC days as they are stored)
-  const use = {};
-  for (let i = 0; i < 14; i++) { const d = new Date(now - i * day).toISOString().slice(0, 10); const h = await S.cmd('HGETALL', 'sf:usage:' + d); if (Array.isArray(h)) { for (let j = 0; j < h.length; j += 2) use[h[j]] = (use[h[j]] || 0) + (Number(h[j + 1]) || 0); } else if (h && typeof h === 'object') for (const k in h) use[k] = (use[k] || 0) + (Number(h[k]) || 0); }
-  out.usage = use;
+  const use = {}, perDay = [];
+  for (let i = 0; i < 14; i++) { const d = new Date(now - i * day).toISOString().slice(0, 10); const h = await S.cmd('HGETALL', 'sf:usage:' + d); const o = {}; if (Array.isArray(h)) { for (let j = 0; j < h.length; j += 2) o[h[j]] = Number(h[j + 1]) || 0; } else if (h && typeof h === 'object') for (const k in h) o[k] = Number(h[k]) || 0; for (const k in o) use[k] = (use[k] || 0) + o[k]; perDay.push({ day: d, opens: o._active || 0, newDevices: o._new_device || 0, coach: o.coach_ask || 0 }); }
+  out.usage = use; out.usageDays = perDay.reverse();
   return out;
 }
 
