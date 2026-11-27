@@ -1,7 +1,7 @@
-// StudyStarx service worker: the app page is fetched fresh (up to 4s, behind the launch screen);
+// StudyStarx service worker: the app page is fetched fresh (up to 2s, behind the launch screen);
 // if the network is very slow the saved copy opens and the fresh one is saved for next time;
 // the last good copy is used only when the device is offline. API calls are never cached.
-const CACHE = 'studyflow-v7';
+const CACHE = 'studyflow-v8';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/three-r128.min.js', '/gltf-loader-r128.js',
   '/fonts/inter-latin-400-normal.woff2', '/fonts/inter-latin-500-normal.woff2', '/fonts/inter-latin-600-normal.woff2', '/fonts/inter-latin-700-normal.woff2', '/fonts/inter-latin-800-normal.woff2',
   '/fonts/nunito-latin-700-normal.woff2', '/fonts/nunito-latin-800-normal.woff2', '/fonts/nunito-latin-900-normal.woff2'];
@@ -21,14 +21,14 @@ self.addEventListener('fetch', e => {
   const nav = req.mode === 'navigate';
   if (!nav && !ASSET.test(url.pathname) && !SHELL.includes(url.pathname)) return;
   if (nav) {
-    // Online: wait for the newest page (up to 4 s, hidden behind the launch screen) so the app opens once, on the
+    // Online: wait for the newest page (up to 2 s, hidden behind the launch screen) so the app opens once, on the
     // newest version, with no reload. Offline or very slow: open the last saved copy.
     const net = fetch(req);
     e.waitUntil(net.then(async res => { if (res.ok && res.type === 'basic') { const c = await caches.open(CACHE); await c.put('/', res.clone()); } }).catch(() => {}));
     e.respondWith(new Promise(resolve => {
       let done = false;
       const saved = () => caches.match('/').then(r => { if (!done) { done = true; resolve(r || new Response('Offline', { status: 504 })); } });
-      const t = setTimeout(() => caches.match('/').then(r => { if (r && !done) { done = true; resolve(r); } }), 4000);
+      const t = setTimeout(() => caches.match('/').then(r => { if (r && !done) { done = true; resolve(r); } }), 2000);
       net.then(r => { if (!done) { done = true; clearTimeout(t); resolve(r.clone()); } }).catch(() => { clearTimeout(t); saved(); });
     }));
     return;

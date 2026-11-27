@@ -102,8 +102,12 @@ async function ownerStats() {
     errorsWeek: errs.filter(wk).length, feedbackWeek: fb.filter(wk).length, aiWeek: ai.filter(wk).length,
     topErrors: Object.values(groups).sort((a, b) => b.n - a.n).slice(0, 8),
     feedback: fb.slice(0, 10).map(f => ({ t: f.t, rating: f.rating, text: f.text })),
-    ai: ai.slice(0, 8).map(a => ({ t: a.t, why: a.why, note: a.note, q: String(a.q || '').slice(0, 200) }))
+    ai: ai.slice(0, 8).map(a => ({ t: a.t, why: a.why, note: a.note, q: String(a.q || '').slice(0, 200), a: String(a.a || '').slice(0, 260), level: a.level, curriculum: a.curriculum }))
   };
+  // what people use (anonymous feature counts, last 14 days, UTC days as they are stored)
+  const use = {};
+  for (let i = 0; i < 14; i++) { const d = new Date(now - i * day).toISOString().slice(0, 10); const h = await S.cmd('HGETALL', 'sf:usage:' + d); if (Array.isArray(h)) { for (let j = 0; j < h.length; j += 2) use[h[j]] = (use[h[j]] || 0) + (Number(h[j + 1]) || 0); } else if (h && typeof h === 'object') for (const k in h) use[k] = (use[k] || 0) + (Number(h[k]) || 0); }
+  out.usage = use;
   return out;
 }
 
