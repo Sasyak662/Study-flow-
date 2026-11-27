@@ -48,6 +48,65 @@ async function noteFail(email, ip) {
   await S.cmd('INCR', 'sf:ipfail:' + ip); await S.cmd('EXPIRE', 'sf:ipfail:' + ip, 900);
 }
 
+
+// Owner dashboard numbers. Counts only — no emails are sent back to the app.
+async function ownerStats() {
+  const now = Date.now(), day = 864e5;
+  const days = n => { const o = []; for (let i = 0; i < n; i++) o.push(new Date(now + 5.5 * 3600e3 - i * day).toISOString().slice(0, 10)); return o; };
+  const scan = async pat => { const keys = []; let cur = '0', n = 0; do { const r = await S.cmd('SCAN', cur, 'MATCH', pat, 'COUNT', 500); cur = String(r && r[0] || '0'); keys.push(...(r && r[1] || [])); n++; } while (cur !== '0' && n < 400); return keys; };
+  const out = { at: now };
+  // accounts and Plus
+  const users = await scan('sf:user:*'); let plus = 0, newWeek = 0, total = 0;
+  for (const k of users) { if (S.isLifetime(k.slice(8))) continue; total++; const u = await S.getJSON(k).catch(() => null); if (!u) continue; if (S.isPlus(u)) plus++; if (u.created && now - u.created < 7 * day) newWeek++; }
+  out.accounts = { total, plus, newWeek };
+  // signed-in people who used the app (cloud sync)
+  const metas = await scan('sf:datameta:*'); let a1 = 0, a7 = 0, a30 = 0;
+  for (const k of metas) { if (S.isLifetime(k.slice(12))) continue; const m = await S.getJSON(k).catch(() => null); const t = m && +m.updated || 0; if (now - t < day) a1++; if (now - t < 7 * day) a7++; if (now - t < 30 * day) a30++; }
+  out.active = { today: a1, week: a7, month: a30 };
+  // devices that opened the app (anonymous) and website visits
+  const d7 = days(7), d30 = days(30);
+  out.devices = { today: Number(await S.cmd('PFCOUNT', 'sf:dau:' + d7[0])) || 0, week: Number(await S.cmd('PFCOUNT', ...d7.map(d => 'sf:dau:' + d))) || 0 };
+  const num = async k => Number(await S.cmd('GET', k)) || 0;
+  let v7 = 0, u7 = 0, v30 = 0, u30 = 0; const chart = [];
+  for (let i = 0; i < d30.length; i++) { const v = await num('sf:visit:' + d30[i]), uv = await num('sf:uvisit:' + d30[i]); v30 += v; u30 += uv; if (i < 7) { v7 += v; u7 += uv; chart.push({ day: d30[i], visitors: uv, opens: v }); } }
+  out.visits = { today: await num('sf:uvisit:' + d7[0]), week: u7, month: u30, opensWeek: v7, opensMonth: v30, chart: chart.reverse() };
+  // purchases, straight from Razorpay (books and Plus)
+  out.sales = { ok: false };
+  const id = process.env.RAZORPAY_KEY_ID, secret = process.env.RAZORPAY_KEY_SECRET;
+  if (id && secret) {
+    try {
+      const r = await fetch('https://api.razorpay.com/v1/payment_links', { headers: { Authorization: 'Basic ' + Buffer.from(id + ':' + secret).toString('base64') } });
+      const j = await r.json().catch(() => ({}));
+      const list = (j.payment_links || []).filter(x => x.status === 'paid');
+      const PRICES = require('./_catalog.js');
+      let books = 0, bookOrders = 0, bookMoney = 0, plusSales = 0, plusMoney = 0, week = 0; const recent = [], perBook = {};
+      for (const x of list) {
+        const notes = x.notes || {}, paid = Number(x.amount_paid || 0) / 100, t = (Number(x.updated_at || x.created_at) || 0) * 1000;
+        if (notes.plus) { plusSales++; plusMoney += paid; recent.push({ t, what: 'Plus · ' + notes.plus, amount: paid }); }
+        else { const b = Object.values(notes).map(String).filter(v => PRICES[v]); if (!b.length) continue; bookOrders++; books += b.length; bookMoney += paid; b.forEach(v => perBook[v] = (perBook[v] || 0) + 1); recent.push({ t, what: b.length + (b.length === 1 ? ' book' : ' books'), amount: paid }); }
+        if (now - t < 7 * day) week++;
+      }
+      recent.sort((a, b) => b.t - a.t);
+      const top = Object.entries(perBook).sort((a, b) => b[1] - a[1]).slice(0, 5);
+      out.sales = { ok: r.ok, books, bookOrders, bookMoney, plusSales, plusMoney, week, recent: recent.slice(0, 8), top };
+    } catch (e) { out.sales = { ok: false }; }
+  }
+  // problem reports
+  const P = l => (l || []).map(x => { try { return JSON.parse(x); } catch (e) { return null; } }).filter(Boolean);
+  const errs = P(await S.cmd('LRANGE', 'sf:errlog', -300, -1)).reverse();
+  const fb = P(await S.cmd('LRANGE', 'sf:feedback', -100, -1)).reverse();
+  const ai = P(await S.cmd('LRANGE', 'sf:aireports', 0, 99));
+  const wk = x => now - (x.t || 0) < 7 * day;
+  const groups = {}; errs.filter(wk).forEach(e => { const k = e.msg.slice(0, 120); (groups[k] = groups[k] || { msg: k, n: 0, page: e.page, last: 0 }).n++; groups[k].last = Math.max(groups[k].last, e.t); });
+  out.reports = {
+    errorsWeek: errs.filter(wk).length, feedbackWeek: fb.filter(wk).length, aiWeek: ai.filter(wk).length,
+    topErrors: Object.values(groups).sort((a, b) => b.n - a.n).slice(0, 8),
+    feedback: fb.slice(0, 10).map(f => ({ t: f.t, rating: f.rating, text: f.text })),
+    ai: ai.slice(0, 8).map(a => ({ t: a.t, why: a.why, note: a.note, q: String(a.q || '').slice(0, 200) }))
+  };
+  return out;
+}
+
 module.exports = async function handler(req, res) {
   if (req.method === 'GET') return S.send(res, 200, { configured: S.configured(), google: S.configured() ? GOOGLE_ID() : '', emailReset: !!(String(process.env.RESEND_API_KEY || '').trim() && String(process.env.RESET_FROM || '').trim()), support: String(process.env.SUPPORT_EMAIL || '').trim().slice(0, 120) });
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return S.send(res, 405, { error: 'Method not allowed.' }); }
@@ -113,6 +172,15 @@ module.exports = async function handler(req, res) {
       await S.cmd('LPUSH', 'sf:aireports', JSON.stringify(item)); await S.cmd('LTRIM', 'sf:aireports', 0, 499);
       return S.send(res, 200, { ok: true });
     }
+    // Anonymous visit counter (no id, no personal data): one count per page open, plus one per device per day
+    if (action === 'visit') {
+      const rk = 'sf:visrate:' + ip; const rn = Number(await S.cmd('INCR', rk)) || 0; if (rn === 1) await S.cmd('EXPIRE', rk, 3600);
+      if (rn > 40) return S.send(res, 200, { ok: true });
+      const day = S.today();
+      await S.cmd('INCR', 'sf:visit:' + day); await S.cmd('EXPIRE', 'sf:visit:' + day, 60 * 60 * 24 * 120);
+      if (body.first === true) { await S.cmd('INCR', 'sf:uvisit:' + day); await S.cmd('EXPIRE', 'sf:uvisit:' + day, 60 * 60 * 24 * 120); }
+      return S.send(res, 200, { ok: true });
+    }
     // Anonymous feature counts (no email, no personal data): which features people use, per day
     if (action === 'track') {
       const rk = 'sf:trkrate:' + ip; const rn = Number(await S.cmd('INCR', rk)) || 0; if (rn === 1) await S.cmd('EXPIRE', rk, 3600);
@@ -122,6 +190,7 @@ module.exports = async function handler(req, res) {
       for (const name of Object.keys(c).slice(0, 30)) { const n = Math.min(50, Math.max(0, Math.floor(Number(c[name]) || 0))); if (!n || !/^[a-z0-9_]{1,32}$/.test(name)) continue; await S.cmd('HINCRBY', key, name, n); k++; }
       if (body.newUser === true) await S.cmd('HINCRBY', key, '_new_device', 1);
       await S.cmd('HINCRBY', key, '_active', 1);
+      const did = String(body.did || ''); if (/^[a-z0-9]{8,32}$/.test(did)) { const dk = 'sf:dau:' + S.today(); await S.cmd('PFADD', dk, did); await S.cmd('EXPIRE', dk, 60 * 60 * 24 * 120); }
       if (k) await S.cmd('EXPIRE', key, 60 * 60 * 24 * 120);
       return S.send(res, 200, { ok: true });
     }
@@ -226,8 +295,9 @@ module.exports = async function handler(req, res) {
       return S.send(res, 200, { ok: true, deleted: true });
     }
     // Owner only: recent error reports, and a full backup of the database
-    if (action === 'errors' || action === 'backup' || action === 'usage' || action === 'aireports') {
+    if (action === 'errors' || action === 'backup' || action === 'usage' || action === 'aireports' || action === 'ownerstats') {
       if (!S.isLifetime(email)) return S.send(res, 403, { error: 'Owner only.' });
+      if (action === 'ownerstats') return S.send(res, 200, await ownerStats());
       if (action === 'aireports') { const l = await S.cmd('LRANGE', 'sf:aireports', 0, 199); return S.send(res, 200, { items: (l || []).map(x => { try { return JSON.parse(x) } catch (e) { return null } }).filter(Boolean) }); }
       if (action === 'usage') { const days = []; for (let i = 0; i < 14; i++) { const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10); const h = await S.cmd('HGETALL', 'sf:usage:' + d); const o = {}; if (Array.isArray(h)) { for (let j = 0; j < h.length; j += 2) o[h[j]] = Number(h[j + 1]) || 0 } else if (h && typeof h === 'object') Object.assign(o, h); days.push({ day: d, counts: o }) } return S.send(res, 200, { days }); }
       if (action === 'errors') { const P = l => (l || []).map(x => { try { return JSON.parse(x) } catch (e) { return null } }).filter(Boolean).reverse(); const l = await S.cmd('LRANGE', 'sf:errlog', -100, -1); const f = await S.cmd('LRANGE', 'sf:feedback', -100, -1); return S.send(res, 200, { errors: P(l), feedback: P(f) }); }
