@@ -8,6 +8,7 @@
         <item name="android:windowBackground">@color/launch_bg</item>
         <item name="android:windowSplashScreenBackground">@color/launch_bg</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/launch_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_star</item>
     </style>
     <style name="BlockedTheme" parent="android:Theme.Material.NoActionBar">
         <item name="android:statusBarColor">#14513F</item>

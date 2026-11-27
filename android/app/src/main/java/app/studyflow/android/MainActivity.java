@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
         s.setTextZoom(Math.max(85, Math.min(115, Math.round(fontScale * 100))));
         s.setUseWideViewPort(true);
         s.setCacheMode(isOnline() ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        s.setUserAgentString(s.getUserAgentString() + " StudyFlowAndroid/1.0 StudyFlowLaunch/purple");
+        s.setUserAgentString(s.getUserAgentString() + " StudyFlowAndroid/1.0 StudyFlowLaunch/purple StudyFlowApp/27");
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(web, true);
         web.addJavascriptInterface(new Bridge(), "SFNative");

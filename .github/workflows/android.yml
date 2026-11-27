@@ -43,9 +43,10 @@ jobs:
       - name: Put StudyFlow.apk on the website
         run: |
           cp android/app/build/outputs/apk/release/app-release.apk StudyFlow.apk
+          cp StudyFlow.apk StudyStarx.apk
           git config user.name "StudyFlow bot"
           git config user.email "actions@users.noreply.github.com"
-          git add StudyFlow.apk
+          git add StudyFlow.apk StudyStarx.apk
           git commit -m "Update StudyFlow Android app" || echo "No change"
           git pull --rebase
           git push
