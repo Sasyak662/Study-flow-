@@ -1020,4 +1020,11 @@ function tidy(){var t=document.getElementById('ttDesc');if(!t)return;var c=t.clo
 function init(){var p=document.getElementById('page-timetable');if(!p)return setTimeout(init,400);tidy();new MutationObserver(tidy).observe(p,{childList:true,subtree:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
-</script></body></html>
+</script><script id="sf-sxe-fix">(function(){
+/* home "Your shortcuts" panel: close it when another page opens, when the dark area outside is tapped, or on Back */
+function closeEd(){var d=document.querySelector('#sxEd [data-sxe=close]');if(d)d.click()}
+document.addEventListener('click',function(e){if(e.target&&e.target.id==='sxEd')closeEd()});
+addEventListener('popstate',closeEd);
+function init(){document.querySelectorAll('main .page').forEach(function(p){if(p.id==='page-dashboard')return;new MutationObserver(function(){if(p.classList.contains('active'))closeEd()}).observe(p,{attributes:true,attributeFilter:['class']})})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();</script></body></html>
