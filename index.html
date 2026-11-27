@@ -1027,4 +1027,28 @@ document.addEventListener('click',function(e){if(e.target&&e.target.id==='sxEd')
 addEventListener('popstate',closeEd);
 function init(){document.querySelectorAll('main .page').forEach(function(p){if(p.id==='page-dashboard')return;new MutationObserver(function(){if(p.classList.contains('active'))closeEd()}).observe(p,{attributes:true,attributeFilter:['class']})})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();</script><style id="sf-gl-fix">html.nb-isempty .nb-fab{display:none!important}</style><script id="sf-gl-fix-js">(function(){
+/* Close pop-ups that are left open when you move to another page */
+var seen=new WeakMap();
+new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType===1)seen.set(n,Date.now())})})}).observe(document.body,{childList:true});
+function old(el){var t=seen.get(el);return !t||Date.now()-t>900}
+function closeAll(){
+ document.querySelectorAll('.nb-ov.in').forEach(function(o){var x=o.querySelector('[data-nb=close],.nb-x');if(x)x.click();else o.classList.remove('in')});
+ var k=document.getElementById('kqModal');if(k&&!k.hidden&&!k.__fresh)k.hidden=true;
+ document.querySelectorAll('.ppg.in').forEach(function(g){if(old(g)){var x=g.querySelector('.ppg-x');if(x)x.click()}});
+ var e=document.querySelector('#sxEd [data-sxe=close]');if(e)e.click();
+ document.querySelectorAll('.lb-menu,.lb-pal').forEach(function(m){m.remove()});
+}
+/* quiz start window opened just now (e.g. from a page change) is left alone */
+var km=new MutationObserver(function(){var k=document.getElementById('kqModal');if(k&&!k.hidden){k.__fresh=1;setTimeout(function(){k.__fresh=0},900)}});
+function hookK(){var k=document.getElementById('kqModal');if(k&&!k.__h){k.__h=1;km.observe(k,{attributes:true,attributeFilter:['hidden']})}}
+new MutationObserver(hookK).observe(document.body,{childList:true});
+function init(){document.querySelectorAll('main .page').forEach(function(p){new MutationObserver(function(){if(p.classList.contains('active'))closeAll()}).observe(p,{attributes:true,attributeFilter:['class']})});
+ /* Notes: when there are no notes, the empty box itself starts a new note, and the floating button stops covering its text */
+ var lib=document.getElementById('page-library');if(lib)new MutationObserver(empty).observe(lib,{childList:true,subtree:true});empty();}
+function empty(){var lib=document.getElementById('page-library');if(!lib)return;var all=[].slice.call(lib.querySelectorAll('div')).filter(function(x){return /Your desk is empty/.test(x.textContent)&&x.getBoundingClientRect().height>60&&!/Search your notes|MY NOTES/i.test(x.innerText)});var e=all[all.length-1];
+ document.documentElement.classList.toggle('nb-isempty',!!e);if(!e||e.__w)return;e.__w=1;e.style.cursor='pointer';e.setAttribute('role','button');e.tabIndex=0;
+ [].slice.call(e.querySelectorAll('*')).forEach(function(c){if(/Tap the/.test(c.textContent)&&c.querySelectorAll('*').length<3)c.textContent='Click here to write your first note'});
+ var go=function(){var f=document.querySelector('.nb-fab');if(f)f.click()};e.addEventListener('click',go);e.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' ')go()});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();</script></body></html>
