@@ -97,7 +97,7 @@ async function ownerStats() {
   const fb = P(await S.cmd('LRANGE', 'sf:feedback', -100, -1)).reverse();
   const ai = P(await S.cmd('LRANGE', 'sf:aireports', 0, 99));
   const wk = x => now - (x.t || 0) < 7 * day;
-  const groups = {}; errs.filter(wk).forEach(e => { const k = e.msg.slice(0, 120); (groups[k] = groups[k] || { msg: k, n: 0, page: e.page, last: 0 }).n++; groups[k].last = Math.max(groups[k].last, e.t); });
+  const groups = {}; errs.filter(wk).forEach(e => { const k = e.msg.slice(0, 120); (groups[k] = groups[k] || { msg: k, n: 0, page: e.page, src: e.src, line: e.line, last: 0 }).n++; groups[k].last = Math.max(groups[k].last, e.t); });
   out.reports = {
     errorsWeek: errs.filter(wk).length, feedbackWeek: fb.filter(wk).length, aiWeek: ai.filter(wk).length,
     topErrors: Object.values(groups).sort((a, b) => b.n - a.n).slice(0, 8),
