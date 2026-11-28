@@ -50,8 +50,8 @@ public class MainActivity extends Activity {
         bar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
         bar.setMax(100);
         // no loading bar on top: the website shows its own launch animation
-        root.setBackgroundColor(0xFF4B2FE0);
-        web.setBackgroundColor(0xFF4B2FE0);
+        root.setBackgroundColor(0xFF1238A8);
+        web.setBackgroundColor(0xFF1238A8);
         setContentView(root);
 
         WebSettings s = web.getSettings();
@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
         s.setTextZoom(Math.max(85, Math.min(115, Math.round(fontScale * 100))));
         s.setUseWideViewPort(true);
         s.setCacheMode(isOnline() ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        s.setUserAgentString(s.getUserAgentString() + " StudyFlowAndroid/1.0 StudyFlowLaunch/purple StudyFlowApp/27");
+        s.setUserAgentString(s.getUserAgentString() + " StudyFlowAndroid/1.0 StudyFlowLaunch/purple StudyFlowApp/28");
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(web, true);
         web.addJavascriptInterface(new Bridge(), "SFNative");
@@ -114,6 +114,9 @@ public class MainActivity extends Activity {
             @Override public void onPageFinished(WebView v, String url) { CookieManager.getInstance().flush(); tryAuth(); }
         });
         web.setWebChromeClient(new WebChromeClient() {
+            // no grey "play" picture before the opening video starts
+            @Override public Bitmap getDefaultVideoPoster() { return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); }
+
             @Override public void onProgressChanged(WebView v, int p) { }
             @Override
             public void onPermissionRequest(final PermissionRequest req) {
