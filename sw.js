@@ -1,12 +1,12 @@
 // StudyStarx service worker: the app page is fetched fresh (up to 2s, behind the launch screen);
 // if the network is very slow the saved copy opens and the fresh one is saved for next time;
 // the last good copy is used only when the device is offline. API calls are never cached.
-const CACHE = 'studyflow-v8';
+const CACHE = 'studyflow-v9';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/three-r128.min.js', '/gltf-loader-r128.js',
   '/fonts/inter-latin-400-normal.woff2', '/fonts/inter-latin-500-normal.woff2', '/fonts/inter-latin-600-normal.woff2', '/fonts/inter-latin-700-normal.woff2', '/fonts/inter-latin-800-normal.woff2',
-  '/fonts/nunito-latin-700-normal.woff2', '/fonts/nunito-latin-800-normal.woff2', '/fonts/nunito-latin-900-normal.woff2'];
+  '/intro-chime.mp3', '/fonts/nunito-latin-700-normal.woff2', '/fonts/nunito-latin-800-normal.woff2', '/fonts/nunito-latin-900-normal.woff2'];
 // files worth keeping for offline use (scripts, fonts, pictures, 3D models, question banks)
-const ASSET = /\.(js|css|woff2?|png|jpe?g|webp|svg|glb|json)$/i;
+const ASSET = /\.(js|css|woff2?|png|jpe?g|webp|svg|glb|json|mp4|webm|mp3)$/i;
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(SHELL.map(u => c.add(u).catch(() => {})))));
   self.skipWaiting();
